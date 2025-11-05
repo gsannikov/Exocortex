@@ -66,9 +66,11 @@ def write_yaml(data, filepath, **kwargs):
         'width': 120,
     }
     options.update(kwargs)
-    
-    # Ensure directory exists
-    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+
+    # Ensure directory exists (only if filepath has a directory component)
+    dir_path = os.path.dirname(filepath)
+    if dir_path:
+        os.makedirs(dir_path, exist_ok=True)
     
     try:
         with open(filepath, 'w', encoding='utf-8') as f:

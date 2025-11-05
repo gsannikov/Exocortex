@@ -357,7 +357,8 @@ class EmailBackend(StorageBackend):
             mail.select(self.folder)
             
             # Search for emails with this key in subject
-            _, messages = mail.search(None, f'SUBJECT "[Claude Skill Data] {key}"')
+            search_criteria = f'(SUBJECT "[Claude Skill Data] {key}")'
+            _, messages = mail.search(None, search_criteria)
             
             if messages[0]:
                 # Get most recent
@@ -428,7 +429,7 @@ class NotionBackend(StorageBackend):
             properties = {
                 "Name": {"title": [{"text": {"content": key}}]},
                 "Content": {"rich_text": [{"text": {"content": content[:2000]}}]},  # Notion limit
-                "Updated": {"date": {"start": self._timestamp()}}
+                "Updated": {"date": {"start": self._get_iso_timestamp()}}
             }
             
             if existing:
@@ -505,6 +506,11 @@ class NotionBackend(StorageBackend):
             return results.get('results', [None])[0]
         except:
             return None
+
+    def _get_iso_timestamp(self) -> str:
+        """Get ISO 8601 formatted timestamp for Notion"""
+        from datetime import datetime
+        return datetime.now().isoformat()
 
 
 # Storage Manager - handles backend selection and initialization

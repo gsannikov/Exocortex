@@ -12,8 +12,11 @@ from scripts import yaml_utils
 def load_user_config():
     """Load user configuration from YAML file."""
     try:
-        paths.validate_paths()
-        config = yaml_utils.read_yaml(paths.USER_CONFIG_FILE)
+        # Validate user data base path
+        paths.get_user_data_base()
+        # Load user config from standard location
+        user_config_path = paths.get_config_path('user-config.yaml')
+        config = yaml_utils.read_yaml(user_config_path)
         return config
     except Exception as e:
         print(f"❌ Error loading config: {e}")
