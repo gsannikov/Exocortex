@@ -332,7 +332,7 @@ jobs:
         echo ""
 
         # Run gitleaks with our config
-        if gitleaks detect --config .gitleaks.toml --verbose --no-git 2>&1 | tee gitleaks-report.txt; then
+        if gitleaks detect --config config/.gitleaks.toml --verbose --no-git 2>&1 | tee gitleaks-report.txt; then
           echo ""
           echo "✅ No secrets or private data detected!"
         else
@@ -342,7 +342,7 @@ jobs:
           echo "Review the findings above and:"
           echo "  1. Remove actual secrets from code"
           echo "  2. Use environment variables for credentials"
-          echo "  3. Add false positives to .gitleaks.toml allowlist"
+          echo "  3. Add false positives to config/.gitleaks.toml allowlist"
           echo "  4. Ensure user-data/ is in .gitignore"
           echo ""
           exit 1
@@ -382,7 +382,7 @@ jobs:
 
         # Test integrate script (if curl works)
         echo "Testing skill-creator integration..."
-        if bash integrate-skill-creator.sh 2>/dev/null; then
+        if bash scripts/integrate-skill-creator.sh 2>/dev/null; then
           test -f skill-package/examples/skill-creator/SKILL.md || exit 1
           echo "  ✓ skill-creator integrated successfully"
         else

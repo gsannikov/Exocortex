@@ -52,12 +52,12 @@ echo -e "${BLUE}Step 1: Updating version files${NC}"
 echo "----------------------------------------"
 
 # Update version.yaml
-if [ -f "$SKILL_ROOT/version.yaml" ]; then
-    echo "version: \"$VERSION\"" > "$SKILL_ROOT/version.yaml.tmp"
-    echo "release_date: \"$(date +%Y-%m-%d)\"" >> "$SKILL_ROOT/version.yaml.tmp"
-    echo "status: \"stable\"" >> "$SKILL_ROOT/version.yaml.tmp"
-    mv "$SKILL_ROOT/version.yaml.tmp" "$SKILL_ROOT/version.yaml"
-    echo -e "${GREEN}✓${NC} Updated version.yaml"
+if [ -f "$SKILL_ROOT/config/version.yaml" ]; then
+    echo "version: \"$VERSION\"" > "$SKILL_ROOT/config/version.yaml.tmp"
+    echo "release_date: \"$(date +%Y-%m-%d)\"" >> "$SKILL_ROOT/config/version.yaml.tmp"
+    echo "status: \"stable\"" >> "$SKILL_ROOT/config/version.yaml.tmp"
+    mv "$SKILL_ROOT/config/version.yaml.tmp" "$SKILL_ROOT/config/version.yaml"
+    echo -e "${GREEN}✓${NC} Updated config/version.yaml"
 fi
 
 # Update SKILL.md version

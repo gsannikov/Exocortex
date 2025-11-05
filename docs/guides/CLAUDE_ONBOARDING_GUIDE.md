@@ -75,16 +75,27 @@ claude-skills-sdk/
 │   └── logs/              # Log files
 │
 ├── docs/                  # Documentation
+│   ├── CHANGELOG.md       # Version history
+│   ├── DEPENDENCIES.md    # Dependency guide
+│   ├── WELCOME.md         # Welcome document
+│   └── guides/            # Guides and tutorials
+│
 ├── host_scripts/          # Automation scripts
 │   ├── validate.py        # Validate skill structure
-│   ├── release.sh         # Create releases
-│   └── setup-storage.sh   # Setup storage backend
+│   └── release.sh         # Create releases
+│
+├── scripts/               # Utility scripts
+│   ├── setup-storage.sh   # Setup storage backend
+│   └── integrate-skill-creator.sh
+│
+├── config/                # Configuration files
+│   ├── version.yaml       # Version tracking
+│   └── .gitleaks.toml     # Security config
 │
 └── [Root files]
     ├── README.md          # Main documentation
-    ├── DEPENDENCIES.md    # Dependency guide
     ├── requirements.txt   # Python dependencies
-    └── version.yaml       # Version tracking
+    └── CONTRIBUTING.md    # Contribution guidelines
 ```
 
 ### Key Features You Should Mention

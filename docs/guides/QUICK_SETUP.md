@@ -12,8 +12,8 @@ unzip skill-package-vX.Y.Z.zip
 cd skill-package-vX.Y.Z
 
 # 2. Run auto-setup
-chmod +x setup-storage.sh
-./setup-storage.sh
+chmod +x scripts/setup-storage.sh
+./scripts/setup-storage.sh
 
 # 3. Restart Claude Desktop
 # macOS: Cmd+Q, then reopen
