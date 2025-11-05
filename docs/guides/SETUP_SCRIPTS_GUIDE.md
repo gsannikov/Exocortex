@@ -29,7 +29,7 @@ This repository contains two different setup scripts with different purposes. Th
 
 ---
 
-### 2. `setup-storage.sh` (Root Directory)
+### 2. `scripts/setup-storage.sh`
 
 **Purpose:** Auto-configuration of local filesystem storage with Claude Desktop MCP integration
 
@@ -48,7 +48,7 @@ This repository contains two different setup scripts with different purposes. Th
 
 **Run with:**
 ```bash
-./setup-storage.sh
+./scripts/setup-storage.sh
 ```
 
 **Note:** This script requires Claude Desktop to be installed and modifies your Claude Desktop configuration file.
@@ -68,7 +68,7 @@ This repository contains two different setup scripts with different purposes. Th
 **Option A: Local Filesystem (Easiest)**
 ```bash
 # Run storage-specific setup
-./setup-storage.sh
+./scripts/setup-storage.sh
 ```
 
 **Option B: GitHub/Email/Notion (Multi-device)**
@@ -91,7 +91,7 @@ python host_scripts/validate.py
 | Script | Purpose | Modifies Claude Config | Best For |
 |--------|---------|----------------------|----------|
 | `host_scripts/setup.sh` | Initialize directories | ❌ No | First-time setup |
-| `setup-storage.sh` | Configure local storage + MCP | ✅ Yes | Claude Desktop users |
+| `scripts/setup-storage.sh` | Configure local storage + MCP | ✅ Yes | Claude Desktop users |
 
 ---
 
@@ -99,7 +99,7 @@ python host_scripts/validate.py
 
 - For interactive guidance: Attach this repo to Claude and say "hi"
 - For manual setup: See [QUICK_SETUP.md](QUICK_SETUP.md)
-- For storage backends: See [DEPENDENCIES.md](DEPENDENCIES.md)
+- For storage backends: See [DEPENDENCIES.md](../DEPENDENCIES.md)
 
 ---
 

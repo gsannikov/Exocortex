@@ -15,9 +15,9 @@ Build production-grade Claude skills with multi-backend storage, automation, and
 3. **Say:** "hi" or "help me get started"
 4. **Follow the guided onboarding** (~10-15 minutes)
 
-Claude will read [CLAUDE_ONBOARDING_GUIDE.md](CLAUDE_ONBOARDING_GUIDE.md) and walk you through everything interactively!
+Claude will read [CLAUDE_ONBOARDING_GUIDE.md](docs/guides/CLAUDE_ONBOARDING_GUIDE.md) and walk you through everything interactively!
 
-**Also see:** [WELCOME.md](WELCOME.md) for quick intro
+**Also see:** [WELCOME.md](docs/WELCOME.md) for quick intro
 
 ---
 
@@ -44,18 +44,18 @@ A **production-ready framework** for building Claude Skills featuring:
 ## 📚 Quick Navigation
 
 **New Users:**
-- [WELCOME.md](WELCOME.md) - Start here!
-- [QUICK_SETUP.md](QUICK_SETUP.md) - Manual setup guide
-- [CLAUDE_ONBOARDING_GUIDE.md](CLAUDE_ONBOARDING_GUIDE.md) - For Claude's reference
+- [WELCOME.md](docs/WELCOME.md) - Start here!
+- [QUICK_SETUP.md](docs/guides/QUICK_SETUP.md) - Manual setup guide
+- [CLAUDE_ONBOARDING_GUIDE.md](docs/guides/CLAUDE_ONBOARDING_GUIDE.md) - For Claude's reference
 
 **Documentation:**
-- [DEPENDENCIES.md](DEPENDENCIES.md) - Storage backends & setup
+- [DEPENDENCIES.md](docs/DEPENDENCIES.md) - Storage backends & setup
 - [docs/guides/user-guide/](docs/guides/user-guide/) - User guides
 - [docs/guides/developer-guide/](docs/guides/developer-guide/) - Developer guides
 
 **Resources:**
 - [CONTRIBUTING.md](CONTRIBUTING.md) - How to contribute
-- [CHANGELOG.md](CHANGELOG.md) - Version history
+- [CHANGELOG.md](docs/CHANGELOG.md) - Version history
 - [LICENSE](LICENSE) - MIT license
 
 ---
@@ -115,13 +115,13 @@ cd ../..
 python host_scripts/validate.py
 
 # 5. (Optional) Integrate skill-creator
-chmod +x integrate-skill-creator.sh
-./integrate-skill-creator.sh
+chmod +x scripts/integrate-skill-creator.sh
+./scripts/integrate-skill-creator.sh
 
 # 6. Upload skill-package/ to Claude Desktop
 ```
 
-**Full details:** See [QUICK_SETUP.md](QUICK_SETUP.md)
+**Full details:** See [QUICK_SETUP.md](docs/guides/QUICK_SETUP.md)
 
 ---
 
@@ -135,7 +135,7 @@ chmod +x integrate-skill-creator.sh
 | **Email** | ✅ | ✅ | Medium | Email-based workflows |
 | **Notion** | ✅ | ✅ | Medium | Structured data, dashboards |
 
-**Complete guide:** [DEPENDENCIES.md](DEPENDENCIES.md)
+**Complete guide:** [DEPENDENCIES.md](docs/DEPENDENCIES.md)
 
 ---
 
@@ -149,10 +149,10 @@ python host_scripts/validate.py
 ./host_scripts/release.sh 1.1.0
 
 # Integrate official skill-creator
-./integrate-skill-creator.sh
+./scripts/integrate-skill-creator.sh
 
 # Setup storage backend
-./host_scripts/setup-storage.sh
+./scripts/setup-storage.sh
 ```
 
 ---
@@ -160,12 +160,12 @@ python host_scripts/validate.py
 ## 📖 Key Documentation
 
 ### Getting Started
-- **[WELCOME.md](WELCOME.md)** - Warm welcome & quick overview
-- **[QUICK_SETUP.md](QUICK_SETUP.md)** - 5-minute setup guide
-- **[CLAUDE_ONBOARDING_GUIDE.md](CLAUDE_ONBOARDING_GUIDE.md)** - Interactive onboarding (for Claude)
+- **[WELCOME.md](docs/WELCOME.md)** - Warm welcome & quick overview
+- **[QUICK_SETUP.md](docs/guides/QUICK_SETUP.md)** - 5-minute setup guide
+- **[CLAUDE_ONBOARDING_GUIDE.md](docs/guides/CLAUDE_ONBOARDING_GUIDE.md)** - Interactive onboarding (for Claude)
 
 ### Configuration
-- **[DEPENDENCIES.md](DEPENDENCIES.md)** - All 5 storage backends explained
+- **[DEPENDENCIES.md](docs/DEPENDENCIES.md)** - All 5 storage backends explained
 - **[Storage Setup](docs/guides/user-guide/setup.md)** - Detailed configuration
 - **[MCP Configuration](docs/guides/user-guide/mcp-servers.md)** - MCP server setup
 
@@ -232,11 +232,11 @@ MIT License - see [LICENSE](LICENSE)
 
 ---
 
-**Ready to build?** 
+**Ready to build?**
 
-👉 **New users:** See [WELCOME.md](WELCOME.md) or say "hi" to Claude with this repo attached!
+👉 **New users:** See [WELCOME.md](docs/WELCOME.md) or say "hi" to Claude with this repo attached!
 
-👉 **Experienced:** Check [QUICK_SETUP.md](QUICK_SETUP.md) for fast track
+👉 **Experienced:** Check [QUICK_SETUP.md](docs/guides/QUICK_SETUP.md) for fast track
 
 ---
 
