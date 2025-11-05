@@ -1,8 +1,59 @@
 # Claude Skills SDK Template
 
-**Version:** 1.1.0  
-**Type:** Development Framework  
-**License:** MIT  
+**Version:** 1.1.0
+**Type:** Development Framework
+**License:** MIT
+
+---
+
+## Overview
+
+The Claude Skills SDK Template is a production-ready framework for building Claude Skills with multi-backend storage, automation tools, and best practices. This template provides a complete architecture for creating skills that persist data, manage token budgets, and follow Anthropic's recommended patterns.
+
+**Key Features:**
+- 5 storage backend options (Local, GitHub, Checkpoint, Email, Notion)
+- Three-tier architecture (skill-package, user-data, docs)
+- Automated validation and release scripts
+- Token budget management patterns
+- Interactive onboarding for new developers
+
+---
+
+## ⚠️ CRITICAL: Storage Configuration
+
+**Before using this skill**, you must configure a storage backend. The skill will not function properly without storage configuration.
+
+### Quick Setup (Recommended: Local Filesystem)
+
+1. **Copy user data templates:**
+   ```bash
+   cp -r user-data-templates user-data
+   cd user-data/config
+   cp storage-config-template.yaml storage-config.yaml
+   ```
+
+2. **Edit storage-config.yaml:**
+   ```yaml
+   storage:
+     backend: local
+     local:
+       base_path: /absolute/path/to/user-data
+   ```
+
+3. **Validate setup:**
+   ```bash
+   python host_scripts/validate.py
+   ```
+
+### Alternative Backends
+
+For multi-device sync or team collaboration, see [DEPENDENCIES.md](../../DEPENDENCIES.md) for:
+- **GitHub** - Version-controlled storage with multi-device sync
+- **Email** - Email-based persistence
+- **Notion** - Structured database storage
+- **Checkpoint** - Session-only (testing)
+
+**IMPORTANT:** Without proper storage configuration, data operations will fail. Always validate your setup before uploading to Claude.
 
 ---
 

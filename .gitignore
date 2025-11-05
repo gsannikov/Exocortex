@@ -247,6 +247,16 @@ site/
 # PROJECT-SPECIFIC (Customize as needed)
 # ============================================================================
 
+# Session and temporary documentation files
+SESSION_*.md
+INTEGRATION_SCRIPT_*.md
+GITHUB_WORKFLOW_*.md
+SKILL_CREATOR_INTEGRATION.md
+DEV_SESSION_*.md
+*_SUMMARY.md
+PRE_RELEASE_*.md
+RELEASE_VALIDATION.md
+
 # Add your project-specific ignores below
 # Example:
 # my-custom-cache/

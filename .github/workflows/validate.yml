@@ -30,26 +30,26 @@ jobs:
         
     - name: Check YAML syntax
       run: |
-        python -c "
-import yaml
-import sys
-from pathlib import Path
+        python << 'PYTHON_SCRIPT'
+        import yaml
+        import sys
+        from pathlib import Path
 
-errors = []
-for yaml_file in Path('.').rglob('*.yaml'):
-    if 'node_modules' in str(yaml_file):
-        continue
-    try:
-        with open(yaml_file) as f:
-            yaml.safe_load(f)
-        print(f'✓ {yaml_file}')
-    except Exception as e:
-        errors.append(f'{yaml_file}: {e}')
-        print(f'✗ {yaml_file}: {e}')
+        errors = []
+        for yaml_file in Path(".").rglob("*.yaml"):
+            if "node_modules" in str(yaml_file):
+                continue
+            try:
+                with open(yaml_file) as f:
+                    yaml.safe_load(f)
+                print(f"✓ {yaml_file}")
+            except Exception as e:
+                errors.append(f"{yaml_file}: {e}")
+                print(f"✗ {yaml_file}: {e}")
 
-if errors:
-    print(f'\n❌ {len(errors)} YAML file(s) have errors')
-    sys.exit(1)
-else:
-    print(f'\n✅ All YAML files valid')
-"
+        if errors:
+            print(f"\n❌ {len(errors)} YAML file(s) have errors")
+            sys.exit(1)
+        else:
+            print(f"\n✅ All YAML files valid")
+        PYTHON_SCRIPT
