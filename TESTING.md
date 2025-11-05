@@ -27,7 +27,7 @@ Tests run automatically on push/PR via GitHub Actions.
 
 ---
 
-## 📋 The 10 Test Types
+## 📋 The 11 Test Types
 
 | # | Test | Purpose | Runs On |
 |---|------|---------|---------|
@@ -40,7 +40,8 @@ Tests run automatically on push/PR via GitHub Actions.
 | 7 | **Security Scan** | Find security vulnerabilities (Bandit) | Every push |
 | 8 | **Dependencies** | Check for vulnerable packages (Safety) | Every push |
 | 9 | **Code Style** | Enforce PEP 8 standards (Flake8) | Every push |
-| 10 | **E2E Test** | Test complete template workflow | Every push |
+| 10 | **Secrets Detection** | Scan for API keys, passwords, PII (Gitleaks) | Every push |
+| 11 | **E2E Test** | Test complete template workflow | Every push |
 
 ---
 
@@ -57,8 +58,8 @@ Tests run automatically on push/PR via GitHub Actions.
 ### 2. Comprehensive Tests (`comprehensive-tests.yml`)
 - Runs on: `main`, `develop`, `claude/**`, all PRs
 - Duration: ~5-7 minutes
-- Tests: All 10 test types listed above
-- Artifacts: Security and vulnerability reports
+- Tests: All 11 test types listed above
+- Artifacts: Security, vulnerability, and secrets detection reports
 
 ### 3. Release (`release.yml`)
 - Runs on: Tags matching `v*` (e.g., `v1.1.0`)
@@ -70,8 +71,9 @@ Tests run automatically on push/PR via GitHub Actions.
 
 After workflow runs, download reports from **Actions > Artifacts**:
 
-- 🔒 **bandit-security-report.json** - Security issues
+- 🔒 **bandit-security-report.json** - Security vulnerabilities in code
 - 🛡️ **safety-vulnerability-report.json** - Dependency vulnerabilities
+- 🔐 **gitleaks-secrets-report.txt** - Secrets and private data detection
 
 ---
 
@@ -118,6 +120,20 @@ choco install shellcheck
 ### Markdown Link Checker
 ```bash
 npm install -g markdown-link-check
+```
+
+### Gitleaks (Secrets Detection)
+```bash
+# macOS
+brew install gitleaks
+
+# Linux
+wget https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_x64.tar.gz
+tar -xzf gitleaks_8.18.1_linux_x64.tar.gz
+sudo mv gitleaks /usr/local/bin/
+
+# Windows (via Chocolatey)
+choco install gitleaks
 ```
 
 ---
