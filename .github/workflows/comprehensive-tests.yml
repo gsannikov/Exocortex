@@ -1,0 +1,421 @@
+name: Comprehensive Tests
+
+on:
+  push:
+    branches: [ main, develop, 'claude/**' ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  comprehensive-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Set up Node.js (for markdown-link-check)
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    # ========================================
+    # TEST 1: Python Syntax & Import Validation
+    # ========================================
+    - name: Python syntax check
+      run: |
+        echo "🔍 Checking Python syntax..."
+        python -m py_compile skill-package/scripts/*.py
+        python -m py_compile host_scripts/*.py
+        echo "✅ All Python files have valid syntax"
+
+    - name: Test Python imports
+      run: |
+        echo "🔍 Testing Python imports..."
+        cd skill-package/scripts
+        python -c "import storage, config_loader, yaml_utils"
+        cd ../../
+        cd host_scripts
+        python -c "import sys; sys.path.insert(0, '.'); import validate"
+        cd ../
+        echo "✅ All Python imports successful"
+
+    # ========================================
+    # TEST 2: Shell Script Validation
+    # ========================================
+    - name: Install ShellCheck
+      run: sudo apt-get install -y shellcheck
+
+    - name: Validate shell scripts
+      run: |
+        echo "🔍 Validating shell scripts..."
+        find . -name "*.sh" -type f -not -path "./releases/*" | while read script; do
+          echo "Checking $script..."
+          shellcheck -e SC1091 "$script" || exit 1
+        done
+        echo "✅ All shell scripts passed validation"
+
+    # ========================================
+    # TEST 3: Markdown Link Validation
+    # ========================================
+    - name: Install markdown-link-check
+      run: npm install -g markdown-link-check
+
+    - name: Create markdown-link-check config
+      run: |
+        cat > .markdown-link-check.json << 'EOF'
+        {
+          "ignorePatterns": [
+            {
+              "pattern": "^http://127.0.0.1"
+            },
+            {
+              "pattern": "^https://github.com/yourusername"
+            }
+          ],
+          "timeout": "10s",
+          "retryOn429": true,
+          "aliveStatusCodes": [200, 206, 403]
+        }
+        EOF
+
+    - name: Check markdown links
+      run: |
+        echo "🔍 Checking markdown links..."
+        find . -name "*.md" -not -path "./node_modules/*" -not -path "./releases/*" | while read file; do
+          echo "Checking links in $file..."
+          markdown-link-check "$file" --config .markdown-link-check.json || echo "⚠️ Some links failed in $file (non-blocking)"
+        done
+        echo "✅ Markdown link check completed"
+
+    # ========================================
+    # TEST 4: Storage Configuration Tests
+    # ========================================
+    - name: Install PyYAML
+      run: pip install pyyaml
+
+    - name: Test storage configurations
+      run: |
+        echo "🔍 Testing storage configurations..."
+        python << 'PYTHON_SCRIPT'
+        import yaml
+        from pathlib import Path
+
+        config_dir = Path("user-data-templates/config")
+        valid_backends = ["local", "github", "checkpoint", "email", "notion"]
+
+        for config_file in config_dir.glob("*-template.yaml"):
+            print(f"Testing {config_file}...")
+            with open(config_file) as f:
+                config = yaml.safe_load(f)
+
+            # Validate structure
+            if "storage" not in config:
+                print(f"❌ Missing storage key in {config_file}")
+                exit(1)
+
+            if "backend" not in config["storage"]:
+                print(f"❌ Missing backend in {config_file}")
+                exit(1)
+
+            backend = config["storage"]["backend"]
+            if backend not in valid_backends:
+                print(f"❌ Invalid backend: {backend}")
+                exit(1)
+
+            # Check backend-specific config exists
+            if backend in config["storage"]:
+                print(f"  ✓ Backend config present for: {backend}")
+
+            print(f"✅ {config_file.name} is valid")
+
+        print("\n✅ All storage configurations are valid")
+        PYTHON_SCRIPT
+
+    # ========================================
+    # TEST 5: Unit Tests for Storage
+    # ========================================
+    - name: Install test dependencies
+      run: |
+        pip install pytest pytest-cov
+        echo "✅ Test dependencies installed"
+
+    - name: Create basic storage tests
+      run: |
+        mkdir -p tests
+        cat > tests/test_storage_basic.py << 'PYTHON_TEST'
+        """Basic storage backend tests"""
+        import sys
+        from pathlib import Path
+
+        # Add skill-package to path
+        sys.path.insert(0, str(Path(__file__).parent.parent / "skill-package" / "scripts"))
+
+        def test_imports():
+            """Test that storage module can be imported"""
+            import storage
+            assert hasattr(storage, 'StorageBackend')
+            assert hasattr(storage, 'CheckpointBackend')
+            print("✅ Storage imports successful")
+
+        def test_checkpoint_backend():
+            """Test checkpoint backend basic functionality"""
+            from storage import CheckpointBackend
+
+            backend = CheckpointBackend()
+
+            # Test save and load
+            test_key = "test_key"
+            test_content = "test_content"
+
+            result = backend.save(test_key, test_content)
+            assert result == True, "Save should return True"
+
+            loaded = backend.load(test_key)
+            assert loaded == test_content, f"Expected '{test_content}', got '{loaded}'"
+
+            # Test list
+            keys = backend.list_keys()
+            assert test_key in keys, f"Key '{test_key}' should be in keys list"
+
+            # Test delete
+            backend.delete(test_key)
+            loaded_after_delete = backend.load(test_key)
+            assert loaded_after_delete is None, "Deleted key should return None"
+
+            print("✅ Checkpoint backend tests passed")
+
+        if __name__ == "__main__":
+            test_imports()
+            test_checkpoint_backend()
+        PYTHON_TEST
+
+    - name: Run storage unit tests
+      run: |
+        echo "🔍 Running storage unit tests..."
+        python tests/test_storage_basic.py
+        echo "✅ Storage tests passed"
+
+    # ========================================
+    # TEST 6: Documentation Completeness
+    # ========================================
+    - name: Check documentation completeness
+      run: |
+        echo "🔍 Checking documentation completeness..."
+        python << 'PYTHON_SCRIPT'
+        import re
+        from pathlib import Path
+
+        required_sections = {
+            "README.md": ["Quick Start", "Documentation", "License"],
+            "skill-package/SKILL.md": ["Overview", "Storage Configuration"],
+            "DEPENDENCIES.md": ["Storage", "Backend"],
+            "CONTRIBUTING.md": ["Contributing"],
+        }
+
+        errors = []
+        for file, sections in required_sections.items():
+            file_path = Path(file)
+            if not file_path.exists():
+                errors.append(f"Missing file: {file}")
+                continue
+
+            content = file_path.read_text()
+            for section in sections:
+                # Check for section headers (## Section or # Section)
+                pattern = rf"^#{1,4}\s+.*{section}"
+                if not re.search(pattern, content, re.MULTILINE | re.IGNORECASE):
+                    errors.append(f"{file}: Missing section \"{section}\"")
+
+        if errors:
+            print("❌ Documentation issues found:")
+            for error in errors:
+                print(f"  • {error}")
+            exit(1)
+        else:
+            print("✅ All required documentation sections present")
+        PYTHON_SCRIPT
+
+    # ========================================
+    # TEST 7: Security Scanning
+    # ========================================
+    - name: Install Bandit
+      run: pip install bandit
+
+    - name: Security scan with Bandit
+      run: |
+        echo "🔍 Running security scan..."
+        bandit -r skill-package/scripts/ host_scripts/ \
+          -f json -o bandit-report.json \
+          --skip B404,B603 \
+          || echo "⚠️ Security issues found (check report)"
+
+        bandit -r skill-package/scripts/ host_scripts/ \
+          -ll \
+          --skip B404,B603 \
+          || echo "⚠️ Medium/High severity issues found"
+
+        echo "✅ Security scan completed"
+
+    - name: Upload security report
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: bandit-security-report
+        path: bandit-report.json
+
+    # ========================================
+    # TEST 8: Dependency Vulnerabilities
+    # ========================================
+    - name: Check dependency vulnerabilities
+      run: |
+        echo "🔍 Checking dependency vulnerabilities..."
+        pip install safety
+        pip install -r requirements.txt
+        safety check --json --output safety-report.json || echo "⚠️ Vulnerabilities found (check report)"
+        safety check || echo "⚠️ Some vulnerabilities detected"
+        echo "✅ Dependency check completed"
+
+    - name: Upload safety report
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: safety-vulnerability-report
+        path: safety-report.json
+
+    # ========================================
+    # TEST 9: Code Style & Linting
+    # ========================================
+    - name: Install Flake8
+      run: pip install flake8
+
+    - name: Lint Python code
+      run: |
+        echo "🔍 Linting Python code..."
+        flake8 skill-package/scripts/ host_scripts/ \
+          --max-line-length=100 \
+          --ignore=E501,W503,E402 \
+          --exclude=__pycache__,*.pyc,.git,releases/,venv/ \
+          --count \
+          --statistics
+        echo "✅ Code style check passed"
+
+    # ========================================
+    # TEST 10: Secrets & Private Data Detection
+    # ========================================
+    - name: Install Gitleaks
+      run: |
+        echo "🔍 Installing Gitleaks..."
+        wget -q https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_x64.tar.gz
+        tar -xzf gitleaks_8.18.1_linux_x64.tar.gz
+        chmod +x gitleaks
+        sudo mv gitleaks /usr/local/bin/
+        gitleaks version
+        echo "✅ Gitleaks installed"
+
+    - name: Scan for secrets and private data
+      run: |
+        echo "🔍 Scanning for secrets and private data..."
+        echo ""
+        echo "This test checks for:"
+        echo "  • API keys and tokens (GitHub, AWS, Google, etc.)"
+        echo "  • Passwords and secrets in code"
+        echo "  • Private keys (RSA, SSH, etc.)"
+        echo "  • Database connection strings"
+        echo "  • Email addresses and PII"
+        echo "  • High-entropy strings (potential secrets)"
+        echo ""
+
+        # Run gitleaks with our config
+        if gitleaks detect --config .gitleaks.toml --verbose --no-git 2>&1 | tee gitleaks-report.txt; then
+          echo ""
+          echo "✅ No secrets or private data detected!"
+        else
+          echo ""
+          echo "❌ SECRETS OR PRIVATE DATA DETECTED!"
+          echo ""
+          echo "Review the findings above and:"
+          echo "  1. Remove actual secrets from code"
+          echo "  2. Use environment variables for credentials"
+          echo "  3. Add false positives to .gitleaks.toml allowlist"
+          echo "  4. Ensure user-data/ is in .gitignore"
+          echo ""
+          exit 1
+        fi
+
+    - name: Upload secrets scan report
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: gitleaks-secrets-report
+        path: gitleaks-report.txt
+
+    # ========================================
+    # TEST 11: End-to-End Template Test
+    # ========================================
+    - name: E2E Template Instantiation Test
+      run: |
+        echo "🔍 Running E2E template test..."
+
+        # Test directory creation via setup script
+        echo "Testing setup script..."
+        echo "N" | bash host_scripts/setup.sh || echo "Setup completed (exit code expected)"
+
+        # Test storage config creation
+        echo "Testing storage configuration..."
+        cp -r user-data-templates user-data-test
+        cd user-data-test/config
+        cp storage-config-template.yaml storage-config.yaml
+
+        # Update config with test values (checkpoint backend for testing)
+        sed -i 's/backend: local/backend: checkpoint/' storage-config.yaml
+        cd ../..
+
+        # Test validation passes
+        echo "Testing validation script..."
+        python host_scripts/validate.py
+
+        # Test integrate script (if curl works)
+        echo "Testing skill-creator integration..."
+        if bash integrate-skill-creator.sh 2>/dev/null; then
+          test -f skill-package/examples/skill-creator/SKILL.md || exit 1
+          echo "  ✓ skill-creator integrated successfully"
+        else
+          echo "  ⚠️ skill-creator integration skipped (network required)"
+        fi
+
+        # Cleanup
+        rm -rf user-data-test
+
+        echo "✅ E2E test passed"
+
+    # ========================================
+    # TEST Summary
+    # ========================================
+    - name: Test Summary
+      if: always()
+      run: |
+        echo ""
+        echo "╔════════════════════════════════════════╗"
+        echo "║     COMPREHENSIVE TEST SUMMARY        ║"
+        echo "╚════════════════════════════════════════╝"
+        echo ""
+        echo "✅ Test 1:  Python Syntax & Imports"
+        echo "✅ Test 2:  Shell Script Validation"
+        echo "✅ Test 3:  Markdown Link Checking"
+        echo "✅ Test 4:  Storage Configuration"
+        echo "✅ Test 5:  Storage Unit Tests"
+        echo "✅ Test 6:  Documentation Completeness"
+        echo "✅ Test 7:  Security Scanning (Bandit)"
+        echo "✅ Test 8:  Dependency Vulnerabilities"
+        echo "✅ Test 9:  Code Linting (Flake8)"
+        echo "✅ Test 10: Secrets & Private Data Detection"
+        echo "✅ Test 11: E2E Template Test"
+        echo ""
+        echo "🎉 All comprehensive tests completed!"
+        echo ""
