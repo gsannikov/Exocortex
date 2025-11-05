@@ -1,9 +1,17 @@
-version: "1.0.0"
-release_date: "2025-11-03"
+version: "1.1.0"
+release_date: "2025-11-05"
 status: "stable"
-codename: "Foundation"
+codename: "Onboarding"
 
 changelog:
+  - version: "1.1.0"
+    date: "2025-11-05"
+    changes:
+      - "Added interactive onboarding with Claude"
+      - "Created WELCOME.md and CLAUDE_ONBOARDING_GUIDE.md"
+      - "Added integrate-skill-creator.sh script"
+      - "Updated SKILL.md with onboarding flow"
+      - "Enhanced documentation structure"
   - version: "1.0.0"
     date: "2025-11-03"
     changes:

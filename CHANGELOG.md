@@ -16,6 +16,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Placeholder for bug fixes
 
+## [1.1.0] - 2025-11-05
+
+### Added
+- ✅ Interactive onboarding system with Claude
+- ✅ WELCOME.md - Quick start guide for new users
+- ✅ CLAUDE_ONBOARDING_GUIDE.md - Comprehensive guide for Claude to onboard developers
+- ✅ integrate-skill-creator.sh - Script to integrate official Anthropic skill-creator
+- ✅ SKILL_CREATOR_QUICKSTART.md - Quick reference for skill-creator integration
+
+### Changed
+- 🔄 Updated SKILL.md with onboarding-first approach
+- 🔄 Enhanced README.md with interactive onboarding as primary path
+- 🔄 Simplified documentation structure for better user experience
+
+### Improved
+- 📚 Better documentation organization
+- 🎯 Clearer new user experience
+- 🚀 Faster time-to-first-skill
+
 ## [1.0.0] - 2025-11-03
 
 ### Added
