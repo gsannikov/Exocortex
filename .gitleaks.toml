@@ -1,0 +1,288 @@
+# Gitleaks Configuration for Claude Skills SDK Template
+# Detects secrets, credentials, and private data in code
+
+title = "Gitleaks Configuration"
+
+[allowlist]
+description = "Allowlist for false positives"
+regexes = [
+  # Example paths in documentation
+  '''/Users/[a-zA-Z0-9_-]+/path/to''',
+  '''/path/to/your''',
+  '''example\.com''',
+  '''your-.*@example''',
+  # Template placeholders
+  '''your-token-here''',
+  '''your-api-key''',
+  '''YOUR_[A-Z_]+''',
+  '''<your-.*>''',
+  # Common test values
+  '''test-token''',
+  '''test-key''',
+  '''dummy-secret''',
+  '''fake-password''',
+  # Git commit SHAs (not secrets)
+  '''\b[0-9a-f]{40}\b''',
+]
+
+paths = [
+  # Ignore test and example files
+  '''(.*)?test(.*)''',
+  '''(.*)?example(.*)''',
+  '''\.github/workflows/.*\.yml''',  # Workflow files often have example secrets
+  '''releases/''',  # Old releases
+]
+
+# ============================================================================
+# SECRET DETECTION RULES
+# ============================================================================
+
+[[rules]]
+id = "aws-access-key"
+description = "AWS Access Key ID"
+regex = '''(?i)(A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}'''
+tags = ["aws", "credentials"]
+
+[[rules]]
+id = "aws-secret-key"
+description = "AWS Secret Access Key"
+regex = '''(?i)aws_secret_access_key\s*=\s*['"]?[A-Za-z0-9/\+=]{40}['"]?'''
+tags = ["aws", "credentials"]
+
+[[rules]]
+id = "github-token"
+description = "GitHub Personal Access Token"
+regex = '''ghp_[0-9a-zA-Z]{36}'''
+tags = ["github", "token"]
+
+[[rules]]
+id = "github-oauth"
+description = "GitHub OAuth Access Token"
+regex = '''gho_[0-9a-zA-Z]{36}'''
+tags = ["github", "token"]
+
+[[rules]]
+id = "github-app-token"
+description = "GitHub App Token"
+regex = '''(ghu|ghs)_[0-9a-zA-Z]{36}'''
+tags = ["github", "token"]
+
+[[rules]]
+id = "github-refresh-token"
+description = "GitHub Refresh Token"
+regex = '''ghr_[0-9a-zA-Z]{76}'''
+tags = ["github", "token"]
+
+[[rules]]
+id = "slack-token"
+description = "Slack Token"
+regex = '''xox[baprs]-([0-9a-zA-Z]{10,48})'''
+tags = ["slack", "token"]
+
+[[rules]]
+id = "slack-webhook"
+description = "Slack Webhook"
+regex = '''https://hooks\.slack\.com/services/T[a-zA-Z0-9_]{8}/B[a-zA-Z0-9_]{8}/[a-zA-Z0-9_]{24}'''
+tags = ["slack", "webhook"]
+
+[[rules]]
+id = "google-api-key"
+description = "Google API Key"
+regex = '''AIza[0-9A-Za-z\\-_]{35}'''
+tags = ["google", "api-key"]
+
+[[rules]]
+id = "google-oauth"
+description = "Google OAuth Token"
+regex = '''ya29\.[0-9A-Za-z\-_]+'''
+tags = ["google", "oauth"]
+
+[[rules]]
+id = "heroku-api-key"
+description = "Heroku API Key"
+regex = '''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'''
+tags = ["heroku", "api-key"]
+
+[[rules]]
+id = "mailgun-api-key"
+description = "Mailgun API Key"
+regex = '''key-[0-9a-zA-Z]{32}'''
+tags = ["mailgun", "api-key"]
+
+[[rules]]
+id = "notion-token"
+description = "Notion Integration Token"
+regex = '''secret_[a-zA-Z0-9]{43}'''
+tags = ["notion", "token"]
+
+[[rules]]
+id = "pypi-upload-token"
+description = "PyPI Upload Token"
+regex = '''pypi-AgEIcHlwaS5vcmc[A-Za-z0-9-_]{50,1000}'''
+tags = ["pypi", "token"]
+
+[[rules]]
+id = "private-key"
+description = "Private Key (RSA, DSA, EC, OPENSSH)"
+regex = '''-----BEGIN (RSA|DSA|EC|OPENSSH) PRIVATE KEY-----'''
+tags = ["private-key", "cryptography"]
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API Key"
+regex = '''(?i)(api[_-]?key|apikey|access[_-]?key)\s*[:=]\s*['"]?[0-9a-zA-Z]{32,}['"]?'''
+tags = ["generic", "api-key"]
+
+[[rules]]
+id = "generic-secret"
+description = "Generic Secret"
+regex = '''(?i)(secret|password|passwd|pwd)\s*[:=]\s*['"][^'"]{8,}['"]'''
+tags = ["generic", "secret"]
+[rules.allowlist]
+regexes = [
+  '''(?i)(secret|password).*template''',
+  '''(?i)(secret|password).*example''',
+  '''(?i)your[_-]?(secret|password)''',
+]
+
+[[rules]]
+id = "database-connection-string"
+description = "Database Connection String"
+regex = '''(?i)(mysql|postgres|mongodb|redis)://[^:]+:[^@]+@[^\s]+'''
+tags = ["database", "credentials"]
+
+[[rules]]
+id = "email-address"
+description = "Email Address (potential PII)"
+regex = '''[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'''
+tags = ["pii", "email"]
+[rules.allowlist]
+regexes = [
+  '''example\.com''',
+  '''youremail@example\.com''',
+  '''your-email@example\.com''',
+  '''test@example\.com''',
+  '''noreply@''',
+  '''github\.com''',
+  '''actions@github\.com''',
+]
+
+[[rules]]
+id = "phone-number"
+description = "Phone Number (potential PII)"
+regex = '''\+?[1-9]\d{1,14}'''
+tags = ["pii", "phone"]
+[rules.allowlist]
+regexes = [
+  '''[0-9]{1,3}''',  # Small numbers aren't phone numbers
+  '''(202[0-5]|201[0-9])''',  # Years
+]
+
+[[rules]]
+id = "jwt-token"
+description = "JWT Token"
+regex = '''eyJ[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*'''
+tags = ["jwt", "token"]
+
+[[rules]]
+id = "oauth-token"
+description = "OAuth Access Token"
+regex = '''(?i)access[_-]?token['"]?\s*[:=]\s*['"]?[a-zA-Z0-9\-_.~+/]+=*['"]?'''
+tags = ["oauth", "token"]
+
+[[rules]]
+id = "stripe-key"
+description = "Stripe API Key"
+regex = '''(?i)(sk|pk)_(test|live)_[0-9a-zA-Z]{24,}'''
+tags = ["stripe", "api-key"]
+
+[[rules]]
+id = "twilio-api-key"
+description = "Twilio API Key"
+regex = '''SK[0-9a-fA-F]{32}'''
+tags = ["twilio", "api-key"]
+
+[[rules]]
+id = "twitter-token"
+description = "Twitter Access Token"
+regex = '''[0-9]{15,}-[0-9a-zA-Z]{40}'''
+tags = ["twitter", "token"]
+
+[[rules]]
+id = "npm-token"
+description = "NPM Access Token"
+regex = '''npm_[A-Za-z0-9]{36}'''
+tags = ["npm", "token"]
+
+[[rules]]
+id = "docker-token"
+description = "Docker Hub Token"
+regex = '''(?i)docker(hub)?[_-]?(token|password)['"]?\s*[:=]\s*['"]?[a-zA-Z0-9\-_.]{20,}['"]?'''
+tags = ["docker", "token"]
+
+# ============================================================================
+# CONFIGURATION FILE RULES
+# ============================================================================
+
+[[rules]]
+id = "env-file"
+description = ".env file with secrets"
+path = '''\.env$'''
+tags = ["env", "credentials"]
+
+[[rules]]
+id = "credential-file"
+description = "Credential configuration file"
+regex = '''(?i)(password|secret|api[_-]?key|token)\s*[:=]'''
+path = '''.*\.(yml|yaml|json|ini|conf|config|toml)$'''
+tags = ["config", "credentials"]
+[rules.allowlist]
+regexes = [
+  '''template''',
+  '''example''',
+  '''your-.*''',
+  '''YOUR_[A-Z_]+''',
+  '''<.*>''',
+]
+
+# ============================================================================
+# PII DETECTION RULES
+# ============================================================================
+
+[[rules]]
+id = "ssn"
+description = "Social Security Number (US)"
+regex = '''\b\d{3}-\d{2}-\d{4}\b'''
+tags = ["pii", "ssn"]
+
+[[rules]]
+id = "credit-card"
+description = "Credit Card Number"
+regex = '''\b(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13})\b'''
+tags = ["pii", "credit-card"]
+
+[[rules]]
+id = "ip-address-private"
+description = "Private IP Address"
+regex = '''\b(10\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.(1[6-9]|2[0-9]|3[01])\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3})\b'''
+tags = ["pii", "ip-address"]
+
+# ============================================================================
+# ENTROPY DETECTION (High-entropy strings)
+# ============================================================================
+
+[entropy]
+enabled = true
+minLength = 20
+maxLength = 100
+# Detect strings with high randomness (likely secrets)
+groups = [
+  { pattern = "[a-zA-Z0-9]{20,}", threshold = 4.5 },
+  { pattern = "[a-zA-Z0-9+/]{20,}", threshold = 4.0 },
+]
+
+[entropy.allowlist]
+paths = [
+  '''\.md$''',  # Reduce false positives in docs
+  '''releases/''',
+]

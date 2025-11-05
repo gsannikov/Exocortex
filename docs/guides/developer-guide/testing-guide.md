@@ -9,11 +9,11 @@ This guide explains the comprehensive testing strategy for the Claude Skills SDK
 The project includes two GitHub workflows:
 
 1. **`validate.yml`** - Basic validation (runs on every push/PR)
-2. **`comprehensive-tests.yml`** - Full test suite (10 comprehensive tests)
+2. **`comprehensive-tests.yml`** - Full test suite (11 comprehensive tests)
 
 ---
 
-## The 10 Comprehensive Tests
+## The 11 Comprehensive Tests
 
 ### 1. 🐍 Python Syntax & Import Validation
 
@@ -205,7 +205,74 @@ flake8 skill-package/scripts/ host_scripts/ --max-line-length=100
 
 ---
 
-### 10. 🎯 End-to-End Template Test
+### 10. 🔐 Secrets & Private Data Detection (Gitleaks)
+
+**What it does**: Scans all files for secrets, credentials, and private data
+
+**Why it matters**: Prevents accidental exposure of sensitive information
+
+**Checks**:
+- API keys and tokens (GitHub, AWS, Google, Slack, Stripe, etc.)
+- Passwords and secrets in code
+- Private keys (RSA, SSH, OpenSSH)
+- Database connection strings
+- OAuth tokens and JWTs
+- Email addresses (potential PII)
+- Phone numbers (potential PII)
+- Social Security Numbers
+- Credit card numbers
+- High-entropy strings (likely secrets)
+
+**How to run locally**:
+```bash
+# Install Gitleaks
+# macOS
+brew install gitleaks
+
+# Linux
+wget https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_x64.tar.gz
+tar -xzf gitleaks_8.18.1_linux_x64.tar.gz
+sudo mv gitleaks /usr/local/bin/
+
+# Run scan
+gitleaks detect --config .gitleaks.toml --verbose
+```
+
+**Configuration**: `.gitleaks.toml` in repository root
+
+**What to do if secrets are found**:
+1. **Remove the secret immediately** from code
+2. **Rotate/revoke the exposed credential** (change password, regenerate API key)
+3. **Use environment variables** for credentials instead
+4. **Add to .gitignore** if in user-data files
+5. **Rewrite git history** if secret was committed (use `git filter-branch` or BFG Repo-Cleaner)
+
+**False positives**: Add to allowlist in `.gitleaks.toml`:
+```toml
+[allowlist]
+regexes = [
+  '''your-pattern-here''',
+]
+```
+
+**Common secrets to avoid**:
+```python
+# ❌ BAD - Hardcoded secret
+api_key = "my-secret-api-key-12345"  # Never hardcode!
+
+# ✅ GOOD - Use environment variable
+api_key = os.environ.get("API_KEY")
+
+# ✅ BETTER - Use secrets management
+from secretmanager import get_secret
+api_key = get_secret("api-key-name")
+```
+
+**Report**: Generates `gitleaks-secrets-report.txt` artifact
+
+---
+
+### 11. 🎯 End-to-End Template Test
 
 **What it does**: Tests complete workflow from setup to validation
 
