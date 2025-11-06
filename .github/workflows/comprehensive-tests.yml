@@ -264,7 +264,7 @@ jobs:
 
     - name: Upload security report
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: bandit-security-report
         path: bandit-report.json
@@ -283,7 +283,7 @@ jobs:
 
     - name: Upload safety report
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: safety-vulnerability-report
         path: safety-report.json
@@ -350,7 +350,7 @@ jobs:
 
     - name: Upload secrets scan report
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: gitleaks-secrets-report
         path: gitleaks-report.txt
