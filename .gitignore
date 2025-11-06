@@ -9,6 +9,11 @@
 # (Templates are in skill-package/user-data-templates and ARE committed)
 user-data/
 !user-data/.gitkeep
+!user-data/db/
+!user-data/db/.gitkeep
+!user-data/logs/
+!user-data/logs/.gitkeep
+!user-data/config/
 
 # User configuration (contains personal info)
 user-data/config/user-config.yaml
