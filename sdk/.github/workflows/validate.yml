@@ -26,7 +26,7 @@ jobs:
         
     - name: Run validation
       run: |
-        python host_scripts/validate.py
+        python developer-tools/validate.py
         
     - name: Check YAML syntax
       run: |

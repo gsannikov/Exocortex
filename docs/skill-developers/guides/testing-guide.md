@@ -29,7 +29,7 @@ The project includes two GitHub workflows:
 **How to run locally**:
 ```bash
 python -m py_compile skill-package/scripts/*.py
-python -m py_compile host_scripts/*.py
+python -m py_compile developer-tools/*.py
 ```
 
 ---
@@ -53,7 +53,7 @@ brew install shellcheck  # macOS
 sudo apt-get install shellcheck  # Linux
 
 # Run checks
-shellcheck *.sh host_scripts/*.sh
+shellcheck *.sh developer-tools/*.sh
 ```
 
 ---
@@ -154,7 +154,7 @@ grep -i "## Overview" skill-package/SKILL.md
 **How to run locally**:
 ```bash
 pip install bandit
-bandit -r skill-package/scripts/ host_scripts/ -ll
+bandit -r skill-package/scripts/ developer-tools/ -ll
 ```
 
 **Report**: Generates `bandit-report.json` artifact
@@ -198,7 +198,7 @@ safety check
 **How to run locally**:
 ```bash
 pip install flake8
-flake8 skill-package/scripts/ host_scripts/ --max-line-length=100
+flake8 skill-package/scripts/ developer-tools/ --max-line-length=100
 ```
 
 **Configuration**: Customize in `.flake8` or `setup.cfg`
@@ -235,7 +235,7 @@ tar -xzf gitleaks_8.18.1_linux_x64.tar.gz
 sudo mv gitleaks /usr/local/bin/
 
 # Run scan
-gitleaks detect --config .gitleaks.toml --verbose
+gitleaks detect --config sdk/config/.gitleaks.toml --verbose
 ```
 
 **Configuration**: `.gitleaks.toml` in repository root
@@ -247,7 +247,7 @@ gitleaks detect --config .gitleaks.toml --verbose
 4. **Add to .gitignore** if in user-data files
 5. **Rewrite git history** if secret was committed (use `git filter-branch` or BFG Repo-Cleaner)
 
-**False positives**: Add to allowlist in `.gitleaks.toml`:
+**False positives**: Add to allowlist in `sdk/config/.gitleaks.toml`:
 ```toml
 [allowlist]
 regexes = [
@@ -279,7 +279,7 @@ api_key = get_secret("api-key-name")
 **Why it matters**: Ensures the entire template works as designed
 
 **Tests**:
-1. `host_scripts/setup.sh` runs successfully
+1. `developer-tools/setup.sh` runs successfully
 2. Storage configuration can be created
 3. `validate.py` passes
 4. `integrate-skill-creator.sh` works
@@ -288,10 +288,10 @@ api_key = get_secret("api-key-name")
 **How to run locally**:
 ```bash
 # Manual E2E test
-bash host_scripts/setup.sh
+bash developer-tools/setup.sh
 cp -r user-data-templates user-data-test
-python host_scripts/validate.py
-bash integrate-skill-creator.sh
+python developer-tools/validate.py
+bash developer-tools/integrate-skill-creator.sh
 ```
 
 ---
@@ -305,23 +305,23 @@ python -m py_compile skill-package/scripts/*.py
 python tests/test_storage_basic.py
 
 # Shell tests
-shellcheck *.sh host_scripts/*.sh
+shellcheck *.sh developer-tools/*.sh
 
 # Security
 bandit -r skill-package/scripts/
 safety check
 
 # Style
-flake8 skill-package/scripts/ host_scripts/
+flake8 skill-package/scripts/ developer-tools/
 
 # Validation
-python host_scripts/validate.py
+python developer-tools/validate.py
 ```
 
 ### Quick test:
 ```bash
 # Just run validation and basic checks
-python host_scripts/validate.py
+python developer-tools/validate.py
 python -m py_compile skill-package/scripts/*.py
 ```
 
@@ -444,7 +444,7 @@ After each workflow run, the following reports are available:
 
 1. **Run tests before committing**
    ```bash
-   python host_scripts/validate.py
+   python developer-tools/validate.py
    flake8 .
    ```
 

@@ -63,7 +63,7 @@ Feature requests are welcome! Use the **Feature Request** issue template and inc
 
 2. Run setup:
    ```bash
-   ./host_scripts/setup.sh
+   ./developer-tools/setup.sh
    ```
 
 3. Install Python dependencies:
@@ -81,7 +81,7 @@ Feature requests are welcome! Use the **Feature Request** issue template and inc
 
 1. **Run validation**:
    ```bash
-   python3 host_scripts/validate.py
+   python3 developer-tools/validate.py
    ```
 
 2. **Test in Claude**:
@@ -158,9 +158,9 @@ docs: update setup instructions
 ### Where to Document
 
 - **README.md**: Overview and quick start
-- **docs/guides/**: Detailed guides
+- **docs/skill-developers/guides/**: Detailed guides
 - **Code comments**: Complex logic
-- **CHANGELOG.md**: Version history
+- **docs/shared/CHANGELOG.md**: Version history
 
 ## Testing Guidelines
 
@@ -183,8 +183,8 @@ docs: update setup instructions
 Maintainers handle releases:
 
 1. Update version in `version.yaml`
-2. Update `CHANGELOG.md`
-3. Run `./host_scripts/release.sh <version>`
+2. Update `docs/shared/CHANGELOG.md`
+3. Run `./sdk/scripts/release.sh <version>`
 4. Push changes and tags
 5. GitHub Actions creates release
 

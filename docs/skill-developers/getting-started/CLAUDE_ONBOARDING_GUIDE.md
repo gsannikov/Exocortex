@@ -75,22 +75,28 @@ claude-skills-sdk/
 │   └── logs/              # Log files
 │
 ├── docs/                  # Documentation
-│   ├── CHANGELOG.md       # Version history
-│   ├── DEPENDENCIES.md    # Dependency guide
-│   ├── WELCOME.md         # Welcome document
-│   └── guides/            # Guides and tutorials
+│   ├── shared/
+│   │   └── CHANGELOG.md   # Version history
+│   ├── skill-developers/  # For skill developers
+│   │   ├── getting-started/
+│   │   ├── guides/
+│   │   └── user-guide/
+│   └── sdk-developers/    # For SDK developers
+│       └── architecture/
 │
-├── host_scripts/          # Automation scripts
+├── developer-tools/       # Developer automation scripts
 │   ├── validate.py        # Validate skill structure
-│   └── release.sh         # Create releases
-│
-├── scripts/               # Utility scripts
-│   ├── setup-storage.sh   # Setup storage backend
+│   ├── setup.sh           # Initial setup
+│   ├── setup-storage.sh   # Storage backend setup
 │   └── integrate-skill-creator.sh
 │
-├── config/                # Configuration files
-│   ├── version.yaml       # Version tracking
-│   └── .gitleaks.toml     # Security config
+├── sdk/                   # SDK infrastructure
+│   ├── .github/
+│   │   └── workflows/     # CI/CD workflows
+│   ├── config/            # Configuration files
+│   │   └── .gitleaks.toml # Security config
+│   └── scripts/
+│       └── release.sh     # Create releases
 │
 └── [Root files]
     ├── README.md          # Main documentation
@@ -235,7 +241,7 @@ cp storage-config-template.yaml storage-config.yaml
 
 ### Step 4: Validate Setup
 ```bash
-python host_scripts/validate.py
+python developer-tools/validate.py
 ```
 
 Help them interpret results and fix any issues.
