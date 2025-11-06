@@ -1,0 +1,313 @@
+# Claude Skill Template - Centralized Configuration
+# Single source of truth for all repository constants and settings
+# Last Updated: 2025-11-06
+
+# =============================================================================
+# VERSION INFORMATION
+# =============================================================================
+version:
+  template: "1.1.0"
+  release_date: "2025-11-05"
+  status: "stable"
+  status_display: "Production Ready"
+  codename: "Onboarding"
+
+  # Version update notes
+  # When updating version, also update:
+  # - docs/shared/CHANGELOG.md
+  # - This file's release_date
+
+# =============================================================================
+# REPOSITORY INFORMATION
+# =============================================================================
+repository:
+  name: "claude-skill-template"
+  owner: "gsannikov"
+  placeholder_owner: "yourusername"  # Used in template examples
+  description: "Production-ready template for building Claude Desktop Skills with multi-backend persistence"
+
+# =============================================================================
+# URLS
+# =============================================================================
+urls:
+  # Main repository URLs
+  base: "https://github.com/gsannikov/claude-skill-template"
+  clone_https: "https://github.com/gsannikov/claude-skill-template.git"
+  clone_ssh: "git@github.com:gsannikov/claude-skill-template.git"
+
+  # GitHub features
+  discussions: "https://github.com/gsannikov/claude-skill-template/discussions"
+  issues: "https://github.com/gsannikov/claude-skill-template/issues"
+  actions: "https://github.com/gsannikov/claude-skill-template/actions"
+  releases: "https://github.com/gsannikov/claude-skill-template/releases"
+
+  # External references
+  source_skill: "https://github.com/gsannikov/israeli-tech-career-consultant"
+  anthropic_skills: "https://github.com/anthropics/skills"
+
+# =============================================================================
+# DIRECTORY PATHS
+# =============================================================================
+paths:
+  # Core directories
+  skill_package: "skill-package"
+  developer_tools: "developer-tools"
+  sdk: "sdk"
+  docs: "docs"
+
+  # Subdirectories
+  sdk_workflows: "sdk/.github/workflows"
+  sdk_config: "sdk/config"
+  sdk_scripts: "sdk/scripts"
+
+  skill_scripts: "skill-package/scripts"
+  skill_config: "skill-package/config"
+  skill_templates: "skill-package/templates"
+  skill_modules: "skill-package/modules"
+
+  user_data: "user-data"
+  user_data_config: "user-data/config"
+  user_data_db: "user-data/db"
+  user_data_logs: "user-data/logs"
+
+  docs_skill_developers: "docs/skill-developers"
+  docs_sdk_developers: "docs/sdk-developers"
+  docs_shared: "docs/shared"
+  docs_archives: "docs/archives"
+
+  releases: "releases"
+
+# =============================================================================
+# PYTHON CONFIGURATION
+# =============================================================================
+python:
+  minimum_version: "3.8"
+  minimum_version_display: "3.8+"
+  tested_version: "3.10"
+  recommended_version: "3.10+"
+
+# =============================================================================
+# NODE.JS CONFIGURATION
+# =============================================================================
+nodejs:
+  version: "18"
+  version_display: "18.x"
+
+# =============================================================================
+# DEPENDENCIES
+# =============================================================================
+dependencies:
+  # Core dependencies (always required)
+  pyyaml:
+    min_version: "6.0"
+    package_name: "PyYAML"
+    pip_install: "PyYAML>=6.0"
+    optional: false
+    purpose: "YAML configuration parsing"
+
+  # Optional dependencies (for specific storage backends)
+  pygithub:
+    min_version: "2.1.1"
+    package_name: "PyGithub"
+    pip_install: "PyGithub>=2.1.1"
+    optional: true
+    purpose: "GitHub storage backend"
+
+  notion_client:
+    min_version: "2.0.0"
+    package_name: "notion-client"
+    pip_install: "notion-client>=2.0.0"
+    optional: true
+    purpose: "Notion storage backend"
+
+# =============================================================================
+# STORAGE BACKENDS
+# =============================================================================
+storage_backends:
+  # Available backend IDs (used in code)
+  available: ["local", "github", "checkpoint", "email", "notion"]
+  count: 5
+
+  # Display names (used in documentation)
+  display_names:
+    local: "Local Filesystem"
+    github: "GitHub"
+    checkpoint: "Checkpoint (Session Only)"
+    email: "Email"
+    notion: "Notion"
+
+  # Backend descriptions
+  descriptions:
+    local: "Store data in local filesystem directories"
+    github: "Store data as files in a GitHub repository"
+    checkpoint: "Session-only memory (no persistence between sessions)"
+    email: "Send data via email for backup/sync"
+    notion: "Store data in Notion database"
+
+  # Default backend
+  default: "local"
+
+# =============================================================================
+# TESTING
+# =============================================================================
+testing:
+  comprehensive_test_count: 12
+  test_names:
+    - "Python Syntax & Imports"
+    - "Shell Script Validation"
+    - "Markdown Link Checking"
+    - "Storage Configuration"
+    - "Storage Unit Tests"
+    - "Documentation Completeness"
+    - "Security Scanning (Bandit)"
+    - "Dependency Vulnerabilities"
+    - "Code Linting (Flake8)"
+    - "Secrets & Private Data Detection"  # Currently disabled
+    - "E2E Template Test"
+    - "Root Folder Organization"
+
+  disabled_tests:
+    - name: "Secrets & Private Data Detection"
+      number: 10
+      reason: "Performance - takes 99% of pipeline time"
+      can_reenable: true
+
+# =============================================================================
+# LICENSE
+# =============================================================================
+license:
+  type: "MIT"
+  spdx: "MIT"
+  file: "LICENSE"
+  url: "https://opensource.org/licenses/MIT"
+
+# =============================================================================
+# EXTERNAL REFERENCES
+# =============================================================================
+references:
+  # Source skill that this template was derived from
+  source_skill:
+    name: "Israeli Tech Career Consultant"
+    version: "9.3.0"
+    feature_count: "30+"
+    url: "https://github.com/gsannikov/israeli-tech-career-consultant"
+    description: "Production skill with hundreds of analyses"
+
+  # Anthropic official resources
+  anthropic:
+    docs: "https://docs.anthropic.com"
+    skills_repo: "https://github.com/anthropics/skills"
+    skill_creator_raw: "https://raw.githubusercontent.com/anthropics/skills/main/skill-creator"
+
+# =============================================================================
+# EXTERNAL DOCUMENTATION URLS
+# =============================================================================
+external_docs:
+  # Standards and best practices
+  contributor_covenant: "https://www.contributor-covenant.org"
+  keep_a_changelog: "https://keepachangelog.com/en/1.0.0/"
+  semantic_versioning: "https://semver.org/spec/v2.0.0.html"
+
+  # Platform documentation
+  github_actions: "https://docs.github.com/en/actions"
+  notion_integrations: "https://www.notion.so/my-integrations"
+
+  # Python tools
+  pytest_docs: "https://docs.pytest.org"
+  flake8_docs: "https://flake8.pycqa.org"
+  bandit_docs: "https://bandit.readthedocs.io"
+
+# =============================================================================
+# GITHUB ACTIONS CONFIGURATION
+# =============================================================================
+github_actions:
+  # Tool versions
+  shellcheck_version: "latest"
+  gitleaks_version: "8.18.1"
+  markdown_link_check_version: "latest"
+
+  # Artifact versions
+  upload_artifact_version: "v4"
+  download_artifact_version: "v4"
+  checkout_version: "v3"
+  setup_python_version: "v4"
+  setup_node_version: "v3"
+
+  # Timeout settings
+  markdown_link_timeout: "10s"
+
+  # Test configuration
+  bandit_skip_codes: "B404,B603"
+  flake8_ignore: "E501,W503,E402,W293,W291,W504,E226,E302,E128"
+  flake8_max_line_length: 100
+
+# =============================================================================
+# FILE NAMING CONVENTIONS
+# =============================================================================
+file_conventions:
+  # Root folder allowed files
+  root_allowed:
+    - "README.md"
+    - "LICENSE"
+    - "CONTRIBUTING.md"
+    - "CODE_OF_CONDUCT.md"
+    - "SDK_DEVELOPMENT.md"
+    - ".gitignore"
+    - ".gitattributes"
+    - "requirements.txt"
+    - "requirements-dev.txt"
+    - "package.json"
+    - "package-lock.json"
+    - "setup.py"
+    - "setup.cfg"
+    - "pyproject.toml"
+    - "Makefile"
+
+  # Forbidden extensions in root
+  root_forbidden_extensions:
+    - ".log"
+    - ".tmp"
+    - ".cache"
+
+  # Session/proposal file patterns (must be in docs/archives/)
+  session_patterns:
+    - "SESSION"
+    - "REPORT"
+    - "SUMMARY"
+    - "ANALYSIS"
+    - "IMPROVEMENTS"
+    - "NOTES"
+    - "TODO"
+    - "BUGS"
+    - "PROPOSAL"
+    - "DESCRIPTION"
+    - "DIAGRAM"
+    - "PLAN"
+    - "MIGRATION"
+    - "REVIEW"
+
+# =============================================================================
+# RELEASE CONFIGURATION
+# =============================================================================
+release:
+  # Files to include in release package
+  package_includes:
+    - "skill-package/"
+    - "README.md"
+    - "LICENSE"
+    - "requirements.txt"
+
+  # Release notes template location
+  release_notes_template: "docs/shared/CHANGELOG.md"
+
+  # Checksum algorithm
+  checksum_algorithm: "sha256"
+
+# =============================================================================
+# METADATA
+# =============================================================================
+metadata:
+  config_version: "1.0.0"
+  last_updated: "2025-11-06"
+  updated_by: "Claude"
+  purpose: "Centralized configuration management for claude-skill-template"
