@@ -10,6 +10,14 @@ import yaml
 from pathlib import Path
 from typing import List, Tuple
 
+# Import centralized configuration
+sys.path.insert(0, str(Path(__file__).parent.parent / "sdk" / "config"))
+try:
+    from config_loader import get_config
+    CONFIG_AVAILABLE = True
+except ImportError:
+    CONFIG_AVAILABLE = False
+
 # Colors for terminal output
 GREEN = '\033[92m'
 RED = '\033[91m'
