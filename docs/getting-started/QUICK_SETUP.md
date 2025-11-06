@@ -118,4 +118,4 @@ All data stays on your machine - private and local.
 
 ---
 
-**Setup issues?** See [troubleshooting guide](docs/guides/user-guide/troubleshooting.md)
+**Setup issues?** See [user guide](../user-guide/setup.md) or ask Claude for help!

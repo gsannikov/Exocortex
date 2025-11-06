@@ -46,7 +46,7 @@ Perfect for building:
 
 Prefer written instructions? See [QUICK_SETUP.md](QUICK_SETUP.md)
 
-Or jump straight to the full docs: [README.md](README.md)
+Or jump straight to the full docs: [README.md](../README.md)
 
 ---
 
@@ -57,9 +57,9 @@ Or jump straight to the full docs: [README.md](README.md)
 
 **Documentation:**
 - [QUICK_SETUP.md](QUICK_SETUP.md) - Fast track
-- [README.md](README.md) - Complete guide
+- [README.md](../README.md) - Complete guide
 - [DEPENDENCIES.md](DEPENDENCIES.md) - Storage details
-- [docs/](docs/) - Deep dives
+- [Full Documentation](../) - Deep dives
 
 ---
 

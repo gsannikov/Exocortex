@@ -15,9 +15,9 @@ Build production-grade Claude skills with multi-backend storage, automation, and
 3. **Say:** "hi" or "help me get started"
 4. **Follow the guided onboarding** (~10-15 minutes)
 
-Claude will read [CLAUDE_ONBOARDING_GUIDE.md](docs/guides/CLAUDE_ONBOARDING_GUIDE.md) and walk you through everything interactively!
+Claude will read [CLAUDE_ONBOARDING_GUIDE.md](docs/getting-started/CLAUDE_ONBOARDING_GUIDE.md) and walk you through everything interactively!
 
-**Also see:** [WELCOME.md](docs/WELCOME.md) for quick intro
+**Also see:** [WELCOME.md](docs/getting-started/WELCOME.md) for quick intro
 
 ---
 
@@ -44,14 +44,15 @@ A **production-ready framework** for building Claude Skills featuring:
 ## 📚 Quick Navigation
 
 **New Users:**
-- [WELCOME.md](docs/WELCOME.md) - Start here!
-- [QUICK_SETUP.md](docs/guides/QUICK_SETUP.md) - Manual setup guide
-- [CLAUDE_ONBOARDING_GUIDE.md](docs/guides/CLAUDE_ONBOARDING_GUIDE.md) - For Claude's reference
+- [WELCOME.md](docs/getting-started/WELCOME.md) - Start here!
+- [QUICK_SETUP.md](docs/getting-started/QUICK_SETUP.md) - Manual setup guide
+- [CLAUDE_ONBOARDING_GUIDE.md](docs/getting-started/CLAUDE_ONBOARDING_GUIDE.md) - For Claude's reference
 
 **Documentation:**
-- [DEPENDENCIES.md](docs/DEPENDENCIES.md) - Storage backends & setup
-- [docs/guides/user-guide/](docs/guides/user-guide/) - User guides
-- [docs/guides/developer-guide/](docs/guides/developer-guide/) - Developer guides
+- [Documentation Hub](docs/README.md) - Complete navigation guide
+- [DEPENDENCIES.md](docs/getting-started/DEPENDENCIES.md) - Storage backends & setup
+- [User Guide](docs/user-guide/) - User guides and tutorials
+- [Developer Guide](docs/developer-guide/) - Development documentation
 
 **Resources:**
 - [CONTRIBUTING.md](CONTRIBUTING.md) - How to contribute
@@ -76,17 +77,24 @@ claude-skills-sdk/
 │   ├── db/                # Database directory
 │   └── logs/              # Logs directory
 │
-├── docs/                  # Documentation
+├── docs/                  # Documentation (see docs/README.md)
+│   ├── getting-started/   # New user onboarding
+│   ├── user-guide/        # Usage documentation
+│   ├── developer-guide/   # Development docs
+│   ├── design/            # Architecture decisions
+│   ├── features/          # Feature planning
+│   ├── resources/         # SDK materials
+│   └── archives/          # Historical files
+│
 ├── host_scripts/          # Automation scripts
 │   ├── validate.py        # Validate structure
 │   ├── release.sh         # Create releases
 │   └── setup-storage.sh   # Setup storage
 │
 └── [Root Documentation]
-    ├── WELCOME.md
-    ├── QUICK_SETUP.md
-    ├── DEPENDENCIES.md
-    └── README.md (this file)
+    ├── README.md (this file)
+    ├── CONTRIBUTING.md
+    └── LICENSE
 ```
 
 ---
@@ -121,7 +129,7 @@ chmod +x scripts/integrate-skill-creator.sh
 # 6. Upload skill-package/ to Claude Desktop
 ```
 
-**Full details:** See [QUICK_SETUP.md](docs/guides/QUICK_SETUP.md)
+**Full details:** See [QUICK_SETUP.md](docs/getting-started/QUICK_SETUP.md)
 
 ---
 
@@ -135,7 +143,7 @@ chmod +x scripts/integrate-skill-creator.sh
 | **Email** | ✅ | ✅ | Medium | Email-based workflows |
 | **Notion** | ✅ | ✅ | Medium | Structured data, dashboards |
 
-**Complete guide:** [DEPENDENCIES.md](docs/DEPENDENCIES.md)
+**Complete guide:** [DEPENDENCIES.md](docs/getting-started/DEPENDENCIES.md)
 
 ---
 
@@ -160,18 +168,24 @@ python host_scripts/validate.py
 ## 📖 Key Documentation
 
 ### Getting Started
-- **[WELCOME.md](docs/WELCOME.md)** - Warm welcome & quick overview
-- **[QUICK_SETUP.md](docs/guides/QUICK_SETUP.md)** - 5-minute setup guide
-- **[CLAUDE_ONBOARDING_GUIDE.md](docs/guides/CLAUDE_ONBOARDING_GUIDE.md)** - Interactive onboarding (for Claude)
+- **[WELCOME.md](docs/getting-started/WELCOME.md)** - Warm welcome & quick overview
+- **[QUICK_SETUP.md](docs/getting-started/QUICK_SETUP.md)** - 5-minute setup guide
+- **[CLAUDE_ONBOARDING_GUIDE.md](docs/getting-started/CLAUDE_ONBOARDING_GUIDE.md)** - Interactive onboarding (for Claude)
+- **[DEPENDENCIES.md](docs/getting-started/DEPENDENCIES.md)** - All 5 storage backends explained
 
-### Configuration
-- **[DEPENDENCIES.md](docs/DEPENDENCIES.md)** - All 5 storage backends explained
-- **[Storage Setup](docs/guides/user-guide/setup.md)** - Detailed configuration
-- **[MCP Configuration](docs/guides/user-guide/mcp-servers.md)** - MCP server setup
+### User Guide
+- **[Setup Guide](docs/user-guide/setup.md)** - Detailed configuration
+- **[Documentation Hub](docs/README.md)** - Complete navigation
 
-### Development
-- **[Architecture](docs/guides/developer-guide/architecture.md)** - System design
-- **[Module Guide](docs/guides/developer-guide/module-guide.md)** - Creating modules
+### Developer Guide
+- **[Architecture](docs/developer-guide/architecture.md)** - System design
+- **[Storage Selection](docs/developer-guide/storage-selection.md)** - Choose the right backend
+- **[Testing Guide](docs/developer-guide/testing-guide.md)** - Comprehensive testing
+- **[Setup Scripts](docs/developer-guide/setup-scripts.md)** - Automation tools
+
+### Additional Resources
+- **[Design Docs](docs/design/)** - Architecture decisions
+- **[Features & Roadmap](docs/features/)** - Planning and future direction
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contributing guidelines
 
 ---
@@ -234,9 +248,11 @@ MIT License - see [LICENSE](LICENSE)
 
 **Ready to build?**
 
-👉 **New users:** See [WELCOME.md](docs/WELCOME.md) or say "hi" to Claude with this repo attached!
+👉 **New users:** See [WELCOME.md](docs/getting-started/WELCOME.md) or say "hi" to Claude with this repo attached!
 
-👉 **Experienced:** Check [QUICK_SETUP.md](docs/guides/QUICK_SETUP.md) for fast track
+👉 **Experienced:** Check [QUICK_SETUP.md](docs/getting-started/QUICK_SETUP.md) for fast track
+
+👉 **Full docs:** Visit [Documentation Hub](docs/README.md) for complete navigation
 
 ---
 
