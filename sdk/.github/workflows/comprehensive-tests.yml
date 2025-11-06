@@ -425,6 +425,7 @@ jobs:
             "LICENSE",
             "CONTRIBUTING.md",
             "CODE_OF_CONDUCT.md",
+            "SDK_DEVELOPMENT.md",      # Guide for SDK developers
             ".gitignore",
             ".gitattributes",
             "requirements.txt",
@@ -444,7 +445,8 @@ jobs:
             ".cache",
         }
 
-        # Patterns in names that indicate session/analysis files
+        # Patterns in names that indicate session/analysis/proposal files
+        # These files should be in docs/archives/ or appropriate subfolder
         session_patterns = [
             "SESSION",
             "REPORT",
@@ -454,10 +456,15 @@ jobs:
             "NOTES",
             "TODO",
             "BUGS",
+            "PROPOSAL",          # Proposals
+            "DESCRIPTION",       # Descriptions
+            "DIAGRAM",           # Diagrams
+            "PLAN",              # Plans
+            "MIGRATION",         # Migration docs
+            "REVIEW",            # Reviews
         ]
 
         errors = []
-        warnings = []
 
         # Check all files in root
         root_files = [f for f in os.listdir('.') if os.path.isfile(f)]
@@ -473,38 +480,50 @@ jobs:
                 errors.append(f"Forbidden file type in root: {file}")
                 continue
 
-            # Check for session/analysis files (markdown/text)
+            # Check for session/analysis/proposal files (markdown/text)
             if ext in ['.md', '.txt']:
                 file_upper = file.upper()
+                matched_pattern = None
+
+                # Check if matches any session/proposal/description pattern
                 for pattern in session_patterns:
                     if pattern in file_upper:
-                        errors.append(
-                            f"Session/analysis file in root: {file}\n"
-                            f"  → Should be in docs/archives/ or appropriate subfolder"
-                        )
+                        matched_pattern = pattern
                         break
+
+                if matched_pattern:
+                    # Definitely a session/proposal/description file
+                    errors.append(
+                        f"Session/proposal/description file in root: {file}\n"
+                        f"  → Pattern matched: {matched_pattern}\n"
+                        f"  → Must be moved to docs/archives/"
+                    )
                 else:
                     # Generic markdown/text file not in allowed list
-                    warnings.append(
-                        f"Unexpected file in root: {file}\n"
-                        f"  → Consider moving to docs/ or appropriate subfolder"
+                    # Also an error - root should only have explicitly allowed files
+                    errors.append(
+                        f"Unexpected documentation file in root: {file}\n"
+                        f"  → Should be in docs/ or appropriate subfolder\n"
+                        f"  → Or add to allowed_root_files if it's a primary doc"
                     )
 
         if errors:
             print("❌ Root folder pollution detected:")
+            print()
             for error in errors:
                 print(f"  • {error}")
-            print("\nGuidelines:")
-            print("  - Session reports → docs/archives/")
+            print()
+            print("📁 Guidelines:")
+            print("  - Session/proposal/description reports → docs/archives/")
             print("  - Documentation → docs/")
             print("  - Scripts → developer-tools/")
             print("  - Config → sdk/config/")
+            print("  - Primary guides → Add to allowed_root_files")
+            print()
+            print("Allowed root files:")
+            print("  README.md, LICENSE, CONTRIBUTING.md, CODE_OF_CONDUCT.md,")
+            print("  SDK_DEVELOPMENT.md, requirements.txt, setup.py, etc.")
             exit(1)
-        elif warnings:
-            print("⚠️ Warnings about root folder files:")
-            for warning in warnings:
-                print(f"  • {warning}")
-            print("\n✅ No critical issues, but consider organizing these files")
         else:
             print("✅ Root folder is clean and organized")
         PYTHON_SCRIPT
