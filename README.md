@@ -15,9 +15,9 @@ Build production-grade Claude skills with multi-backend storage, automation, and
 3. **Say:** "hi" or "help me get started"
 4. **Follow the guided onboarding** (~10-15 minutes)
 
-Claude will read [CLAUDE_ONBOARDING_GUIDE.md](docs/getting-started/CLAUDE_ONBOARDING_GUIDE.md) and walk you through everything interactively!
+Claude will read [CLAUDE_ONBOARDING_GUIDE.md](docs/skill-developers/getting-started/CLAUDE_ONBOARDING_GUIDE.md) and walk you through everything interactively!
 
-**Also see:** [WELCOME.md](docs/getting-started/WELCOME.md) for quick intro
+**Also see:** [WELCOME.md](docs/skill-developers/getting-started/WELCOME.md) for quick intro
 
 ---
 
@@ -44,19 +44,19 @@ A **production-ready framework** for building Claude Skills featuring:
 ## 📚 Quick Navigation
 
 **New Users:**
-- [WELCOME.md](docs/getting-started/WELCOME.md) - Start here!
-- [QUICK_SETUP.md](docs/getting-started/QUICK_SETUP.md) - Manual setup guide
-- [CLAUDE_ONBOARDING_GUIDE.md](docs/getting-started/CLAUDE_ONBOARDING_GUIDE.md) - For Claude's reference
+- [WELCOME.md](docs/skill-developers/getting-started/WELCOME.md) - Start here!
+- [QUICK_SETUP.md](docs/skill-developers/getting-started/QUICK_SETUP.md) - Manual setup guide
+- [CLAUDE_ONBOARDING_GUIDE.md](docs/skill-developers/getting-started/CLAUDE_ONBOARDING_GUIDE.md) - For Claude's reference
 
 **Documentation:**
-- [Documentation Hub](docs/README.md) - Complete navigation guide
-- [DEPENDENCIES.md](docs/getting-started/DEPENDENCIES.md) - Storage backends & setup
-- [User Guide](docs/user-guide/) - User guides and tutorials
-- [Developer Guide](docs/developer-guide/) - Development documentation
+- [Documentation Structure](docs/shared/DOCUMENTATION_STRUCTURE.md) - Complete navigation guide
+- [DEPENDENCIES.md](docs/skill-developers/getting-started/DEPENDENCIES.md) - Storage backends & setup
+- [User Guide](docs/skill-developers/user-guide/) - User guides and tutorials
+- [Developer Guide](docs/skill-developers/guides/) - Development documentation
 
 **Resources:**
 - [CONTRIBUTING.md](CONTRIBUTING.md) - How to contribute
-- [CHANGELOG.md](docs/CHANGELOG.md) - Version history
+- [CHANGELOG.md](docs/shared/CHANGELOG.md) - Version history
 - [LICENSE](LICENSE) - MIT license
 
 ---
@@ -81,20 +81,30 @@ claude-skills-sdk/
 │   ├── db/                    # Your database
 │   └── logs/                  # Your logs
 │
-├── docs/                      # Documentation (see docs/README.md)
-│   ├── getting-started/       # New user onboarding
-│   ├── user-guide/            # Usage documentation
-│   ├── developer-guide/       # Development docs
-│   ├── design/                # Architecture decisions
-│   ├── features/              # Feature planning
-│   ├── resources/             # SDK materials
+├── docs/                      # Documentation
+│   ├── skill-developers/      # For skill developers
+│   │   ├── getting-started/   # New user onboarding
+│   │   ├── guides/            # Development guides
+│   │   └── user-guide/        # Usage documentation
+│   ├── sdk-developers/        # For SDK contributors
+│   │   └── architecture/      # Architecture docs
+│   ├── shared/                # Shared resources
+│   │   ├── CHANGELOG.md       # Version history
+│   │   ├── DOCUMENTATION_STRUCTURE.md
+│   │   └── resources/         # SDK materials
 │   └── archives/              # Historical files
 │
-├── host_scripts/              # Automation scripts (run from repo root)
+├── developer-tools/           # Automation scripts (run from repo root)
 │   ├── validate.py            # Validate structure
-│   ├── release.sh             # Create releases
+│   ├── setup.sh               # Initial setup
 │   ├── setup-storage.sh       # Setup storage
 │   └── integrate-skill-creator.sh  # Integrate skill-creator
+│
+├── sdk/                       # SDK infrastructure
+│   ├── .github/workflows/     # CI/CD workflows
+│   ├── config/                # Configuration files
+│   └── scripts/
+│       └── release.sh         # Create releases
 │
 └── [Root Documentation]
     ├── README.md (this file)
@@ -125,16 +135,16 @@ cp storage-config-template.yaml storage-config.yaml
 
 # 4. Validate
 cd ../..
-python host_scripts/validate.py
+python developer-tools/validate.py
 
 # 5. (Optional) Integrate skill-creator
-chmod +x host_scripts/integrate-skill-creator.sh
-./host_scripts/integrate-skill-creator.sh
+chmod +x developer-tools/integrate-skill-creator.sh
+./developer-tools/integrate-skill-creator.sh
 
 # 6. Upload skill-package/ to Claude Desktop
 ```
 
-**Full details:** See [QUICK_SETUP.md](docs/getting-started/QUICK_SETUP.md)
+**Full details:** See [QUICK_SETUP.md](docs/skill-developers/getting-started/QUICK_SETUP.md)
 
 ---
 
@@ -148,7 +158,7 @@ chmod +x host_scripts/integrate-skill-creator.sh
 | **Email** | ✅ | ✅ | Medium | Email-based workflows |
 | **Notion** | ✅ | ✅ | Medium | Structured data, dashboards |
 
-**Complete guide:** [DEPENDENCIES.md](docs/getting-started/DEPENDENCIES.md)
+**Complete guide:** [DEPENDENCIES.md](docs/skill-developers/getting-started/DEPENDENCIES.md)
 
 ---
 
@@ -156,16 +166,16 @@ chmod +x host_scripts/integrate-skill-creator.sh
 
 ```bash
 # Validate skill structure
-python host_scripts/validate.py
+python developer-tools/validate.py
 
 # Create a release
-./host_scripts/release.sh 1.1.0
+./sdk/scripts/release.sh 1.1.0
 
 # Integrate official skill-creator
-./host_scripts/integrate-skill-creator.sh
+./developer-tools/integrate-skill-creator.sh
 
 # Setup storage backend
-./host_scripts/setup-storage.sh
+./developer-tools/setup-storage.sh
 ```
 
 ---
@@ -173,24 +183,23 @@ python host_scripts/validate.py
 ## 📖 Key Documentation
 
 ### Getting Started
-- **[WELCOME.md](docs/getting-started/WELCOME.md)** - Warm welcome & quick overview
-- **[QUICK_SETUP.md](docs/getting-started/QUICK_SETUP.md)** - 5-minute setup guide
-- **[CLAUDE_ONBOARDING_GUIDE.md](docs/getting-started/CLAUDE_ONBOARDING_GUIDE.md)** - Interactive onboarding (for Claude)
-- **[DEPENDENCIES.md](docs/getting-started/DEPENDENCIES.md)** - All 5 storage backends explained
+- **[WELCOME.md](docs/skill-developers/getting-started/WELCOME.md)** - Warm welcome & quick overview
+- **[QUICK_SETUP.md](docs/skill-developers/getting-started/QUICK_SETUP.md)** - 5-minute setup guide
+- **[CLAUDE_ONBOARDING_GUIDE.md](docs/skill-developers/getting-started/CLAUDE_ONBOARDING_GUIDE.md)** - Interactive onboarding (for Claude)
+- **[DEPENDENCIES.md](docs/skill-developers/getting-started/DEPENDENCIES.md)** - All 5 storage backends explained
 
 ### User Guide
-- **[Setup Guide](docs/user-guide/setup.md)** - Detailed configuration
-- **[Documentation Hub](docs/README.md)** - Complete navigation
+- **[Setup Guide](docs/skill-developers/user-guide/setup.md)** - Detailed configuration
+- **[Documentation Hub](docs/shared/DOCUMENTATION_STRUCTURE.md)** - Complete navigation
 
 ### Developer Guide
-- **[Architecture](docs/developer-guide/architecture.md)** - System design
-- **[Storage Selection](docs/developer-guide/storage-selection.md)** - Choose the right backend
-- **[Testing Guide](docs/developer-guide/testing-guide.md)** - Comprehensive testing
-- **[Setup Scripts](docs/developer-guide/setup-scripts.md)** - Automation tools
+- **[Architecture](docs/skill-developers/guides/architecture.md)** - System design
+- **[Storage Selection](docs/skill-developers/guides/storage-selection.md)** - Choose the right backend
+- **[Testing Guide](docs/skill-developers/guides/testing-guide.md)** - Comprehensive testing
+- **[Setup Scripts](docs/skill-developers/guides/setup-scripts.md)** - Automation tools
 
 ### Additional Resources
-- **[Design Docs](docs/design/)** - Architecture decisions
-- **[Features & Roadmap](docs/features/)** - Planning and future direction
+- **[SDK Design Docs](docs/sdk-developers/architecture/)** - Architecture decisions
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contributing guidelines
 
 ---
@@ -253,11 +262,11 @@ MIT License - see [LICENSE](LICENSE)
 
 **Ready to build?**
 
-👉 **New users:** See [WELCOME.md](docs/getting-started/WELCOME.md) or say "hi" to Claude with this repo attached!
+👉 **New users:** See [WELCOME.md](docs/skill-developers/getting-started/WELCOME.md) or say "hi" to Claude with this repo attached!
 
-👉 **Experienced:** Check [QUICK_SETUP.md](docs/getting-started/QUICK_SETUP.md) for fast track
+👉 **Experienced:** Check [QUICK_SETUP.md](docs/skill-developers/getting-started/QUICK_SETUP.md) for fast track
 
-👉 **Full docs:** Visit [Documentation Hub](docs/README.md) for complete navigation
+👉 **Full docs:** Visit [Documentation Hub](docs/shared/DOCUMENTATION_STRUCTURE.md) for complete navigation
 
 ---
 

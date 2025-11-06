@@ -82,19 +82,22 @@ log_operation("Feature X executed successfully")
 **Structure:**
 ```
 docs/
-├── guides/
-│   ├── user-guide/      # For end users
-│   │   ├── setup.md
-│   │   ├── usage.md
-│   │   └── troubleshooting.md
-│   └── developer-guide/ # For developers
-│       ├── architecture.md (this file)
-│       ├── module-guide.md
-│       └── testing.md
-└── project/
-    ├── features/        # Feature specifications
-    ├── roadmap.md       # Release planning
-    └── session-archives/ # Archived session states
+├── skill-developers/    # For skill developers
+│   ├── getting-started/
+│   │   ├── QUICK_SETUP.md
+│   │   └── WELCOME.md
+│   ├── guides/
+│   │   ├── architecture.md (this file)
+│   │   ├── testing-guide.md
+│   │   └── setup-scripts.md
+│   └── user-guide/
+│       └── setup.md
+├── sdk-developers/      # For SDK developers
+│   ├── architecture/
+│   │   └── SDK_DESIGN.md
+│   └── README.md
+└── shared/
+    └── CHANGELOG.md
 ```
 
 **Characteristics:**
@@ -353,9 +356,9 @@ User acceptance testing
 4. Document changes
 
 ### Release
-1. Run validation: `python host_scripts/validate.py`
+1. Run validation: `python developer-tools/validate.py`
 2. Update version: `version.yaml`, `SKILL.md`
-3. Create release: `./host_scripts/release.sh X.Y.Z`
+3. Create release: `./sdk/scripts/release.sh X.Y.Z`
 4. Push to GitHub with tags
 5. Create GitHub release with ZIP
 

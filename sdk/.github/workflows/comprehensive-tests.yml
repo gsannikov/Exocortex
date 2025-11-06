@@ -36,7 +36,7 @@ jobs:
       run: |
         echo "🔍 Checking Python syntax..."
         python -m py_compile skill-package/scripts/*.py
-        python -m py_compile host_scripts/*.py
+        python -m py_compile developer-tools/*.py
         echo "✅ All Python files have valid syntax"
 
     - name: Test Python imports
@@ -45,7 +45,7 @@ jobs:
         cd skill-package/scripts
         python -c "import storage, config_loader, yaml_utils"
         cd ../../
-        cd host_scripts
+        cd developer-tools
         python -c "import sys; sys.path.insert(0, '.'); import validate"
         cd ../
         echo "✅ All Python imports successful"
@@ -216,7 +216,7 @@ jobs:
         required_sections = {
             "README.md": ["Quick Start", "Quick Navigation", "License"],
             "skill-package/SKILL.md": ["Overview", "Storage Configuration"],
-            "docs/getting-started/DEPENDENCIES.md": ["Storage", "Backend"],
+            "docs/skill-developers/getting-started/DEPENDENCIES.md": ["Storage", "Backend"],
             "CONTRIBUTING.md": ["Contribute", "Contributing"],
         }
 
@@ -252,12 +252,12 @@ jobs:
     - name: Security scan with Bandit
       run: |
         echo "🔍 Running security scan..."
-        bandit -r skill-package/scripts/ host_scripts/ \
+        bandit -r skill-package/scripts/ developer-tools/ \
           -f json -o bandit-report.json \
           --skip B404,B603 \
           || echo "⚠️ Security issues found (check report)"
 
-        bandit -r skill-package/scripts/ host_scripts/ \
+        bandit -r skill-package/scripts/ developer-tools/ \
           -ll \
           --skip B404,B603 \
           || echo "⚠️ Medium/High severity issues found"
@@ -299,7 +299,7 @@ jobs:
     - name: Lint Python code
       run: |
         echo "🔍 Linting Python code..."
-        flake8 skill-package/scripts/ host_scripts/ \
+        flake8 skill-package/scripts/ developer-tools/ \
           --max-line-length=100 \
           --ignore=E501,W503,E402,W293,W291,W504,E226,E302,E128 \
           --exclude=__pycache__,*.pyc,.git,releases/,venv/ \
@@ -347,7 +347,7 @@ jobs:
     #     echo ""
     #
     #     # Run gitleaks with our config
-    #     if gitleaks detect --config config/.gitleaks.toml --verbose --no-git 2>&1 | tee gitleaks-report.txt; then
+    #     if gitleaks detect --config sdk/config/.gitleaks.toml --verbose --no-git 2>&1 | tee gitleaks-report.txt; then
     #       echo ""
     #       echo "✅ No secrets or private data detected!"
     #     else
@@ -357,7 +357,7 @@ jobs:
     #       echo "Review the findings above and:"
     #       echo "  1. Remove actual secrets from code"
     #       echo "  2. Use environment variables for credentials"
-    #       echo "  3. Add false positives to config/.gitleaks.toml allowlist"
+    #       echo "  3. Add false positives to sdk/config/.gitleaks.toml allowlist"
     #       echo "  4. Ensure user-data/ is in .gitignore"
     #       echo ""
     #       exit 1
@@ -379,7 +379,7 @@ jobs:
 
         # Test directory creation via setup script
         echo "Testing setup script..."
-        echo "N" | bash host_scripts/setup.sh || echo "Setup completed (exit code expected)"
+        echo "N" | bash developer-tools/setup.sh || echo "Setup completed (exit code expected)"
 
         # Test storage config creation
         echo "Testing storage configuration..."
@@ -393,11 +393,11 @@ jobs:
 
         # Test validation passes
         echo "Testing validation script..."
-        python host_scripts/validate.py
+        python developer-tools/validate.py
 
         # Test integrate script (if curl works)
         echo "Testing skill-creator integration..."
-        if bash host_scripts/integrate-skill-creator.sh 2>/dev/null; then
+        if bash developer-tools/integrate-skill-creator.sh 2>/dev/null; then
           test -f skill-package/examples/skill-creator/SKILL.md || exit 1
           echo "  ✓ skill-creator integrated successfully"
         else
@@ -497,8 +497,8 @@ jobs:
             print("\nGuidelines:")
             print("  - Session reports → docs/archives/")
             print("  - Documentation → docs/")
-            print("  - Scripts → host_scripts/")
-            print("  - Config → config/")
+            print("  - Scripts → developer-tools/")
+            print("  - Config → sdk/config/")
             exit(1)
         elif warnings:
             print("⚠️ Warnings about root folder files:")

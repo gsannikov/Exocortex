@@ -80,10 +80,10 @@ class SkillValidator:
         
         optional_dirs = [
             "docs",
-            "docs/guides",
-            "docs/project",
-            "host_scripts",
-            ".github",
+            "docs/skill-developers",
+            "docs/sdk-developers",
+            "developer-tools",
+            "sdk/.github",
         ]
         
         all_exist = True
@@ -203,7 +203,7 @@ class SkillValidator:
 
 
 def main():
-    # Determine skill root (assume script is in host_scripts/)
+    # Determine skill root (assume script is in developer-tools/)
     script_dir = Path(__file__).parent
     skill_root = script_dir.parent
     
