@@ -24,6 +24,11 @@ jobs:
       with:
         node-version: '18'
 
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyyaml
+
     # ========================================
     # TEST 1: Python Syntax & Import Validation
     # ========================================
@@ -96,9 +101,6 @@ jobs:
     # ========================================
     # TEST 4: Storage Configuration Tests
     # ========================================
-    - name: Install PyYAML
-      run: pip install pyyaml
-
     - name: Test storage configurations
       run: |
         echo "🔍 Testing storage configurations..."
