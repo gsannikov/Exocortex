@@ -241,9 +241,9 @@ python --version
 - [Anthropic Docs](https://docs.anthropic.com)
 
 **SDK Template Docs:**
-- [Setup Guide](../../docs/guides/user-guide/setup.md)
+- [Setup Guide](../../docs/skill-developers/user-guide/setup.md)
 - [SKILL.md](../SKILL.md)
-- [DEPENDENCIES.md](../../DEPENDENCIES.md)
+- [Getting Started](../../docs/skill-developers/getting-started/QUICK_SETUP.md)
 
 ---
 

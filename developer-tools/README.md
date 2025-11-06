@@ -1,4 +1,4 @@
-# Host Scripts
+# Developer Tools
 
 Automation scripts for managing your Claude skill.
 

@@ -42,12 +42,12 @@ The Claude Skills SDK Template is a production-ready framework for building Clau
 
 3. **Validate setup:**
    ```bash
-   python host_scripts/validate.py
+   python developer-tools/validate.py
    ```
 
 ### Alternative Backends
 
-For multi-device sync or team collaboration, see [DEPENDENCIES.md](../../DEPENDENCIES.md) for:
+For multi-device sync or team collaboration, see [DEPENDENCIES.md](../docs/skill-developers/getting-started/DEPENDENCIES.md) for:
 - **GitHub** - Version-controlled storage with multi-device sync
 - **Email** - Email-based persistence
 - **Notion** - Structured database storage

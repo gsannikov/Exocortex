@@ -28,7 +28,7 @@ jobs:
         cp -r skill-package release-package/
         cp README.md release-package/
         [ -f LICENSE ] && cp LICENSE release-package/
-        [ -f docs/CHANGELOG.md ] && cp docs/CHANGELOG.md release-package/
+        [ -f docs/shared/CHANGELOG.md ] && cp docs/shared/CHANGELOG.md release-package/
         
         # Copy docs if they exist
         [ -d docs ] && cp -r docs release-package/
@@ -41,9 +41,9 @@ jobs:
     - name: Generate changelog
       id: changelog
       run: |
-        if [ -f docs/CHANGELOG.md ]; then
+        if [ -f docs/shared/CHANGELOG.md ]; then
           # Extract latest version changelog
-          CHANGELOG=$(awk '/^## \[.*\]/{flag=1; next} /^## \[.*\]/{flag=0} flag' docs/CHANGELOG.md)
+          CHANGELOG=$(awk '/^## \[.*\]/{flag=1; next} /^## \[.*\]/{flag=0} flag' docs/shared/CHANGELOG.md)
           echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGELOG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT

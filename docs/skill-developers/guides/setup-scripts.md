@@ -6,7 +6,7 @@ This repository contains two different setup scripts with different purposes. Th
 
 ## Scripts Overview
 
-### 1. `host_scripts/setup.sh`
+### 1. `developer-tools/setup.sh`
 
 **Purpose:** General skill directory initialization and structure creation
 
@@ -24,12 +24,12 @@ This repository contains two different setup scripts with different purposes. Th
 
 **Run with:**
 ```bash
-./host_scripts/setup.sh
+./developer-tools/setup.sh
 ```
 
 ---
 
-### 2. `scripts/setup-storage.sh`
+### 2. `developer-tools/setup-storage.sh`
 
 **Purpose:** Auto-configuration of local filesystem storage with Claude Desktop MCP integration
 
@@ -41,14 +41,14 @@ This repository contains two different setup scripts with different purposes. Th
 - Specifically configures the filesystem MCP server to access user-data
 
 **When to use:**
-- After running host_scripts/setup.sh
+- After running developer-tools/setup.sh
 - When you want to use Local Filesystem storage backend
 - When setting up Claude Desktop MCP integration
 - When you need automatic Claude config file updates
 
 **Run with:**
 ```bash
-./scripts/setup-storage.sh
+./developer-tools/setup-storage.sh
 ```
 
 **Note:** This script requires Claude Desktop to be installed and modifies your Claude Desktop configuration file.
@@ -60,7 +60,7 @@ This repository contains two different setup scripts with different purposes. Th
 ### Step 1: Initialize Template Structure
 ```bash
 # Run general setup first
-./host_scripts/setup.sh
+./developer-tools/setup.sh
 ```
 
 ### Step 2: Choose Storage Backend
@@ -68,7 +68,7 @@ This repository contains two different setup scripts with different purposes. Th
 **Option A: Local Filesystem (Easiest)**
 ```bash
 # Run storage-specific setup
-./scripts/setup-storage.sh
+./developer-tools/setup-storage.sh
 ```
 
 **Option B: GitHub/Email/Notion (Multi-device)**
@@ -81,7 +81,7 @@ cp storage-config-template.yaml storage-config.yaml
 
 ### Step 3: Validate
 ```bash
-python host_scripts/validate.py
+python developer-tools/validate.py
 ```
 
 ---
@@ -90,8 +90,8 @@ python host_scripts/validate.py
 
 | Script | Purpose | Modifies Claude Config | Best For |
 |--------|---------|----------------------|----------|
-| `host_scripts/setup.sh` | Initialize directories | ❌ No | First-time setup |
-| `scripts/setup-storage.sh` | Configure local storage + MCP | ✅ Yes | Claude Desktop users |
+| `developer-tools/setup.sh` | Initialize directories | ❌ No | First-time setup |
+| `developer-tools/setup-storage.sh` | Configure local storage + MCP | ✅ Yes | Claude Desktop users |
 
 ---
 

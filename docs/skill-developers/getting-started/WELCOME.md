@@ -73,14 +73,14 @@ cp storage-config-template.yaml storage-config.yaml
 # Edit storage-config.yaml with your settings
 
 # Validate everything works
-python host_scripts/validate.py
+python developer-tools/validate.py
 
 # Integrate official skill-creator (optional)
-chmod +x host_scripts/integrate-skill-creator.sh
-./host_scripts/integrate-skill-creator.sh
+chmod +x developer-tools/integrate-skill-creator.sh
+./developer-tools/integrate-skill-creator.sh
 
 # Create a release
-./host_scripts/release.sh 1.1.0
+./sdk/scripts/release.sh 1.1.0
 ```
 
 ---

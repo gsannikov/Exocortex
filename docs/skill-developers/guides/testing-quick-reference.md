@@ -9,17 +9,17 @@ This project includes comprehensive automated testing through GitHub Actions.
 ### Run Tests Locally
 ```bash
 # Basic validation (required before commit)
-python host_scripts/validate.py
+python developer-tools/validate.py
 
 # Python syntax check
-python -m py_compile skill-package/scripts/*.py host_scripts/*.py
+python -m py_compile skill-package/scripts/*.py developer-tools/*.py
 
 # Shell script validation (install shellcheck first)
-shellcheck *.sh host_scripts/*.sh
+shellcheck *.sh developer-tools/*.sh
 
 # Code style
 pip install flake8
-flake8 skill-package/scripts/ host_scripts/
+flake8 skill-package/scripts/ developer-tools/
 ```
 
 ### Run Full Test Suite
@@ -81,14 +81,14 @@ After workflow runs, download reports from **Actions > Artifacts**:
 
 ```bash
 # 1. Run validation
-python host_scripts/validate.py
+python developer-tools/validate.py
 
 # 2. Check Python syntax
 python -m py_compile skill-package/scripts/*.py
 
 # 3. Check style (optional but recommended)
 pip install flake8
-flake8 skill-package/scripts/ host_scripts/
+flake8 skill-package/scripts/ developer-tools/
 
 # 4. Commit if all pass ✅
 git add .
@@ -140,7 +140,7 @@ choco install gitleaks
 
 ## 📚 Full Documentation
 
-See [docs/guides/developer-guide/testing-guide.md](docs/guides/developer-guide/testing-guide.md) for:
+See [testing-guide.md](testing-guide.md) for:
 - Detailed test descriptions
 - How to run each test
 - How to add new tests
@@ -180,8 +180,8 @@ Add to README.md:
 ---
 
 **Quick Links:**
-- [Testing Guide](docs/guides/developer-guide/testing-guide.md) - Full documentation
-- [Contributing](CONTRIBUTING.md) - How to contribute
+- [Testing Guide](testing-guide.md) - Full documentation
+- [Contributing](../../../CONTRIBUTING.md) - How to contribute
 - [GitHub Actions](https://github.com/yourusername/claude-skill-template/actions) - View test runs
 
 ---

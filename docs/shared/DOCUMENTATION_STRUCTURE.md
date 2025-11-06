@@ -25,51 +25,53 @@ claude-skills-sdk-template/
 │   ├── db/
 │   └── logs/
 │
-├── 🛠️ host_scripts/ .................... [Automation tools]
+├── 🛠️ developer-tools/ .................. [Automation tools]
 │   ├── validate.py
-│   ├── release.sh
-│   └── setup-storage.sh
+│   ├── setup.sh
+│   ├── setup-storage.sh
+│   └── integrate-skill-creator.sh
+│
+├── 🏗️ sdk/ .............................. [SDK Infrastructure]
+│   ├── .github/workflows/
+│   ├── config/
+│   └── scripts/release.sh
 │
 └── 📚 docs/ ............................ [DOCUMENTATION HUB]
     │
-    ├── 📄 README.md .................... Navigation & Learning Paths
-    ├── 📄 CHANGELOG.md ................. Version History
+    ├── 📁 skill-developers/ ............ [FOR SKILL DEVELOPERS]
+    │   ├── 🎯 getting-started/ ......... [NEW USERS START HERE]
+    │   │   ├── 👋 WELCOME.md
+    │   │   ├── ⚡ QUICK_SETUP.md
+    │   │   ├── 🤖 CLAUDE_ONBOARDING_GUIDE.md
+    │   │   └── 📦 DEPENDENCIES.md
+    │   ├── 👤 user-guide/
+    │   │   └── 📖 setup.md
+    │   └── 🛠️ guides/ .................. [DEVELOPMENT GUIDES]
+    │       ├── 🏗️ architecture.md
+    │       ├── 💾 storage-selection.md
+    │       ├── 🔧 setup-scripts.md
+    │       ├── 🧪 testing-guide.md
+    │       └── ⚡ testing-quick-reference.md
     │
-    ├── 🎯 getting-started/ ............. [NEW USERS START HERE]
-    │   ├── 👋 WELCOME.md ............... Warm introduction
-    │   ├── ⚡ QUICK_SETUP.md ........... 5-minute setup
-    │   ├── 🤖 CLAUDE_ONBOARDING_GUIDE.md Interactive guide
-    │   └── 📦 DEPENDENCIES.md .......... Storage backends
+    ├── 📁 sdk-developers/ .............. [FOR SDK MAINTAINERS]
+    │   ├── 📄 README.md
+    │   └── 🎨 architecture/ ............ [ARCHITECTURE DOCS]
+    │       ├── 📐 SDK_DESIGN.md
+    │       ├── 💾 STORAGE_DESIGN.md
+    │       └── 🐙 GITHUB_STORAGE.md
     │
-    ├── 👤 user-guide/ .................. [FOR SKILL USERS]
-    │   └── 📖 setup.md ................. User configuration
-    │
-    ├── 🛠️ developer-guide/ ............. [FOR DEVELOPERS]
-    │   ├── 🏗️ architecture.md .......... System design
-    │   ├── 💾 storage-selection.md ..... Backend selection
-    │   ├── 🔧 setup-scripts.md ......... Automation guide
-    │   ├── 🧪 testing-guide.md ......... Comprehensive tests
-    │   └── ⚡ testing-quick-reference.md Quick commands
-    │
-    ├── 🎨 design/ ...................... [ARCHITECTURE DECISIONS]
-    │   ├── 📐 SDK_DESIGN.md ............ SDK architecture
-    │   ├── 💾 STORAGE_DESIGN.md ........ Storage system
-    │   └── 🐙 GITHUB_STORAGE.md ........ GitHub backend
-    │
-    ├── ✨ features/ .................... [PLANNING & ROADMAP]
-    │   ├── 📋 README.md ................ Features overview
-    │   ├── 📝 TEMPLATE.md .............. Feature template
-    │   └── 🗺️ roadmap.md ............... Development plan
-    │
-    ├── 📦 resources/ ................... [SDK MATERIALS]
-    │   ├── 📝 SDK-BLOG-POST.md ......... Blog post
-    │   ├── 📊 SDK-DOCS-SUMMARY.md ...... Docs summary
-    │   └── 🎤 SDK-PRESENTATION.md ...... Presentation
+    ├── 📁 shared/ ...................... [SHARED RESOURCES]
+    │   ├── 📄 CHANGELOG.md ............. Version History
+    │   ├── 📄 DOCUMENTATION_STRUCTURE.md This file
+    │   └── 📦 resources/ ............... [SDK MATERIALS]
+    │       ├── 📝 SDK-BLOG-POST.md
+    │       ├── 📊 SDK-DOCS-SUMMARY.md
+    │       └── 🎤 SDK-PRESENTATION.md
     │
     └── 📜 archives/ .................... [HISTORICAL FILES]
-        ├── 📄 REORGANIZATION_SUMMARY.md  This reorganization
-        ├── 📄 README_UPDATE_SUMMARY.md   README updates
-        └── 📁 session-archives/ ......... Old sessions
+        ├── 📄 REORGANIZATION_SUMMARY.md
+        ├── 📄 README_UPDATE_SUMMARY.md
+        └── 📁 session-archives/
 ```
 
 ---
@@ -83,8 +85,9 @@ claude-skills-sdk-template/
                      │
                      ↓
             ┌────────────────────────┐
-                     │  docs/README.md       │  ← Documentation Hub
-                     │  (Navigation Center)  │
+                     │  docs/shared/      │  ← Documentation Hub
+                     │  DOCUMENTATION_    │
+                     │  STRUCTURE.md      │
                      └───────────┬───────────┘
                                  │
                  ┌───────────────┼───────────────┐
@@ -96,6 +99,7 @@ claude-skills-sdk-template/
     └────────┬───────┘  └───────┬───────┘  └──────┬───────┘
              │                  │                  │
              ↓                  ↓                  ↓
+    skill-developers/   skill-developers/   skill-developers/
     getting-started/    getting-started/    getting-started/
     CLAUDE_ONBOARDING   QUICK_SETUP.md     DEPENDENCIES.md
              │                  │                  │
@@ -124,20 +128,20 @@ claude-skills-sdk-template/
 
 ### 🆕 New Users (First 30 minutes)
 ```
-START → docs/README.md
+START → docs/shared/DOCUMENTATION_STRUCTURE.md
           ↓
-       getting-started/WELCOME.md
+       skill-developers/getting-started/WELCOME.md
           ↓
-       getting-started/QUICK_SETUP.md
+       skill-developers/getting-started/QUICK_SETUP.md
           ↓
-       getting-started/CLAUDE_ONBOARDING_GUIDE.md
+       skill-developers/getting-started/CLAUDE_ONBOARDING_GUIDE.md
           ↓
        READY TO USE ✅
 ```
 
 ### 👤 Skill Users (Ongoing usage)
 ```
-user-guide/
+skill-developers/user-guide/
     ↓
 setup.md ← Configuration & Troubleshooting
     ↓
@@ -146,22 +150,17 @@ USING SKILL ✅
 
 ### 🛠️ Developers (Building & Extending)
 ```
-developer-guide/
+skill-developers/guides/
     ├── architecture.md ........... Understanding the system
     ├── storage-selection.md ...... Choosing storage
     ├── setup-scripts.md .......... Using automation
     ├── testing-guide.md .......... Running tests
     └── testing-quick-reference.md Quick commands
          ↓
-design/ ........................... Deep dives
+sdk-developers/architecture/ ....... Deep dives
     ├── SDK_DESIGN.md
     ├── STORAGE_DESIGN.md
     └── GITHUB_STORAGE.md
-         ↓
-features/ ......................... Planning
-    ├── README.md
-    ├── TEMPLATE.md
-    └── roadmap.md
          ↓
 CONTRIBUTING ✅
 ```
@@ -172,7 +171,7 @@ CONTRIBUTING ✅
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│ 🎯 getting-started/          [ONBOARDING]                      │
+│ 🎯 skill-developers/getting-started/  [ONBOARDING]            │
 ├─────────────────────────────────────────────────────────────────┤
 │ Purpose:  First contact for new users                          │
 │ Audience: Anyone seeing this template for the first time       │
@@ -181,7 +180,7 @@ CONTRIBUTING ✅
 └─────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────┐
-│ 👤 user-guide/               [USAGE]                           │
+│ 👤 skill-developers/user-guide/      [USAGE]                  │
 ├─────────────────────────────────────────────────────────────────┤
 │ Purpose:  Help users configure and use skills                  │
 │ Audience: Non-technical users, skill consumers                 │
@@ -190,7 +189,7 @@ CONTRIBUTING ✅
 └─────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────┐
-│ 🛠️ developer-guide/          [DEVELOPMENT]                     │
+│ 🛠️ skill-developers/guides/         [DEVELOPMENT]             │
 ├─────────────────────────────────────────────────────────────────┤
 │ Purpose:  Technical documentation for skill builders           │
 │ Audience: Developers extending or creating skills              │
@@ -199,25 +198,16 @@ CONTRIBUTING ✅
 └─────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────┐
-│ 🎨 design/                   [ARCHITECTURE]                    │
+│ 🎨 sdk-developers/architecture/      [SDK ARCHITECTURE]       │
 ├─────────────────────────────────────────────────────────────────┤
-│ Purpose:  Document design decisions and patterns               │
-│ Audience: Advanced developers, contributors                    │
-│ Goal:     Explain WHY things are built this way               │
+│ Purpose:  Document SDK design decisions and patterns           │
+│ Audience: SDK maintainers, advanced contributors               │
+│ Goal:     Explain WHY the SDK is built this way               │
 │ Files:    3 (SDK design, storage design, GitHub impl)          │
 └─────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────┐
-│ ✨ features/                 [PLANNING]                        │
-├─────────────────────────────────────────────────────────────────┤
-│ Purpose:  Track planned and requested features                 │
-│ Audience: Contributors, product planners                       │
-│ Goal:     Coordinate development priorities                    │
-│ Files:    3 (README, template, roadmap)                        │
-└─────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────┐
-│ 📦 resources/                [REFERENCE]                       │
+│ 📦 shared/resources/                 [REFERENCE]               │
 ├─────────────────────────────────────────────────────────────────┤
 │ Purpose:  SDK promotional and educational materials            │
 │ Audience: Everyone - marketing, education, overview            │
@@ -231,7 +221,7 @@ CONTRIBUTING ✅
 │ Purpose:  Store old versions and meta-documentation            │
 │ Audience: Maintainers, curious developers                      │
 │ Goal:     Preserve history and context                         │
-│ Files:    2 + session-archives/ folder                         │
+│ Files:    Multiple archived session files                      │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -301,31 +291,28 @@ getting-started/QUICK_SETUP.md Links To:
 ### Finding Documentation by Question
 
 **"How do I get started?"**
-→ `docs/getting-started/WELCOME.md`
+→ `docs/skill-developers/getting-started/WELCOME.md`
 
 **"What's the fastest way to set up?"**
-→ `docs/getting-started/QUICK_SETUP.md`
+→ `docs/skill-developers/getting-started/QUICK_SETUP.md`
 
 **"What storage backend should I use?"**
-→ `docs/getting-started/DEPENDENCIES.md`
+→ `docs/skill-developers/getting-started/DEPENDENCIES.md`
 
 **"How does the architecture work?"**
-→ `docs/developer-guide/architecture.md`
+→ `docs/skill-developers/guides/architecture.md`
 
 **"How do I run tests?"**
-→ `docs/developer-guide/testing-quick-reference.md`
+→ `docs/skill-developers/guides/testing-quick-reference.md`
 
 **"What's the design philosophy?"**
-→ `docs/design/SDK_DESIGN.md`
-
-**"What features are planned?"**
-→ `docs/features/roadmap.md`
+→ `docs/sdk-developers/architecture/SDK_DESIGN.md`
 
 **"How can I contribute?"**
 → Root: `CONTRIBUTING.md`
 
 **"What changed in this version?"**
-→ `docs/CHANGELOG.md`
+→ `docs/shared/CHANGELOG.md`
 
 ---
 
