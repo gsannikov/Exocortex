@@ -397,6 +397,106 @@ jobs:
         echo "✅ E2E test passed"
 
     # ========================================
+    # TEST 12: Root Folder Pollution Check
+    # ========================================
+    - name: Check for root folder pollution
+      run: |
+        echo "🔍 Checking for inappropriate files in root folder..."
+        python << 'PYTHON_SCRIPT'
+        import os
+        from pathlib import Path
+
+        # Files that ARE allowed in root
+        allowed_root_files = {
+            "README.md",
+            "LICENSE",
+            "CONTRIBUTING.md",
+            "CODE_OF_CONDUCT.md",
+            ".gitignore",
+            ".gitattributes",
+            "requirements.txt",
+            "requirements-dev.txt",
+            "package.json",
+            "package-lock.json",
+            "setup.py",
+            "setup.cfg",
+            "pyproject.toml",
+            "Makefile",
+        }
+
+        # Extensions that should NEVER be in root
+        forbidden_extensions = {
+            ".log",
+            ".tmp",
+            ".cache",
+        }
+
+        # Patterns in names that indicate session/analysis files
+        session_patterns = [
+            "SESSION",
+            "REPORT",
+            "SUMMARY",
+            "ANALYSIS",
+            "IMPROVEMENTS",
+            "NOTES",
+            "TODO",
+            "BUGS",
+        ]
+
+        errors = []
+        warnings = []
+
+        # Check all files in root
+        root_files = [f for f in os.listdir('.') if os.path.isfile(f)]
+
+        for file in root_files:
+            # Skip hidden files and allowed files
+            if file.startswith('.') or file in allowed_root_files:
+                continue
+
+            # Check for forbidden extensions
+            ext = Path(file).suffix.lower()
+            if ext in forbidden_extensions:
+                errors.append(f"Forbidden file type in root: {file}")
+                continue
+
+            # Check for session/analysis files (markdown/text)
+            if ext in ['.md', '.txt']:
+                file_upper = file.upper()
+                for pattern in session_patterns:
+                    if pattern in file_upper:
+                        errors.append(
+                            f"Session/analysis file in root: {file}\n"
+                            f"  → Should be in docs/archives/ or appropriate subfolder"
+                        )
+                        break
+                else:
+                    # Generic markdown/text file not in allowed list
+                    warnings.append(
+                        f"Unexpected file in root: {file}\n"
+                        f"  → Consider moving to docs/ or appropriate subfolder"
+                    )
+
+        if errors:
+            print("❌ Root folder pollution detected:")
+            for error in errors:
+                print(f"  • {error}")
+            print("\nGuidelines:")
+            print("  - Session reports → docs/archives/")
+            print("  - Documentation → docs/")
+            print("  - Scripts → host_scripts/")
+            print("  - Config → config/")
+            exit(1)
+        elif warnings:
+            print("⚠️ Warnings about root folder files:")
+            for warning in warnings:
+                print(f"  • {warning}")
+            print("\n✅ No critical issues, but consider organizing these files")
+        else:
+            print("✅ Root folder is clean and organized")
+        PYTHON_SCRIPT
+
+    # ========================================
     # TEST Summary
     # ========================================
     - name: Test Summary
@@ -418,6 +518,7 @@ jobs:
         echo "✅ Test 9:  Code Linting (Flake8)"
         echo "✅ Test 10: Secrets & Private Data Detection"
         echo "✅ Test 11: E2E Template Test"
+        echo "✅ Test 12: Root Folder Organization"
         echo ""
         echo "🎉 All comprehensive tests completed!"
         echo ""
