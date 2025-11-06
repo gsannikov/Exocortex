@@ -214,10 +214,10 @@ jobs:
         from pathlib import Path
 
         required_sections = {
-            "README.md": ["Quick Start", "Documentation", "License"],
+            "README.md": ["Quick Start", "Quick Navigation", "License"],
             "skill-package/SKILL.md": ["Overview", "Storage Configuration"],
-            "DEPENDENCIES.md": ["Storage", "Backend"],
-            "CONTRIBUTING.md": ["Contributing"],
+            "docs/getting-started/DEPENDENCIES.md": ["Storage", "Backend"],
+            "CONTRIBUTING.md": ["Contribute", "Contributing"],
         }
 
         errors = []
@@ -230,7 +230,7 @@ jobs:
             content = file_path.read_text()
             for section in sections:
                 # Check for section headers (## Section or # Section)
-                pattern = rf"^#{1,4}\s+.*{section}"
+                pattern = rf"^#{{1,4}}\s+.*{section}"
                 if not re.search(pattern, content, re.MULTILINE | re.IGNORECASE):
                     errors.append(f"{file}: Missing section \"{section}\"")
 
