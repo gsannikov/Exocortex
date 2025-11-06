@@ -65,31 +65,36 @@ A **production-ready framework** for building Claude Skills featuring:
 
 ```
 claude-skills-sdk/
-├── skill-package/          # Upload to Claude (read-only)
-│   ├── SKILL.md           # Main skill definition
-│   ├── config/            # Configuration
-│   ├── scripts/           # Python utilities (storage.py)
-│   ├── modules/           # Optional skill modules
-│   └── examples/          # Example skills
+├── skill-package/              # Upload to Claude (read-only)
+│   ├── SKILL.md               # Main skill definition
+│   ├── config/                # Configuration
+│   ├── scripts/               # Python utilities (storage.py)
+│   ├── modules/               # Optional skill modules
+│   ├── examples/              # Example skills
+│   └── user-data-templates/   # Templates to copy to user-data/
+│       ├── config/            # Configuration templates
+│       ├── db/                # Database directory
+│       └── logs/              # Logs directory
 │
-├── user-data-templates/   # Copy to user-data/
-│   ├── config/            # Configuration templates
-│   ├── db/                # Database directory
-│   └── logs/              # Logs directory
+├── user-data/                 # Your data (created from templates)
+│   ├── config/                # Your configuration
+│   ├── db/                    # Your database
+│   └── logs/                  # Your logs
 │
-├── docs/                  # Documentation (see docs/README.md)
-│   ├── getting-started/   # New user onboarding
-│   ├── user-guide/        # Usage documentation
-│   ├── developer-guide/   # Development docs
-│   ├── design/            # Architecture decisions
-│   ├── features/          # Feature planning
-│   ├── resources/         # SDK materials
-│   └── archives/          # Historical files
+├── docs/                      # Documentation (see docs/README.md)
+│   ├── getting-started/       # New user onboarding
+│   ├── user-guide/            # Usage documentation
+│   ├── developer-guide/       # Development docs
+│   ├── design/                # Architecture decisions
+│   ├── features/              # Feature planning
+│   ├── resources/             # SDK materials
+│   └── archives/              # Historical files
 │
-├── host_scripts/          # Automation scripts
-│   ├── validate.py        # Validate structure
-│   ├── release.sh         # Create releases
-│   └── setup-storage.sh   # Setup storage
+├── host_scripts/              # Automation scripts (run from repo root)
+│   ├── validate.py            # Validate structure
+│   ├── release.sh             # Create releases
+│   ├── setup-storage.sh       # Setup storage
+│   └── integrate-skill-creator.sh  # Integrate skill-creator
 │
 └── [Root Documentation]
     ├── README.md (this file)
@@ -109,7 +114,7 @@ git clone https://github.com/yourusername/claude-skills-sdk.git
 cd claude-skills-sdk
 
 # 2. Set up user data
-cp -r user-data-templates user-data
+cp -r skill-package/user-data-templates user-data
 cd user-data/config
 cp storage-config-template.yaml storage-config.yaml
 
@@ -123,8 +128,8 @@ cd ../..
 python host_scripts/validate.py
 
 # 5. (Optional) Integrate skill-creator
-chmod +x scripts/integrate-skill-creator.sh
-./scripts/integrate-skill-creator.sh
+chmod +x host_scripts/integrate-skill-creator.sh
+./host_scripts/integrate-skill-creator.sh
 
 # 6. Upload skill-package/ to Claude Desktop
 ```
@@ -157,10 +162,10 @@ python host_scripts/validate.py
 ./host_scripts/release.sh 1.1.0
 
 # Integrate official skill-creator
-./scripts/integrate-skill-creator.sh
+./host_scripts/integrate-skill-creator.sh
 
 # Setup storage backend
-./scripts/setup-storage.sh
+./host_scripts/setup-storage.sh
 ```
 
 ---

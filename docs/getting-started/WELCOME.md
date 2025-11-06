@@ -67,7 +67,7 @@ Or jump straight to the full docs: [README.md](../README.md)
 
 ```bash
 # Set up storage backend
-cp -r user-data-templates user-data
+cp -r skill-package/user-data-templates user-data
 cd user-data/config
 cp storage-config-template.yaml storage-config.yaml
 # Edit storage-config.yaml with your settings
@@ -76,8 +76,8 @@ cp storage-config-template.yaml storage-config.yaml
 python host_scripts/validate.py
 
 # Integrate official skill-creator (optional)
-chmod +x integrate-skill-creator.sh
-./integrate-skill-creator.sh
+chmod +x host_scripts/integrate-skill-creator.sh
+./host_scripts/integrate-skill-creator.sh
 
 # Create a release
 ./host_scripts/release.sh 1.1.0

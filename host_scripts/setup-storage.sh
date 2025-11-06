@@ -33,7 +33,7 @@ echo ""
 # Create user-data from templates
 if [ ! -d "$USER_DATA_DIR" ]; then
     echo "Creating user-data directory..."
-    cp -r user-data-templates "$USER_DATA_DIR"
+    cp -r skill-package/user-data-templates "$USER_DATA_DIR"
     echo "✅ Created user-data/"
 else
     echo "✅ user-data/ already exists"

@@ -12,8 +12,8 @@ unzip skill-package-vX.Y.Z.zip
 cd skill-package-vX.Y.Z
 
 # 2. Run auto-setup
-chmod +x scripts/setup-storage.sh
-./scripts/setup-storage.sh
+chmod +x host_scripts/setup-storage.sh
+./host_scripts/setup-storage.sh
 
 # 3. Restart Claude Desktop
 # macOS: Cmd+Q, then reopen
@@ -36,7 +36,7 @@ chmod +x scripts/setup-storage.sh
 
 ### Step 1: Create User Data
 ```bash
-cp -r user-data-templates user-data
+cp -r skill-package/user-data-templates user-data
 ```
 
 ### Step 2: Update Paths

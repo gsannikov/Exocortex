@@ -220,7 +220,7 @@ Tell them:
 **For Local Filesystem (most common):**
 ```bash
 # 1. Copy template
-cp -r user-data-templates user-data
+cp -r skill-package/user-data-templates user-data
 
 # 2. Create config
 cd user-data/config
@@ -321,7 +321,7 @@ Since you're just getting started, I recommend **Local Filesystem** - it's the s
 
 Run these commands from your template directory:
 ```bash
-cp -r user-data-templates user-data
+cp -r skill-package/user-data-templates user-data
 cd user-data/config
 cp storage-config-template.yaml storage-config.yaml
 ```

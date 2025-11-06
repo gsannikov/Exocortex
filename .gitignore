@@ -6,7 +6,7 @@
 # ============================================================================
 
 # Safety net: Ignore entire user-data directory
-# (Templates are in user-data-templates and ARE committed)
+# (Templates are in skill-package/user-data-templates and ARE committed)
 user-data/
 !user-data/.gitkeep
 
@@ -20,7 +20,7 @@ user-data/config/*.yaml
 
 # Storage credentials (CRITICAL - CONTAINS TOKENS/PASSWORDS)
 **/storage-config.yaml
-user-data-templates/config/storage-config.yaml
+skill-package/user-data-templates/config/storage-config.yaml
 *.secret
 *.key
 *-token.txt
