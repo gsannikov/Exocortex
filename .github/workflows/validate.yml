@@ -72,16 +72,31 @@ jobs:
           import yaml
           import glob
           import sys
-          
+          import re
+
+          def parse_yaml_with_frontmatter(content):
+              '''Parse YAML that may have frontmatter followed by Markdown.'''
+              # Check if file starts with --- (frontmatter pattern)
+              if content.startswith('---'):
+                  # Find the closing --- marker
+                  # Match from after first --- to the next ---
+                  match = re.match(r'^---\n(.*?)\n---', content, re.DOTALL)
+                  if match:
+                      # Only parse the frontmatter YAML portion
+                      return yaml.safe_load(match.group(1))
+              # If no frontmatter, parse entire file
+              return yaml.safe_load(content)
+
           errors = []
           for f in glob.glob('packages/${{ matrix.skill }}/**/*.yaml', recursive=True):
               try:
                   with open(f) as file:
-                      yaml.safe_load(file)
+                      content = file.read()
+                      parse_yaml_with_frontmatter(content)
                   print(f'✅ {f}')
               except Exception as e:
                   errors.append(f'❌ {f}: {e}')
-          
+
           if errors:
               for e in errors:
                   print(e)
@@ -92,14 +107,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+
       - name: Check Python syntax
         run: |
+          echo "=== Checking shared scripts ==="
           python -m py_compile shared/scripts/release.py
           python -m py_compile shared/scripts/skill_generator.py
-          echo "✅ Python scripts syntax OK"
+          python -m py_compile shared/scripts/yaml_utils.py
+          python -m py_compile shared/scripts/slug_utils.py
+          python -m py_compile shared/scripts/token_estimator.py
+
+          echo "=== Checking career-consultant scripts ==="
+          for f in packages/career-consultant/scripts/*.py; do
+            python -m py_compile "$f"
+          done
+
+          echo "=== Checking local-rag scripts ==="
+          for f in packages/local-rag/scripts/*.py packages/local-rag/scripts/ingest/*.py; do
+            python -m py_compile "$f"
+          done
+
+          echo "✅ All Python scripts syntax OK"
