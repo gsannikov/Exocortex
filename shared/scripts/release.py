@@ -22,7 +22,7 @@ SKILL_CONFIG = {
     'career-consultant': {
         'has_host_scripts': True,
         'has_tests': True,
-        'version_file': 'skill-package/config/version.yaml',
+        'version_file': 'version.yaml',
         'changelog': 'CHANGELOG.md',
     },
     'reading-list': {

@@ -38,11 +38,14 @@ jobs:
           # Check required files
           echo "Checking ${{ matrix.skill }}..."
           
-          if [ ! -f "$SKILL_DIR/skill-package/SKILL.md" ]; then
+          if [ -f "$SKILL_DIR/SKILL.md" ]; then
+            echo "✅ SKILL.md exists (root)"
+          elif [ -f "$SKILL_DIR/skill-package/SKILL.md" ]; then
+             echo "✅ SKILL.md exists (skill-package)"
+          else
             echo "❌ Missing SKILL.md"
             exit 1
           fi
-          echo "✅ SKILL.md exists"
           
           if [ ! -f "$SKILL_DIR/README.md" ]; then
             echo "⚠️ Missing README.md (recommended)"
@@ -51,7 +54,7 @@ jobs:
           fi
           
           # Check for version file
-          if [ -f "$SKILL_DIR/skill-package/version.yaml" ] || [ -f "$SKILL_DIR/skill-package/config/version.yaml" ]; then
+          if [ -f "$SKILL_DIR/version.yaml" ] || [ -f "$SKILL_DIR/skill-package/version.yaml" ] || [ -f "$SKILL_DIR/skill-package/config/version.yaml" ]; then
             echo "✅ version.yaml exists"
           else
             echo "⚠️ Missing version.yaml (recommended)"

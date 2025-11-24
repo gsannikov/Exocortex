@@ -6,10 +6,14 @@ from pathlib import Path
 
 import pytest
 
-# Add skill-package/scripts to path for imports
-REPO_ROOT = Path(__file__).parent.parent
-SKILL_SCRIPTS_DIR = REPO_ROOT / "skill-package" / "scripts"
+# Add scripts to path for imports
+PACKAGE_ROOT = Path(__file__).parent.parent
+REPO_ROOT = PACKAGE_ROOT.parent.parent
+SKILL_SCRIPTS_DIR = PACKAGE_ROOT / "scripts"
+SHARED_SCRIPTS_DIR = REPO_ROOT / "shared" / "scripts"
+
 sys.path.insert(0, str(SKILL_SCRIPTS_DIR))
+sys.path.insert(0, str(SHARED_SCRIPTS_DIR))
 
 
 @pytest.fixture
