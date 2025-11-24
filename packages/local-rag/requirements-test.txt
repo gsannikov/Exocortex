@@ -1,0 +1,16 @@
+# Testing dependencies for 2ndBrain_RAG
+
+# Core testing framework
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.1
+pytest-asyncio>=0.21.1
+
+# Test utilities
+Pillow>=10.0.0  # For image testing
+
+# Code quality
+ruff>=0.1.0
+
+# Coverage reporting
+coverage[toml]>=7.3.0

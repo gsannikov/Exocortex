@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "local-rag": {
+      "command": "python",
+      "args": [
+        "-u",
+        "mcp_server.py"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  }
+}

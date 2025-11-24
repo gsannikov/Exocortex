@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        skill: [career-consultant, reading-list, ideas-capture, voice-memos]
+        skill: [career-consultant, reading-list, ideas-capture, voice-memos, local-rag]
     
     steps:
       - uses: actions/checkout@v4
@@ -39,11 +39,9 @@ jobs:
           echo "Checking ${{ matrix.skill }}..."
           
           if [ -f "$SKILL_DIR/SKILL.md" ]; then
-            echo "✅ SKILL.md exists (root)"
-          elif [ -f "$SKILL_DIR/skill-package/SKILL.md" ]; then
-             echo "✅ SKILL.md exists (skill-package)"
+            echo "✅ SKILL.md exists"
           else
-            echo "❌ Missing SKILL.md"
+            echo "❌ Missing SKILL.md (must be in package root)"
             exit 1
           fi
           
@@ -52,12 +50,18 @@ jobs:
           else
             echo "✅ README.md exists"
           fi
+
+          if [ ! -f "$SKILL_DIR/AI_GUIDE.md" ]; then
+            echo "⚠️ Missing AI_GUIDE.md (recommended)"
+          else
+            echo "✅ AI_GUIDE.md exists"
+          fi
           
           # Check for version file
-          if [ -f "$SKILL_DIR/version.yaml" ] || [ -f "$SKILL_DIR/skill-package/version.yaml" ] || [ -f "$SKILL_DIR/skill-package/config/version.yaml" ]; then
+          if [ -f "$SKILL_DIR/version.yaml" ]; then
             echo "✅ version.yaml exists"
           else
-            echo "⚠️ Missing version.yaml (recommended)"
+            echo "⚠️ Missing version.yaml (recommended in package root)"
           fi
           
           echo "✅ ${{ matrix.skill }} validation passed"

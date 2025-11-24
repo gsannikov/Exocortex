@@ -1,0 +1,396 @@
+{
+  "project": {
+    "name": "2ndBrain_RAG",
+    "description": "Local Retrieval-Augmented Generation (RAG) system with Ollama chat integration",
+    "version": "1.0",
+    "status": "development",
+    "created": "2025-10-22",
+    "license": "MIT"
+  },
+  "semantic_index": {
+    "core_concepts": [
+      {
+        "term": "RAG (Retrieval-Augmented Generation)",
+        "definition": "Pattern where LLM answers questions using context from retrieved documents",
+        "files": ["CLAUDE_GUIDE.md", "PROJECT_DISCOVERY.md", "ARCHITECTURE.md"],
+        "importance": "critical"
+      },
+      {
+        "term": "Vector Database (ChromaDB)",
+        "definition": "Storage system for semantic embeddings, enables similarity search",
+        "files": ["ARCHITECTURE.md", "CODE_AUDIT.md"],
+        "importance": "critical"
+      },
+      {
+        "term": "Embedding Model (sentence-transformers)",
+        "definition": "Converts text to 384-dimensional vectors for semantic comparison",
+        "files": ["CLAUDE_GUIDE.md", "ARCHITECTURE.md"],
+        "importance": "critical"
+      },
+      {
+        "term": "Local LLM Integration (Ollama)",
+        "definition": "Running language models locally without cloud APIs",
+        "files": ["CLAUDE_GUIDE.md", "ARCHITECTURE.md", "CODE_AUDIT.md"],
+        "importance": "critical"
+      },
+      {
+        "term": "File System Watching",
+        "definition": "Monitoring document folder for changes and triggering reindexing",
+        "files": ["ARCHITECTURE.md", "CODE_AUDIT.md"],
+        "importance": "high"
+      },
+      {
+        "term": "MCP Protocol",
+        "definition": "Model Context Protocol for integrating with Claude Desktop",
+        "files": ["CLAUDE_GUIDE.md", "README.md"],
+        "importance": "high"
+      }
+    ],
+    "components": [
+      {
+        "name": "FastAPI Application",
+        "file": "rag_mcp_server.py",
+        "lines": "1-86",
+        "responsibility": "HTTP API, request routing, component initialization",
+        "key_functions": ["status", "ingest", "search", "chat"],
+        "related_docs": ["CLAUDE_GUIDE.md", "ARCHITECTURE.md", "CODE_AUDIT.md"]
+      },
+      {
+        "name": "Document Loader",
+        "file": "utils/loader.py",
+        "lines": "1-36",
+        "responsibility": "File discovery, document parsing, text chunking",
+        "key_functions": ["load_documents", "_iter_files"],
+        "related_docs": ["ARCHITECTURE.md", "CODE_AUDIT.md"]
+      },
+      {
+        "name": "Embedder",
+        "file": "utils/embedder.py",
+        "lines": "1-21",
+        "responsibility": "Vector database operations, persistence",
+        "key_functions": ["upsert_documents", "reset_index"],
+        "related_docs": ["ARCHITECTURE.md", "CODE_AUDIT.md"]
+      },
+      {
+        "name": "LLM Integration",
+        "file": "utils/llm.py",
+        "lines": "1-24",
+        "responsibility": "Communication with Ollama for chat responses",
+        "key_functions": ["ollama_chat"],
+        "related_docs": ["ARCHITECTURE.md", "CODE_AUDIT.md"]
+      },
+      {
+        "name": "File Watcher",
+        "file": "utils/watcher.py",
+        "lines": "1-34",
+        "responsibility": "Real-time document index updates",
+        "key_functions": ["RAGHandler", "start_watcher"],
+        "related_docs": ["ARCHITECTURE.md", "CODE_AUDIT.md"]
+      }
+    ],
+    "apis": [
+      {
+        "method": "GET",
+        "path": "/status",
+        "description": "Check indexing status",
+        "returns": "rag_path, db_path, documents_indexed",
+        "security": "None (current)",
+        "example": "curl http://localhost:8000/status"
+      },
+      {
+        "method": "POST",
+        "path": "/ingest",
+        "description": "Load and index documents",
+        "params": "full_rebuild (bool)",
+        "returns": "status, indexed_chunks, source_path",
+        "security": "None (current)",
+        "example": "curl -X POST http://localhost:8000/ingest"
+      },
+      {
+        "method": "GET",
+        "path": "/search",
+        "description": "Semantic document search",
+        "params": "q (string), k (int, default 5)",
+        "returns": "query, results with source and content",
+        "security": "None (current)",
+        "example": "curl 'http://localhost:8000/search?q=machine+learning&k=5'"
+      },
+      {
+        "method": "POST",
+        "path": "/chat",
+        "description": "RAG-based question answering",
+        "body": "ChatRequest{query, k, system?, model?}",
+        "returns": "answer, citations list",
+        "security": "None (current)",
+        "example": "curl -X POST http://localhost:8000/chat -d '{\"query\": \"What is RAG?\"}'"
+      }
+    ],
+    "data_flows": [
+      {
+        "name": "Indexing Pipeline",
+        "trigger": "POST /ingest",
+        "steps": ["Load files from RAG_PATH", "Parse documents", "Chunk text", "Generate embeddings", "Store in ChromaDB"],
+        "files": ["rag_mcp_server.py:44-50", "utils/loader.py", "utils/embedder.py"]
+      },
+      {
+        "name": "Search Query",
+        "trigger": "GET /search?q=...",
+        "steps": ["Receive query", "Embed query text", "Find similar vectors", "Return with metadata"],
+        "files": ["rag_mcp_server.py:52-62", "utils/embedder.py"]
+      },
+      {
+        "name": "Chat with RAG",
+        "trigger": "POST /chat",
+        "steps": ["Receive query", "Search for context", "Format prompt with citations", "Call Ollama", "Return answer"],
+        "files": ["rag_mcp_server.py:64-80", "utils/llm.py"]
+      },
+      {
+        "name": "File Monitoring",
+        "trigger": "File system events",
+        "steps": ["Detect file change", "Reload all documents", "Reindex into ChromaDB", "Log status"],
+        "files": ["rag_mcp_server.py:83", "utils/watcher.py"]
+      }
+    ],
+    "configuration": {
+      "environment_variables": [
+        {
+          "name": "RAG_FOLDER",
+          "default": "~/2ndBrain_RAG",
+          "description": "Directory containing documents to index"
+        },
+        {
+          "name": "OLLAMA_HOST",
+          "default": "http://localhost:11434",
+          "description": "Ollama API endpoint"
+        },
+        {
+          "name": "OLLAMA_MODEL",
+          "default": "llama3",
+          "description": "LLM model name to use"
+        }
+      ],
+      "code_parameters": [
+        {
+          "file": "utils/loader.py",
+          "line": 20,
+          "param": "chunk_size",
+          "default": 800,
+          "description": "Characters per text chunk"
+        },
+        {
+          "file": "utils/loader.py",
+          "line": 20,
+          "param": "chunk_overlap",
+          "default": 120,
+          "description": "Overlap between chunks"
+        },
+        {
+          "file": "rag_mcp_server.py",
+          "line": 32,
+          "param": "embedding_model",
+          "default": "sentence-transformers/all-MiniLM-L6-v2",
+          "description": "HuggingFace embedding model name"
+        }
+      ]
+    },
+    "error_patterns": [
+      {
+        "symptom": "Ollama error message in response",
+        "root_cause": "Ollama service not running or model not pulled",
+        "fix": "Start Ollama: 'ollama serve' and pull model: 'ollama pull llama3'",
+        "file": "utils/llm.py"
+      },
+      {
+        "symptom": "Port 8000 already in use",
+        "root_cause": "Another service using the same port",
+        "fix": "Use --port flag: uvicorn rag_mcp_server:app --port 8001",
+        "file": "rag_mcp_server.py"
+      },
+      {
+        "symptom": "Search returns no results",
+        "root_cause": "Documents not indexed or wrong query",
+        "fix": "Run POST /ingest?full_rebuild=true and verify /status shows documents",
+        "file": "rag_mcp_server.py"
+      },
+      {
+        "symptom": "File changes not triggering reindex",
+        "root_cause": "Watcher not detecting changes or file permissions issue",
+        "fix": "Check file extension in SUPPORTED_EXTS and verify folder permissions",
+        "file": "utils/watcher.py"
+      }
+    ],
+    "dependencies": [
+      {
+        "name": "fastapi",
+        "purpose": "REST API framework",
+        "security_critical": false
+      },
+      {
+        "name": "uvicorn",
+        "purpose": "ASGI server",
+        "security_critical": false
+      },
+      {
+        "name": "langchain",
+        "purpose": "Document processing",
+        "security_critical": false
+      },
+      {
+        "name": "chromadb",
+        "purpose": "Vector database",
+        "security_critical": false
+      },
+      {
+        "name": "sentence-transformers",
+        "purpose": "Text embeddings",
+        "security_critical": false
+      },
+      {
+        "name": "unstructured",
+        "purpose": "Document parsing",
+        "security_critical": false
+      },
+      {
+        "name": "watchdog",
+        "purpose": "File system monitoring",
+        "security_critical": false
+      },
+      {
+        "name": "requests",
+        "purpose": "HTTP client",
+        "security_critical": false
+      }
+    ],
+    "security_issues": [
+      {
+        "severity": "HIGH",
+        "issue": "No API authentication",
+        "impact": "Anyone with network access can use endpoints",
+        "fix_priority": "P0",
+        "fix_location": "rag_mcp_server.py"
+      },
+      {
+        "severity": "HIGH",
+        "issue": "Unbounded query parameters",
+        "impact": "DoS via large queries or k values",
+        "fix_priority": "P0",
+        "fix_location": "rag_mcp_server.py:53-54, 18-20"
+      },
+      {
+        "severity": "MEDIUM",
+        "issue": "Path traversal via symlinks",
+        "impact": "Could read files outside RAG_FOLDER",
+        "fix_priority": "P0",
+        "fix_location": "utils/loader.py:12-17"
+      },
+      {
+        "severity": "MEDIUM",
+        "issue": "Race conditions in threading",
+        "impact": "Concurrent access to ChromaDB during reindex",
+        "fix_priority": "P1",
+        "fix_location": "rag_mcp_server.py:83, utils/watcher.py"
+      }
+    ],
+    "performance_characteristics": {
+      "startup_time": "~2 seconds",
+      "search_latency": "100-200ms for 100k documents",
+      "chat_latency": "3-30 seconds (dominated by Ollama model)",
+      "memory_usage": "200-500MB depending on document size",
+      "index_size": "~1.5KB per document chunk",
+      "bottlenecks": [
+        "File reindexing loads all documents (O(n))",
+        "No query caching",
+        "Ollama response time (external)"
+      ]
+    },
+    "testing": {
+      "current_coverage": "0% (no tests)",
+      "test_files": [],
+      "recommended_tests": [
+        "test_loader.py - Document loading and chunking",
+        "test_embedder.py - Vector database operations",
+        "test_api.py - HTTP endpoints",
+        "test_watcher.py - File monitoring",
+        "test_llm.py - Ollama integration"
+      ]
+    }
+  },
+  "documentation": {
+    "files": [
+      {
+        "name": "README.md",
+        "purpose": "User quickstart guide",
+        "audience": "End users",
+        "key_sections": ["Install", "Run", "Endpoints", "Claude Desktop"]
+      },
+      {
+        "name": "CLAUDE_GUIDE.md",
+        "purpose": "Claude AI integration and decision-making guide",
+        "audience": "Claude AI, developers",
+        "key_sections": ["Architecture", "Components", "Common Tasks", "API Usage"]
+      },
+      {
+        "name": "ARCHITECTURE.md",
+        "purpose": "Deep technical architecture documentation",
+        "audience": "Developers, architects",
+        "key_sections": ["System Design", "Components", "Data Structures", "Scaling"]
+      },
+      {
+        "name": "CODE_AUDIT.md",
+        "purpose": "Code quality and security audit",
+        "audience": "Developers, security reviewers",
+        "key_sections": ["Quality Metrics", "Security Issues", "Performance", "Recommendations"]
+      },
+      {
+        "name": "PROJECT_DISCOVERY.md",
+        "purpose": "Project intent, vision, and context",
+        "audience": "Stakeholders, developers",
+        "key_sections": ["What It Does", "Why Build", "Success Criteria", "Roadmap"]
+      },
+      {
+        "name": "DEVELOPMENT.md",
+        "purpose": "Contributing and development guidelines",
+        "audience": "Contributors",
+        "key_sections": ["Setup", "Development Workflow", "Testing", "Contributing"]
+      },
+      {
+        "name": "QUICK_REF.md",
+        "purpose": "Quick reference for common operations",
+        "audience": "All users",
+        "key_sections": ["API Reference", "Configuration", "Troubleshooting"]
+      },
+      {
+        "name": ".claude/context.md",
+        "purpose": "Context priming for Claude AI",
+        "audience": "Claude AI",
+        "key_sections": ["TL;DR", "Essential Context", "Quick Reference"]
+      }
+    ]
+  },
+  "development_roadmap": {
+    "phase_1": {
+      "name": "Current",
+      "target_date": "Oct 2025",
+      "status": "complete",
+      "deliverables": ["Core RAG working", "MCP integration", "Documentation"]
+    },
+    "phase_2": {
+      "name": "Hardening",
+      "target_date": "Nov 2025",
+      "status": "planned",
+      "deliverables": ["Authentication", "Input validation", "Error recovery", "Testing"]
+    },
+    "phase_3": {
+      "name": "Scaling",
+      "target_date": "Q1 2026",
+      "status": "planned",
+      "deliverables": ["Incremental indexing", "Query caching", "Dashboard"]
+    },
+    "phase_4": {
+      "name": "Advanced Features",
+      "target_date": "Q2+ 2026",
+      "status": "planned",
+      "deliverables": ["Multi-modal RAG", "Graph retrieval", "Conversation history"]
+    }
+  }
+}
