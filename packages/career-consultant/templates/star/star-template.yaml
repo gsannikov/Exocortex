@@ -17,7 +17,7 @@ version: 1
 
 competencies:
   # Primary skills demonstrated in this story
-  # Common values: leadership, technical-leadership, problem-solving, 
+  # Common values: leadership, technical-leadership, problem-solving,
   # communication, conflict-resolution, innovation, system-architecture,
   # cross-team-collaboration, risk-management, mentorship, decision-making
   - competency-1
@@ -85,83 +85,86 @@ interview_outcomes:
   #   date: "YYYY-MM-DD"
   #   feedback: "Optional feedback"
 
----
+# ============================================================
+# STORY CONTENT (Markdown)
+# ============================================================
 
-# Story: [Brief Title]
+content: |
+  # Story: [Brief Title]
 
-## One-Line Summary
-[1 sentence capturing the essence of the story - what you did and the impact]
+  ## One-Line Summary
+  [1 sentence capturing the essence of the story - what you did and the impact]
 
-## Situation
-[2-4 sentences setting the context]
+  ## Situation
+  [2-4 sentences setting the context]
 
-**Context Details:**
-- Platform/Product: [What system/product were you working on?]
-- Team size: [How many people?]
-- Timeframe: [When did this happen? How long did it take?]
-- Business context: [What was the business situation?]
-- Challenge: [What made this situation notable or difficult?]
+  **Context Details:**
+  - Platform/Product: [What system/product were you working on?]
+  - Team size: [How many people?]
+  - Timeframe: [When did this happen? How long did it take?]
+  - Business context: [What was the business situation?]
+  - Challenge: [What made this situation notable or difficult?]
 
-## Task
-[1-3 sentences describing YOUR specific responsibility]
+  ## Task
+  [1-3 sentences describing YOUR specific responsibility]
 
-**Your Role:**
-- Responsibility: [What were you specifically asked to do?]
-- Constraints: [What limitations did you face?]
-- Goals: [What were the success criteria?]
-- Why you: [Why were you chosen for this task?]
+  **Your Role:**
+  - Responsibility: [What were you specifically asked to do?]
+  - Constraints: [What limitations did you face?]
+  - Goals: [What were the success criteria?]
+  - Why you: [Why were you chosen for this task?]
 
-## Action
-[3-8 bullet points of specific steps you took]
+  ## Action
+  [3-8 bullet points of specific steps you took]
 
-**What You Did:**
-- Step 1: [First major action]
-- Step 2: [Second major action]
-- Step 3: [Third major action]
-- [Continue as needed...]
+  **What You Did:**
+  - Step 1: [First major action]
+  - Step 2: [Second major action]
+  - Step 3: [Third major action]
+  - [Continue as needed...]
 
-**Key Decisions:**
-- Decision 1: [Important choice you made and why]
-- Decision 2: [Another key decision]
+  **Key Decisions:**
+  - Decision 1: [Important choice you made and why]
+  - Decision 2: [Another key decision]
 
-**Challenges Faced:**
-- Challenge: [Problem encountered]
-  - Solution: [How you addressed it]
+  **Challenges Faced:**
+  - Challenge: [Problem encountered]
+    - Solution: [How you addressed it]
 
-## Result
-[2-4 sentences describing outcomes with quantifiable metrics]
+  ## Result
+  [2-4 sentences describing outcomes with quantifiable metrics]
 
-**Immediate Outcomes:**
-- ✅ Metric 1: [Quantifiable result]
-- ✅ Metric 2: [Another measurable outcome]
-- ✅ Metric 3: [Third measurable result]
+  **Immediate Outcomes:**
+  - ✅ Metric 1: [Quantifiable result]
+  - ✅ Metric 2: [Another measurable outcome]
+  - ✅ Metric 3: [Third measurable result]
 
-**Business Impact:**
-- Revenue/Cost: [Financial impact if applicable]
-- Efficiency: [Time/resource improvements]
-- Quality: [Improvements in quality metrics]
+  **Business Impact:**
+  - Revenue/Cost: [Financial impact if applicable]
+  - Efficiency: [Time/resource improvements]
+  - Quality: [Improvements in quality metrics]
 
-**Personal Growth:**
-- Skills learned: [New capabilities developed]
-- Lessons: [Key takeaways]
+  **Personal Growth:**
+  - Skills learned: [New capabilities developed]
+  - Lessons: [Key takeaways]
 
-**Long-term Effects:**
-- [Lasting impact on team/organization]
-- [Future opportunities created]
+  **Long-term Effects:**
+  - [Lasting impact on team/organization]
+  - [Future opportunities created]
 
-## Key Takeaways
-1. **Lesson 1:** [Important principle learned]
-2. **Lesson 2:** [Another key insight]
-3. **Lesson 3:** [Third takeaway]
+  ## Key Takeaways
+  1. **Lesson 1:** [Important principle learned]
+  2. **Lesson 2:** [Another key insight]
+  3. **Lesson 3:** [Third takeaway]
 
-## Interview Delivery Tips
-- **Timing:** Aim for [X] minutes for full version, [Y] seconds for summary
-- **Emphasize:** [What aspects to highlight]
-- **Show:** [What skills/qualities this demonstrates]
-- **Connect:** [How this relates to common interview topics]
-- **Avoid:** [What pitfalls to avoid when telling this story]
+  ## Interview Delivery Tips
+  - **Timing:** Aim for [X] minutes for full version, [Y] seconds for summary
+  - **Emphasize:** [What aspects to highlight]
+  - **Show:** [What skills/qualities this demonstrates]
+  - **Connect:** [How this relates to common interview topics]
+  - **Avoid:** [What pitfalls to avoid when telling this story]
 
-## Variations by Question Type
-- **"[Common Question 1]"** → Focus on [specific aspect]
-- **"[Common Question 2]"** → Emphasize [different angle]
-- **"[Common Question 3]"** → Highlight [third perspective]
+  ## Variations by Question Type
+  - **"[Common Question 1]"** → Focus on [specific aspect]
+  - **"[Common Question 2]"** → Emphasize [different angle]
+  - **"[Common Question 3]"** → Highlight [third perspective]
