@@ -86,7 +86,7 @@ process {name.replace('-', ' ')}
 
 ## Version
 
-See `skill-package/version.yaml` for version info.
+See `version.yaml` for version info.
 """
     (skill_dir / 'README.md').write_text(readme)
     
@@ -101,8 +101,8 @@ See `skill-package/version.yaml` for version info.
     (skill_dir / 'CHANGELOG.md').write_text(changelog)
     
     print(f"✅ Created skill: {skill_dir}")
-    print(f"   - skill-package/SKILL.md")
-    print(f"   - skill-package/version.yaml")
+    print(f"   - SKILL.md")
+    print(f"   - version.yaml")
     print(f"   - README.md")
     print(f"   - CHANGELOG.md")
     

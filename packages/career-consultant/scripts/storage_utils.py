@@ -290,7 +290,7 @@ def get_storage_info(user_config: Dict) -> Dict:
             total_size = sum(f.stat().st_size for f in base_path.rglob('*') if f.is_file())
             info['total_size_bytes'] = total_size
             info['total_size_mb'] = round(total_size / (1024 * 1024), 2)
-        except:
+        except (OSError, PermissionError):
             info['total_size_bytes'] = None
             info['total_size_mb'] = None
     

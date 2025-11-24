@@ -32,7 +32,7 @@ User data: `~/MyDrive/claude-skills-data/reading-list/`
 
 ## Version
 
-See `skill-package/version.yaml`
+See `version.yaml`
 
 ---
 

@@ -28,19 +28,25 @@ SKILL_CONFIG = {
     'reading-list': {
         'has_host_scripts': False,
         'has_tests': False,
-        'version_file': 'skill-package/version.yaml',
+        'version_file': 'version.yaml',
         'changelog': 'CHANGELOG.md',
     },
     'ideas-capture': {
         'has_host_scripts': False,
         'has_tests': False,
-        'version_file': 'skill-package/version.yaml',
+        'version_file': 'version.yaml',
         'changelog': 'CHANGELOG.md',
     },
     'voice-memos': {
         'has_host_scripts': False,
         'has_tests': False,
-        'version_file': 'skill-package/version.yaml',
+        'version_file': 'version.yaml',
+        'changelog': 'CHANGELOG.md',
+    },
+    'local-rag': {
+        'has_host_scripts': True,
+        'has_tests': True,
+        'version_file': 'version.yaml',
         'changelog': 'CHANGELOG.md',
     },
 }
@@ -163,34 +169,34 @@ def create_git_tag(skill_name: str, version: str, dry_run: bool = False):
     print(f"✅ Created tag: {tag_name}")
 
 
-def release_skill(skill_name: str, bump_type: str, dry_run: bool = False):
+def release_skill(skill_name: str, bump_type: str, dry_run: bool = False) -> tuple[bool, str]:
     """Execute full release process for a skill."""
     print(f"\n{'='*50}")
     print(f"Releasing {skill_name} ({bump_type})")
     print(f"{'='*50}\n")
-    
+
     # Get current and new version
     current = get_current_version(skill_name)
     new_version = bump_version(current, bump_type)
     print(f"Version: {current} → {new_version}")
-    
+
     # Run tests
     if not run_tests(skill_name):
         print("❌ Release aborted due to test failures")
-        return False
-    
+        return False, ''
+
     # Update version file
     update_version_file(skill_name, new_version, dry_run)
-    
+
     # Update changelog
     update_changelog(skill_name, new_version, dry_run)
-    
+
     # Create git tag
     if not dry_run:
         create_git_tag(skill_name, new_version, dry_run)
-    
+
     print(f"\n✅ {'[DRY RUN] ' if dry_run else ''}Released {skill_name} v{new_version}")
-    return True
+    return True, new_version
 
 
 def main():
@@ -201,9 +207,9 @@ def main():
     parser.add_argument('--minor', action='store_true', help='Minor release')
     parser.add_argument('--major', action='store_true', help='Major release')
     parser.add_argument('--dry-run', action='store_true', help='Preview without making changes')
-    
+
     args = parser.parse_args()
-    
+
     # Determine bump type
     if args.major:
         bump_type = 'major'
@@ -211,14 +217,23 @@ def main():
         bump_type = 'minor'
     else:
         bump_type = 'patch'
-    
+
     # Release skill(s)
     skills = list(SKILL_CONFIG.keys()) if args.skill == 'all' else [args.skill]
-    
+    released_version = ''
+
     for skill in skills:
-        if not release_skill(skill, bump_type, args.dry_run):
+        success, version = release_skill(skill, bump_type, args.dry_run)
+        if not success:
             sys.exit(1)
-    
+        released_version = version
+
+    # Output version for GitHub Actions
+    github_output = os.environ.get('GITHUB_OUTPUT')
+    if github_output and released_version:
+        with open(github_output, 'a') as f:
+            f.write(f"version={released_version}\n")
+
     if not args.dry_run:
         print(f"\n🎉 Release complete! Don't forget to push:")
         print(f"   git push origin main --tags")
