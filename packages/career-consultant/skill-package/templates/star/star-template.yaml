@@ -1,0 +1,167 @@
+---
+# STAR Story Template
+# Use this template to create structured behavioral interview stories
+
+# ============================================================
+# METADATA
+# ============================================================
+
+story_id: "[competency]-[short-desc]-[num]"  # e.g., "leadership-conflict-001"
+created: "YYYY-MM-DDTHH:MM:SSZ"
+last_updated: "YYYY-MM-DDTHH:MM:SSZ"
+version: 1
+
+# ============================================================
+# CLASSIFICATION
+# ============================================================
+
+competencies:
+  # Primary skills demonstrated in this story
+  # Common values: leadership, technical-leadership, problem-solving, 
+  # communication, conflict-resolution, innovation, system-architecture,
+  # cross-team-collaboration, risk-management, mentorship, decision-making
+  - competency-1
+  - competency-2
+
+tags:
+  # Contextual tags for filtering
+  # e.g., migration, microservices, legacy-systems, startup, scale, etc.
+  - tag-1
+  - tag-2
+
+question_types:
+  # Types of interview questions this story addresses
+  # Values: behavioral, technical, leadership, problem-solving, conflict
+  - behavioral
+  - leadership
+
+# ============================================================
+# APPLICABILITY
+# ============================================================
+
+roles_applicable:
+  # Roles this story is most relevant for
+  # e.g., Engineering Manager, Technical Lead, Staff Engineer, Product Manager
+  - Engineering Manager
+  - Technical Lead
+
+company_sizes:
+  # Relevant company scales
+  # Values: startup (1-50), small (50-100), medium (100-1000), large (1000+)
+  - medium
+  - large
+
+industries:
+  # Relevant industries
+  # e.g., software, fintech, enterprise, saas, ecommerce, healthcare
+  - software
+
+# ============================================================
+# QUALITY METRICS
+# ============================================================
+
+quality_score: 0.0           # Overall score (0-10), auto-calculated
+completeness_score: 0        # Percentage (0-100)
+situation_score: 0           # Out of 20 points
+task_score: 0                # Out of 15 points
+action_score: 0              # Out of 35 points
+result_score: 0              # Out of 25 points
+overall_score: 0             # Out of 5 points
+
+impact_level: "medium"       # low, medium, high, critical
+confidence_level: "confident" # needs_work, confident, very_confident
+
+# ============================================================
+# USAGE TRACKING
+# ============================================================
+
+times_used: 0
+last_used: null
+interview_outcomes:
+  # Track outcomes when this story is used
+  # - company: "Company Name"
+  #   role: "Role Title"
+  #   outcome: "offer|rejection|ongoing"
+  #   date: "YYYY-MM-DD"
+  #   feedback: "Optional feedback"
+
+---
+
+# Story: [Brief Title]
+
+## One-Line Summary
+[1 sentence capturing the essence of the story - what you did and the impact]
+
+## Situation
+[2-4 sentences setting the context]
+
+**Context Details:**
+- Platform/Product: [What system/product were you working on?]
+- Team size: [How many people?]
+- Timeframe: [When did this happen? How long did it take?]
+- Business context: [What was the business situation?]
+- Challenge: [What made this situation notable or difficult?]
+
+## Task
+[1-3 sentences describing YOUR specific responsibility]
+
+**Your Role:**
+- Responsibility: [What were you specifically asked to do?]
+- Constraints: [What limitations did you face?]
+- Goals: [What were the success criteria?]
+- Why you: [Why were you chosen for this task?]
+
+## Action
+[3-8 bullet points of specific steps you took]
+
+**What You Did:**
+- Step 1: [First major action]
+- Step 2: [Second major action]
+- Step 3: [Third major action]
+- [Continue as needed...]
+
+**Key Decisions:**
+- Decision 1: [Important choice you made and why]
+- Decision 2: [Another key decision]
+
+**Challenges Faced:**
+- Challenge: [Problem encountered]
+  - Solution: [How you addressed it]
+
+## Result
+[2-4 sentences describing outcomes with quantifiable metrics]
+
+**Immediate Outcomes:**
+- ✅ Metric 1: [Quantifiable result]
+- ✅ Metric 2: [Another measurable outcome]
+- ✅ Metric 3: [Third measurable result]
+
+**Business Impact:**
+- Revenue/Cost: [Financial impact if applicable]
+- Efficiency: [Time/resource improvements]
+- Quality: [Improvements in quality metrics]
+
+**Personal Growth:**
+- Skills learned: [New capabilities developed]
+- Lessons: [Key takeaways]
+
+**Long-term Effects:**
+- [Lasting impact on team/organization]
+- [Future opportunities created]
+
+## Key Takeaways
+1. **Lesson 1:** [Important principle learned]
+2. **Lesson 2:** [Another key insight]
+3. **Lesson 3:** [Third takeaway]
+
+## Interview Delivery Tips
+- **Timing:** Aim for [X] minutes for full version, [Y] seconds for summary
+- **Emphasize:** [What aspects to highlight]
+- **Show:** [What skills/qualities this demonstrates]
+- **Connect:** [How this relates to common interview topics]
+- **Avoid:** [What pitfalls to avoid when telling this story]
+
+## Variations by Question Type
+- **"[Common Question 1]"** → Focus on [specific aspect]
+- **"[Common Question 2]"** → Emphasize [different angle]
+- **"[Common Question 3]"** → Highlight [third perspective]

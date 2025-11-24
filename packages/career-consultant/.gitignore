@@ -1,0 +1,91 @@
+# User-specific configuration (PRIVATE - Never commit)
+config/
+!config/.gitkeep
+!config/*.template.md
+user-data/
+
+# Generated data (Optional versioning)
+db/companies/*.md
+db/roles/*.md
+db/job-backlog/
+db/db.xlsx
+db/~$*.xlsx
+
+# System files
+.DS_Store
+**/.DS_Store
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+.cache/
+.pytest_cache/
+.coverage
+
+# Environment files
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# OS files
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Backup files
+*.backup
+*.old
+
+# API keys and credentials (extra safety)
+*_key.txt
+*_token.txt
+*_secret.txt
+credentials.json
+*.pem
+*.key
+
+# Large files
+*.zip
+*.tar.gz
+*.rar
+releases/*.skill
+releases/*.zip
+.DS_Store
+.DS_Store

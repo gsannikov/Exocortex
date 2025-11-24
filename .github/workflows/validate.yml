@@ -1,0 +1,98 @@
+name: Validate Skills
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/**'
+      - 'shared/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/**'
+      - 'shared/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        skill: [career-consultant, reading-list, ideas-capture, voice-memos]
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+      
+      - name: Validate skill structure
+        run: |
+          SKILL_DIR="packages/${{ matrix.skill }}"
+          
+          # Check required files
+          echo "Checking ${{ matrix.skill }}..."
+          
+          if [ ! -f "$SKILL_DIR/skill-package/SKILL.md" ]; then
+            echo "❌ Missing SKILL.md"
+            exit 1
+          fi
+          echo "✅ SKILL.md exists"
+          
+          if [ ! -f "$SKILL_DIR/README.md" ]; then
+            echo "⚠️ Missing README.md (recommended)"
+          else
+            echo "✅ README.md exists"
+          fi
+          
+          # Check for version file
+          if [ -f "$SKILL_DIR/skill-package/version.yaml" ] || [ -f "$SKILL_DIR/skill-package/config/version.yaml" ]; then
+            echo "✅ version.yaml exists"
+          else
+            echo "⚠️ Missing version.yaml (recommended)"
+          fi
+          
+          echo "✅ ${{ matrix.skill }} validation passed"
+      
+      - name: Validate YAML files
+        run: |
+          python -c "
+          import yaml
+          import glob
+          import sys
+          
+          errors = []
+          for f in glob.glob('packages/${{ matrix.skill }}/**/*.yaml', recursive=True):
+              try:
+                  with open(f) as file:
+                      yaml.safe_load(file)
+                  print(f'✅ {f}')
+              except Exception as e:
+                  errors.append(f'❌ {f}: {e}')
+          
+          if errors:
+              for e in errors:
+                  print(e)
+              sys.exit(1)
+          "
+
+  lint-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Check Python syntax
+        run: |
+          python -m py_compile shared/scripts/release.py
+          python -m py_compile shared/scripts/skill_generator.py
+          echo "✅ Python scripts syntax OK"

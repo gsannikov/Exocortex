@@ -1,0 +1,165 @@
+---
+# Example STAR Story: Leadership & Conflict Resolution
+
+story_id: "leadership-conflict-resolution-001"
+created: "2025-10-30T12:00:00Z"
+last_updated: "2025-10-30T12:00:00Z"
+version: 1
+
+competencies:
+  - leadership
+  - conflict-resolution
+  - communication
+  - decision-making
+
+tags:
+  - team-dynamics
+  - technical-disagreement
+  - stakeholder-management
+
+question_types:
+  - behavioral
+  - leadership
+  - conflict
+
+roles_applicable:
+  - Engineering Manager
+  - Technical Lead
+  - Team Lead
+  - Staff Engineer
+
+company_sizes:
+  - medium
+  - large
+
+industries:
+  - software
+  - saas
+
+quality_score: 9.2
+completeness_score: 95
+situation_score: 19
+task_score: 14
+action_score: 33
+result_score: 24
+overall_score: 5
+
+impact_level: "high"
+confidence_level: "very_confident"
+
+times_used: 0
+last_used: null
+interview_outcomes: []
+
+---
+
+# Story: Resolving Architecture Disagreement Between Senior Engineers
+
+## One-Line Summary
+Resolved a 3-week technical stalemate between two senior engineers over API design by facilitating a structured decision workshop, resulting in consensus in 2 days and keeping the project on schedule.
+
+## Situation
+I was leading the payments platform team at a B2B SaaS company with 5M users. We were building a new API gateway that would be used by 3 other engineering teams. Two of our senior engineers—both highly respected—had been debating for 3 weeks whether to use REST or GraphQL. The debate had become increasingly heated, with each engineer refusing to compromise. Other team members were becoming frustrated and demotivated. We had a hard deadline in 6 weeks for the first integration, and we'd lost nearly half our buffer time to this disagreement.
+
+**Context Details:**
+- Platform/Product: New API gateway for payments platform
+- Team size: 8 engineers across 2 squads
+- Timeframe: Sprint 3 of 8-sprint project
+- Business context: 3 teams blocked, $2M revenue deal depended on completion
+- Challenge: Two experienced engineers entrenched in positions, team morale dropping
+
+## Task
+As the Technical Lead, my responsibility was to:
+1. Break the deadlock and get to a decision within 1 week
+2. Ensure the decision was technically sound and had team buy-in
+3. Maintain the relationship and collaboration between the two engineers
+4. Keep the project on track for the 6-week deadline
+5. Prevent this from becoming a pattern for future technical decisions
+
+**Your Role:**
+- Responsibility: Final decision authority, but wanted team consensus
+- Constraints: Couldn't afford to lose either senior engineer, limited time
+- Goals: Technical soundness + team unity + stay on schedule
+- Why you: Only person with authority to make final call and both engineers' trust
+
+## Action
+**What You Did:**
+- **Day 1 - Individual Conversations:** Met separately with each engineer for 1 hour
+  - Asked each to explain their reasoning without interruption
+  - Identified that both had valid technical concerns but were talking past each other
+  - Discovered underlying issue: different assumptions about future requirements
+  
+- **Day 1 - Framework Creation:** Created evaluation matrix with clear criteria
+  - Performance, developer experience, learning curve, ecosystem, future extensibility
+  - Weighted each criterion based on our actual business needs (not abstract "best practice")
+  - Made the evaluation process transparent and objective
+  
+- **Day 2 - Decision Workshop:** Facilitated 3-hour workshop with both engineers + 2 other seniors
+  - Started with alignment on actual requirements (not theoretical)
+  - Each engineer presented their case using the matrix (20 min each)
+  - Collaborative scoring exercise for each criterion
+  - Discussion of hybrid approach possibilities
+  
+- **Day 2 Evening - Data Gathering:** Assigned homework to both engineers
+  - Each built small POC of their approach (4 hours work)
+  - Asked them to specifically test their weakest criterion from the matrix
+  - Required sharing results honestly with the team
+
+**Key Decisions:**
+- **Workshop over decree:** Could have just made decision, but team buy-in was crucial
+- **Matrix framework:** Provided objective structure to replace subjective arguments
+- **POC homework:** Let data break the tie instead of authority or seniority
+- **Included other seniors:** Broadened perspective and prevented 2-person deadlock
+
+**Challenges Faced:**
+- **Challenge:** One engineer initially resistant to workshop approach
+  - **Solution:** One-on-one conversation emphasizing their expertise would shine in structured format
+- **Challenge:** Workshop started rehashing old arguments
+  - **Solution:** Enforced "no repeating previous points" rule, focus on matrix criteria only
+- **Challenge:** Matrix scores were close (GraphQL 72, REST 68)
+  - **Solution:** POC experiments provided tiebreaker data
+
+## Result
+**Immediate Outcomes:**
+- ✅ **Decision made in 2 days** (vs. 3+ weeks of stalemate)
+- ✅ **Clear winner emerged:** GraphQL scored 78 after POC data (vs REST 70)
+- ✅ **Unanimous agreement:** All 4 senior engineers aligned on final choice
+- ✅ **Project back on track:** Recovered 5 days of buffer time
+- ✅ **Improved relationship:** The two engineers actually became close collaborators after
+
+**Business Impact:**
+- **Velocity:** Team unblocked, sprint velocity returned to 32 points (from 18)
+- **Quality:** More thoughtful decision than either original position
+- **Timeline:** Delivered API gateway 2 days ahead of 6-week deadline
+- **Risk mitigation:** Avoided losing buffer time before integration
+
+**Personal Growth:**
+- **Learned:** Facilitation > directive leadership for technical disagreements
+- **Skill developed:** Creating objective decision frameworks
+- **Confidence gained:** Handling strong personalities and ego conflicts
+- **Relationships:** Strengthened trust with both senior engineers
+
+**Long-term Effects:**
+- Decision framework became team template for future architecture choices
+- Team culture shifted to "debate the framework, not each other"
+- Both engineers co-presented the API gateway at company tech talk
+- Promoted to Staff Engineer 4 months later, partly due to this leadership
+
+## Key Takeaways
+1. **Structure beats authority:** Objective frameworks resolve disagreements better than directives
+2. **Ego needs a face-saving path:** Let data make the decision, not people
+3. **Speed matters:** 3-week stalemate was toxic; forcing resolution in 2 days was healthy
+4. **Involve the right people:** Including 2 other seniors prevented 2-person deadlock and built broader buy-in
+
+## Interview Delivery Tips
+- **Timing:** 2 minutes for full version, 45 seconds for summary
+- **Emphasize:** Framework approach + team dynamics + quick resolution
+- **Show:** Leadership, conflict resolution, technical judgment, emotional intelligence
+- **Connect:** Links to team leadership, decision-making under pressure, conflict resolution
+- **Avoid:** Getting into technical details of REST vs GraphQL (unless specifically asked)
+
+## Variations by Question Type
+- **"Tell me about a conflict you resolved"** → Lead with relationship aspect and team impact
+- **"Describe leading without authority"** → Focus on facilitation and influence techniques
+- **"How do you make technical decisions?"** → Emphasize the matrix framework and objectivity
+- **"Tell me about handling strong personalities"** → Highlight individual conversations and ego management

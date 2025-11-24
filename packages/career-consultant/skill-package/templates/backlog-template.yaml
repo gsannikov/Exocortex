@@ -1,0 +1,11 @@
+stats:
+  total: 0
+  new: 0
+  pending: 0
+  analyzed: 0
+
+jobs:
+  new: []
+  pending: []
+  analyzed: []
+  archived: []

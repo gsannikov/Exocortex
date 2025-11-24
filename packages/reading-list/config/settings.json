@@ -1,0 +1,407 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "version": "0.1.0",
+  "last_updated": "2025-11-03",
+  
+  "user": {
+    "name": "Gur Sannikov",
+    "timezone": "Asia/Jerusalem",
+    "language_preferences": ["en", "he"],
+    "email": "",
+    "interests": ["ai", "technology", "career", "management", "israeli-tech"]
+  },
+  
+  "capture": {
+    "auto_process": true,
+    "default_scraper": "firecrawl",
+    "fallback_scraper": "bright_data",
+    "timeout_seconds": 30,
+    
+    "save_html": false,
+    "save_images": true,
+    "max_image_size_mb": 5,
+    "save_pdf_articles": true,
+    
+    "url_validation": true,
+    "follow_redirects": true,
+    "max_redirects": 3,
+    
+    "batch_processing": {
+      "enabled": true,
+      "max_urls_per_batch": 50,
+      "delay_between_requests_ms": 500,
+      "retry_failed": true,
+      "max_retries": 2
+    }
+  },
+  
+  "extraction": {
+    "clean_content": true,
+    "remove_ads": true,
+    "remove_popups": true,
+    "remove_navigation": true,
+    "preserve_formatting": true,
+    "preserve_links": true,
+    
+    "extract_metadata": true,
+    "metadata_fields": [
+      "title", "author", "published_date", "modified_date",
+      "description", "keywords", "reading_time", "word_count",
+      "site_name", "language"
+    ],
+    
+    "capture_author_bio": false,
+    "capture_comments": false,
+    "capture_related_articles": true,
+    
+    "pdf_extraction": {
+      "enabled": true,
+      "extract_text": true,
+      "extract_images": false,
+      "max_pages": 100
+    },
+    
+    "video_transcription": {
+      "enabled": true,
+      "platforms": ["youtube", "vimeo"],
+      "include_timestamps": true
+    }
+  },
+  
+  "analysis": {
+    "generate_summary": true,
+    "summary_levels": ["brief", "standard"],
+    "summary_configs": {
+      "brief": {
+        "enabled": true,
+        "max_words": 100,
+        "style": "tldr",
+        "description": "Quick overview in 2-3 sentences"
+      },
+      "standard": {
+        "enabled": true,
+        "max_words": 300,
+        "style": "balanced",
+        "description": "Comprehensive summary with key points"
+      },
+      "detailed": {
+        "enabled": false,
+        "max_words": 800,
+        "style": "thorough",
+        "description": "In-depth summary with context and examples"
+      }
+    },
+    
+    "extract_key_points": true,
+    "max_key_points": 7,
+    "key_points_style": "bullet",
+    
+    "extract_quotes": true,
+    "max_quotes": 5,
+    "quote_min_length_words": 10,
+    
+    "estimate_reading_time": true,
+    "reading_speed_wpm": 250,
+    
+    "difficulty_assessment": true,
+    "difficulty_factors": ["vocabulary", "sentence_length", "technical_terms", "structure"],
+    
+    "sentiment_analysis": false,
+    "tone_detection": true,
+    
+    "fact_extraction": {
+      "enabled": false,
+      "extract_statistics": true,
+      "extract_dates": true,
+      "extract_people": true,
+      "extract_organizations": true
+    }
+  },
+  
+  "organization": {
+    "filing_method": "date",
+    "filing_options": ["date", "topic", "source", "project", "custom"],
+    
+    "date_format": "YYYY-MM",
+    "create_topic_folders": true,
+    "create_source_folders": false,
+    
+    "auto_categorize": true,
+    "classification_confidence_threshold": 0.7,
+    "categories": [
+      "ai-ml",
+      "career",
+      "technology",
+      "business",
+      "management",
+      "research",
+      "tutorial",
+      "news",
+      "opinion",
+      "israeli-tech",
+      "personal-development"
+    ],
+    
+    "auto_tag": true,
+    "max_tags": 10,
+    "min_tag_confidence": 0.65,
+    "tag_sources": ["content", "title", "metadata", "url"],
+    "tag_blacklist": ["the", "a", "an", "and", "or", "but"],
+    
+    "reading_queue_enabled": true,
+    "queue_statuses": ["to_read", "reading", "read", "reference", "archived"],
+    "default_status": "to_read",
+    
+    "priority_scoring": {
+      "enabled": true,
+      "factors": {
+        "relevance": 0.4,
+        "recency": 0.2,
+        "source_authority": 0.2,
+        "length": 0.1,
+        "user_interest": 0.1
+      }
+    },
+    
+    "collections": {
+      "enabled": true,
+      "auto_suggest_collections": true,
+      "min_articles_for_collection": 3
+    },
+    
+    "related_articles": {
+      "enabled": true,
+      "similarity_threshold": 0.7,
+      "max_related": 5
+    }
+  },
+  
+  "integrations": {
+    "firecrawl": {
+      "enabled": true,
+      "api_key": "",
+      "max_age_cache_ms": 172800000,
+      "formats": ["markdown"],
+      "include_metadata": true
+    },
+    
+    "bright_data": {
+      "enabled": false,
+      "api_key": "",
+      "use_for_paywalled": true,
+      "use_for_linkedin": true,
+      "use_for_complex_sites": true
+    },
+    
+    "notion": {
+      "enabled": false,
+      "database_id": "",
+      "sync_frequency": "immediate",
+      "sync_options": ["immediate", "daily", "weekly", "manual"],
+      "include_summaries": true,
+      "include_full_text": false,
+      "create_relation_links": true,
+      
+      "field_mapping": {
+        "title": "Title",
+        "url": "URL",
+        "author": "Author",
+        "published_date": "Published Date",
+        "added_date": "Added Date",
+        "status": "Status",
+        "priority": "Priority",
+        "topics": "Topics",
+        "tags": "Tags",
+        "reading_time": "Reading Time",
+        "summary": "Summary",
+        "key_points": "Key Points",
+        "notes": "My Notes",
+        "file_path": "File Path"
+      }
+    },
+    
+    "apple_notes": {
+      "enabled": false,
+      "notebook": "Reading List",
+      "create_folders": true,
+      "folder_structure": "by_topic",
+      "include_summaries": true,
+      "include_full_article": false
+    },
+    
+    "google_drive": {
+      "enabled": false,
+      "folder_id": "",
+      "auto_upload": false,
+      "upload_formats": ["markdown", "pdf"]
+    },
+    
+    "notebooklm": {
+      "enabled": true,
+      "auto_suggest_threshold": {
+        "word_count": 5000,
+        "technical_score": 0.7,
+        "collection_size": 5
+      },
+      "export_format": "markdown",
+      "export_path": "exports/notebooklm/",
+      "include_metadata": true,
+      "include_summaries": true,
+      "include_user_notes": true,
+      "bundle_max_articles": 50,
+      "generate_research_questions": true
+    },
+    
+    "email_digest": {
+      "enabled": false,
+      "frequency": "weekly",
+      "day": "Sunday",
+      "time": "09:00",
+      "recipient": "",
+      "include_summary": true,
+      "max_articles": 10,
+      "sort_by": "priority"
+    }
+  },
+  
+  "research": {
+    "enable_citations": true,
+    "default_citation_style": "APA",
+    "citation_styles": ["APA", "MLA", "Chicago", "IEEE", "Harvard"],
+    
+    "enable_comparisons": true,
+    "comparison_min_articles": 2,
+    "comparison_max_articles": 10,
+    
+    "literature_review": {
+      "enabled": true,
+      "min_articles": 5,
+      "include_methodology": true,
+      "include_themes": true,
+      "include_gaps": true
+    },
+    
+    "enable_knowledge_graph": false,
+    "fact_database": {
+      "enabled": false,
+      "extract_statistics": true,
+      "extract_claims": true,
+      "link_sources": true
+    }
+  },
+  
+  "output": {
+    "default_format": "markdown",
+    "formats": ["markdown", "pdf", "docx", "epub", "html"],
+    
+    "markdown": {
+      "enabled": true,
+      "include_metadata": true,
+      "include_toc": false,
+      "heading_style": "atx",
+      "code_highlighting": true,
+      "preserve_html": false
+    },
+    
+    "pdf": {
+      "enabled": true,
+      "page_size": "A4",
+      "font_family": "Arial",
+      "font_size": 11,
+      "include_toc": true,
+      "include_cover_page": false
+    },
+    
+    "epub": {
+      "enabled": true,
+      "include_metadata": true,
+      "include_cover": false,
+      "chapter_per_article": true
+    },
+    
+    "templates": {
+      "article_basic": "article-basic",
+      "article_research": "article-research",
+      "collection": "collection",
+      "weekly_digest": "weekly-digest",
+      "research_report": "research-report"
+    }
+  },
+  
+  "sources": {
+    "config_file": "sources.json",
+    "auto_load_config": true,
+    
+    "track_source_quality": true,
+    "source_scoring": {
+      "accuracy_weight": 0.4,
+      "depth_weight": 0.3,
+      "readability_weight": 0.2,
+      "recency_weight": 0.1
+    },
+    
+    "blocked_domains": [],
+    "trusted_domains": [],
+    
+    "paywalled_handling": "skip",
+    "paywall_options": ["skip", "extract_preview", "use_bright_data"]
+  },
+  
+  "privacy": {
+    "store_urls_only": false,
+    "anonymize_data": false,
+    "encrypt_storage": false,
+    "clear_history_after_days": 0,
+    
+    "content_filtering": {
+      "enabled": false,
+      "filter_adult": true,
+      "filter_violent": true,
+      "custom_filters": []
+    }
+  },
+  
+  "performance": {
+    "max_concurrent_requests": 5,
+    "request_timeout_seconds": 30,
+    "cache_enabled": true,
+    "cache_duration_days": 7,
+    
+    "index_content": true,
+    "index_update_frequency": "daily",
+    
+    "optimize_images": true,
+    "max_image_width": 1200,
+    
+    "lazy_load_content": false
+  },
+  
+  "notifications": {
+    "enabled": false,
+    "article_captured": false,
+    "processing_complete": false,
+    "digest_ready": false,
+    "errors": true,
+    "weekly_summary": false
+  },
+  
+  "advanced": {
+    "debug_mode": false,
+    "log_level": "info",
+    "log_file": "logs/reading-list.log",
+    "save_raw_html": false,
+    "save_extraction_metadata": false,
+    
+    "experimental_features": {
+      "ai_recommendations": false,
+      "auto_tag_learning": false,
+      "semantic_search": false,
+      "auto_summarization_v2": false
+    },
+    
+    "custom_scrapers": {
+      "enabled": false,
+      "scraper_configs": []
+    }
+  }
+}

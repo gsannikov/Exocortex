@@ -1,0 +1,281 @@
+# Career Consultant - User Configuration Template
+# Copy this to: user-data/profile/settings.yaml
+# Customize all values according to your personal preferences
+
+version: "1.0"
+
+# ============================================
+# Storage Configuration
+# ============================================
+# FIRST-TIME SETUP: Configure where to store your career data
+# This is the MOST IMPORTANT setting - configure this first!
+
+storage:
+  # Storage type: Local filesystem only
+  type: "local"  # Fixed: local (Google Drive support disabled)
+  
+  # Base path configuration
+  # Default: ~/Documents/career-consultant
+  # You can override with a full path if needed
+  base_path: "auto"  # Set to "auto" for automatic detection, or specify full path
+  
+  # Local filesystem settings
+  local:
+    # Base directory for local storage
+    base_dir: "~/Documents/career-consultant"  # Default location
+    
+    # Create directory structure if it doesn't exist
+    auto_create_dirs: true  # Recommended: true
+    
+    # Backup settings
+    enable_backups: false  # Create timestamped backups
+    backup_dir: "~/Documents/career-consultant-backups"
+
+# ============================================
+# CV Variants Configuration
+# ============================================
+# Define your CV variants here. You can have 1 or multiple CVs
+# tailored for different types of roles.
+
+cv_variants:
+  enabled: true
+  count: 1  # Update this with your actual number of CV variants
+  
+  variants:
+    # Example: Single general CV
+    - id: "General"
+      filename: "cv-general.md"
+      focus: "General Software Engineering"
+      weight: 1.0
+    
+    # Uncomment and modify examples below for multiple CVs:
+    
+    # - id: "Backend"
+    #   filename: "cv-backend.md"
+    #   focus: "Backend Development & Microservices"
+    #   weight: 1.0
+    
+    # - id: "Frontend"
+    #   filename: "cv-frontend.md"
+    #   focus: "Frontend Development & UI/UX"
+    #   weight: 1.0
+    
+    # - id: "FullStack"
+    #   filename: "cv-fullstack.md"
+    #   focus: "Full Stack Development"
+    #   weight: 1.0
+    
+    # - id: "Management"
+    #   filename: "cv-management.md"
+    #   focus: "Engineering Management & Leadership"
+    #   weight: 1.0
+
+# ============================================
+# Scoring Configuration
+# ============================================
+# Customize scoring weights, thresholds, and bonuses
+
+scoring:
+  # Weights must sum to 100
+  weights:
+    match: 35      # Skills match with CV
+    income: 25     # Salary potential
+    growth: 20     # Career growth opportunity
+    lowprep: 15    # Low interview preparation required
+    stress: 10     # Work-life balance / stress level
+    location: 5    # Location preference
+  
+  # Score thresholds for priority classification
+  thresholds:
+    first_priority: 54    # Scores >= 54 are "First Priority"
+    second_priority: 40   # Scores >= 40 are "Second Priority"
+    # Scores < 40 are automatically "Third Priority"
+  
+  # Bonus points for specific experiences or skills
+  bonuses:
+    intel_experience: 0   # Set to 5 if you have Intel/major tech company experience
+    startup_experience: 0 # Set to 3 if you prefer startups
+    # Add custom bonuses as needed
+
+# ============================================
+# Personal Preferences
+# ============================================
+# Your personal job search preferences
+
+preferences:
+  # Salary expectations (annual in ILS)
+  min_salary_annual: 300000    # Minimum acceptable salary
+  target_salary_annual: 450000 # Target salary
+  
+  # Interview preparation
+  max_prep_hours: 40  # Maximum hours willing to invest in prep
+  
+  # Location preferences (list in order of preference)
+  preferred_locations:
+    - "Tel Aviv"
+    - "Herzliya"
+    - "Remote"
+    - "Hybrid"
+  
+  # Work arrangement preferences
+  work_arrangement:
+    remote_preference: "hybrid"  # Options: remote, hybrid, office, any
+    max_commute_minutes: 60
+  
+  # Company tier bonuses (added to growth score)
+  company_tier_preference:
+    tier_1_bonus: 5  # FAANG, unicorns
+    tier_2_bonus: 3  # Well-funded startups, established tech
+    tier_3_bonus: 0  # Growing companies
+    tier_4_bonus: 0  # Early stage startups
+  
+  # Industry preferences (optional - leave empty if no preference)
+  preferred_industries: []
+    # - "AI/ML"
+    # - "FinTech"
+    # - "Cybersecurity"
+    # - "Cloud Infrastructure"
+  
+  # Company size preference (optional)
+  company_size:
+    min_employees: 0     # 0 = no minimum
+    max_employees: 0     # 0 = no maximum
+    preferred_range: "any"  # Options: startup, mid, enterprise, any
+
+# ============================================
+# Personal Background
+# ============================================
+# Information about your background (used for scoring)
+
+background:
+  years_experience: 5
+  has_management_experience: false
+  has_startup_experience: false
+  has_big_tech_experience: false  # e.g., FAANG, Intel
+  
+  # Key skills (helps with matching)
+  core_skills:
+    - "Python"
+    - "JavaScript"
+    # Add your main skills here
+  
+  # Education level (affects some scoring)
+  education: "Bachelor"  # Options: Bachelor, Master, PhD
+
+# ============================================
+# Paths Configuration
+# ============================================
+# Relative paths from user-data/ directory
+# Usually you don't need to change these
+
+paths:
+  cv_base: "config/cv-variants"
+  profile: "config/candidate-profile.md"
+  salary_data: "config/salary-data.md"
+  companies_db: "companies"
+  roles_db: "db/roles"
+  excel_db: "db/db.xlsx"
+
+# ============================================
+# Output Format Configuration
+# ============================================
+# Configure how your job database is generated and displayed
+
+output_format:
+  # Primary output format (HTML is recommended - works everywhere)
+  primary: "html"  # Options: html, excel (html is default)
+  
+  # HTML Database Options
+  html:
+    enabled: true  # Always generate HTML database
+    filename: "db.html"  # Output filename
+    auto_open: false  # Auto-open in browser after generation
+    theme: "purple"  # Options: purple, blue, green, orange (default: purple)
+    
+    # Table display options
+    default_page_size: 25  # Rows per page: 10, 25, 50, 100
+    show_all_columns: true  # Show all 15 columns by default
+    
+    # Export button options
+    enable_export_buttons: true  # Show Excel/CSV/PDF export buttons
+    enable_print_button: true    # Show print button
+  
+  # Excel Database Options (Legacy - Optional)
+  excel:
+    enabled: false  # Set to true if you still want Excel files
+    filename: "db.xlsx"  # Output filename
+    auto_format: true  # Apply formatting (colors, borders, etc.)
+    freeze_header: true  # Freeze header row
+    
+  # Which format to generate after each job analysis
+  auto_generate:
+    html: true   # Always generate HTML (recommended)
+    excel: false  # Only generate Excel if enabled above
+  
+  # File locations (relative to user-data/db/)
+  output_paths:
+    html_file: "db.html"
+    excel_file: "db.xlsx"
+
+# ============================================
+# Advanced Options
+# ============================================
+# Advanced configuration options (optional)
+
+advanced:
+  # Auto-save options
+  auto_save_to_excel: true  # DEPRECATED: Use output_format.excel.enabled instead
+  auto_backup: false
+  
+  # Analysis options
+  enable_deep_analysis: true
+  skip_company_validation: false  # Set true to skip manual validation
+  
+  # Logging
+  verbose_logging: false
+  log_file: "logs/career-consultant.log"
+
+# ============================================
+# Scraping Tools Configuration
+# ============================================
+# Configure which tools to use for web scraping and prioritization
+# Tools will be tried in the order specified until one succeeds
+
+scraping_tools:
+  # Tool priority for company research (websites, news, Glassdoor)
+  company_research:
+    - "firecrawl"      # Firecrawl MCP (recommended, reliable)
+    - "web_fetch"      # Built-in web fetch (fallback)
+  
+  # Tool priority for LinkedIn scraping
+  linkedin:
+    - "mcp_docker"     # MCP_DOCKER (user-tested, cost-effective)
+    - "bright_data"    # Bright Data MCP (fallback, requires API key)
+    - "web_fetch"      # Last resort
+  
+  # Tool priority for job posting scraping
+  job_scraping:
+    - "firecrawl"      # Primary
+    - "bright_data"    # If Firecrawl unavailable
+    - "web_fetch"      # Fallback
+  
+  # Available tool options:
+  # - "firecrawl"    : Firecrawl MCP (requires API key)
+  # - "bright_data"  : Bright Data MCP (requires API key)  
+  # - "mcp_docker"   : Docker MCP (for LinkedIn)
+  # - "web_fetch"    : Built-in HTTP fetch (free, less reliable)
+
+# ============================================
+# Notes
+# ============================================
+# Add any personal notes or reminders here
+# These are ignored by the system
+
+notes: |
+  Configuration created on: [DATE]
+  Last updated: [DATE]
+  
+  Personal reminders:
+  - Update salary expectations quarterly
+  - Review CV variants before major job search
+  - Check preferred locations if planning to move

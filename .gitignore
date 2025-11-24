@@ -1,268 +1,39 @@
-# Claude Skills SDK - .gitignore
-# Prevents committing sensitive user data and system files
+# Claude Skills Monorepo - .gitignore
 
-# ============================================================================
-# USER DATA - NEVER COMMIT PERSONAL INFORMATION
-# ============================================================================
+# OS
+.DS_Store
+Thumbs.db
 
-# Safety net: Ignore entire user-data directory
-# (Templates are in skill-package/user-data-templates and ARE committed)
-user-data/
-!user-data/.gitkeep
-!user-data/db/
-!user-data/db/.gitkeep
-!user-data/logs/
-!user-data/logs/.gitkeep
-!user-data/config/
-
-# User configuration (contains personal info)
-user-data/config/user-config.yaml
-user-data/config/cv-variants/
-user-data/config/candidate-profile.md
-user-data/config/*.yaml
-!user-data/config/user-config-template.yaml
-!user-data/config/*-template.yaml
-
-# Storage credentials (CRITICAL - CONTAINS TOKENS/PASSWORDS)
-**/storage-config.yaml
-skill-package/user-data-templates/config/storage-config.yaml
-*.secret
-*.key
-*-token.txt
-*-credentials.*
-
-# User database (contains personal/business data)
-user-data/db/
-user-data/logs/
-user-data/*.xlsx
-user-data/*.csv
-
-# Backup files
-user-data/backups/
-*.backup
-*.bak
-
-# ============================================================================
-# PYTHON
-# ============================================================================
-
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
-
-# Distribution / packaging
 .Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
+.venv/
+.venv_*/
+venv/
+env/
 *.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+dist/
+build/
 
-# PyInstaller
-*.manifest
-*.spec
-
-# Unit test / coverage reports
+# Testing
+.pytest_cache/
+.coverage
 htmlcov/
 .tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# ============================================================================
-# IDEs and Editors
-# ============================================================================
-
-# VSCode
+# IDE
 .vscode/
-*.code-workspace
-
-# PyCharm
 .idea/
-*.iml
-*.iws
-.idea_modules/
-
-# Sublime Text
-*.sublime-project
-*.sublime-workspace
-
-# Vim
 *.swp
 *.swo
-*.swn
-*~
 
-# Emacs
-*~
-\#*\#
-.\#*
+# Project-specific
+user-data/
+releases/
+.agent/
 
-# ============================================================================
-# SYSTEM FILES
-# ============================================================================
-
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-Icon
-._*
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-# Windows
-Thumbs.db
-Thumbs.db:encryptable
-ehthumbs.db
-ehthumbs_vista.db
-*.stackdump
-[Dd]esktop.ini
-$RECYCLE.BIN/
-*.cab
-*.msi
-*.msix
-*.msm
-*.msp
-*.lnk
-
-# Linux
-*~
-.fuse_hidden*
-.directory
-.Trash-*
-.nfs*
-
-# ============================================================================
-# LOGS AND TEMPORARY FILES
-# ============================================================================
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-
-# Runtime data
-pids/
-*.pid
-*.seed
-*.pid.lock
-
-# Temporary files
-tmp/
-temp/
-*.tmp
-*.temp
-
-# ============================================================================
-# RELEASE ARTIFACTS
-# ============================================================================
-
-# Release packages (keep in releases/ directory only)
-*.skill
-*.zip
-*.tar.gz
-*.tar.bz2
-releases/*.skill
-releases/*.zip
-
-# Don't ignore release directory itself
-!releases/
-!releases/.gitkeep
-
-# ============================================================================
-# DOCUMENTATION BUILD ARTIFACTS
-# ============================================================================
-
-# Sphinx documentation
-docs/_build/
-docs/_static/
-docs/_templates/
-
-# MkDocs
-site/
-
-# ============================================================================
-# KEEP THESE FILES (Exceptions)
-# ============================================================================
-
-# Keep template files
-!user-data/config/user-config-template.yaml
-!user-data-templates/config/*-template.yaml
-!skill-package/templates/
-
-# Keep example files
-!docs/examples/
-!skill-package/examples/
-
-# Keep documentation
-!docs/
-!*.md
-
-# Keep .gitkeep files
-!.gitkeep
-
-# ============================================================================
-# PROJECT-SPECIFIC (Customize as needed)
-# ============================================================================
-
-# Session and temporary documentation files
-SESSION_*.md
-INTEGRATION_SCRIPT_*.md
-GITHUB_WORKFLOW_*.md
-SKILL_CREATOR_INTEGRATION.md
-DEV_SESSION_*.md
-*_SUMMARY.md
-PRE_RELEASE_*.md
-RELEASE_VALIDATION.md
-
-# Add your project-specific ignores below
-# Example:
-# my-custom-cache/
-# *.myextension
+# Never commit user data (it's in separate repo)
+# ~/MyDrive/claude-skills-data/ is the centralized location

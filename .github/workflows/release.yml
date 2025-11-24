@@ -1,0 +1,81 @@
+name: Release Skill
+
+on:
+  workflow_dispatch:
+    inputs:
+      skill:
+        description: 'Skill to release'
+        required: true
+        type: choice
+        options:
+          - career-consultant
+          - reading-list
+          - ideas-capture
+          - voice-memos
+          - all
+      bump:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      dry_run:
+        description: 'Dry run (no actual release)'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+      
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+      
+      - name: Run release script
+        id: release
+        run: |
+          DRY_RUN_FLAG=""
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            DRY_RUN_FLAG="--dry-run"
+          fi
+          
+          python shared/scripts/release.py ${{ inputs.skill }} --${{ inputs.bump }} $DRY_RUN_FLAG
+      
+      - name: Push changes and tags
+        if: ${{ inputs.dry_run == false }}
+        run: |
+          git push origin main --tags
+      
+      - name: Create GitHub Release
+        if: ${{ inputs.dry_run == false && inputs.skill != 'all' }}
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ inputs.skill }}-v${{ steps.release.outputs.version }}
+          name: "${{ inputs.skill }} v${{ steps.release.outputs.version }}"
+          body: |
+            Release of ${{ inputs.skill }} version ${{ steps.release.outputs.version }}
+            
+            See CHANGELOG.md in packages/${{ inputs.skill }}/ for details.
+          draft: false
+          prerelease: false

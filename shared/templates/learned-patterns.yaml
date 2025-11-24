@@ -1,0 +1,140 @@
+# Claude Skills - Learned Patterns
+# This file captures best practices derived from real skill implementations.
+# Auto-updated as patterns evolve.
+
+version: 1.0.0
+updated: 2024-11-24
+
+patterns:
+  inbox:
+    description: "Apple Notes inbox for mobile-friendly capture"
+    note_format: "{emoji} {Name} Inbox"
+    sections:
+      - "📥 ADD BELOW"
+      - "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      - "✅ PROCESSED"
+    commands:
+      - "process {name}"
+      - "check inbox"
+      - "clear processed"
+    best_practices:
+      - "Keep processed section as stats only (avoid timeout on large updates)"
+      - "Use separator line (━━━) for visual clarity"
+      - "Include format examples in note header"
+    examples:
+      - skill: career-consultant
+        note: "📋 Job Links Inbox"
+      - skill: reading-list
+        note: "📚 Reading List Inbox"
+      - skill: ideas-capture
+        note: "💡 Ideas Inbox"
+      - skill: voice-memos
+        note: "🎙️ Voice Memos Inbox"
+
+  database:
+    description: "YAML-based persistent storage"
+    format: yaml
+    structure:
+      stats_section: true
+      items_list: true
+    best_practices:
+      - "Include stats in header for quick overview"
+      - "Use slugs as unique identifiers"
+      - "Track timestamps (added, updated)"
+      - "Support multiple status values"
+    fields:
+      required: [id, title, added_at, status]
+      recommended: [url, category, tags, notes]
+
+  scoring:
+    description: "Multi-dimensional scoring with tiers"
+    dimensions: 6
+    scale: "1-10"
+    tiers:
+      hot:
+        threshold: 7
+        emoji: "🔥"
+      warm:
+        threshold: 5
+        emoji: "🌤️"
+      cold:
+        threshold: 0
+        emoji: "❄️"
+    best_practices:
+      - "Use weighted average for composite score"
+      - "Define clear criteria for each dimension"
+      - "Allow manual overrides"
+    examples:
+      - skill: career-consultant
+        dimensions: [match, income, growth, lowprep, stress, location]
+      - skill: ideas-capture
+        dimensions: [feasibility, impact, effort, uniqueness, timing, personal_fit]
+
+  scraping:
+    description: "Web content extraction"
+    tools:
+      primary: firecrawl
+      fallback: web_fetch
+    best_practices:
+      - "Always dedupe URLs before processing"
+      - "Normalize URLs (strip trailing slash, decode entities)"
+      - "Cache scraped content to avoid re-fetching"
+      - "Handle failures gracefully with retry logic"
+
+  output:
+    description: "Report and document generation"
+    formats:
+      markdown: "For Claude display and exports"
+      yaml: "For structured data"
+      docx: "For professional documents"
+    best_practices:
+      - "Use templates for consistent formatting"
+      - "Include metadata (generated_at, version)"
+      - "Support multiple output formats"
+
+naming_conventions:
+  skills: "kebab-case (e.g., career-consultant)"
+  files: "kebab-case.yaml or kebab-case.md"
+  directories: "kebab-case/"
+  functions: "snake_case"
+  constants: "UPPER_CASE"
+
+file_organization:
+  skill_package:
+    - "SKILL.md (main skill file)"
+    - "modules/*.md (modular components)"
+    - "config/*.py (configuration)"
+    - "version.yaml"
+  user_data:
+    - "{skill}.yaml (main database)"
+    - "config.yaml (user overrides)"
+    - "{category}/ (organized outputs)"
+
+commands:
+  universal:
+    - "process {skill}" 
+    - "show {items}"
+    - "search: {query}"
+    - "status"
+  inbox_specific:
+    - "check inbox"
+    - "clear processed"
+  database_specific:
+    - "add {item}"
+    - "update {item}"
+    - "archive {item}"
+
+anti_patterns:
+  - "Don't store large content in Apple Notes (causes timeout)"
+  - "Don't duplicate data between skill-package and user-data"
+  - "Don't hardcode paths (use config)"
+  - "Don't skip deduplication"
+  - "Don't ignore URL normalization"
+
+evolution:
+  - date: 2024-11-24
+    change: "Added Apple Notes inbox pattern"
+    learned_from: "career-consultant inbox feature"
+  - date: 2024-11-24
+    change: "Added timeout handling for large note updates"
+    learned_from: "166 URL processing failure"

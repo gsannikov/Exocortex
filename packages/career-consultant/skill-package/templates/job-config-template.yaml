@@ -1,0 +1,26 @@
+status_checks:
+  linkedin:
+    url_pattern: "linkedin.com/jobs/view"
+    active_indicators:
+      - "Apply"
+      - "Easy Apply"
+    closed_indicators:
+      - "No longer accepting applications"
+      - "redirects_to_404"
+
+  company_sites:
+    active_indicators:
+      - "Apply Now"
+    closed_indicators:
+      - "Position filled"
+      - "404 Not Found"
+
+archive_workflow:
+  move_to: "job-backlog/archive/"
+  update_status: "Closed"
+
+priorities:
+  check_frequency: "weekly"
+  high_risk:
+    - "posted > 7 months ago"
+    - "applicants > 500"

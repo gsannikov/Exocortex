@@ -1,1 +1,0 @@
-4e4b372fa28998eaaded58edb21bd5d1063f304220e913dfcf4bc2698c7a582a  releases/claude-skill-template-v1.0.0.zip

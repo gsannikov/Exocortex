@@ -1,0 +1,195 @@
+---
+# Example STAR Story: Problem-Solving & Crisis Management
+
+story_id: "problem-solving-production-crisis-003"
+created: "2025-10-30T12:00:00Z"
+last_updated: "2025-10-30T12:00:00Z"
+version: 1
+
+competencies:
+  - problem-solving
+  - crisis-management
+  - technical-debugging
+  - communication
+  - decision-making
+
+tags:
+  - production-incident
+  - database
+  - performance
+  - customer-impact
+
+question_types:
+  - technical
+  - problem-solving
+  - behavioral
+
+roles_applicable:
+  - Senior Engineer
+  - Staff Engineer
+  - Technical Lead
+  - Engineering Manager
+
+company_sizes:
+  - medium
+  - large
+
+industries:
+  - software
+  - saas
+  - ecommerce
+
+quality_score: 9.0
+completeness_score: 93
+situation_score: 19
+task_score: 14
+action_score: 32
+result_score: 23
+overall_score: 5
+
+impact_level: "critical"
+confidence_level: "very_confident"
+
+times_used: 0
+last_used: null
+interview_outcomes: []
+
+---
+
+# Story: Resolving Critical Database Performance Crisis
+
+## One-Line Summary
+Diagnosed and resolved a mysterious database performance issue causing 30-second page load times for 20% of users, working through the night to prevent $500K revenue loss and customer churn.
+
+## Situation
+It was Friday evening, 6:30 PM, and I was about to leave when our monitoring alerts went critical. Users were reporting 30-second page load times, but only for certain accounts. Our CEO was getting angry calls from enterprise customers threatening to cancel contracts worth $500K+ if the issue wasn't fixed by Monday morning. The previous on-call engineer had spent 2 hours investigating and found nothing. Our database metrics showed normal load, but user experience was clearly degraded. The worst part: only 20% of users were affected, making it incredibly difficult to reproduce and debug.
+
+**Context Details:**
+- Platform/Product: B2B SaaS analytics platform with real-time dashboards
+- Team size: Solo debugging initially, escalated to 3 engineers
+- Timeframe: Friday 6:30 PM to Saturday 2:00 AM (7.5 hours)
+- Business context: $500K+ in contracts at risk, weekend deployment freeze
+- Challenge: Intermittent issue, affected only subset of users, no obvious root cause
+
+## Task
+As the Senior Backend Engineer on-call that weekend, my responsibility was to:
+1. Identify root cause of performance degradation before Monday morning
+2. Implement a fix or workaround to restore acceptable performance
+3. Prevent data loss or corruption (many customers' dashboards refreshing every 30sec)
+4. Communicate status updates to leadership and affected customers
+5. Document the incident for future prevention
+
+**Your Role:**
+- Responsibility: Root cause analysis and remediation
+- Constraints: Weekend deployment freeze, limited access to production
+- Goals: Fix by Monday AM, maintain data integrity, zero downtime solution
+- Why you: Most experienced with our database architecture, owned the on-call rotation
+
+## Action
+**What You Did:**
+- **Hour 1 - Initial Triage (6:30-7:30 PM):**
+  - Checked all standard metrics: CPU, memory, disk I/O, query times—all normal
+  - Reviewed recent deployments: nothing in last 48 hours
+  - Attempted to reproduce: couldn't replicate the slow behavior
+  - Realized pattern: only users with >100K rows in analytics_events table affected
+  - Hypothesis: Query performance degrading with table growth
+
+- **Hour 2 - Deep Investigation (7:30-8:30 PM):**
+  - Enabled query logging for affected user accounts
+  - Discovered: specific query taking 28 seconds for large accounts (vs <1sec for small)
+  - Found culprit: Missing index on composite column (user_id, event_timestamp)
+  - Historical context: Index existed in schema but had been accidentally dropped during a migration 2 weeks ago
+  - Nobody noticed because it only affected large accounts (our newest enterprise customers)
+
+- **Hours 3-4 - Solution Design (8:30-10:30 PM):**
+  - **Challenge:** Can't just add index—it would lock the table for 30+ minutes
+  - Researched online index creation (PostgreSQL `CREATE INDEX CONCURRENTLY`)
+  - Tested in staging environment with production-sized dataset
+  - Calculated: Index creation would take 15 minutes, 0 blocking, safe for production
+  - Prepared rollback plan in case index creation failed
+  - Wrote incident communication for customers (CEO approval needed)
+
+- **Hour 5 - Stakeholder Communication (10:30-11:00 PM):**
+  - Called CEO with diagnosis and proposed solution
+  - Explained risk/reward: 15min index creation vs $500K revenue risk
+  - Got approval to proceed with index creation
+  - Drafted customer communication (ready to send at completion)
+  - Coordinated with Customer Success team for Monday morning calls
+
+- **Hours 6-7 - Implementation & Validation (11:00 PM-12:30 AM):**
+  - Created index using `CREATE INDEX CONCURRENTLY` on production
+  - Monitored every metric during creation: no user impact
+  - Index completed successfully in 14 minutes
+  - Immediately saw query times drop from 28s to 0.8s
+  - Tested with 5 affected customer accounts: all confirmed fast again
+  - Ran performance test suite: all green
+
+- **Hour 8 - Documentation & Prevention (12:30-2:00 AM):**
+  - Wrote detailed post-mortem document
+  - Added automated index existence checks to CI/CD pipeline
+  - Created monitoring alert for query performance by account size
+  - Updated runbook for on-call engineers
+  - Sent success notification to CEO and CS team
+
+**Key Decisions:**
+- **Weekend deployment:** Normally forbidden, but risk of NOT fixing was higher
+- **CONCURRENTLY index:** Could've waited for maintenance window, but customer impact too severe
+- **CEO escalation:** Brought in leadership early for air cover and customer communication
+- **Thorough testing in staging:** 2 hours spent validating prevented production disaster
+
+**Challenges Faced:**
+- **Challenge:** Couldn't reproduce issue initially
+  - **Solution:** Focused on metrics and logs instead of trying to replicate, found pattern in data
+  
+- **Challenge:** Solution required production deployment during freeze
+  - **Solution:** Made business case to CEO: $500K revenue > deployment policy
+  
+- **Challenge:** Index creation in production is risky
+  - **Solution:** Used PostgreSQL concurrent index feature, tested thoroughly in staging first
+
+## Result
+**Immediate Outcomes:**
+- ✅ **Problem resolved:** Query times dropped from 30s → 0.8s (97% improvement)
+- ✅ **All users restored:** 100% of affected accounts back to normal performance
+- ✅ **Zero downtime:** Index creation caused zero user-facing disruption
+- ✅ **Timeline:** Fixed in 7.5 hours (before Monday deadline)
+- ✅ **Communication:** CEO and customers notified within 30 minutes of resolution
+
+**Business Impact:**
+- **Revenue saved:** Prevented $500K+ in contract cancellations
+- **Customer satisfaction:** Enterprise customers praised quick resolution
+- **Reputation:** Demonstrated reliability and responsiveness to new enterprise tier
+- **Proactive prevention:** Added monitoring prevented recurrence for 18+ months
+
+**Personal Growth:**
+- **Confidence:** Validated ability to handle high-pressure production incidents
+- **Technical depth:** Deepened PostgreSQL expertise (indexing, locking, concurrent operations)
+- **Communication:** Learned to balance technical detail with executive updates
+- **On-call leadership:** Set example for team on incident management
+
+**Long-term Effects:**
+- Created company-wide "incident response playbook" based on this experience
+- Added to on-call training as case study example
+- Received company-wide recognition award ($1K bonus)
+- Improved relationship with CEO (gained trust for technical judgment)
+- Led to promotion conversation 2 months later
+
+## Key Takeaways
+1. **Follow the data:** When you can't reproduce, let metrics and logs guide you
+2. **Communicate early and often:** CEO escalation prevented customer churn
+3. **Test thoroughly:** Staging validation prevented production risk
+4. **Document everything:** Post-mortem and prevention measures had lasting value
+5. **Business context matters:** Understanding $500K risk helped prioritize and make bold decisions
+
+## Interview Delivery Tips
+- **Timing:** 2 minutes for full story, 30 seconds for executive summary
+- **Emphasize:** Quick diagnosis, business impact awareness, technical depth, communication discipline
+- **Show:** Problem-solving under pressure, technical expertise, business acumen, communication
+- **Connect:** Links to production debugging, crisis management, technical depth, stakeholder communication
+- **Avoid:** Getting too detailed on PostgreSQL internals unless interviewer asks
+
+## Variations by Question Type
+- **"Tell me about debugging a production issue"** → Focus on investigation methodology and technical details
+- **"Describe working under pressure"** → Emphasize timeline, stakeholder management, decision-making
+- **"How do you handle critical situations?"** → Highlight communication, escalation, systematic approach
+- **"Tell me about a time you saved the company money"** → Lead with $500K revenue saved

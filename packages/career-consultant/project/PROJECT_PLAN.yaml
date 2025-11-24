@@ -1,0 +1,89 @@
+# Israeli Tech Career Consultant - Project Plan Index
+# Optimized structure: Load only what you need per session
+
+metadata:
+  project_name: "Israeli Tech Career Consultant Skill"
+  owner: "Gur Sannikov"
+  current_version: "v9.1.0"
+  status: "🟢 Active Development"
+  last_updated: "2025-10-30"
+  license: "MIT"
+  repository: "GitHub (public)"
+
+# File structure - each section is a separate markdown file
+# Load individual files as needed to minimize token usage
+
+sections:
+  overview:
+    file: "current-status.md"
+    description: "Current version, development phase, key statistics"
+    typical_tokens: 800
+    
+  recent_work:
+    file: "recent-work.md"
+    description: "Recent accomplishments, bug fixes, feature implementations"
+    typical_tokens: 1500
+    
+  architecture:
+    file: "architecture.md"
+    description: "System architecture, module status, technical stack"
+    typical_tokens: 1200
+    
+  roadmap:
+    description: "Feature roadmap split into three files"
+    files:
+      completed: "roadmap/completed.md"
+      in_progress: "roadmap/in-progress.md"
+      planned: "roadmap/planned.md"
+    typical_tokens: 2000
+    
+  history:
+    file: "version-history.md"
+    description: "Version changelog and release notes"
+    typical_tokens: 800
+    
+  technical_debt:
+    file: "technical-debt.md"
+    description: "Technical debt tracking and priorities"
+    typical_tokens: 400
+    
+  documentation:
+    file: "documentation-status.md"
+    description: "Documentation inventory and status"
+    typical_tokens: 600
+    
+  metrics:
+    file: "metrics.md"
+    description: "Success metrics and performance indicators"
+    typical_tokens: 600
+    
+  next_steps:
+    file: "next-steps.md"
+    description: "Immediate actions and priorities"
+    typical_tokens: 500
+
+# Quick reference - load this instead of full sections
+quick_start:
+  current_version: "v9.1.0"
+  current_phase: "Mature Enhancement & Feature Expansion"
+  top_priority: "Test v9.1.1 bug fixes, implement Feature #7 (Country-Agnostic) and #12 (Resume Generation)"
+  next_release: "v9.1.1 (bug fixes) → v10.0 (major features)"
+  
+# Strategic priorities
+priorities:
+  q4_2025:
+    - "Feature #7: Country-Agnostic Design (v10.0)"
+    - "Feature #12: Resume Generation System (v10.0)"
+    - "Feature #6: Donation Options"
+    - "Community building and GitHub growth"
+  
+  q1_2026:
+    - "International expansion (US, UK, EU markets)"
+    - "LinkedIn integration and resume tailoring"
+    - "Industry tracker and gap analysis"
+
+# Contact
+contact:
+  project_owner: "Gur Sannikov"
+  license: "MIT"
+  status: "Active, welcoming contributions"

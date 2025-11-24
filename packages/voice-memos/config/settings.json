@@ -1,0 +1,266 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "version": "0.1.0",
+  "last_updated": "2025-11-03",
+  
+  "user": {
+    "name": "Gur Sannikov",
+    "timezone": "Asia/Jerusalem",
+    "language_preferences": ["en", "he"],
+    "email": ""
+  },
+  
+  "transcription": {
+    "enabled": true,
+    "include_timestamps": true,
+    "timestamp_frequency": "paragraph",
+    "timestamp_format": "[HH:MM:SS]",
+    "language": "auto",
+    "fallback_language": "en",
+    "speaker_labels": true,
+    "max_speakers": 5,
+    "confidence_threshold": 0.85,
+    "filter_filler_words": false,
+    "custom_vocabulary": []
+  },
+  
+  "analysis": {
+    "extract_action_items": true,
+    "action_item_keywords": [
+      "todo", "task", "need to", "must", "should", "reminder",
+      "follow up", "schedule", "book", "call", "email", "send"
+    ],
+    "priority_scoring": true,
+    "priority_keywords": {
+      "high": ["urgent", "asap", "critical", "important", "immediately"],
+      "medium": ["soon", "this week", "priority"],
+      "low": ["eventually", "someday", "maybe", "consider"]
+    },
+    
+    "generate_summary": true,
+    "summary_length": "standard",
+    "summary_styles": {
+      "brief": {
+        "enabled": true,
+        "max_sentences": 3,
+        "description": "TL;DR - key takeaway only"
+      },
+      "standard": {
+        "enabled": true,
+        "max_sentences": 10,
+        "description": "Main points and context"
+      },
+      "detailed": {
+        "enabled": false,
+        "max_sentences": 20,
+        "description": "Comprehensive summary with nuance"
+      }
+    },
+    
+    "identify_entities": true,
+    "entity_types": ["person", "date", "time", "location", "organization", "project"],
+    "extract_key_points": true,
+    "max_key_points": 5,
+    
+    "sentiment_analysis": false,
+    "detect_questions": true,
+    "detect_decisions": true,
+    
+    "auto_categorize": true,
+    "categories": [
+      "meeting",
+      "idea",
+      "task",
+      "journal",
+      "note",
+      "research",
+      "personal",
+      "work",
+      "decision"
+    ],
+    
+    "custom_prompts": {
+      "enabled": false,
+      "meeting_notes": "",
+      "personal_journal": "",
+      "task_capture": ""
+    }
+  },
+  
+  "organization": {
+    "filing_structure": "date",
+    "filing_options": ["date", "topic", "project", "custom"],
+    
+    "date_format": "YYYY-MM-DD",
+    "create_topic_folders": true,
+    "create_project_folders": true,
+    
+    "auto_tags": true,
+    "max_tags": 10,
+    "min_tag_confidence": 0.7,
+    "tag_blacklist": ["the", "a", "an", "and", "or"],
+    
+    "archive_after_days": 365,
+    "delete_after_days": 0,
+    
+    "naming_convention": "{date}_{time}_{title}",
+    "title_from_summary": true,
+    "max_title_length": 50,
+    
+    "reading_queue": false,
+    "priority_queue": true
+  },
+  
+  "integrations": {
+    "apple_notes": {
+      "enabled": false,
+      "notebook": "Voice Memos",
+      "create_notes": true,
+      "note_format": "meeting_notes",
+      "include_timestamps": true,
+      "include_action_items": true,
+      "include_full_transcript": false,
+      "sync_mode": "manual"
+    },
+    
+    "calendar": {
+      "enabled": false,
+      "calendar_name": "primary",
+      "auto_create_events": false,
+      "event_detection_keywords": [
+        "meeting", "call", "appointment", "schedule", 
+        "book", "reserve", "on {date}", "at {time}"
+      ],
+      "default_duration_minutes": 30,
+      "default_reminder_minutes": 15,
+      "require_confirmation": true
+    },
+    
+    "notion": {
+      "enabled": false,
+      "database_id": "",
+      "auto_sync": false,
+      "sync_action_items": true,
+      "page_template": "voice_memo"
+    },
+    
+    "google_drive": {
+      "enabled": false,
+      "folder_id": "",
+      "auto_upload": false,
+      "upload_format": ["markdown", "audio"]
+    }
+  },
+  
+  "output": {
+    "default_format": "markdown",
+    "formats": ["markdown", "docx", "txt", "json"],
+    
+    "markdown": {
+      "enabled": true,
+      "include_metadata": true,
+      "include_toc": false,
+      "heading_level": 2,
+      "code_highlighting": false
+    },
+    
+    "docx": {
+      "enabled": true,
+      "template": "default",
+      "page_size": "A4",
+      "font_family": "Calibri",
+      "font_size": 11,
+      "include_cover_page": false
+    },
+    
+    "templates": {
+      "default": "basic-transcript",
+      "meeting": "meeting-notes",
+      "journal": "journal-entry",
+      "task": "task-list",
+      "custom": ""
+    },
+    
+    "email_reports": {
+      "enabled": false,
+      "frequency": "never",
+      "recipient": "",
+      "include_summaries": true,
+      "include_action_items": true
+    }
+  },
+  
+  "audio": {
+    "supported_formats": ["m4a", "mp3", "wav", "aac", "opus", "flac"],
+    "preferred_format": "m4a",
+    "max_file_size_mb": 100,
+    "max_duration_minutes": 120,
+    
+    "quality": {
+      "bitrate_kbps": 128,
+      "sample_rate_hz": 44100,
+      "channels": 1
+    },
+    
+    "preprocessing": {
+      "noise_reduction": false,
+      "volume_normalization": false,
+      "trim_silence": false
+    },
+    
+    "retention": {
+      "keep_original_audio": true,
+      "audio_archive_path": "raw/",
+      "compress_old_files": false,
+      "compression_age_days": 90
+    }
+  },
+  
+  "privacy": {
+    "pii_detection": false,
+    "pii_redaction": false,
+    "encrypt_storage": false,
+    "audit_log": false,
+    "share_analytics": false,
+    
+    "sensitive_keywords": [
+      "password", "credit card", "ssn", "social security",
+      "confidential", "secret", "private"
+    ]
+  },
+  
+  "performance": {
+    "max_concurrent_processing": 2,
+    "processing_timeout_seconds": 600,
+    "cache_transcriptions": true,
+    "cache_duration_days": 30,
+    
+    "batch_processing": {
+      "enabled": true,
+      "max_batch_size": 10,
+      "parallel_processing": false
+    }
+  },
+  
+  "notifications": {
+    "enabled": false,
+    "processing_complete": false,
+    "action_items_found": false,
+    "errors": true,
+    "sound": false
+  },
+  
+  "advanced": {
+    "debug_mode": false,
+    "log_level": "info",
+    "log_file": "logs/voice-memos.log",
+    "save_intermediate_results": false,
+    
+    "experimental_features": {
+      "real_time_transcription": false,
+      "voice_commands": false,
+      "context_linking": false,
+      "pattern_recognition": false
+    }
+  }
+}

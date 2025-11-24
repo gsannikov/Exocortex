@@ -1,0 +1,226 @@
+---
+# STAR Interview Question Database
+# 50+ behavioral interview questions organized by competency
+# Use these prompts to build your STAR story library
+
+# ============================================================
+# LEADERSHIP
+# ============================================================
+
+leadership:
+  team_management:
+    - "Tell me about a time you had to motivate an underperforming team member"
+    - "Describe a situation where you had to deliver difficult feedback to someone on your team"
+    - "How have you handled a situation where your team disagreed with your decision?"
+    - "Tell me about a time you had to delegate an important task"
+    - "Describe when you had to manage a team member who wasn't meeting expectations"
+    - "Tell me about building or restructuring a team"
+  
+  conflict_resolution:
+    - "Describe a conflict you resolved between team members"
+    - "Tell me about a time you disagreed with your manager"
+    - "How did you handle a situation where stakeholders had competing priorities?"
+    - "Describe resolving a disagreement with a peer or colleague"
+    - "Tell me about managing conflict between different teams or departments"
+  
+  change_management:
+    - "Tell me about a time you led your team through a significant change"
+    - "Describe how you introduced a new process or technology"
+    - "How did you handle resistance to change from your team?"
+    - "Tell me about driving organizational transformation"
+    - "Describe managing a major transition (merger, reorganization, etc.)"
+  
+  decision_making:
+    - "Describe a tough decision you made with limited information"
+    - "Tell me about a time you made an unpopular decision"
+    - "How have you handled a situation where you had to choose between two good options?"
+    - "Describe a decision you made that you later regretted"
+    - "Tell me about making a high-stakes decision under pressure"
+
+# ============================================================
+# TECHNICAL
+# ============================================================
+
+technical:
+  problem_solving:
+    - "Describe the most complex technical problem you've solved"
+    - "Tell me about a time you had to debug a critical production issue"
+    - "How have you approached a problem you had no experience with?"
+    - "Describe solving a problem that others had given up on"
+    - "Tell me about a time when you had to learn a new technology quickly to solve a problem"
+    - "Describe troubleshooting a persistent, hard-to-reproduce issue"
+  
+  system_design:
+    - "Describe a system you designed from scratch"
+    - "Tell me about a time you had to improve system performance or scalability"
+    - "How have you handled technical debt in a project?"
+    - "Describe designing for reliability and fault tolerance"
+    - "Tell me about making architectural trade-off decisions"
+  
+  architecture:
+    - "Describe your experience with large-scale migrations or refactoring"
+    - "Tell me about a technical decision you made that had long-term impact"
+    - "How do you balance innovation with stability?"
+    - "Describe introducing a new architectural pattern or technology"
+    - "Tell me about decomposing a monolith or modernizing legacy systems"
+  
+  code_quality:
+    - "Tell me about a time you improved code quality or development practices"
+    - "Describe establishing or improving testing practices"
+    - "How have you dealt with poorly written or undocumented code?"
+    - "Tell me about implementing code review practices"
+    - "Describe refactoring complex or legacy code"
+
+# ============================================================
+# COLLABORATION
+# ============================================================
+
+collaboration:
+  cross_functional:
+    - "Tell me about working with a difficult stakeholder"
+    - "Describe a time you had to influence without authority"
+    - "How have you collaborated with product/design/other teams?"
+    - "Tell me about building relationships with non-technical stakeholders"
+    - "Describe coordinating work across multiple teams"
+  
+  communication:
+    - "Tell me about a time you had to explain a complex technical concept to non-technical people"
+    - "Describe presenting a technical proposal to leadership"
+    - "How have you handled miscommunication or misunderstanding?"
+    - "Tell me about documenting a complex system or process"
+    - "Describe facilitating alignment between different groups"
+  
+  mentorship:
+    - "Tell me about a time you mentored someone"
+    - "Describe how you've helped someone grow their skills"
+    - "How do you share knowledge across your team?"
+    - "Tell me about onboarding or training new team members"
+    - "Describe developing others' leadership or technical capabilities"
+
+# ============================================================
+# INNOVATION & INITIATIVE
+# ============================================================
+
+innovation:
+  initiative:
+    - "Tell me about a time you identified and solved a problem proactively"
+    - "Describe an innovation or improvement you championed"
+    - "How have you improved processes or tools without being asked?"
+    - "Tell me about going above and beyond your job responsibilities"
+    - "Describe identifying an opportunity others had missed"
+  
+  risk_taking:
+    - "Tell me about a calculated risk you took"
+    - "Describe a time you tried something new and it failed"
+    - "How do you balance innovation with stability?"
+    - "Tell me about experimenting with new approaches or technologies"
+    - "Describe pushing back on the status quo or conventional wisdom"
+  
+  creativity:
+    - "Tell me about a time you had to think outside the box"
+    - "Describe an unconventional solution you implemented"
+    - "How have you approached constraints creatively?"
+    - "Tell me about finding a novel approach to a common problem"
+    - "Describe innovating under resource constraints"
+
+# ============================================================
+# PROJECT MANAGEMENT & DELIVERY
+# ============================================================
+
+project_management:
+  planning:
+    - "Tell me about planning and executing a large project"
+    - "Describe managing project scope and preventing scope creep"
+    - "How have you handled competing deadlines or priorities?"
+    - "Tell me about estimating and managing project timelines"
+    - "Describe coordinating dependencies across multiple teams"
+  
+  delivery:
+    - "Tell me about delivering a project under a tight deadline"
+    - "Describe a time you had to make trade-offs to ship on time"
+    - "How have you handled project delays or setbacks?"
+    - "Tell me about ensuring quality while meeting deadlines"
+    - "Describe recovering from a project that was behind schedule"
+  
+  risk_management:
+    - "Tell me about identifying and mitigating project risks"
+    - "Describe handling an unexpected obstacle or crisis"
+    - "How have you managed technical or business risks?"
+    - "Tell me about a project that went wrong and how you recovered"
+    - "Describe preventing or minimizing project failures"
+
+# ============================================================
+# BUSINESS & IMPACT
+# ============================================================
+
+business_impact:
+  results_focus:
+    - "Tell me about achieving a significant business outcome"
+    - "Describe how you've measured and demonstrated impact"
+    - "How have you aligned technical work with business goals?"
+    - "Tell me about optimizing for business value"
+    - "Describe making trade-offs between technical and business priorities"
+  
+  customer_focus:
+    - "Tell me about a time you advocated for the user or customer"
+    - "Describe improving customer experience or satisfaction"
+    - "How have you incorporated customer feedback?"
+    - "Tell me about balancing customer needs with technical constraints"
+    - "Describe understanding and solving customer pain points"
+  
+  strategic_thinking:
+    - "Tell me about contributing to technical or product strategy"
+    - "Describe thinking long-term about technology or architecture"
+    - "How have you balanced short-term and long-term priorities?"
+    - "Tell me about influencing roadmap or direction"
+    - "Describe identifying strategic opportunities or threats"
+
+# ============================================================
+# PERSONAL GROWTH & ADAPTABILITY
+# ============================================================
+
+growth:
+  learning:
+    - "Tell me about a time you had to learn something completely new"
+    - "Describe overcoming a significant learning curve"
+    - "How have you developed new skills outside your comfort zone?"
+    - "Tell me about seeking out growth opportunities"
+    - "Describe learning from failure or mistakes"
+  
+  adaptability:
+    - "Tell me about adapting to a major change at work"
+    - "Describe thriving in ambiguity or uncertainty"
+    - "How have you handled shifting priorities or requirements?"
+    - "Tell me about switching roles, teams, or technologies"
+    - "Describe pivoting when your initial approach wasn't working"
+  
+  resilience:
+    - "Tell me about overcoming a significant setback"
+    - "Describe persevering through a difficult situation"
+    - "How have you maintained motivation during challenging times?"
+    - "Tell me about recovering from failure"
+    - "Describe handling stress or pressure"
+
+# ============================================================
+# USAGE NOTES
+# ============================================================
+
+# How to use this database:
+# 1. Browse by competency area relevant to your target role
+# 2. Identify 10-15 questions you can answer strongly
+# 3. Use the interactive story builder to create STAR responses
+# 4. Aim for 20-30 total stories covering all major competencies
+# 5. Update regularly as you gain new experiences
+
+# Question categories by role:
+# - Individual Contributor: Focus on technical, problem-solving, collaboration
+# - Tech Lead: Add leadership, architecture, cross-functional
+# - Engineering Manager: Emphasize leadership, people management, strategic
+# - Director+: Focus on strategic, business impact, organizational leadership
+
+# Story building priority:
+# 1. Core competencies for your target role (5-7 stories)
+# 2. Unique differentiators (3-5 stories)  
+# 3. Growth areas you want to highlight (2-3 stories)
+# 4. Recent achievements (2-3 stories)
+# 5. Classic behavioral questions (5-10 stories)

@@ -1,0 +1,184 @@
+---
+# Example STAR Story: Cross-Functional Collaboration
+
+story_id: "collaboration-product-partnership-004"
+created: "2025-10-30T12:00:00Z"
+last_updated: "2025-10-30T12:00:00Z"
+version: 1
+
+competencies:
+  - cross-functional-collaboration
+  - communication
+  - influence
+  - strategic-thinking
+
+tags:
+  - product-partnership
+  - stakeholder-management
+  - roadmap-alignment
+  - technical-tradeoffs
+
+question_types:
+  - behavioral
+  - collaboration
+  - influence
+
+roles_applicable:
+  - Technical Lead
+  - Engineering Manager
+  - Staff Engineer
+  - Senior Engineer
+
+company_sizes:
+  - medium
+  - large
+
+industries:
+  - software
+  - saas
+
+quality_score: 8.8
+completeness_score: 91
+situation_score: 18
+task_score: 14
+action_score: 31
+result_score: 23
+overall_score: 5
+
+impact_level: "high"
+confidence_level: "confident"
+
+times_used: 0
+last_used: null
+interview_outcomes: []
+
+---
+
+# Story: Influencing Product Roadmap Through Technical Insights
+
+## One-Line Summary
+Partnered with Product team to shift Q3 roadmap priorities by presenting data-driven technical insights, preventing 6 months of wasted engineering effort and accelerating a $5M revenue opportunity.
+
+## Situation
+Our Product team had committed to building a real-time collaboration feature for Q3—think Google Docs-style multiplayer editing. They'd already demoed mockups to customers and leadership was excited. However, from my technical perspective, this was the wrong priority. I had recently analyzed our system metrics and discovered that 60% of our enterprise customers were hitting severe performance issues with our existing batch reporting feature. These performance problems were blocking a $5M expansion deal with our largest customer. The Product team was unaware of this data and was focused on the shiny new collaboration feature because it would demo well.
+
+**Context Details:**
+- Platform/Product: B2B analytics platform used by enterprise customers
+- Team size: Worked across Engineering (12), Product (4), Sales (3)
+- Timeframe: Q2 planning cycle (3 weeks to influence Q3 roadmap)
+- Business context: $5M expansion deal at risk, new feature already demoed
+- Challenge: Product had momentum on wrong priority, I had no formal authority over roadmap
+
+## Task
+As a Staff Engineer, my responsibility was to:
+1. Present technical evidence in a way that Product team would value
+2. Influence roadmap reprioritization without overstepping or undermining Product leadership
+3. Balance engineering perspective with product and business needs
+4. Maintain trust and partnership with Product team (not create adversarial relationship)
+5. Find a solution that addressed both the immediate revenue risk AND the long-term collaboration vision
+
+**Your Role:**
+- Responsibility: Provide technical input, influence decision-making
+- Constraints: No direct authority over product roadmap, limited time before Q3 planning locked
+- Goals: Shift priorities to fix performance issues without killing collaboration feature
+- Why you: Had technical data, trusted relationship with Head of Product, respected voice
+
+## Action
+**What You Did:**
+- **Week 1 - Data Gathering:**
+  - Compiled comprehensive performance metrics from production logs
+  - Analyzed customer support tickets: 45% of enterprise tickets related to slow reports
+  - Interviewed 3 Customer Success Managers about expansion deal blockers
+  - Calculated revenue at risk: $5M expansion + $2M annual churn risk from poor performance
+  - Prepared business case document (not just technical specs)
+
+- **Week 2 - Strategic Stakeholder Engagement:**
+  - Met 1-on-1 with Head of Product before formal presentation
+  - Framed issue as "opportunity" not "problem" (preventing $7M revenue loss = huge win)
+  - Acknowledged the value of collaboration feature, proposed phased approach
+  - Showed customer quotes expressing frustration with performance
+  - Shared technical analysis: Performance fixes would take 6 weeks, collaboration 16+ weeks
+
+- **Week 2 - Collaboration Design:**
+  - Worked with Product team to redesign Q3 approach:
+    * Q3: Performance optimization (6 weeks) + Collaboration POC/research (4 weeks)
+    * Q4: Full collaboration feature (12 weeks) with learnings from POC
+  - Created technical architecture proposal showing performance fix didn't preclude collaboration
+  - Identified 2 engineers who could work POC while rest worked performance
+  - Made it feel like Product's idea, not engineering dictating to Product
+
+- **Week 3 - Formal Presentation & Buy-in:**
+  - Presented joint proposal at quarterly planning meeting (me + Head of Product)
+  - Data-driven slides: customer impact, revenue risk, technical estimates
+  - Emphasized partnership: "Product + Engineering aligned on best path forward"
+  - Addressed CEO's concern about delaying collaboration: showed POC would validate assumptions
+  - Got unanimous approval from leadership team
+
+- **Post-Decision - Follow-Through:**
+  - Led performance optimization project personally to ensure 6-week delivery
+  - Provided weekly updates to Product and Sales teams
+  - Helped Product team message the roadmap change to customers (positioned as listening to feedback)
+  - Maintained momentum on collaboration feature with POC work
+
+**Key Decisions:**
+- **1-on-1 first:** Building private alignment before public presentation prevented surprise/resistance
+- **Business framing:** Led with revenue impact, not technical metrics (spoke Product's language)
+- **Compromise approach:** Didn't kill collaboration feature, found phased path forward
+- **Joint presentation:** Made it collaborative success, not engineering override
+- **Personal accountability:** Led the performance work myself to build trust
+
+**Challenges Faced:**
+- **Challenge:** Product team initially defensive (felt like Engineering was second-guessing)
+  - **Solution:** Framed as partnership, acknowledged their expertise, used data not opinions
+  
+- **Challenge:** CEO loved collaboration feature demos, hard to shift priorities
+  - **Solution:** Showed POC approach satisfied his vision while de-risking revenue
+  
+- **Challenge:** Engineering team wanted to build collaboration (more exciting than performance work)
+  - **Solution:** Explained business context, assigned 2 engineers to POC to maintain excitement
+
+## Result
+**Immediate Outcomes:**
+- ✅ **Roadmap reprioritized:** Q3 focus shifted to performance + collaboration POC
+- ✅ **Engineering bandwidth:** 10 engineers on performance, 2 on collaboration research
+- ✅ **Partnership strengthened:** Product team thanked me for bringing data and collaboration approach
+- ✅ **Alignment:** Engineering, Product, Sales, Leadership all aligned on new plan
+
+**Business Impact:**
+- **Revenue secured:** $5M expansion deal closed in Q3 (after performance fixes)
+- **Churn prevented:** Reduced performance-related churn by 40% (saved $800K annual revenue)
+- **Customer satisfaction:** NPS score improved 12 points for enterprise tier
+- **Collaboration feature:** POC validated approach, Q4 launch exceeded adoption targets by 30%
+- **Timeline efficiency:** Would've wasted 16 weeks building collaboration first, only to face performance fire drill
+
+**Personal Growth:**
+- **Influence without authority:** Learned to lead through data and relationships, not hierarchy
+- **Cross-functional communication:** Got better at speaking "product language" vs "engineering language"
+- **Strategic thinking:** Connected technical decisions to business outcomes
+- **Partnership:** Strengthened relationship with Product team (led to future collaborations)
+
+**Long-term Effects:**
+- Created quarterly "Engineering-Product alignment" meetings (now standard practice)
+- Head of Product started inviting me to early roadmap discussions
+- Promoted to Principal Engineer role 6 months later
+- Collaboration feature became company's most successful launch (35% adoption in 90 days)
+
+## Key Takeaways
+1. **Data > opinions:** Technical insights backed by customer impact data are persuasive
+2. **Speak their language:** Frame technical issues in business/product terms
+3. **Build private alignment first:** 1-on-1s before public forums prevent defensive reactions
+4. **Partnership over directive:** Make it collaborative success, not engineering override
+5. **Follow through:** Personal accountability builds trust for future influence
+
+## Interview Delivery Tips
+- **Timing:** 90 seconds for full story, 30 seconds for summary
+- **Emphasize:** Influence without authority, data-driven decision-making, partnership approach
+- **Show:** Strategic thinking, communication, business acumen, relationship building
+- **Connect:** Links to stakeholder management, influence, cross-functional collaboration, strategic thinking
+- **Avoid:** Making Product team look bad (emphasize partnership and mutual success)
+
+## Variations by Question Type
+- **"Tell me about influencing without authority"** → Focus on stakeholder engagement and data-driven persuasion
+- **"Describe collaborating with Product"** → Emphasize partnership approach and joint problem-solving
+- **"How do you handle disagreements?"** → Highlight finding common ground and compromise solutions
+- **"Tell me about strategic thinking"** → Lead with business impact and long-term planning

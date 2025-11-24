@@ -1,0 +1,296 @@
+{
+  "version": "0.1.0",
+  "last_updated": "2025-11-03",
+  
+  "preferred_sources": [
+    {
+      "name": "TechCrunch",
+      "domain": "techcrunch.com",
+      "type": "news",
+      "topics": ["tech", "startups", "venture-capital"],
+      "auto_tag": ["tech", "startups"],
+      "priority": "high",
+      "quality_score": 0.85,
+      "update_frequency": "daily",
+      "requires_subscription": false
+    },
+    {
+      "name": "Harvard Business Review",
+      "domain": "hbr.org",
+      "type": "magazine",
+      "topics": ["business", "management", "leadership", "strategy"],
+      "auto_tag": ["business", "management"],
+      "priority": "high",
+      "quality_score": 0.95,
+      "update_frequency": "weekly",
+      "requires_subscription": true
+    },
+    {
+      "name": "MIT Technology Review",
+      "domain": "technologyreview.com",
+      "type": "magazine",
+      "topics": ["technology", "ai", "innovation", "research"],
+      "auto_tag": ["tech", "ai", "research"],
+      "priority": "high",
+      "quality_score": 0.90,
+      "update_frequency": "daily",
+      "requires_subscription": false
+    },
+    {
+      "name": "Andreessen Horowitz Blog",
+      "domain": "a16z.com",
+      "type": "blog",
+      "topics": ["tech", "startups", "ai", "future-of-work"],
+      "auto_tag": ["tech", "startups", "vc"],
+      "priority": "high",
+      "quality_score": 0.88,
+      "update_frequency": "weekly",
+      "requires_subscription": false
+    },
+    {
+      "name": "Y Combinator",
+      "domain": "ycombinator.com",
+      "type": "blog",
+      "topics": ["startups", "entrepreneurship", "tech"],
+      "auto_tag": ["startups", "entrepreneurship"],
+      "priority": "medium",
+      "quality_score": 0.82,
+      "update_frequency": "weekly",
+      "requires_subscription": false
+    },
+    {
+      "name": "The Pragmatic Engineer",
+      "domain": "blog.pragmaticengineer.com",
+      "type": "blog",
+      "topics": ["engineering", "career", "tech-industry"],
+      "auto_tag": ["engineering", "career"],
+      "priority": "high",
+      "quality_score": 0.90,
+      "update_frequency": "weekly",
+      "requires_subscription": true
+    },
+    {
+      "name": "Stratechery",
+      "domain": "stratechery.com",
+      "type": "blog",
+      "topics": ["tech-strategy", "business-models", "analysis"],
+      "auto_tag": ["tech", "strategy", "analysis"],
+      "priority": "high",
+      "quality_score": 0.92,
+      "update_frequency": "daily",
+      "requires_subscription": true
+    },
+    {
+      "name": "Calcalist (Israeli Tech)",
+      "domain": "calcalist.co.il",
+      "type": "news",
+      "topics": ["israeli-tech", "startups", "business"],
+      "auto_tag": ["israeli-tech", "startups"],
+      "priority": "high",
+      "quality_score": 0.80,
+      "update_frequency": "daily",
+      "requires_subscription": false,
+      "language": "he"
+    },
+    {
+      "name": "The Times of Israel - Tech",
+      "domain": "timesofisrael.com",
+      "type": "news",
+      "topics": ["israeli-tech", "innovation"],
+      "auto_tag": ["israeli-tech"],
+      "priority": "medium",
+      "quality_score": 0.75,
+      "update_frequency": "daily",
+      "requires_subscription": false
+    },
+    {
+      "name": "Lenny's Newsletter",
+      "domain": "lennysnewsletter.com",
+      "type": "newsletter",
+      "topics": ["product-management", "growth", "startups"],
+      "auto_tag": ["product", "growth"],
+      "priority": "high",
+      "quality_score": 0.88,
+      "update_frequency": "weekly",
+      "requires_subscription": true
+    },
+    {
+      "name": "First Round Review",
+      "domain": "review.firstround.com",
+      "type": "magazine",
+      "topics": ["startups", "management", "leadership"],
+      "auto_tag": ["startups", "management"],
+      "priority": "high",
+      "quality_score": 0.90,
+      "update_frequency": "weekly",
+      "requires_subscription": false
+    },
+    {
+      "name": "Hacker News",
+      "domain": "news.ycombinator.com",
+      "type": "aggregator",
+      "topics": ["tech", "programming", "startups"],
+      "auto_tag": ["tech"],
+      "priority": "medium",
+      "quality_score": 0.75,
+      "update_frequency": "real-time",
+      "requires_subscription": false,
+      "note": "Community-driven, quality varies"
+    },
+    {
+      "name": "arXiv.org",
+      "domain": "arxiv.org",
+      "type": "repository",
+      "topics": ["research", "ai", "ml", "computer-science"],
+      "auto_tag": ["research", "academic"],
+      "priority": "medium",
+      "quality_score": 0.92,
+      "update_frequency": "daily",
+      "requires_subscription": false,
+      "note": "Academic papers, pre-print"
+    }
+  ],
+  
+  "rss_feeds": [
+    {
+      "name": "AI News (Aggregated)",
+      "url": "https://news.google.com/rss/search?q=artificial+intelligence",
+      "topics": ["ai", "ml"],
+      "check_frequency": "daily",
+      "auto_capture": false,
+      "max_articles_per_check": 10
+    },
+    {
+      "name": "Israeli Tech News",
+      "url": "https://www.calcalist.co.il/home/0,7340,L-8,00.xml",
+      "topics": ["israeli-tech"],
+      "check_frequency": "daily",
+      "auto_capture": false,
+      "max_articles_per_check": 5
+    }
+  ],
+  
+  "blocked_sources": [
+    {
+      "domain": "example-low-quality.com",
+      "reason": "Low quality content",
+      "blocked_date": "2025-11-03"
+    }
+  ],
+  
+  "custom_scrapers": [
+    {
+      "name": "LinkedIn Articles",
+      "domain": "linkedin.com",
+      "scraper": "bright_data",
+      "enabled": true,
+      "note": "Requires Bright Data for reliable extraction"
+    },
+    {
+      "name": "Medium Paywalled",
+      "domain": "medium.com",
+      "scraper": "bright_data",
+      "enabled": true,
+      "note": "Use Bright Data for member-only articles"
+    }
+  ],
+  
+  "topic_taxonomy": {
+    "technology": ["ai", "ml", "blockchain", "cloud", "saas"],
+    "business": ["strategy", "management", "leadership", "operations"],
+    "career": ["job-search", "interview", "promotion", "skills"],
+    "startups": ["funding", "growth", "product-market-fit", "mvp"],
+    "ai-ml": ["llm", "deep-learning", "computer-vision", "nlp"],
+    "israeli-tech": ["tel-aviv", "startup-nation", "exit", "vc-israel"]
+  },
+  
+  "collection_templates": [
+    {
+      "name": "AI Transformation Research",
+      "description": "Articles about AI transformation in enterprises",
+      "topics": ["ai", "transformation", "enterprise"],
+      "min_articles": 5,
+      "research_questions": [
+        "What are common challenges in AI transformation?",
+        "What frameworks exist for AI adoption?",
+        "What metrics measure AI transformation success?"
+      ]
+    },
+    {
+      "name": "Engineering Management Best Practices",
+      "description": "Articles on managing engineering teams",
+      "topics": ["management", "engineering", "leadership"],
+      "min_articles": 5,
+      "research_questions": [
+        "What makes effective engineering managers?",
+        "How to scale engineering teams?",
+        "Best practices for 1-on-1s?"
+      ]
+    },
+    {
+      "name": "Israeli Tech Ecosystem",
+      "description": "Understanding Israel's tech landscape",
+      "topics": ["israeli-tech", "ecosystem", "startups"],
+      "min_articles": 10,
+      "research_questions": [
+        "What are the key players in Israeli tech?",
+        "How does Israeli tech compare globally?",
+        "What are current trends?"
+      ]
+    }
+  ],
+  
+  "auto_categorization_rules": [
+    {
+      "keywords": ["machine learning", "deep learning", "neural network", "llm"],
+      "category": "ai-ml",
+      "confidence": 0.9
+    },
+    {
+      "keywords": ["startup", "founder", "venture capital", "seed round"],
+      "category": "startups",
+      "confidence": 0.85
+    },
+    {
+      "keywords": ["manager", "leadership", "team", "org chart"],
+      "category": "management",
+      "confidence": 0.8
+    },
+    {
+      "keywords": ["tel aviv", "israel", "israeli", "haifa", "jerusalem tech"],
+      "category": "israeli-tech",
+      "confidence": 0.9
+    },
+    {
+      "keywords": ["interview", "resume", "job search", "career change"],
+      "category": "career",
+      "confidence": 0.85
+    }
+  ],
+  
+  "reading_recommendations": {
+    "learning_paths": [
+      {
+        "name": "Getting Started with AI/ML",
+        "level": "beginner",
+        "articles_count": 10,
+        "topics": ["ai-basics", "ml-intro"],
+        "time_estimate_hours": 8
+      },
+      {
+        "name": "Engineering Management 101",
+        "level": "intermediate",
+        "articles_count": 15,
+        "topics": ["management", "leadership"],
+        "time_estimate_hours": 12
+      },
+      {
+        "name": "Israeli Tech Deep Dive",
+        "level": "intermediate",
+        "articles_count": 20,
+        "topics": ["israeli-tech", "ecosystem"],
+        "time_estimate_hours": 15
+      }
+    ]
+  }
+}

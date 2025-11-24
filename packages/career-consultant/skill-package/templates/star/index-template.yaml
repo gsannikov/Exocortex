@@ -1,0 +1,98 @@
+---
+# STAR Story Library Index
+# Auto-updated when stories are created/modified
+# Location: user-data/interview-prep/star-stories/index.yaml
+
+library_metadata:
+  total_stories: 0
+  last_updated: ""
+  average_quality_score: 0
+  interview_ready_count: 0  # Stories with score >= 90
+  version: "1.0"
+
+stories: []
+  # Example story entry structure:
+  # - story_id: "leadership-conflict-resolution-001"
+  #   title: "Resolving Architecture Disagreement"
+  #   file: "leadership-conflict-resolution-001.yaml"
+  #   created: "2025-10-25T10:30:00Z"
+  #   last_updated: "2025-10-28T14:20:00Z"
+  #   quality_score: 94
+  #   situation_score: 19
+  #   task_score: 14
+  #   action_score: 33
+  #   result_score: 23
+  #   overall_score: 5
+  #   rating: "excellent"  # excellent/good/fair/incomplete
+  #   competencies:
+  #     - leadership
+  #     - conflict-resolution
+  #     - decision-making
+  #   tags:
+  #     - architecture
+  #     - team-dynamics
+  #   question_types:
+  #     - behavioral
+  #     - leadership
+  #   roles_applicable:
+  #     - Engineering Manager
+  #     - Technical Lead
+  #   company_sizes:
+  #     - medium
+  #     - large
+  #   impact_level: "high"  # low/medium/high/critical
+  #   status: "interview-ready"  # draft/in-progress/interview-ready
+  #   times_used: 0
+  #   last_used_date: null
+  #   last_used_company: null
+  #   last_used_role: null
+  #   interview_outcomes: []
+
+competency_coverage: {}
+  # Example:
+  # leadership: 0
+  # technical: 0
+  # problem_solving: 0
+  # collaboration: 0
+  # innovation: 0
+  # conflict_resolution: 0
+  # decision_making: 0
+  # crisis_management: 0
+  # communication: 0
+  # mentorship: 0
+  # customer_focus: 0
+
+quality_distribution:
+  excellent: 0  # 90-100
+  good: 0       # 75-89
+  fair: 0       # 60-74
+  incomplete: 0 # <60
+
+section_scores_average:
+  situation: 0.0
+  task: 0.0
+  action: 0.0
+  result: 0.0
+  overall: 0.0
+
+recent_activity:
+  stories_created_this_week: 0
+  stories_improved_this_week: 0
+  stories_used_this_week: 0
+  last_interview_prep: null
+  last_interview_company: null
+
+milestones:
+  next_milestone: "10_stories"  # 10_stories, 20_stories, 30_stories, 50_stories
+  stories_to_milestone: 10
+  target_date: null
+  on_track: true
+
+tags: {}
+  # Auto-populated as stories are created
+  # Example:
+  # architecture: 0
+  # api: 0
+  # migration: 0
+  # team-dynamics: 0
+  # production-issue: 0
