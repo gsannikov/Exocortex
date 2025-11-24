@@ -53,137 +53,136 @@ times_used: 0
 last_used: null
 interview_outcomes: []
 
----
+content: |
+  # Story: Migrating Legacy Monolith to Microservices
 
-# Story: Migrating Legacy Monolith to Microservices
+  ## One-Line Summary
+  Led 6-month migration from legacy Rails monolith to microservices for 5M user platform, reducing deployment time by 85% and enabling 4 autonomous teams, delivered under budget with zero downtime.
 
-## One-Line Summary
-Led 6-month migration from legacy Rails monolith to microservices for 5M user platform, reducing deployment time by 85% and enabling 4 autonomous teams, delivered under budget with zero downtime.
+  ## Situation
+  At my previous company, our 10-year-old Rails monolith had become a critical bottleneck. We'd grown from 2M to 5M users in 18 months, but our deployment process took 4-6 hours and required coordinating all 4 teams. We could only deploy once every 2 weeks, and each deployment was high-risk. Leadership was considering a complete rewrite that would cost $2M+ and take 18 months. We were losing competitive advantage because we couldn't ship features fast enough, and engineer satisfaction was at an all-time low.
 
-## Situation
-At my previous company, our 10-year-old Rails monolith had become a critical bottleneck. We'd grown from 2M to 5M users in 18 months, but our deployment process took 4-6 hours and required coordinating all 4 teams. We could only deploy once every 2 weeks, and each deployment was high-risk. Leadership was considering a complete rewrite that would cost $2M+ and take 18 months. We were losing competitive advantage because we couldn't ship features fast enough, and engineer satisfaction was at an all-time low.
+  **Context Details:**
+  - Platform/Product: Core SaaS platform serving 5M active users
+  - Team size: 15 engineers across 4 product-focused squads
+  - Timeframe: Q1-Q2 2024 (6-month project)
+  - Business context: Losing deals due to slow feature velocity, considering $2M rewrite
+  - Challenge: Zero downtime requirement, maintain 99.9% SLA, no additional hiring budget
 
-**Context Details:**
-- Platform/Product: Core SaaS platform serving 5M active users
-- Team size: 15 engineers across 4 product-focused squads
-- Timeframe: Q1-Q2 2024 (6-month project)
-- Business context: Losing deals due to slow feature velocity, considering $2M rewrite
-- Challenge: Zero downtime requirement, maintain 99.9% SLA, no additional hiring budget
+  ## Task
+  As Technical Lead, I was asked to find a solution that could:
+  1. Improve deployment speed and reduce risk without complete rewrite
+  2. Enable teams to deploy independently (reduce coordination tax)
+  3. Maintain system stability and meet 99.9% uptime SLA
+  4. Complete migration in 6 months with existing team
+  5. Stay within $500K budget (10% of the rewrite cost)
 
-## Task
-As Technical Lead, I was asked to find a solution that could:
-1. Improve deployment speed and reduce risk without complete rewrite
-2. Enable teams to deploy independently (reduce coordination tax)
-3. Maintain system stability and meet 99.9% uptime SLA
-4. Complete migration in 6 months with existing team
-5. Stay within $500K budget (10% of the rewrite cost)
+  **Your Role:**
+  - Responsibility: Architecture, migration strategy, and execution oversight
+  - Constraints: Zero downtime, no hiring, 60% capacity for ongoing feature work
+  - Goals: 4x deployment frequency, team autonomy, <$500K spend
+  - Why you: Had led smaller service extractions before, team trusted my judgment
 
-**Your Role:**
-- Responsibility: Architecture, migration strategy, and execution oversight
-- Constraints: Zero downtime, no hiring, 60% capacity for ongoing feature work
-- Goals: 4x deployment frequency, team autonomy, <$500K spend
-- Why you: Had led smaller service extractions before, team trusted my judgment
+  ## Action
+  **What You Did:**
+  - **Month 1 - Analysis & Planning:**
+    - Analyzed monolith codebase to identify 8 clear service boundaries
+    - Created phased migration plan with 6 incremental releases
+    - Built proof-of-concept extracting User Service to validate approach and tooling
+    - Presented business case to leadership: $480K vs $2M rewrite, 6mo vs 18mo
+    - Got approval and $500K budget allocation
 
-## Action
-**What You Did:**
-- **Month 1 - Analysis & Planning:**
-  - Analyzed monolith codebase to identify 8 clear service boundaries
-  - Created phased migration plan with 6 incremental releases
-  - Built proof-of-concept extracting User Service to validate approach and tooling
-  - Presented business case to leadership: $480K vs $2M rewrite, 6mo vs 18mo
-  - Got approval and $500K budget allocation
+  - **Month 2 - Foundation:**
+    - Set up Docker + Kubernetes infrastructure on AWS EKS
+    - Created service template with monitoring (Datadog), logging (ELK), CI/CD (GitHub Actions)
+    - Established API versioning standards and service communication contracts
+    - Trained entire team on microservices patterns (circuit breakers, saga, etc.)
+    - Set up API gateway (Kong) for gradual traffic shifting
 
-- **Month 2 - Foundation:**
-  - Set up Docker + Kubernetes infrastructure on AWS EKS
-  - Created service template with monitoring (Datadog), logging (ELK), CI/CD (GitHub Actions)
-  - Established API versioning standards and service communication contracts
-  - Trained entire team on microservices patterns (circuit breakers, saga, etc.)
-  - Set up API gateway (Kong) for gradual traffic shifting
+  - **Months 3-5 - Migration Execution:**
+    - Migrated 8 services using strangler fig pattern:
+      * User Service → Payment Service → Notification Service → Search Service
+      * Product Catalog → Order Processing → Analytics → Reporting
+    - Each migration followed same playbook:
+      1. Extract code as internal service (still in monolith)
+      2. Add dual-write to new service
+      3. Validate data consistency for 1 week
+      4. Gradually shift traffic (10%→50%→100%)
+      5. Monitor for 2 weeks, then sunset monolith code
+    - Maintained 60% feature development capacity throughout
 
-- **Months 3-5 - Migration Execution:**
-  - Migrated 8 services using strangler fig pattern:
-    * User Service → Payment Service → Notification Service → Search Service
-    * Product Catalog → Order Processing → Analytics → Reporting
-  - Each migration followed same playbook:
-    1. Extract code as internal service (still in monolith)
-    2. Add dual-write to new service
-    3. Validate data consistency for 1 week
-    4. Gradually shift traffic (10%→50%→100%)
-    5. Monitor for 2 weeks, then sunset monolith code
-  - Maintained 60% feature development capacity throughout
+  - **Month 6 - Stabilization:**
+    - Hardened monitoring and alerting across all services
+    - Documented runbooks for each service
+    - Conducted disaster recovery drills
+    - Trained on-call rotation on new architecture
+    - Measured and validated all success metrics
 
-- **Month 6 - Stabilization:**
-  - Hardened monitoring and alerting across all services
-  - Documented runbooks for each service
-  - Conducted disaster recovery drills
-  - Trained on-call rotation on new architecture
-  - Measured and validated all success metrics
+  **Key Decisions:**
+  - **Strangler pattern over big bang:** Incremental migration reduced risk by 90%
+  - **Event-driven architecture:** Used Kafka for service communication (loose coupling)
+  - **API gateway for traffic shifting:** Enabled 0-downtime cutover for each service
+  - **Kubernetes over ECS:** Team had Docker experience, K8s provided portability
+  - **60/40 capacity split:** Kept feature development moving to maintain morale
 
-**Key Decisions:**
-- **Strangler pattern over big bang:** Incremental migration reduced risk by 90%
-- **Event-driven architecture:** Used Kafka for service communication (loose coupling)
-- **API gateway for traffic shifting:** Enabled 0-downtime cutover for each service
-- **Kubernetes over ECS:** Team had Docker experience, K8s provided portability
-- **60/40 capacity split:** Kept feature development moving to maintain morale
+  **Challenges Faced:**
+  - **Challenge:** Data consistency across distributed services
+    - **Solution:** Implemented saga pattern for distributed transactions, used event sourcing for critical flows
 
-**Challenges Faced:**
-- **Challenge:** Data consistency across distributed services
-  - **Solution:** Implemented saga pattern for distributed transactions, used event sourcing for critical flows
-  
-- **Challenge:** Team learning curve with Kubernetes and distributed systems
-  - **Solution:** Pair programming, "office hours" 2x/week, internal Slack channel for questions
-  
-- **Challenge:** Testing distributed systems was complex
-  - **Solution:** Built integration test harness, added contract testing with Pact
-  
-- **Challenge:** Monitoring 8 services vs 1 monolith
-  - **Solution:** Standardized observability stack (Datadog APM, distributed tracing with Jaeger)
+  - **Challenge:** Team learning curve with Kubernetes and distributed systems
+    - **Solution:** Pair programming, "office hours" 2x/week, internal Slack channel for questions
 
-## Result
-**Immediate Outcomes:**
-- ✅ **Timeline:** Completed in 5.5 months (2 weeks ahead of 6-month target)
-- ✅ **Budget:** $480K spent (under $500K budget)
-- ✅ **Uptime:** 99.97% maintained (exceeded 99.9% SLA)
-- ✅ **Zero downtime:** Not a single user-facing outage during migration
-- ✅ **Feature work:** Delivered 95% of planned features during migration
+  - **Challenge:** Testing distributed systems was complex
+    - **Solution:** Built integration test harness, added contract testing with Pact
 
-**Business Impact:**
-- **Deployment time:** 4-6 hours → 30 minutes (85% reduction)
-- **Deployment frequency:** Bi-weekly → Daily (14x increase)
-- **Team autonomy:** 0 → 4 teams deploying independently
-- **Feature velocity:** Increased 40% by month 8 (after migration)
-- **Incident recovery:** 2-3 hours → 15 minutes (87% improvement)
-- **Cost savings:** $1.5M saved vs rewrite approach
+  - **Challenge:** Monitoring 8 services vs 1 monolith
+    - **Solution:** Standardized observability stack (Datadog APM, distributed tracing with Jaeger)
 
-**Personal Growth:**
-- **First time:** Leading multi-month architectural initiative at this scale
-- **Skills gained:** Distributed systems architecture, Kubernetes, service orchestration
-- **Leadership growth:** Managing stakeholder expectations through 6-month project
-- **Confidence:** Validated ability to deliver complex technical transformation
+  ## Result
+  **Immediate Outcomes:**
+  - ✅ **Timeline:** Completed in 5.5 months (2 weeks ahead of 6-month target)
+  - ✅ **Budget:** $480K spent (under $500K budget)
+  - ✅ **Uptime:** 99.97% maintained (exceeded 99.9% SLA)
+  - ✅ **Zero downtime:** Not a single user-facing outage during migration
+  - ✅ **Feature work:** Delivered 95% of planned features during migration
 
-**Long-term Effects:**
-- Architecture became blueprint for 2 additional migrations across company
-- Published company engineering blog post that got 50K+ views
-- Promoted to Staff Engineer 3 months after completion
-- Speaking opportunity at regional tech conference
-- 3 team members used experience to get senior promotions
+  **Business Impact:**
+  - **Deployment time:** 4-6 hours → 30 minutes (85% reduction)
+  - **Deployment frequency:** Bi-weekly → Daily (14x increase)
+  - **Team autonomy:** 0 → 4 teams deploying independently
+  - **Feature velocity:** Increased 40% by month 8 (after migration)
+  - **Incident recovery:** 2-3 hours → 15 minutes (87% improvement)
+  - **Cost savings:** $1.5M saved vs rewrite approach
 
-## Key Takeaways
-1. **Incremental beats big bang:** Strangler pattern reduced risk and maintained team confidence
-2. **Invest in foundations:** Month 2 infrastructure work paid dividends in Months 3-5
-3. **Team enablement is critical:** Training and pair programming ensured success
-4. **Measure everything:** Metrics proved value and guided decisions
-5. **Business + technical alignment:** Framing in business terms ($1.5M savings) secured resources
+  **Personal Growth:**
+  - **First time:** Leading multi-month architectural initiative at this scale
+  - **Skills gained:** Distributed systems architecture, Kubernetes, service orchestration
+  - **Leadership growth:** Managing stakeholder expectations through 6-month project
+  - **Confidence:** Validated ability to deliver complex technical transformation
 
-## Interview Delivery Tips
-- **Timing:** 2 minutes for full story, 45 seconds for high-level summary
-- **Emphasize:** Business impact ($1.5M saved, 40% velocity increase) and execution discipline
-- **Show:** Technical depth (strangler pattern, saga, K8s) AND leadership (stakeholder mgmt, team training)
-- **Connect:** Links to system design, technical leadership, risk management, team scaling
-- **Avoid:** Deep diving into every service migration—focus on approach and outcomes
+  **Long-term Effects:**
+  - Architecture became blueprint for 2 additional migrations across company
+  - Published company engineering blog post that got 50K+ views
+  - Promoted to Staff Engineer 3 months after completion
+  - Speaking opportunity at regional tech conference
+  - 3 team members used experience to get senior promotions
 
-## Variations by Question Type
-- **"Tell me about a technical challenge"** → Focus on distributed systems complexity and solutions
-- **"Describe leading a large project"** → Emphasize planning, stakeholder management, team coordination
-- **"How do you handle risk?"** → Highlight incremental approach, monitoring, gradual rollout
-- **"Tell me about a successful project"** → Lead with business outcomes and team impact
+  ## Key Takeaways
+  1. **Incremental beats big bang:** Strangler pattern reduced risk and maintained team confidence
+  2. **Invest in foundations:** Month 2 infrastructure work paid dividends in Months 3-5
+  3. **Team enablement is critical:** Training and pair programming ensured success
+  4. **Measure everything:** Metrics proved value and guided decisions
+  5. **Business + technical alignment:** Framing in business terms ($1.5M savings) secured resources
+
+  ## Interview Delivery Tips
+  - **Timing:** 2 minutes for full story, 45 seconds for high-level summary
+  - **Emphasize:** Business impact ($1.5M saved, 40% velocity increase) and execution discipline
+  - **Show:** Technical depth (strangler pattern, saga, K8s) AND leadership (stakeholder mgmt, team training)
+  - **Connect:** Links to system design, technical leadership, risk management, team scaling
+  - **Avoid:** Deep diving into every service migration—focus on approach and outcomes
+
+  ## Variations by Question Type
+  - **"Tell me about a technical challenge"** → Focus on distributed systems complexity and solutions
+  - **"Describe leading a large project"** → Emphasize planning, stakeholder management, team coordination
+  - **"How do you handle risk?"** → Highlight incremental approach, monitoring, gradual rollout
+  - **"Tell me about a successful project"** → Lead with business outcomes and team impact
