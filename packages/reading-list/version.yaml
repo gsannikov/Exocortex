@@ -1,4 +1,5 @@
 version: 1.0.0
-updated: 2024-11-24
+updated: 2025-11-24
 skill: reading-list
-codename: "Initial Release"
+codename: Initial Release
+status: stable

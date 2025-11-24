@@ -12,6 +12,7 @@ on:
           - reading-list
           - ideas-capture
           - voice-memos
+          - local-rag
           - all
       bump:
         description: 'Version bump type'

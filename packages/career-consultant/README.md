@@ -103,7 +103,7 @@ You find 50-100 job postings. Which 5-10 should you actually spend time applying
 ### 1. Download & Upload (2 minutes)
 
 1. **Download**: [Get latest release](https://github.com/gsannikov/israeli-tech-career-consultant/releases/latest) (.skill file)
-2. **Upload**: Drag the `skill-package/` folder into Claude.ai
+2. **Upload**: Drag the skill folder into Claude.ai
 3. **Start**: Type "Hi, let's set up my career consultant"
 
 That's it! No complex installation, no config files, no manual setup.
@@ -139,13 +139,11 @@ Build STAR story: Led AWS migration for 50-person team
 
 | Guide | Description |
 |-------|-------------|
-| [🔧 MCP Setup](docs/guides/USER_GUIDE.md) | Install and configure required MCP servers |
-| [📦 Complete Setup](docs/guides/USER_GUIDE.md) | Full installation and configuration guide |
-| [📖 Usage Examples](docs/guides/USER_GUIDE.md) | Detailed workflows and commands |
-| [🔍 Troubleshooting](docs/guides/USER_GUIDE.md) | Common issues and solutions |
-| [🤝 Contributing Guide](docs/meta/CONTRIBUTING.md) | How to contribute to the project |
-| [📜 Code of Conduct](docs/meta/CODE_OF_CONDUCT.md) | Guidelines for community interaction |
-| [📋 Changelog](docs/meta/CHANGELOG.md) | Version history and release notes |
+| [📋 SKILL.md](SKILL.md) | Main skill specification and usage guide |
+| [📖 Modules](modules/) | Detailed workflow and analysis modules |
+| [🔧 Configuration](config/) | Settings and scoring configuration |
+| [📄 Templates](templates/) | User templates for CV, config, and STAR stories |
+| [📋 Changelog](CHANGELOG.md) | Version history and release notes |
 
 ---
 
@@ -262,7 +260,7 @@ Show application pipeline
 Update job status: Interview scheduled
 ```
 
-📖 **More examples**: [docs/guides/USER_GUIDE.md](docs/guides/USER_GUIDE.md)
+📖 **More examples**: See [SKILL.md](SKILL.md) for detailed workflows
 
 ---
 
@@ -292,16 +290,19 @@ All other setup happens **in the Claude chat** - no complex configuration files!
 ## 📁 Project Structure
 
 ```
-career-consultant.skill/
-├── skill-package/           # Core skill (upload to Claude)
-│   ├── SKILL.md            # Main orchestrator
-│   ├── modules/            # Analysis modules
-│   ├── scripts/            # Helper utilities
-│   ├── config/             # Configuration
-│   └── templates/          # User templates
-├── docs/                   # Documentation
-├── host_scripts/           # Host automation package (`python -m host_scripts …`)
-└── user-data/             # Your data (not in repo)
+career-consultant/
+├── SKILL.md               # Main skill specification
+├── AI_GUIDE.md            # AI assistant guide
+├── README.md              # This file
+├── CHANGELOG.md           # Version history
+├── version.yaml           # Version info
+├── modules/               # Analysis modules (11 workflow guides)
+├── scripts/               # Python helper utilities
+├── config/                # Configuration (paths, scoring)
+├── templates/             # User templates (CV, config, STAR)
+├── references/            # Reference documentation
+├── project/               # Project planning docs
+└── tests/                 # Test suite
 ```
 
 ---
@@ -343,13 +344,13 @@ python -m host_scripts update-version
 python -m host_scripts validate
 ```
 
-📖 **Full developer guide**: [docs/guides/DEVELOPER_GUIDE.md](docs/guides/DEVELOPER_GUIDE.md)
+📖 **Full developer guide**: See [SKILL.md](SKILL.md) and [modules/](modules/) for implementation details
 
 ---
 
 ## 🤝 Contributing
 
-Contributions welcome! See [CONTRIBUTING.md](docs/meta/CONTRIBUTING.md) for guidelines.
+Contributions welcome! Open a PR or issue on GitHub.
 
 **Ideas for contribution**:
 - Additional scoring algorithms
@@ -372,8 +373,8 @@ Copyright (c) 2025 Gur Sannikov
 
 **Need help?**
 
-1. Check [Troubleshooting Guide](docs/guides/USER_GUIDE.md)
-2. Review [documentation](docs/)
+1. Check [SKILL.md](SKILL.md) for detailed usage instructions
+2. Review [modules/](modules/) for specific workflows
 3. Search [GitHub issues](https://github.com/gsannikov/israeli-tech-career-consultant/issues)
 4. Open a new issue with details
 

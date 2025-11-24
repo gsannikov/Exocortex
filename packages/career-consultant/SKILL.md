@@ -356,8 +356,7 @@ The following REQUIRED MCP server is not detected:
 
 4. Return to this conversation and verify the server is detected
 
-**Need help?** See the full MCP setup guide: 
-https://github.com/your-repo/docs/guides/user-guide/mcp-servers.md
+**Need help?** See MCP documentation at: https://modelcontextprotocol.io/quickstart
 
 🛑 **Cannot proceed without Filesystem MCP. Please install and restart Claude.**
     """)

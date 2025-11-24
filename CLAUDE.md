@@ -12,6 +12,7 @@ Global instructions for Claude when working with this skills monorepo.
 | 📚 reading-list | `process reading list` | 📚 Reading List Inbox |
 | 💡 ideas-capture | `process ideas` | 💡 Ideas Inbox |
 | 🎙️ voice-memos | `process voice memos` | 🎙️ Voice Memos Inbox |
+| 🔍 local-rag | `search documents` | N/A (local files) |
 
 ### Key Paths
 
@@ -28,10 +29,13 @@ claude-skills/
 │   ├── career-consultant/
 │   ├── reading-list/
 │   ├── ideas-capture/
-│   └── voice-memos/
+│   ├── voice-memos/
+│   └── local-rag/
 ├── shared/
 │   ├── scripts/                   # Release, generator
-│   └── templates/                 # Patterns, templates
+│   ├── templates/                 # Patterns, templates
+│   ├── marketing/                 # Blog posts, images
+│   └── workflows/                 # Troubleshooting guides
 ├── .github/workflows/             # CI/CD
 ├── CLAUDE.md                      # This file
 └── PROJECT.md                     # Roadmap & decisions
@@ -51,8 +55,9 @@ Load skill-specific SKILL.md only when needed:
 
 ```python
 # Example paths
-career_skill = "/packages/career-consultant/skill-package/SKILL.md"
-reading_skill = "/packages/reading-list/skill-package/SKILL.md"
+career_skill = "packages/career-consultant/SKILL.md"
+reading_skill = "packages/reading-list/SKILL.md"
+local_rag_skill = "packages/local-rag/SKILL.md"
 ```
 
 ## 🔄 Common Workflows
