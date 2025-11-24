@@ -49,7 +49,8 @@ def read_text_with_ocr(p: Path) -> str:
             if not USE_OCR or (len(texts) and (sum(len(t) for t in texts)/max(1,len(texts)) >= 100)):
                 return joined
             pages = min(len(r.pages), OCR_MAX_PAGES)
-        except Exception:
+        except Exception as e:
+            print(f"PDF text extraction failed for {p.name}: {e}")
             pages = None
 
         if USE_OCR:

@@ -35,7 +35,7 @@ User data: `~/MyDrive/claude-skills-data/voice-memos/`
 
 ## Version
 
-See `skill-package/version.yaml`
+See `version.yaml`
 
 ---
 
