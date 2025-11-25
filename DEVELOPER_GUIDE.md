@@ -452,6 +452,68 @@ pytest packages/skill/tests/
 
 ---
 
+## Dependency Management
+
+The repo uses a dependency tracking system to ensure documentation stays in sync with code.
+
+### Dependency Workflow
+
+| Stage | What Happens | Blocks? |
+|-------|--------------|---------|
+| **During Development** | Modify source files freely | No |
+| **PR Created** | CI checks dependencies, comments if out of sync | ⚠️ Warning |
+| **Pre-Merge** | Run `/refactor` if CI flagged issues | Manual |
+| **Release** | CI verifies all docs in sync | ❌ Blocks |
+
+### Commands
+
+```bash
+# Check status
+python shared/scripts/dependency_tracker.py status
+
+# See dependency tree
+python shared/scripts/dependency_tracker.py graph
+
+# Get rebuild order
+python shared/scripts/dependency_tracker.py rebuild-order
+
+# What depends on a file?
+python shared/scripts/dependency_tracker.py affected packages/voice-memos/SKILL.md
+```
+
+### Claude Code Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/deps` | Quick dependency status check |
+| `/refactor` | Full dependency-aware update workflow |
+
+### Adding New Dependencies
+
+Edit `dependencies.yaml` to add new files:
+
+```yaml
+nodes:
+  - path: packages/new-skill/README.md
+    type: derived
+    description: User documentation
+    depends_on:
+      - packages/new-skill/SKILL.md
+    rebuild_instructions: |
+      Sync commands and features from SKILL.md
+```
+
+### File Types
+
+| Type | Updates Triggered By | Example |
+|------|---------------------|---------|
+| `source` | Manual changes | `SKILL.md`, `PROJECT.md` |
+| `derived` | Source changes | Skill READMEs |
+| `documentation` | Multiple sources | `USER_GUIDE.md` |
+| `marketing` | Documentation changes | Blog articles |
+
+---
+
 ## Best Practices
 
 ### Do's

@@ -6,11 +6,15 @@ on:
     paths:
       - 'packages/**'
       - 'shared/**'
+      - 'dependencies.yaml'
+      - '*.md'
   pull_request:
     branches: [main]
     paths:
       - 'packages/**'
       - 'shared/**'
+      - 'dependencies.yaml'
+      - '*.md'
 
 jobs:
   validate:
@@ -118,6 +122,7 @@ jobs:
           echo "=== Checking shared scripts ==="
           python -m py_compile shared/scripts/release.py
           python -m py_compile shared/scripts/skill_generator.py
+          python -m py_compile shared/scripts/dependency_tracker.py
           python -m py_compile shared/scripts/yaml_utils.py
           python -m py_compile shared/scripts/slug_utils.py
           python -m py_compile shared/scripts/token_estimator.py
@@ -133,3 +138,83 @@ jobs:
           done
 
           echo "✅ All Python scripts syntax OK"
+
+  dependency-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need full history for git log comparison
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Check dependency status
+        id: deps
+        run: |
+          echo "=== Dependency Status ==="
+          python shared/scripts/dependency_tracker.py status | tee deps_output.txt
+
+          # Check if any files need attention
+          if grep -q "NEEDS UPDATE\|MISSING" deps_output.txt; then
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo ""
+            echo "⚠️ Some files may need updating. Run /refactor to sync."
+          else
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo ""
+            echo "✅ All dependencies are in sync."
+          fi
+
+      - name: Comment on PR (if files need update)
+        if: github.event_name == 'pull_request' && steps.deps.outputs.needs_update == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const output = fs.readFileSync('deps_output.txt', 'utf8');
+
+            // Check if we already commented
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+
+            const botComment = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('Dependency Check')
+            );
+
+            const body = `⚠️ **Dependency Check**: Some files may need updating.
+
+            <details>
+            <summary>View dependency status</summary>
+
+            \`\`\`
+            ${output}
+            \`\`\`
+
+            </details>
+
+            Run \`/refactor\` in Claude Code to update dependent files before merging.`;
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }

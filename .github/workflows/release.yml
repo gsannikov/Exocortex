@@ -52,7 +52,28 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-      
+
+      - name: Verify documentation sync
+        run: |
+          echo "=== Checking dependency status before release ==="
+          python shared/scripts/dependency_tracker.py status | tee deps_output.txt
+
+          # Count files needing attention
+          NEEDS_UPDATE=$(grep -c "NEEDS UPDATE\|MISSING" deps_output.txt || true)
+
+          if [ "$NEEDS_UPDATE" -gt 0 ]; then
+            echo ""
+            echo "❌ ERROR: $NEEDS_UPDATE file(s) are out of sync."
+            echo ""
+            echo "Run '/refactor' in Claude Code to update dependent files before releasing."
+            echo ""
+            python shared/scripts/dependency_tracker.py rebuild-order
+            exit 1
+          fi
+
+          echo ""
+          echo "✅ All documentation is in sync. Proceeding with release."
+
       - name: Run release script
         id: release
         run: |
