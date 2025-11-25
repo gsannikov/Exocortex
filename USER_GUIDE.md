@@ -42,107 +42,323 @@ All skills follow the same pattern:
 
 ## Career Consultant
 
-**Purpose**: Analyze tech job opportunities with 6-component scoring system.
+**Purpose**: AI-powered assistant for analyzing tech job opportunities with personalized 6-component scoring, company research, interview preparation, and market intelligence.
 
-### Commands
+### Command Categories
 
-#### Inbox Processing
-```
-process inbox
-```
-Processes job URLs from the Apple Notes inbox.
+| Category | Example Commands |
+|----------|------------------|
+| Backlog | `add to backlog`, `process inbox`, `show backlog` |
+| Analysis | `analyze: [URL]`, `analyze job [id]` |
+| Setup | `customize scoring weights`, `show my configuration` |
+| Interview Prep | `create prep plan`, `build STAR story` |
+| Market Intel | `compare companies`, `salary benchmark` |
+| Debug | `/debug on`, `/debug help` |
 
-#### Add to Backlog (Quick Capture)
+---
+
+### Backlog Management
+
+#### Add Single Job
 ```
 Add to backlog: https://linkedin.com/jobs/view/12345
 ```
-Saves job for later analysis without full processing.
-
 ```
 Save this job: https://company.com/careers/senior-engineer
 ```
-Alternative phrasing for backlog capture.
-
 ```
 Add high priority: https://linkedin.com/jobs/view/67890
 ```
-Sets priority to high when saving.
 
 #### Batch Add Jobs
 ```
 Add jobs: https://url1.com, https://url2.com, https://url3.com
 ```
-Save multiple jobs at once.
-
 ```
 Batch add:
 - https://linkedin.com/jobs/view/111
 - https://linkedin.com/jobs/view/222
-- https://linkedin.com/jobs/view/333
 ```
-Multi-line batch add.
+
+#### Process Inbox
+```
+process inbox
+```
+Syncs from Apple Notes and processes jobs one by one.
+
+```
+process next
+```
+Process the next pending job from inbox.
 
 #### View Backlog
 ```
 Show my backlog
 ```
-Display all saved jobs with status.
-
 ```
 View backlog
 ```
-Alternative command.
-
 ```
 List pending jobs
 ```
-Show only unanalyzed jobs.
+
+#### Update Backlog
+```
+Set nvidia-tpm-job to high priority
+```
+```
+Remove job-id from backlog
+```
+
+---
+
+### Job Analysis
 
 #### Full Analysis
 ```
 Analyze: https://linkedin.com/jobs/view/12345
 ```
-Complete job analysis with scoring.
+Complete job analysis with 6-component scoring.
 
+#### Analyze from Backlog
 ```
 Analyze job nvidia-senior-tpm-backlog-20251029
 ```
-Analyze a specific job from backlog by ID.
-
 ```
 Analyze top 5 jobs from backlog
 ```
-Analyze highest priority jobs.
 
-#### Statistics & Reports
+---
+
+### Setup & Configuration
+
+#### First-Time Setup
+When you first use the skill, a setup wizard guides you through configuration.
+
+#### Customize Scoring Weights
+```
+Customize my scoring weights
+```
+```
+Recustomize weights
+```
+Runs interactive questionnaire (6 questions, ~2 min).
+
+#### Use Preset Templates
+```
+Show presets
+```
+Options: balanced, money-focused, work-life-balance, career-growth, quick-switch.
+
+#### View Configuration
+```
+Show my configuration
+```
+```
+Show my scoring configuration
+```
+
+#### Reset to Defaults
+```
+Use default weights
+```
+
+---
+
+### Interview Preparation
+
+#### STAR Story Builder
+```
+Help me build STAR stories
+```
+```
+Let's work on STAR interview preparation
+```
+Interactive guided Q&A to create behavioral interview stories.
+
+#### STAR Library Management
+```
+Show my STAR library
+```
+```
+Review my stories
+```
+```
+Search stories about leadership
+```
+```
+Filter stories by quality
+```
+
+#### Story Refinement
+```
+Improve my story about [topic]
+```
+```
+Refine the conflict-resolution story
+```
+Systematically improve story quality scores.
+
+#### Practice Mode
+```
+Practice STAR stories
+```
+Options: Flash cards, Timed practice, Mock interview.
+
+#### Job-Specific Prep
+```
+Prepare for interview at [Company]
+```
+```
+Get interview recommendations for [job-id]
+```
+Matches your STAR stories to job requirements, identifies gaps.
+
+---
+
+### Job Prep Planning
+
+#### Create Prep Plan
+```
+Create prep plan for nvidia-senior-tpm-20251120
+```
+```
+Generate study plan for [role]
+```
+```
+Show preparation timeline for [job]
+```
+
+Generates detailed week-by-week preparation plan with:
+- Hour breakdown by category
+- Study resources
+- Milestones and checkpoints
+
+---
+
+### Market Investigation
+
+#### Company Comparison
+```
+Compare NVIDIA vs Intel
+```
+```
+Compare Google Israel vs Microsoft Israel vs Apple Israel
+```
+Side-by-side comparison across compensation, culture, growth.
+
+#### Salary Benchmarking
+```
+What's the market rate for Engineering Manager?
+```
+```
+Show salary ranges for TPM roles
+```
+```
+Compare PM salaries across companies
+```
+
+#### Trend Analysis
+```
+Show trends in my job search
+```
+```
+What companies am I targeting most?
+```
+```
+Analyze my backlog by role type
+```
+
+#### Filter Jobs
+```
+Show all NVIDIA jobs
+```
+```
+Show all Tier 1 companies
+```
+```
+Show jobs scoring above 70
+```
+```
+Show all TPM roles
+```
+
+---
+
+### Statistics & Reports
+
+#### View Statistics
 ```
 Show me my job statistics
 ```
-Display analysis statistics and trends.
+Displays analysis stats, trends, score distributions.
 
+#### Update Status
 ```
 Mark nvidia-tpm-123 as Applied
 ```
-Update job status.
+```
+Mark role-id-123 as Interviewing
+```
 
+#### Rebuild Reports
 ```
 Rebuild Excel from all roles
 ```
-Regenerate the Excel database.
+Regenerates Excel database from all analyzed jobs.
+
+---
+
+### Debug Mode
+
+```
+/debug on
+```
+Enable verbose logging.
+
+```
+/debug off
+```
+Disable verbose logging.
+
+```
+/debug help
+```
+Show all debug commands.
+
+```
+/debug state
+```
+View current session state.
+
+```
+/debug prompt [module]
+```
+View system prompt for a module.
+
+---
 
 ### Scoring Components
 
-| Component | Weight | Description |
-|-----------|--------|-------------|
-| Match | 35 | Skills alignment + role fit |
-| Income | 25 | Salary vs. requirements |
-| Growth | 20 | Career advancement |
-| LowPrep | 15 | Interview readiness |
-| Stress | 10 | Work-life balance |
-| Location | 5 | Commute + hybrid policy |
+| Component | Default Weight | Description |
+|-----------|----------------|-------------|
+| Match | 35% | Skills alignment + role fit |
+| Income | 25% | Salary vs. requirements |
+| Growth | 20% | Career advancement opportunities |
+| LowPrep | 15% | Interview readiness (less prep = higher) |
+| Stress | 10% | Work-life balance, on-call, complexity |
+| Location | 5% | Commute + hybrid/remote policy |
 
-### Example Session
+**Priority Thresholds:**
+- First Priority: 70+ (default)
+- Second Priority: 50-69
+- Third Priority: <50
 
+---
+
+### Example Sessions
+
+#### Quick Job Capture
 ```
 User: Add to backlog: https://linkedin.com/jobs/view/3847592847
 
@@ -151,7 +367,13 @@ Claude: Saved to backlog:
         Title: Senior TPM
         Added: 2025-11-25
         ID: nvidia-senior-tpm-backlog-20251125
+        Priority: medium
 
+        Next: "Analyze job nvidia-senior-tpm-backlog-20251125"
+```
+
+#### Full Job Analysis
+```
 User: Analyze job nvidia-senior-tpm-backlog-20251125
 
 Claude: ANALYSIS COMPLETE
@@ -175,6 +397,40 @@ Claude: ANALYSIS COMPLETE
         1. Update cv-tpm.md CV
         2. Start prep (8 hours estimated)
         3. Research hiring manager
+```
+
+#### Company Comparison
+```
+User: Compare NVIDIA vs Intel vs Microsoft
+
+Claude: Company Comparison
+
+        | Metric | NVIDIA | Intel | Microsoft |
+        |--------|--------|-------|-----------|
+        | Tier | 1 | 1 | 1 |
+        | Employees (Israel) | 4,500 | 11,700 | 2,500 |
+        | Glassdoor | 4.3/5.0 | 3.7/5.0 | 4.2/5.0 |
+
+        Best for Compensation: NVIDIA (+33% premium)
+        Best for Work-Life Balance: Microsoft (4.0/5.0)
+        Best for Career Growth: NVIDIA
+```
+
+#### Interview Prep
+```
+User: Create prep plan for nvidia-senior-tpm-20251120
+
+Claude: Interview Preparation Plan
+
+        Company: NVIDIA
+        Role: Senior TPM
+        Total Hours: 85 hours
+        Timeline: 5 weeks
+
+        Week 1: Company Research + Behavioral Framework (17 hrs)
+        Week 2: Skills Deep Dive + Technical Prep (17 hrs)
+        Week 3: Practice + Company-Specific (17 hrs)
+        Week 4: Final Mock Interviews + Polish (17 hrs)
 ```
 
 ---
