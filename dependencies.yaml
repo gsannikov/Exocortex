@@ -1,0 +1,308 @@
+# Dependency Graph for Claude Skills Monorepo
+# This file defines relationships between files for cascading updates
+#
+# Usage: When you modify a source file, all dependents need review/rebuild
+# Run: python shared/scripts/dependency_tracker.py status
+# Or ask Claude: "refactor" or "check dependencies"
+
+version: "1.0.0"
+updated: "2025-11-25"
+
+# Global settings
+settings:
+  # How to detect changes: "git" (commits), "hash" (content hash), or "mtime" (modification time)
+  change_detection: git
+  # Auto-rebuild strategy: "prompt" (ask user), "auto" (rebuild all), "manual" (just report)
+  rebuild_strategy: prompt
+
+# File nodes with their metadata and dependencies
+# Format:
+#   path: relative path from repo root
+#   type: source | derived | documentation | marketing
+#   description: what this file is for
+#   depends_on: list of files this depends on (upstream)
+#   rebuild_instructions: how Claude should update this file when dependencies change
+
+nodes:
+  # ============================================
+  # VOICE MEMOS SKILL
+  # ============================================
+  - path: packages/voice-memos/SKILL.md
+    type: source
+    description: Core voice memos skill logic and commands
+    depends_on: []
+    rebuild_instructions: |
+      This is a source file. Changes here trigger updates to dependents.
+      When modifying: Update version.yaml and CHANGELOG.md
+
+  - path: packages/voice-memos/README.md
+    type: derived
+    description: User-facing documentation for voice memos skill
+    depends_on:
+      - packages/voice-memos/SKILL.md
+    rebuild_instructions: |
+      Regenerate from SKILL.md:
+      1. Extract command examples
+      2. Update feature list
+      3. Sync supported formats
+      4. Update usage examples
+
+  - path: packages/voice-memos/modules/meeting-recorder/README.md
+    type: derived
+    description: Meeting recorder submodule documentation
+    depends_on:
+      - packages/voice-memos/modules/meeting-recorder/Sources/
+    rebuild_instructions: |
+      Update based on Swift source changes:
+      1. Sync API documentation
+      2. Update build instructions
+      3. Reflect new features/fixes
+
+  # ============================================
+  # CAREER CONSULTANT SKILL
+  # ============================================
+  - path: packages/career-consultant/SKILL.md
+    type: source
+    description: Core career consultant skill logic
+    depends_on: []
+    rebuild_instructions: |
+      This is a source file. When modifying:
+      1. Update version.yaml
+      2. Update CHANGELOG.md
+      3. Ensure modules/ are in sync
+
+  - path: packages/career-consultant/README.md
+    type: derived
+    description: User documentation for career consultant
+    depends_on:
+      - packages/career-consultant/SKILL.md
+      - packages/career-consultant/modules/
+    rebuild_instructions: |
+      Sync with SKILL.md and modules:
+      1. Update command reference
+      2. Sync scoring system description
+      3. Update workflow examples
+
+  - path: packages/career-consultant/modules/database-operations-hybrid.md
+    type: source
+    description: Database operations module
+    depends_on: []
+    rebuild_instructions: |
+      Source module. Changes affect SKILL.md integration.
+
+  # ============================================
+  # READING LIST SKILL
+  # ============================================
+  - path: packages/reading-list/SKILL.md
+    type: source
+    description: Core reading list skill logic
+    depends_on: []
+    rebuild_instructions: |
+      Source file. Update version.yaml and CHANGELOG.md on changes.
+
+  - path: packages/reading-list/README.md
+    type: derived
+    description: User documentation for reading list
+    depends_on:
+      - packages/reading-list/SKILL.md
+    rebuild_instructions: |
+      Sync commands and features from SKILL.md
+
+  # ============================================
+  # IDEAS CAPTURE SKILL
+  # ============================================
+  - path: packages/ideas-capture/SKILL.md
+    type: source
+    description: Core ideas capture skill logic
+    depends_on: []
+    rebuild_instructions: |
+      Source file. Update version.yaml and CHANGELOG.md on changes.
+
+  - path: packages/ideas-capture/README.md
+    type: derived
+    description: User documentation for ideas capture
+    depends_on:
+      - packages/ideas-capture/SKILL.md
+    rebuild_instructions: |
+      Sync scoring dimensions and commands from SKILL.md
+
+  # ============================================
+  # LOCAL RAG SKILL
+  # ============================================
+  - path: packages/local-rag/SKILL.md
+    type: source
+    description: Core local RAG skill logic
+    depends_on: []
+    rebuild_instructions: |
+      Source file. Update version.yaml and CHANGELOG.md on changes.
+
+  - path: packages/local-rag/README.md
+    type: derived
+    description: User documentation for local RAG
+    depends_on:
+      - packages/local-rag/SKILL.md
+      - packages/local-rag/docs/architecture.md
+    rebuild_instructions: |
+      Sync from SKILL.md and architecture docs:
+      1. Update supported file types
+      2. Sync MCP configuration
+      3. Update query examples
+
+  - path: packages/local-rag/docs/architecture.md
+    type: source
+    description: Local RAG architecture documentation
+    depends_on:
+      - packages/local-rag/scripts/
+    rebuild_instructions: |
+      Update when scripts change significantly
+
+  # ============================================
+  # ROOT DOCUMENTATION (aggregates skills)
+  # ============================================
+  - path: USER_GUIDE.md
+    type: derived
+    description: Comprehensive user guide for all skills
+    depends_on:
+      - packages/voice-memos/SKILL.md
+      - packages/career-consultant/SKILL.md
+      - packages/reading-list/SKILL.md
+      - packages/ideas-capture/SKILL.md
+      - packages/local-rag/SKILL.md
+    rebuild_instructions: |
+      This is the main user-facing documentation. When any skill changes:
+      1. Update the corresponding skill section
+      2. Sync command examples
+      3. Update supported formats/features
+      4. Ensure Quick Start table is accurate
+      5. Update version number at bottom
+
+  - path: README.md
+    type: derived
+    description: Repository overview and quick start
+    depends_on:
+      - USER_GUIDE.md
+      - PROJECT.md
+    rebuild_instructions: |
+      Sync overview from USER_GUIDE.md and PROJECT.md:
+      1. Update skill count and list
+      2. Sync quick start commands
+      3. Update installation steps if changed
+
+  - path: DEVELOPER_GUIDE.md
+    type: derived
+    description: Developer documentation
+    depends_on:
+      - PROJECT.md
+      - shared/scripts/
+    rebuild_instructions: |
+      Update when shared scripts or architecture changes:
+      1. Sync script documentation
+      2. Update contribution workflow
+      3. Reflect new patterns
+
+  - path: PROJECT.md
+    type: source
+    description: Architecture decisions and roadmap
+    depends_on: []
+    rebuild_instructions: |
+      Source file for project-level decisions. Update manually.
+
+  - path: CLAUDE.md
+    type: derived
+    description: Global Claude instructions
+    depends_on:
+      - PROJECT.md
+      - packages/*/SKILL.md
+    rebuild_instructions: |
+      Update quick reference table when skills change:
+      1. Sync skill commands
+      2. Update Apple Note names
+      3. Reflect new patterns
+
+  # ============================================
+  # MARKETING / BLOG CONTENT
+  # ============================================
+  - path: shared/marketing/article-1-building-production-grade-skills.md
+    type: marketing
+    description: Blog post about skill architecture
+    depends_on:
+      - packages/career-consultant/SKILL.md
+      - PROJECT.md
+    rebuild_instructions: |
+      Review for accuracy when architecture changes:
+      1. Update code examples if APIs changed
+      2. Verify diagrams match current architecture
+      3. Update version references
+
+  - path: shared/marketing/article-2-skills-deep-dive.md
+    type: marketing
+    description: Deep dive into skill features
+    depends_on:
+      - USER_GUIDE.md
+    rebuild_instructions: |
+      Sync feature descriptions with USER_GUIDE.md
+
+  - path: shared/marketing/article-3-monorepo.md
+    type: marketing
+    description: Monorepo architecture article
+    depends_on:
+      - PROJECT.md
+    rebuild_instructions: |
+      Update if monorepo structure changes
+
+  - path: shared/marketing/article-4-lessons-learned.md
+    type: marketing
+    description: Lessons learned article
+    depends_on:
+      - shared/templates/learned-patterns.yaml
+    rebuild_instructions: |
+      Sync with learned-patterns.yaml when new patterns added
+
+  # ============================================
+  # SHARED UTILITIES
+  # ============================================
+  - path: shared/templates/learned-patterns.yaml
+    type: source
+    description: Best practices and patterns
+    depends_on: []
+    rebuild_instructions: |
+      Source file. Add new patterns as discovered.
+
+  - path: shared/scripts/release.py
+    type: source
+    description: Release automation script
+    depends_on: []
+    rebuild_instructions: |
+      Source file. Update for new release requirements.
+
+# Dependency groups for batch operations
+groups:
+  voice-memos:
+    description: All voice memos related files
+    members:
+      - packages/voice-memos/SKILL.md
+      - packages/voice-memos/README.md
+      - packages/voice-memos/modules/meeting-recorder/README.md
+
+  career-consultant:
+    description: All career consultant related files
+    members:
+      - packages/career-consultant/SKILL.md
+      - packages/career-consultant/README.md
+      - packages/career-consultant/modules/
+
+  documentation:
+    description: All user-facing documentation
+    members:
+      - USER_GUIDE.md
+      - README.md
+      - DEVELOPER_GUIDE.md
+      - CLAUDE.md
+
+  marketing:
+    description: All marketing/blog content
+    members:
+      - shared/marketing/article-1-building-production-grade-skills.md
+      - shared/marketing/article-2-skills-deep-dive.md
+      - shared/marketing/article-3-monorepo.md
+      - shared/marketing/article-4-lessons-learned.md
