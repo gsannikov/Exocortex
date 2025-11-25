@@ -1,0 +1,50 @@
+# Meeting Recorder Configuration
+# Copy to: ~/MyDrive/claude-skills-data/voice-memos/meeting-recorder-config.yaml
+
+# Audio capture settings
+audio:
+  format: m4a           # m4a (recommended) or wav
+  bitrate: 64000        # 64kbps - optimal for speech
+  sample_rate: 16000    # 16kHz - optimal for transcription
+  channels: 1           # Mono - sufficient for meetings
+
+# Auto-chunking for long meetings
+chunking:
+  enabled: true
+  duration_minutes: 40  # Split recordings every 40 min
+  max_file_size_mb: 25  # Claude's upload limit
+
+# App behavior
+behavior:
+  auto_detect_meetings: true   # Monitor for meeting apps
+  notifications_enabled: true  # Show recording prompts
+  auto_record: false           # Require user confirmation
+
+# Meeting applications to detect
+# App names as they appear in macOS
+meeting_apps:
+  - Zoom
+  - Google Meet
+  - Microsoft Teams
+  - Slack
+  - Discord
+  - Webex
+  - FaceTime
+  - GoToMeeting
+
+# Browser patterns for web-based meetings
+browser_patterns:
+  - "Meet -"              # Google Meet
+  - "meet.google.com"     # Google Meet URL
+  - "Zoom Meeting"        # Zoom in browser
+  - "Microsoft Teams"     # Teams web
+
+# Paths (defaults shown, customize if needed)
+paths:
+  recordings: ~/MyDrive/claude-skills-data/voice-memos/meetings
+  transcripts: ~/MyDrive/claude-skills-data/voice-memos/meetings/transcripts
+
+# Integration with voice-memos skill
+integration:
+  auto_add_to_inbox: false  # Automatically add to Apple Notes inbox
+  trigger_processing: false  # Auto-trigger Claude processing when done
