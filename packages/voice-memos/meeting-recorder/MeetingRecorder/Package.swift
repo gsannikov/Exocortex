@@ -15,6 +15,11 @@ let package = Package(
             name: "MeetingRecorder",
             dependencies: [],
             path: "Sources"
+        ),
+        .testTarget(
+            name: "MeetingRecorderTests",
+            dependencies: [],
+            path: "Tests"
         )
     ]
 )
