@@ -44,28 +44,47 @@ One ecosystem of AI skills that:
 
 ## Quick Start
 
-### 1. Download & Setup (2 minutes)
+### Option 1: One-Line Installer (Recommended)
 
-1. **Clone the repo**:
-   ```bash
-   git clone https://github.com/gsannikov/claude-skills.git
-   cd claude-skills
-   ```
+```bash
+curl -fsSL https://raw.githubusercontent.com/gsannikov/claude-skills/main/install.sh | bash
+```
 
-2. **Choose a skill** from `packages/` directory
+This will:
+1. Check prerequisites (git, python3)
+2. Clone the repository to `~/MyDrive/claude-skills`
+3. Run the interactive setup wizard
+4. Configure Claude Desktop with MCP servers
+5. Create data directories
 
-3. **Upload to Claude**: Drag the skill folder into Claude.ai
+### Option 2: Manual Installation
 
-4. **Start**: Type the skill's command (see table above)
+```bash
+# Clone the repo
+git clone https://github.com/gsannikov/claude-skills.git ~/MyDrive/claude-skills
+cd ~/MyDrive/claude-skills
 
-### 2. First-Time Setup
+# Run setup wizard
+python setup.py
+```
 
-Each skill guides you through setup:
-- Where to store your data
-- Required configurations
-- Optional MCP server connections
+### Setup Options
 
-### 3. Daily Usage
+```bash
+python setup.py              # Interactive setup (recommended)
+python setup.py --check      # Check installation status
+python setup.py --uninstall  # Remove skills and configs
+```
+
+### After Installation
+
+The setup wizard will:
+- Create data directories at `~/MyDrive/claude-skills-data/`
+- Configure MCP servers in Claude Desktop
+- Show you all available commands
+- Guide you through Apple Notes inbox setup
+
+### Daily Usage
 
 **Mobile Capture**:
 1. Open Apple Notes on your phone
@@ -74,7 +93,7 @@ Each skill guides you through setup:
 
 **Processing**:
 1. Open Claude with the skill loaded
-2. Say the skill's command
+2. Say the skill's command (e.g., `process inbox`)
 3. Get processed results with AI analysis
 
 ---
