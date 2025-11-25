@@ -1,5 +1,5 @@
 import XCTest
-@testable import MeetingRecorder
+@testable import MeetingRecorderLib
 
 final class MeetingDetectorTests: XCTestCase {
 

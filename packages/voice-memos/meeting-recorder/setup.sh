@@ -9,6 +9,7 @@ APP_DIR="$SCRIPT_DIR/MeetingRecorder"
 BUILD_DIR="$APP_DIR/.build/release"
 INSTALL_DIR="$HOME/Applications"
 APP_NAME="MeetingRecorder"
+BINARY_NAME="MeetingRecorderApp"  # Executable target name from Package.swift
 DATA_DIR="$HOME/MyDrive/claude-skills-data/voice-memos/meetings"
 
 echo "=================================="
@@ -65,7 +66,7 @@ rm -rf .build
 # Build release version
 swift build -c release
 
-if [[ ! -f "$BUILD_DIR/$APP_NAME" ]]; then
+if [[ ! -f "$BUILD_DIR/$BINARY_NAME" ]]; then
     echo "Error: Build failed"
     exit 1
 fi
@@ -90,8 +91,8 @@ rm -rf "$APP_BUNDLE"
 mkdir -p "$MACOS_DIR"
 mkdir -p "$RESOURCES_DIR"
 
-# Copy binary
-cp "$BUILD_DIR/$APP_NAME" "$MACOS_DIR/"
+# Copy binary (rename to match bundle executable name)
+cp "$BUILD_DIR/$BINARY_NAME" "$MACOS_DIR/$APP_NAME"
 
 # Create Info.plist
 cat > "$CONTENTS_DIR/Info.plist" << 'PLIST'

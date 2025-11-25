@@ -2,9 +2,9 @@ import AppKit
 import Foundation
 
 /// Monitors for meeting applications and notifies when meetings start/end
-class MeetingDetector {
+public class MeetingDetector {
     // Bundle identifiers for common meeting apps
-    static let meetingApps: [String: String] = [
+    public static let meetingApps: [String: String] = [
         "us.zoom.xos": "Zoom",
         "com.google.Chrome": "Google Meet",  // Meet runs in Chrome
         "com.microsoft.teams": "Microsoft Teams",
@@ -17,21 +17,23 @@ class MeetingDetector {
     ]
 
     // For Chrome-based apps, check window titles
-    static let browserMeetingPatterns: [String] = [
+    public static let browserMeetingPatterns: [String] = [
         "Meet -",           // Google Meet
         "meet.google.com",  // Google Meet URL
         "Zoom Meeting",     // Zoom in browser
         "Microsoft Teams",  // Teams in browser
     ]
 
-    var onMeetingDetected: ((String) -> Void)?
-    var onMeetingEnded: ((String) -> Void)?
+    public var onMeetingDetected: ((String) -> Void)?
+    public var onMeetingEnded: ((String) -> Void)?
 
     private var monitorTimer: Timer?
     private var activeMeetings: Set<String> = []
     private var lastWindowTitles: [String] = []
 
-    func startMonitoring() {
+    public init() {}
+
+    public func startMonitoring() {
         // Check every 5 seconds
         monitorTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
             self?.checkForMeetings()
@@ -40,7 +42,7 @@ class MeetingDetector {
         checkForMeetings()
     }
 
-    func stopMonitoring() {
+    public func stopMonitoring() {
         monitorTimer?.invalidate()
         monitorTimer = nil
     }
