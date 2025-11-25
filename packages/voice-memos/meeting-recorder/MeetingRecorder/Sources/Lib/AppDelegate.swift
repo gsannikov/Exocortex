@@ -11,7 +11,7 @@ public class AppDelegate: NSObject, NSApplicationDelegate {
     var currentMeetingApp: String?
     var recordingTimer: Timer?
 
-    func applicationDidFinishLaunching(_ notification: Notification) {
+    public func applicationDidFinishLaunching(_ notification: Notification) {
         // Request notification permission
         requestNotificationPermission()
 
@@ -286,7 +286,7 @@ public class AppDelegate: NSObject, NSApplicationDelegate {
 
 // MARK: - Notification Delegate
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         switch response.actionIdentifier {
         case "RECORD":
             if let appName = currentMeetingApp {
@@ -303,7 +303,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         completionHandler()
     }
 
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound])
     }
 
