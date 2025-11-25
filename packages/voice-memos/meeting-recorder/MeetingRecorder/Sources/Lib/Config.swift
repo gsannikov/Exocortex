@@ -1,8 +1,8 @@
 import Foundation
 
 /// Configuration for the Meeting Recorder app
-class Config {
-    static let shared = Config()
+public class Config {
+    public static let shared = Config()
 
     // Default paths
     private let defaultDataPath: String
@@ -11,7 +11,7 @@ class Config {
     // Loaded configuration
     private var configDict: [String: Any] = [:]
 
-    init() {
+    public init() {
         // Default to claude-skills-data location
         let homeDir = FileManager.default.homeDirectoryForCurrentUser.path
         defaultDataPath = "\(homeDir)/MyDrive/claude-skills-data/voice-memos/meetings"
@@ -62,57 +62,57 @@ class Config {
 
     // MARK: - Accessors
 
-    var recordingsPath: String {
+    public var recordingsPath: String {
         return configDict["recordings_path"] as? String ?? defaultDataPath
     }
 
-    var configFilePath: String {
+    public var configFilePath: String {
         return defaultConfigPath
     }
 
-    var audioFormat: String {
+    public var audioFormat: String {
         return configDict["audio_format"] as? String ?? "m4a"
     }
 
-    var audioBitrate: Int {
+    public var audioBitrate: Int {
         return configDict["audio_bitrate"] as? Int ?? 64000
     }
 
-    var sampleRate: Int {
+    public var sampleRate: Int {
         return configDict["sample_rate"] as? Int ?? 16000
     }
 
-    var channels: Int {
+    public var channels: Int {
         return configDict["channels"] as? Int ?? 1
     }
 
-    var maxFileSizeMB: Int {
+    public var maxFileSizeMB: Int {
         return configDict["max_file_size_mb"] as? Int ?? 25
     }
 
-    var autoChunk: Bool {
+    public var autoChunk: Bool {
         return configDict["auto_chunk"] as? Bool ?? true
     }
 
-    var chunkDurationMinutes: Int {
+    public var chunkDurationMinutes: Int {
         return configDict["chunk_duration_minutes"] as? Int ?? 40
     }
 
-    var autoDetectMeetings: Bool {
+    public var autoDetectMeetings: Bool {
         return configDict["auto_detect_meetings"] as? Bool ?? true
     }
 
-    var notificationsEnabled: Bool {
+    public var notificationsEnabled: Bool {
         return configDict["notifications_enabled"] as? Bool ?? true
     }
 
-    var autoRecord: Bool {
+    public var autoRecord: Bool {
         return configDict["auto_record"] as? Bool ?? false
     }
 
     // MARK: - File naming
 
-    func generateFileName(forApp appName: String) -> String {
+    public func generateFileName(forApp appName: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd_HH-mm-ss"
         let timestamp = dateFormatter.string(from: Date())
@@ -126,7 +126,7 @@ class Config {
         return "\(timestamp)_\(sanitizedApp).\(audioFormat)"
     }
 
-    func fullPath(forFileName fileName: String) -> String {
+    public func fullPath(forFileName fileName: String) -> String {
         return "\(recordingsPath)/\(fileName)"
     }
 }

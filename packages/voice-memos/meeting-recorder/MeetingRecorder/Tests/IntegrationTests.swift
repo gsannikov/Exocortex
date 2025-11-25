@@ -1,5 +1,5 @@
 import XCTest
-@testable import MeetingRecorder
+@testable import MeetingRecorderLib
 
 /// Integration tests that verify components work together correctly
 final class IntegrationTests: XCTestCase {

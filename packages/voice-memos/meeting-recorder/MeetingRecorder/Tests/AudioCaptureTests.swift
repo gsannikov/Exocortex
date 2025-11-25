@@ -1,6 +1,6 @@
 import XCTest
 import AVFoundation
-@testable import MeetingRecorder
+@testable import MeetingRecorderLib
 
 final class AudioCaptureTests: XCTestCase {
 

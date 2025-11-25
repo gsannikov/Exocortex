@@ -262,24 +262,33 @@ def test_swift_package():
 def test_swift_sources():
     """Test that all required Swift source files exist"""
     global passed, failed
-    sources_dir = MEETING_RECORDER_DIR / "MeetingRecorder" / "Sources"
 
-    required_files = [
-        "main.swift",
+    # Check library sources (Sources/Lib/)
+    lib_dir = MEETING_RECORDER_DIR / "MeetingRecorder" / "Sources" / "Lib"
+    lib_files = [
         "AppDelegate.swift",
         "AudioCapture.swift",
         "MeetingDetector.swift",
         "Config.swift",
     ]
 
-    for filename in required_files:
-        filepath = sources_dir / filename
+    for filename in lib_files:
+        filepath = lib_dir / filename
         if filepath.exists():
-            print_pass(f"Source file exists: {filename}")
+            print_pass(f"Source file exists: Lib/{filename}")
             passed += 1
         else:
-            print_fail(f"Source file missing: {filename}")
-            failed += 1
+            print_fail(f"Source file missing: Lib/{filename}")
+
+    # Check app entry point (Sources/App/)
+    app_dir = MEETING_RECORDER_DIR / "MeetingRecorder" / "Sources" / "App"
+    main_path = app_dir / "main.swift"
+    if main_path.exists():
+        print_pass(f"Source file exists: App/main.swift")
+        passed += 1
+    else:
+        print_fail(f"Source file missing: App/main.swift")
+        failed += 1
 
 
 def test_swift_tests():

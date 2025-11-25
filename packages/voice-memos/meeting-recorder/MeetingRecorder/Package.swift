@@ -7,18 +7,27 @@ let package = Package(
         .macOS(.v13)  // ScreenCaptureKit requires macOS 12.3+, we use 13 for better APIs
     ],
     products: [
-        .executable(name: "MeetingRecorder", targets: ["MeetingRecorder"])
+        .executable(name: "MeetingRecorder", targets: ["MeetingRecorderApp"]),
+        .library(name: "MeetingRecorderLib", targets: ["MeetingRecorderLib"])
     ],
     dependencies: [],
     targets: [
-        .executableTarget(
-            name: "MeetingRecorder",
+        // Library target with all the core code (testable)
+        .target(
+            name: "MeetingRecorderLib",
             dependencies: [],
-            path: "Sources"
+            path: "Sources/Lib"
         ),
+        // Executable target (just the entry point)
+        .executableTarget(
+            name: "MeetingRecorderApp",
+            dependencies: ["MeetingRecorderLib"],
+            path: "Sources/App"
+        ),
+        // Test target
         .testTarget(
             name: "MeetingRecorderTests",
-            dependencies: [],
+            dependencies: ["MeetingRecorderLib"],
             path: "Tests"
         )
     ]

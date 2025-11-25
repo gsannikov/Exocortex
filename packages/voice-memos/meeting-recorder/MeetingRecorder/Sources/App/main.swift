@@ -1,5 +1,6 @@
 import AppKit
 import Foundation
+import MeetingRecorderLib
 
 // Entry point for the Meeting Recorder app
 let app = NSApplication.shared

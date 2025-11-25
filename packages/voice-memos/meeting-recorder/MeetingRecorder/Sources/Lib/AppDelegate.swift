@@ -2,7 +2,7 @@ import AppKit
 import Foundation
 import UserNotifications
 
-class AppDelegate: NSObject, NSApplicationDelegate {
+public class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem!
     var meetingDetector: MeetingDetector!
     var audioCapture: AudioCapture!

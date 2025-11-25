@@ -3,7 +3,7 @@ import Foundation
 import ScreenCaptureKit
 
 /// Captures audio from meeting applications using ScreenCaptureKit
-class AudioCapture: NSObject {
+public class AudioCapture: NSObject {
     private var stream: SCStream?
     private var audioWriter: AVAssetWriter?
     private var audioInput: AVAssetWriterInput?
@@ -18,13 +18,13 @@ class AudioCapture: NSObject {
     private var chunkTimer: Timer?
     private let chunkDurationSeconds: TimeInterval
 
-    override init() {
+    public override init() {
         self.chunkDurationSeconds = TimeInterval(Config.shared.chunkDurationMinutes * 60)
         super.init()
     }
 
     /// Start capturing audio from the system or a specific app
-    func startCapture(forApp appName: String, completion: @escaping (Error?) -> Void) {
+    public func startCapture(forApp appName: String, completion: @escaping (Error?) -> Void) {
         guard !isCapturing else {
             completion(CaptureError.alreadyCapturing)
             return
@@ -120,7 +120,7 @@ class AudioCapture: NSObject {
     }
 
     /// Stop capturing and finalize the recording
-    func stopCapture(completion: @escaping (URL?, Error?) -> Void) {
+    public func stopCapture(completion: @escaping (URL?, Error?) -> Void) {
         guard isCapturing else {
             completion(nil, CaptureError.notCapturing)
             return
@@ -247,7 +247,7 @@ class AudioCapture: NSObject {
 
 // MARK: - SCStreamDelegate
 extension AudioCapture: SCStreamDelegate {
-    func stream(_ stream: SCStream, didStopWithError error: Error) {
+    public func stream(_ stream: SCStream, didStopWithError error: Error) {
         print("Stream stopped with error: \(error)")
         isCapturing = false
     }
@@ -255,7 +255,7 @@ extension AudioCapture: SCStreamDelegate {
 
 // MARK: - SCStreamOutput
 extension AudioCapture: SCStreamOutput {
-    func stream(_ stream: SCStream, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, of type: SCStreamOutputType) {
+    public func stream(_ stream: SCStream, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, of type: SCStreamOutputType) {
         guard type == .audio, isCapturing else { return }
 
         // Write audio sample to file
@@ -266,14 +266,14 @@ extension AudioCapture: SCStreamOutput {
 }
 
 // MARK: - Errors
-enum CaptureError: LocalizedError {
+public enum CaptureError: LocalizedError {
     case alreadyCapturing
     case notCapturing
     case noDisplayFound
     case noAudioRecorded
     case permissionDenied
 
-    var errorDescription: String? {
+    public var errorDescription: String? {
         switch self {
         case .alreadyCapturing:
             return "Already capturing audio"
