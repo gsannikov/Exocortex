@@ -4,9 +4,9 @@ Architecture decisions, roadmap, and project management.
 
 ## 📊 Current State
 
-**Version**: Monorepo v1.0.0
-**Date**: 2024-11-24
-**Skills**: 4 (career-consultant, reading-list, ideas-capture, voice-memos)
+**Version**: Monorepo v1.1.0
+**Date**: 2025-11-25
+**Skills**: 5 (career-consultant, reading-list, ideas-capture, voice-memos, local-rag)
 
 ## 🏗️ Architecture Decisions
 
@@ -51,6 +51,22 @@ Architecture decisions, roadmap, and project management.
 - Comment support
 - Good balance of structure and flexibility
 
+### ADR-005: Dependency Tracking for Documentation
+
+**Decision**: Use a dependency graph (`dependencies.yaml`) to track relationships between files and ensure documentation stays in sync.
+
+**Rationale**:
+- Cascading updates: Code → README → USER_GUIDE → Marketing
+- CI integration warns on PRs, blocks releases if out of sync
+- Claude commands (`/refactor`, `/deps`) for easy updates
+- Prevents documentation drift in monorepo
+
+**Components**:
+- `dependencies.yaml` - Dependency manifest
+- `shared/scripts/dependency_tracker.py` - CLI tool
+- `.claude/commands/refactor.md` - Slash command
+- CI jobs in `validate.yml` and `release.yml`
+
 ## 🗺️ Roadmap
 
 ### Phase 1: Foundation (Complete ✅)
@@ -61,9 +77,10 @@ Architecture decisions, roadmap, and project management.
 - [x] Root-level documentation
 - [x] Full cleanup (nested .git, legacy folders, unified paths)
 
-### Phase 2: Automation (Next)
-- [ ] GitHub Actions for validation
-- [ ] GitHub Actions for release
+### Phase 2: Automation (In Progress)
+- [x] GitHub Actions for validation
+- [x] GitHub Actions for release
+- [x] Dependency tracking system
 - [ ] Automated changelog generation
 - [ ] Cross-skill tests
 
@@ -99,11 +116,12 @@ Track per skill:
 
 | Pattern | Skills Using |
 |---------|-------------|
-| inbox | All 4 |
-| database | All 4 |
+| inbox | All 5 |
+| database | All 5 |
 | scoring | career-consultant, ideas-capture |
 | scraping | career-consultant, reading-list |
 | transcription | voice-memos |
+| rag | local-rag |
 
 ## 📝 Notes
 
@@ -120,6 +138,9 @@ Track per skill:
 
 | Date | Change |
 |------|--------|
+| 2025-11-25 | Dependency tracking system (ADR-005) |
+| 2025-11-25 | CI integration for dependency checks |
+| 2025-11-25 | local-rag skill added |
 | 2024-11-24 | Monorepo restructure |
 | 2024-11-24 | Apple Notes inbox pattern added |
 | 2024-11-24 | Centralized user-data |
