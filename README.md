@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-5-blue.svg)](packages/)
-[![Version](https://img.shields.io/badge/monorepo-v1.0.0-green.svg)](PROJECT.md)
+[![Version](https://img.shields.io/badge/monorepo-v1.1.0-green.svg)](PROJECT.md)
 
 **A collection of AI-powered Claude skills for automating personal productivity workflows.**
 
@@ -287,6 +287,6 @@ Copyright (c) 2025 Gur Sannikov
 
 ---
 
-**Version**: Monorepo v1.0.0 | **Status**: Active Development | **Last Updated**: 2025-11-25
+**Version**: Monorepo v1.1.0 | **Status**: Active Development | **Last Updated**: 2025-11-26
 
 > Built with Claude Skills SDK

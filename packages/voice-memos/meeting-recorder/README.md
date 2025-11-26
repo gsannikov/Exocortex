@@ -29,9 +29,16 @@ cd ~/MyDrive/claude-skills/packages/voice-memos/meeting-recorder
 
 ```bash
 cd MeetingRecorder
+
+# Standard build
 swift build -c release
 ./.build/release/MeetingRecorder
+
+# If building from Google Drive (to avoid sync conflicts)
+swift build -c release --scratch-path /tmp/MeetingRecorder-build
 ```
+
+> **Note**: If you see "disk I/O error" during build, use the `--scratch-path` option to place build artifacts outside the synced folder.
 
 ## Permissions Required
 
@@ -129,10 +136,16 @@ tccutil reset ScreenCapture com.claude-skills.meeting-recorder
 # Ensure Xcode CLI tools installed
 xcode-select --install
 
+# For XCTest errors, point to full Xcode
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+
 # Clean and rebuild
 cd MeetingRecorder
 rm -rf .build
 swift build -c release
+
+# For Google Drive: use external scratch path
+swift build -c release --scratch-path /tmp/MeetingRecorder-build
 ```
 
 ## Configuration
@@ -218,6 +231,11 @@ Add to "🎙️ Voice Memos Inbox":
 - **Delete Anytime**: Recordings stored locally in your data folder
 
 ## Version History
+
+### 1.0.1 (2025-11)
+- Fixed Swift 6 Sendable concurrency warnings
+- Added `@unchecked Sendable` to AudioCapture class
+- Improved build documentation for Google Drive users
 
 ### 1.0.0 (2024-01)
 - Initial release
