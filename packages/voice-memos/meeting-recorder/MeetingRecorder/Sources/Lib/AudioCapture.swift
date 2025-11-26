@@ -3,7 +3,9 @@ import Foundation
 import ScreenCaptureKit
 
 /// Captures audio from meeting applications using ScreenCaptureKit
-public class AudioCapture: NSObject {
+/// Note: @unchecked Sendable because this class manages its own thread safety
+/// through DispatchQueue.main for UI updates and serial access patterns
+public final class AudioCapture: NSObject, @unchecked Sendable {
     private var stream: SCStream?
     private var audioWriter: AVAssetWriter?
     private var audioInput: AVAssetWriterInput?
