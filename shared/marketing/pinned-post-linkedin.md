@@ -1,4 +1,4 @@
-# AI-Augmented Homosapiens: Memory + Skills + Connectors
+# AI-Augmented Homosapiens: Memory + Agents + Shell Control
 
 ![AI-Augmented Architecture](images/ai-augmented-hero.png)
 
@@ -11,8 +11,8 @@ A month ago, I stopped using AI as a chatbot and started building **AI-Augmented
 This isn't marketing speak. It's a technical architecture for knowledge work based on three pillars:
 
 1.  **Memory** = Local RAG (Semantic search over your entire digital life)
-2.  **Skills** = Claude Skills (Modular, versioned, agentic instructions)
-3.  **Connectors** = MCP (Model Context Protocol connecting to local apps & APIs)
+2.  **Augmented Agents** = Modular, versioned instructions that extend LLM capabilities
+3.  **Shell Control** = Direct computer access via terminal, MCP connectors, and slash commands
 
 Here is the architecture, the workflow, and why every digital worker needs this.
 
@@ -33,45 +33,47 @@ graph TD
 
     subgraph Augmentation["🧠 Augmentation Layer"]
         direction TB
-        
-        subgraph Memory["1. Memory (Local RAG)"]
+
+        subgraph Memory["1. Memory - Local RAG"]
             VectorDB[(ChromaDB)]
-            Docs[Markdown/PDFs]
-            Cloud[Cloud Mirror (GDrive)]
+            Docs[Markdown & PDFs]
+            Cloud[Cloud Mirror]
         end
-        
-        subgraph Skills["2. Skills (Agentic Logic)"]
+
+        subgraph Agents["2. Augmented Agents"]
             Career[Career Consultant]
             Writer[Copywriter]
             Coder[Agentic IDE]
         end
-        
-        subgraph Connectors["3. Connectors (MCP)"]
-            FS[Filesystem]
-            Notes[Apple Notes]
-            Web[Web Scraper]
+
+        subgraph Shell["3. Shell Control"]
+            Terminal[Bash & Zsh]
+            Commands[Slash Commands]
+            MCP[MCP Connectors]
         end
     end
 
     Chat <--> Career
     Chat <--> VectorDB
-    
-    Voice --> Notes
-    Voice --> FS
-    Chat --> Notes
-    Chat --> FS
-    
+
+    Voice --> MCP
+    Voice --> Terminal
+    Chat --> MCP
+    Chat --> Terminal
+
     Docs -.-> Cloud
-    
+
     Career <--> VectorDB
-    Career <--> Web
-    Writer <--> FS
-    
+    Career <--> MCP
+    Writer <--> Terminal
+    Commands --> Career
+    Commands --> Writer
+
     style Human fill:#e3f2fd,stroke:#1565c0
     style Augmentation fill:#f3e5f5,stroke:#7b1fa2
     style Memory fill:#fff3e0,stroke:#e65100
-    style Skills fill:#e8f5e9,stroke:#2e7d32
-    style Connectors fill:#ffebee,stroke:#c62828
+    style Agents fill:#e8f5e9,stroke:#2e7d32
+    style Shell fill:#ffebee,stroke:#c62828
 ```
 
 ### Key Technical Specs
@@ -79,6 +81,7 @@ graph TD
 *   **Cloud-Ready**: Knowledge base can sync to Google Drive/Dropbox for access anywhere.
 *   **Privacy**: 100% ownership. Your second brain lives on your SSD.
 *   **Search**: Semantic retrieval (embeddings) finds concepts, not just keywords.
+*   **Computer Use**: Models trained for shell execution (Claude Code, Codex CLI) that can run commands, edit files, and manage your system.
 
 ---
 
@@ -121,6 +124,52 @@ graph TD
 
 ---
 
+## 🖥️ The Shell Control Revolution
+
+The real unlock isn't just "AI that talks." It's **AI that acts**.
+
+Models like Claude are now trained specifically for **computer use**—understanding terminal commands, file systems, and development workflows. This changes everything.
+
+### Slash Commands: Your Personal CLI
+
+Instead of typing prompts, I invoke `/commands`:
+
+```bash
+/ship career-consultant patch    # Full release cycle
+/refactor                        # Update all dependent docs
+/deps                           # Check dependency status
+/process-inbox                  # Process Apple Notes inbox
+```
+
+Each command is a markdown file that expands into detailed instructions. It's like having programmable macros for your AI.
+
+### Why Shell Control Matters
+
+1.  **Precision**: Commands are repeatable. "Analyze this job" vs `/analyze-job URL`
+2.  **Composability**: Chain commands into workflows. `/scrape` → `/analyze` → `/report`
+3.  **Version Control**: Commands live in `.claude/commands/`. Git tracks changes.
+4.  **Team Sharing**: Share your command library. Onboard teammates instantly.
+
+### The Architecture Pattern
+
+```
+Human Intent
+    ↓
+/slash-command
+    ↓
+Expanded Prompt (from .md file)
+    ↓
+LLM Reasoning
+    ↓
+Shell Execution (bash, git, npm, etc.)
+    ↓
+Result
+```
+
+This is the bridge between "chatting with AI" and "AI as your terminal co-pilot."
+
+---
+
 ## 📈 The Trajectory: Constant Evolution
 
 Building this system feels like being Columbus discovering a new continent.
@@ -133,8 +182,8 @@ Building this system feels like being Columbus discovering a new continent.
 ### The Future Vision (Where This Is Going)
 
 This architecture is a bridge to the future, valid for the coming years. But eventually:
-1.  **Skills will become obsolete**: AI will generate the "skill" logic on the fly. You won't write code; you'll just state intent.
-2.  **MCPs will become neural connectors**: Direct interfaces between AI and the digital world, without rigid APIs.
+1.  **Agents will self-compose**: AI will generate agent logic on the fly. You won't write prompts; you'll just state intent.
+2.  **Shell control will expand**: From terminal to full OS control—window management, app orchestration, system automation.
 3.  **Storage will be direct**: The knowledge graph will connect directly to our biological memory (Neuralink style?).
 
 Until then, **we build the bridge.**
@@ -149,12 +198,13 @@ This isn't just for developers. **Every digital profession is evolving.**
 *   **PMs**: From "Manual Jira updates" → **Predictive Risk & Backlog Agents**
 *   **Creators**: From "Drafting from scratch" → **Idea-to-Distribution Pipelines**
 
-**A Note on "Skills"**:
-While I use "Claude Skills" (a genius name by Anthropic), the concept is universal. A "Skill" is simply **LLM + Code Container**. You can build this with OpenAI, Gemini, or local Llama models. The architecture remains the same.
+**A Note on "Augmented Agents"**:
+The concept is universal. An "Augmented Agent" is simply **LLM + Instructions + Computer Access**. You can build this with Claude Code, OpenAI Codex CLI, or local models. The architecture remains the same—what matters is that the model can *act*, not just *talk*.
 
 **The Shift**:
 *   **Pre-AI**: Brain + Google (Access to info, no context)
-*   **Augmented**: Brain + LLM + Persistent Memory (Expert reasoning, perfect recall)
+*   **Chatbot Era**: Brain + LLM (Reasoning, but no action)
+*   **Augmented Era**: Brain + LLM + Shell Control + Persistent Memory (Reasoning + Action + Recall)
 
 ---
 
@@ -162,7 +212,8 @@ While I use "Claude Skills" (a genius name by Anthropic), the concept is univers
 
 1.  **Not Production-Ready**: APIs break, models change. It's a developer's toolkit.
 2.  **Latency**: Complex chains (Scrape → Analyze → Write) can take 30s+.
-3.  **Maintenance**: Requires Python knowledge to fix skills when they break.
+3.  **Maintenance**: Requires technical knowledge to fix agents when they break.
+4.  **Trust Boundary**: Shell access means mistakes can have real consequences. Start with read-only operations.
 
 ---
 
@@ -185,4 +236,4 @@ Let's build the future of work, locally. 🚀
 **What's your approach to AI augmentation?**
 Are you building a second brain, or just using chatbots? Let's discuss. 👇
 
-#AI #LocalFirst #RAG #MCP #FutureOfWork #SoftwareEngineering #ClaudeSkills
+#AI #LocalFirst #RAG #MCP #FutureOfWork #SoftwareEngineering #ClaudeCode #AugmentedAgents
