@@ -131,13 +131,24 @@ graph TD
 
 ## 🟡 Bonus: Meeting Recorder
 
-The Voice Memos skill includes a **Meeting Recorder** component—a lightweight macOS menu bar app that captures audio from meeting applications (Zoom, Google Meet, Teams).
+The Voice Memos skill includes a **Meeting Recorder** component—a production-grade macOS menu bar app built in Swift that captures audio from meeting applications (Zoom, Google Meet, Teams).
 
 **Features**:
 - **ScreenCaptureKit**: Uses Apple's modern API (no BlackHole needed)
+- **Swift 6 Concurrency**: Full Sendable compliance for thread-safe audio capture
 - **Auto-Detection**: Detects when meeting apps start
 - **Smart Compression**: 64kbps AAC optimized for speech (~30MB/hour)
 - **Auto-Chunking**: Long meetings split into processable chunks
+- **Menu Bar UI**: Unobtrusive recording controls with status indicators
+
+**Architecture**:
+```swift
+// AudioCapture.swift - Thread-safe audio routing
+@MainActor
+final class AudioCapture: NSObject, Sendable {
+    func captureAudio(from app: SCRunningApplication) async throws
+}
+```
 
 **Use Case**: "What did we agree on in the standup?" → Process meeting recordings → Query transcripts via RAG.
 

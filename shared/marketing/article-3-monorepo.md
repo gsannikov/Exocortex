@@ -156,11 +156,71 @@ This means my main "Router" agent doesn't need to know *how* a skill works. It j
 
 ---
 
-## 🚀 The Result
+## 🔗 Dependency Tracking: Keeping Docs in Sync
+
+One painful lesson from managing a monorepo: **documentation drifts**.
+
+You update `SKILL.md`, forget to update the README. You improve the README, but the User Guide goes stale. Soon your marketing posts reference features that don't exist anymore.
+
+**The Solution**: A dependency graph.
+
+```yaml
+# dependencies.yaml
+files:
+  - path: packages/career-consultant/README.md
+    depends_on:
+      - packages/career-consultant/SKILL.md
+    type: derived
+
+  - path: USER_GUIDE.md
+    depends_on:
+      - packages/career-consultant/README.md
+      - packages/reading-list/README.md
+    type: documentation
+```
+
+**The Workflow**:
+1.  **Track**: The graph knows README depends on SKILL.md.
+2.  **Detect**: CI checks if source files changed without updating dependents.
+3.  **Enforce**: PRs show warnings. Releases are blocked if docs are stale.
+
+**Claude Commands**:
+*   `/refactor` - Full dependency-aware update workflow
+*   `/deps` - Quick status check
+
+This prevents the "docs rot" problem that kills every project.
+
+---
+
+## 🚀 The `/ship` Command: One-Click Releases
+
+Release day used to be painful. Run tests. Update changelog. Bump version. Tag. Push. Pray.
+
+Now it's one command:
+
+```bash
+/ship career-consultant patch
+```
+
+**What It Does**:
+1.  Validates code and tests pass
+2.  Checks dependency graph (are docs in sync?)
+3.  Bumps version in `version.yaml`
+4.  Updates `CHANGELOG.md` with recent commits
+5.  Creates git tag
+6.  Pushes to GitHub (triggers release workflow)
+
+The entire CI/CD pipeline is wrapped in a Claude command. I just describe what changed, and the system handles the rest.
+
+---
+
+## 🎯 The Result
 
 *   **Onboarding a new skill**: Takes 10 minutes. Copy template -> Write logic -> Add to registry.
-*   **Refactoring**: I switched from `requests` to `httpx` in one file (`shared/mcp_client.py`), and 8 skills were updated instantly.
+*   **Refactoring**: I switched from `requests` to `httpx` in one file (`shared/mcp_client.py`), and 5 skills were updated instantly.
 *   **Stability**: CI catches broken imports before I merge.
+*   **Documentation**: Dependency tracking prevents drift.
+*   **Releases**: One command deploys everything.
 
 **This is how you move from "tinkering" to "engineering".**
 
