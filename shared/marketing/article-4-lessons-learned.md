@@ -76,6 +76,28 @@ I don't use Claude 3.5 Sonnet for everything.
 
 ---
 
+## ✅ What Worked: Dependency Tracking
+
+Documentation always drifts. You update code, forget the README. You improve the README, but the user guide goes stale.
+
+**The Fix**: A dependency graph (`dependencies.yaml`) that tracks which files depend on which.
+
+```yaml
+# When SKILL.md changes, README must be updated
+- path: packages/career-consultant/README.md
+  depends_on:
+    - packages/career-consultant/SKILL.md
+```
+
+**The Workflow**:
+1.  CI checks if source files changed without updating dependents.
+2.  PRs show warnings.
+3.  Releases are blocked if docs are stale.
+
+**Lesson**: **Automate the boring stuff.** If you have to remember to update something, you'll forget.
+
+---
+
 ## 🧠 The Philosophy Shift
 
 The biggest lesson wasn't technical. It was mental.

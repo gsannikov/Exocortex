@@ -177,11 +177,13 @@ This simple check prevents "context window overflow" errors that crash long-runn
 
 ### 6. GitHub is Your Source of Truth
 
-This isn't just a folder on my desktop. It's a Git repository.
+This isn't just a folder on my desktop. It's a Git repository with full CI/CD.
 
 *   **History**: I can roll back to v9.0 if v10.0 breaks something.
 *   **Branches**: I develop new features (like "Market Investigation") on separate branches.
-*   **Workflows**: I use `test.yml` for CI and `release.yml` to automatically package the skill.
+*   **Workflows**: I use `validate.yml` for CI and `release.yml` to automatically package the skill.
+*   **Dependency Tracking**: A graph ensures documentation stays in sync with code changes.
+*   **One-Click Releases**: The `/ship` command handles version bumps, changelogs, and tags automatically.
 
 Maintain everything in GitHub. Your future self will thank you when you need to see *why* you made a change 3 months ago.
 
