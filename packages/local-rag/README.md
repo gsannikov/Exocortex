@@ -7,7 +7,7 @@ Hybrid semantic + keyword search over your local documents using embeddings, BM2
 - **Hybrid Search**: Combines vector similarity and BM25 keyword search for best results
 - **Multi-Format Support**: PDF, DOCX, PPTX, XLSX, TXT, MD, code files, images
 - **Smart Chunking**: 4 strategies (fixed, sentence, semantic, template)
-- **OCR Support**: Extract text from scanned PDFs and images
+- **OCR Support**: Extract text from scanned PDFs and images (PaddleOCR with Hebrew support)
 - **Multiple Vector Stores**: ChromaDB (default) or Qdrant
 - **Cross-Encoder Reranking**: Optional precision boost for top results
 - **Persistent Storage**: Local vector database + BM25 index
