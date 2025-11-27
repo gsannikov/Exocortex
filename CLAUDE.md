@@ -13,6 +13,7 @@ Global instructions for Claude when working with this skills monorepo.
 | 💡 ideas-capture | `process ideas` | 💡 Ideas Inbox |
 | 🎙️ voice-memos | `process voice memos` | 🎙️ Voice Memos Inbox |
 | 🔍 local-rag | `search documents` | N/A (local files) |
+| 📱 social-media-post | `create [platform] post` | N/A (generates posts) |
 
 ### Key Paths
 
@@ -30,7 +31,8 @@ claude-skills/
 │   ├── reading-list/
 │   ├── ideas-capture/
 │   ├── voice-memos/
-│   └── local-rag/
+│   ├── local-rag/
+│   └── social-media-post/
 ├── shared/
 │   ├── scripts/                   # Release, generator, dependency tracker
 │   ├── templates/                 # Patterns, templates
@@ -61,6 +63,7 @@ Load skill-specific SKILL.md only when needed:
 career_skill = "packages/career-consultant/SKILL.md"
 reading_skill = "packages/reading-list/SKILL.md"
 local_rag_skill = "packages/local-rag/SKILL.md"
+social_media_skill = "packages/social-media-post/SKILL.md"
 ```
 
 ## 🔄 Common Workflows

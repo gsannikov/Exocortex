@@ -1,0 +1,76 @@
+# Platform Configuration for Social Media Post Generator
+# Adjust settings per platform
+
+threads:
+  char_limit_standard: 500
+  char_limit_extended: 10000
+  hashtags_enabled: false
+  formats:
+    - bold
+    - italic
+    - underline
+    - emojis
+    - bullet_points
+    - line_breaks
+  algorithm_weights:
+    engagement: 0.40
+    recency: 0.30
+    relevance: 0.20
+    profile_visits: 0.10
+  optimal_times_et:
+    weekday: ["9:00", "11:00", "13:00", "15:00", "19:00", "21:00"]
+    weekend: ["10:00", "14:00"]
+  best_practices:
+    - conversational_tone
+    - ask_questions
+    - use_visuals
+    - respond_fast
+    - post_consistently
+
+x_twitter:
+  char_limit_standard: 280
+  char_limit_premium: 25000
+  hashtags_max: 2
+  formats:
+    - emojis
+    - line_breaks
+    - mentions
+    - hashtags
+  algorithm_weights:
+    engagement_rate: 0.35
+    recency: 0.30
+    media: 0.20
+    authenticity: 0.15
+  optimal_times_et:
+    weekday: ["8:00", "10:00", "12:00", "13:00", "17:00", "18:00"]
+    weekend: ["9:00", "12:00"]
+  best_practices:
+    - front_load_value
+    - use_threads
+    - add_media
+    - limit_hashtags
+    - be_concise
+
+linkedin:
+  char_limit: 3000
+  display_cutoff: 140
+  hashtags_max: 5
+  formats:
+    - emojis_sparingly
+    - bullet_points
+    - line_breaks
+    - numbered_lists
+  algorithm_weights:
+    dwell_time: 0.35
+    engagement: 0.30
+    relevance: 0.20
+    connections: 0.15
+  optimal_times_et:
+    weekday: ["8:00", "10:00", "12:00", "13:00"]
+    weekend: []  # Avoid weekends
+  best_practices:
+    - hook_early
+    - use_data
+    - tell_stories
+    - engage_back
+    - quality_over_quantity

@@ -1,7 +1,7 @@
 # Claude Skills Ecosystem
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-5-blue.svg)](packages/)
+[![Skills](https://img.shields.io/badge/skills-6-blue.svg)](packages/)
 [![Version](https://img.shields.io/badge/monorepo-v1.1.0-green.svg)](PROJECT.md)
 
 **A collection of AI-powered Claude skills for automating personal productivity workflows.**
@@ -39,6 +39,7 @@ One ecosystem of AI skills that:
 | [Ideas Capture](packages/ideas-capture/) | Idea expansion, scoring, and categorization | Ideas Inbox | `process ideas` |
 | [Voice Memos](packages/voice-memos/) | Transcription, analysis, and action extraction | Voice Memos Inbox | `process voice memos` |
 | [Local RAG](packages/local-rag/) | Semantic search across local documents | N/A | `query rag [question]` |
+| [Social Media Post](packages/social-media-post/) | Platform-optimized post generation with algorithm insights | N/A | `create [platform] post` |
 
 ---
 
@@ -107,7 +108,8 @@ claude-skills/
 │   ├── reading-list/              # Article management
 │   ├── ideas-capture/             # Idea tracking
 │   ├── voice-memos/               # Audio transcription
-│   └── local-rag/                 # Document search
+│   ├── local-rag/                 # Document search
+│   └── social-media-post/         # Social media post generator
 ├── shared/
 │   ├── scripts/                   # Release, generator utilities
 │   ├── templates/                 # Patterns and templates
@@ -130,7 +132,8 @@ All user data is stored separately from the codebase:
 ├── reading-list/                  # Articles, summaries
 ├── ideas-capture/                 # Ideas database
 ├── voice-memos/                   # Transcripts
-└── local-rag/                     # Vector database
+├── local-rag/                     # Vector database
+└── social-media-post/             # Generated posts, analytics
 ```
 
 **Key Principle**: Code and data are completely separated. User data is never committed to git.
@@ -225,6 +228,18 @@ Optional MCP servers enhance functionality:
 - Incremental indexing
 
 [Full Documentation](packages/local-rag/README.md)
+
+### Social Media Post (v1.0.0)
+
+**For**: Content creators and marketers
+
+- Platform optimization (Threads, X, LinkedIn)
+- 2025 algorithm insights
+- Multiple post variants (short, medium, long)
+- Engagement scoring and best posting times
+- Character count validation
+
+[Full Documentation](packages/social-media-post/README.md)
 
 ---
 
