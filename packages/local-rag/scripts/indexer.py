@@ -23,8 +23,29 @@ from search import BM25Index
 
 
 # Configuration defaults
-ALLOWED_EXTS = {'.pdf', '.txt', '.md', '.py', '.js', '.html', '.css', '.json', '.yaml', '.yml',
-                '.docx', '.pptx', '.xlsx', '.ts', '.c', '.cpp', '.h', '.sh'}
+ALLOWED_EXTS = {
+    # Documents
+    '.pdf', '.txt', '.md', '.mdx', '.mdc',
+    '.docx', '.pptx', '.xlsx', '.doc',
+    # Code
+    '.py', '.js', '.ts', '.tsx', '.jsx',
+    '.html', '.xhtml', '.css', '.scss',
+    '.json', '.jsonc', '.yaml', '.yml',
+    '.c', '.cpp', '.h', '.hpp', '.sh',
+    '.swift', '.go', '.rs', '.java',
+    # Images (OCR)
+    '.png', '.jpg', '.jpeg', '.tiff', '.webp',
+}
+
+# Directories to exclude from indexing
+EXCLUDE_DIRS = {
+    '.git', '.svn', '.hg',           # Version control
+    'node_modules', '__pycache__',    # Dependencies/cache
+    '.venv', 'venv', 'env',           # Python environments
+    '.idea', '.vscode',               # IDE configs
+    'dist', 'build', '.next',         # Build outputs
+}
+
 CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "3000"))
 CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "400"))
 EMBED_MODEL = os.getenv("EMBED_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
@@ -157,6 +178,11 @@ class DocumentIndexer:
         """Check if file should be indexed."""
         if not path.exists() or not path.is_file():
             return False
+
+        # Check if any parent directory is in exclusion list
+        for parent in path.parents:
+            if parent.name in EXCLUDE_DIRS:
+                return False
 
         if path.suffix.lower() not in ALLOWED_EXTS:
             return False

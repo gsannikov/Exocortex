@@ -9,8 +9,19 @@ from .ocr import run_ocr
 USE_OCR = os.getenv("OCR_ENABLED","true").lower()=="true"
 OCR_MAX_PAGES = int(os.getenv("OCR_MAX_PAGES","120"))
 OCR_PAGE_DPI = int(os.getenv("OCR_PAGE_DPI","200"))
-TEXT_EXTS = {".txt",".md",".json",".yml",".yaml",".py",".js",".ts",".c",".cpp",".h",".sh"}
-IMAGE_EXTS = {".png",".jpg",".jpeg",".tiff",".webp"}
+
+# Text-based files (read directly)
+TEXT_EXTS = {
+    ".txt", ".md", ".mdx", ".mdc",
+    ".json", ".jsonc", ".yml", ".yaml",
+    ".py", ".js", ".ts", ".tsx", ".jsx",
+    ".c", ".cpp", ".h", ".hpp", ".sh",
+    ".html", ".xhtml", ".css", ".scss",
+    ".swift", ".go", ".rs", ".java",
+}
+
+# Image files (require OCR)
+IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".tiff", ".webp"}
 
 def _read_docx(p: Path) -> str:
     import docx
@@ -27,6 +38,26 @@ def _read_xlsx(p: Path) -> str:
     wb = openpyxl.load_workbook(str(p), data_only=True, read_only=True)
     return "\n".join("\t".join("" if v is None else str(v) for v in row) for ws in wb for row in ws.iter_rows(values_only=True))
 
+def _read_doc(p: Path) -> str:
+    """Read legacy .doc files using antiword or textract fallback."""
+    import subprocess
+    try:
+        # Try antiword first (brew install antiword)
+        result = subprocess.run(["antiword", str(p)], capture_output=True, text=True, timeout=30)
+        if result.returncode == 0:
+            return result.stdout
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        pass
+
+    # Fallback: try textract if available
+    try:
+        import textract
+        return textract.process(str(p)).decode('utf-8', errors='ignore')
+    except ImportError:
+        pass
+
+    return ""
+
 def read_text_with_ocr(p: Path) -> str:
     ext = p.suffix.lower()
     if ext in TEXT_EXTS:
@@ -34,6 +65,9 @@ def read_text_with_ocr(p: Path) -> str:
 
     if ext == ".docx":
         return _read_docx(p)
+
+    if ext == ".doc":
+        return _read_doc(p)
 
     if ext == ".pptx":
         return _read_pptx(p)
