@@ -11,6 +11,7 @@ This guide covers how to use each skill in the Claude Skills ecosystem with deta
 - [Ideas Capture](#-ideas-capture)
 - [Voice Memos](#-voice-memos)
 - [Local RAG](#-local-rag)
+- [Social Media Post](#-social-media-post)
 - [Apple Notes Setup](#apple-notes-setup)
 - [Data Storage](#data-storage)
 
@@ -25,6 +26,7 @@ This guide covers how to use each skill in the Claude Skills ecosystem with deta
 | Ideas Capture | `process ideas` | Ideas Inbox |
 | Voice Memos | `process voice memos` | Voice Memos Inbox |
 | Local RAG | `search documents` | N/A (local files) |
+| Social Media Post | `create [platform] post` | N/A (generates posts) |
 
 ---
 
@@ -575,6 +577,119 @@ Claude: Scanning for changes...
 
 ---
 
+## Social Media Post
+
+**Purpose**: Generate platform-optimized social media posts using algorithm insights and best practices.
+
+### Commands
+
+#### Create Posts
+```
+Create a Threads post about [topic]
+```
+Generate a Threads-optimized post.
+
+```
+Write X post for [feature]
+```
+Generate a Twitter-optimized tweet.
+
+```
+Create LinkedIn announcement for [release]
+```
+Generate a professional LinkedIn post.
+
+```
+Generate social media posts for [announcement]
+```
+Create posts for multiple platforms.
+
+#### Post Styles
+```
+Write Threads post like option 5
+```
+Short & punchy style (under 280 chars).
+
+```
+Create medium post about [topic]
+```
+Medium detailed (300-500 chars).
+
+```
+Write long-form LinkedIn post about [topic]
+```
+Long-form (800-1500 chars).
+
+### Platforms
+
+| Platform | Char Limit | Hashtags | Best For |
+|----------|------------|----------|----------|
+| Threads | 500 (10K extended) | None | Conversational, questions |
+| X (Twitter) | 280 (25K Blue) | 1-2 max | Concise announcements |
+| LinkedIn | 3,000 | 3-5 max | Professional deep-dives |
+
+### Algorithm Priorities (2025)
+
+**Threads**: Engagement (40%) > Recency (30%) > Relevance (20%) > Profile (10%)
+**X**: Engagement rate > Recency > Media > Authenticity
+**LinkedIn**: Dwell time > Engagement > Relevance > Connections
+
+### Output Format
+
+Each generated post includes:
+- **Platform**: Target platform
+- **Character Count**: Current/limit
+- **Engagement Hooks**: Questions, CTAs used
+- **Media Suggestion**: Recommended visuals
+- **Best Posting Time**: Optimal time for US audience
+- **Engagement Score**: 1-10 rating
+
+### Example Session
+
+```
+User: Create a Threads post about Navigator v3.3.1 release
+
+Claude: **Platform**: Threads
+        **Style**: Short & Punchy
+        **Character Count**: 274/500
+
+        ---
+
+        Teach Claude Code to automate like a Pro.
+
+        Navigator v3.3.1:
+        ✅ One-command updates
+        ✅ Figma MCP integration
+        ✅ Storybook + Chromatic automation
+        ✅ 18 skills total
+
+        "Update Navigator" → Done in 2 min
+
+        Install: /plugin marketplace add alekspetrov/navigator
+
+        What workflow would you automate next?
+
+        ---
+
+        **Metadata**:
+        - Engagement Hook: Opening statement + closing question
+        - Visual Suggestion: Terminal screenshot
+        - Best Time: Tuesday 10 AM ET
+        - Engagement Score: 8.5/10
+
+User: Now create an X thread for the same topic
+
+Claude: **Platform**: X (Twitter)
+        **Format**: Thread (4 tweets)
+
+        Tweet 1/4 (278/280 chars)
+        We just automated the complete design-to-production pipeline...
+
+        [Generates full thread with optimal character distribution]
+```
+
+---
+
 ## Apple Notes Setup
 
 ### Creating Inbox Notes
@@ -658,8 +773,12 @@ All user data is stored separately from skill code:
 ├── voice-memos/
 │   ├── transcripts/
 │   └── analyzed/
-└── local-rag/
-    └── chromadb/
+├── local-rag/
+│   └── chromadb/
+└── social-media-post/
+    ├── posts/
+    ├── templates/
+    └── analytics/
 ```
 
 ### Database Format

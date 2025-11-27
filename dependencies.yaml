@@ -127,6 +127,24 @@ nodes:
       Sync scoring dimensions and commands from SKILL.md
 
   # ============================================
+  # SOCIAL MEDIA POST SKILL
+  # ============================================
+  - path: packages/social-media-post/SKILL.md
+    type: source
+    description: Core social media post generator skill logic
+    depends_on: []
+    rebuild_instructions: |
+      Source file. Update version.yaml and CHANGELOG.md on changes.
+
+  - path: packages/social-media-post/README.md
+    type: derived
+    description: User documentation for social media post skill
+    depends_on:
+      - packages/social-media-post/SKILL.md
+    rebuild_instructions: |
+      Sync commands, platforms, and features from SKILL.md
+
+  # ============================================
   # LOCAL RAG SKILL
   # ============================================
   - path: packages/local-rag/SKILL.md
@@ -168,6 +186,7 @@ nodes:
       - packages/reading-list/SKILL.md
       - packages/ideas-capture/SKILL.md
       - packages/local-rag/SKILL.md
+      - packages/social-media-post/SKILL.md
     rebuild_instructions: |
       This is the main user-facing documentation. When any skill changes:
       1. Update the corresponding skill section
@@ -290,6 +309,13 @@ groups:
       - packages/career-consultant/SKILL.md
       - packages/career-consultant/README.md
       - packages/career-consultant/modules/
+
+  social-media-post:
+    description: All social media post related files
+    members:
+      - packages/social-media-post/SKILL.md
+      - packages/social-media-post/README.md
+      - packages/social-media-post/config/
 
   documentation:
     description: All user-facing documentation

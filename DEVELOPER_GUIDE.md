@@ -24,7 +24,8 @@ claude-skills/
 │   ├── reading-list/
 │   ├── ideas-capture/
 │   ├── voice-memos/
-│   └── local-rag/
+│   ├── local-rag/
+│   └── social-media-post/
 ├── shared/
 │   ├── scripts/                   # Release, generator utilities
 │   │   ├── release.py
