@@ -181,6 +181,21 @@ PACKAGE_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PACKAGE_ROOT))
 
 import local_rag.vectorstore as vectorstore  # noqa: E402
+from local_rag.ingest import ocr as ingest_ocr  # noqa: E402
+from local_rag.ingest import extractor as ingest_extractor  # noqa: E402
+from local_rag.ingest import utils as ingest_utils  # noqa: E402
+import local_rag.ingest as ingest  # noqa: E402
+
+# Provide legacy module aliases for tests that import the old layout
+sys.modules["vectorstore"] = vectorstore
+sys.modules["ingest"] = ingest
+sys.modules["ingest.ocr"] = ingest_ocr
+sys.modules["ingest.extractor"] = ingest_extractor
+sys.modules["ingest.utils"] = ingest_utils
+import local_rag.indexer as indexer  # noqa: E402
+sys.modules["indexer"] = indexer
+import local_rag.query as query  # noqa: E402
+sys.modules["query"] = query
 
 _GLOBAL_STORE = {}
 

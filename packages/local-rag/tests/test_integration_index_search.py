@@ -1,6 +1,7 @@
 """Integration-style index + search round-trip tests."""
 
 import math
+import sys
 import types
 from pathlib import Path
 

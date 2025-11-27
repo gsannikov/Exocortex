@@ -12,7 +12,7 @@ OCR_PAGE_DPI = int(os.getenv("OCR_PAGE_DPI","200"))
 
 # Text-based files (read directly)
 TEXT_EXTS = {
-    ".txt", ".md", ".mdx", ".mdc",
+    ".txt", ".md", ".mdx", ".mdc", ".log",
     ".json", ".jsonc", ".yml", ".yaml",
     ".py", ".js", ".ts", ".tsx", ".jsx",
     ".c", ".cpp", ".h", ".hpp", ".sh",
