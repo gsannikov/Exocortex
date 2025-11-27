@@ -1,4 +1,4 @@
-# The "Second Brain" Architecture: A Deep Dive into 5 Custom AI Skills
+# The "Second Brain" Architecture: A Deep Dive into 6 Custom AI Skills
 
 ![Skills Architecture Hero](images/skills-architecture-hero.png)
 
@@ -8,7 +8,7 @@
 
 In the [first article](LINK_TO_PINNED_POST), I outlined the high-level architecture of my local-first AI system. Today, we're opening the hood.
 
-I don't use generic AI tools. I use **5 specialized skills**—modular, versioned code containers that run locally and connect my LLM to my digital life.
+I don't use generic AI tools. I use **6 specialized skills**—modular, versioned code containers that run locally and connect my LLM to my digital life.
 
 Here is the technical breakdown of each production skill and the patterns that power them.
 
@@ -67,28 +67,39 @@ def score_job(job_desc, user_profile):
 ```
 
 ### 2. Local RAG (Memory) 🧠
-**Purpose**: Semantic search over my entire personal knowledge base.
+**Purpose**: Hybrid semantic + keyword search over my entire personal knowledge base.
 
 **The Stack**:
-*   **Vector DB**: ChromaDB (running locally)
-*   **Embeddings**: `all-MiniLM-L6-v2` (fast, runs on CPU)
-*   **Storage**: Markdown files in `~/brain`
+*   **Vector DB**: ChromaDB (default) or Qdrant (scalable)
+*   **Keyword Search**: BM25 with inverted index
+*   **Embeddings**: `all-MiniLM-L6-v2` (384-dim, runs on CPU)
+*   **Reranking**: Cross-encoder (optional, for precision)
+*   **Storage**: Markdown, PDF, Office docs in `~/brain`
 
 **Workflow**:
 ```mermaid
 graph TD
-    File[Markdown File] -->|Watcher| Change{Changed?}
-    Change -- Yes --> Chunk[Chunker]
-    Chunk --> Embed[Embedding Model]
-    Embed --> Vector[ChromaDB]
-    Vector -->|Query| Claude
+    File[Document] -->|Watcher| Change{Changed?}
+    Change -- Yes --> Chunk[Smart Chunker]
+    Chunk --> Embed[Embedding + BM25 Index]
+    Embed --> Vector[Vector Store]
+    Vector -->|Hybrid Query| Fusion[Result Fusion]
+    Fusion -->|Optional| Rerank[Cross-Encoder]
+    Rerank -->|Results| Claude
 ```
-1.  **Ingest**: Watcher script detects file changes.
-2.  **Chunk**: Split by H2 headers (semantic chunking).
-3.  **Embed**: Generate vectors.
-4.  **Retrieve**: Claude calls `query_rag(query)` tool.
 
-**Performance**: 2-second retrieval for 1000+ documents.
+**Chunking Strategies** (configurable):
+*   **Fixed**: Character-based with overlap
+*   **Sentence**: Respects sentence boundaries
+*   **Semantic**: Groups by embedding similarity
+*   **Template**: Document-aware (markdown headers, code functions)
+
+**Search Methods**:
+*   **Vector-only**: Pure semantic similarity
+*   **BM25-only**: Keyword matching with IDF weighting
+*   **Hybrid** (default): RRF fusion of both for best recall
+
+**Performance**: <150ms for hybrid search over 10k documents.
 
 ### 3. Reading List Manager 📚
 **Purpose**: Triage the firehose of information.
@@ -126,6 +137,24 @@ graph TD
     *   Risks
     *   Next Steps
 *   Saves to `ideas/` directory as Markdown.
+
+### 6. Social Media Post Generator 📱
+**Purpose**: Generate platform-optimized posts using algorithm insights.
+
+**The Challenge**: Each platform has different character limits, hashtag strategies, and algorithm priorities.
+**The Fix**: A skill that encodes platform-specific best practices and generates tailored content.
+
+**Supported Platforms**:
+*   **Threads**: Conversational, engagement-focused (no hashtags)
+*   **X (Twitter)**: Concise, 1-2 hashtags, thread-friendly
+*   **LinkedIn**: Professional, 3-5 hashtags, long-form
+
+**Output includes**:
+*   Character count vs. limit
+*   Engagement hooks (questions, CTAs)
+*   Media suggestions
+*   Optimal posting time
+*   Engagement score prediction
 
 ---
 
@@ -187,7 +216,7 @@ Because this is an **edge design** (local code, local data), it solves the bigge
 
 ## 🚀 Next Up: The Monorepo
 
-Managing 5+ skills can be a nightmare. In the next article, I'll show you the **Monorepo Architecture** that keeps this maintainable: CI/CD, shared dependencies, and standardized testing.
+Managing 6+ skills can be a nightmare. In the next article, I'll show you the **Monorepo Architecture** that keeps this maintainable: CI/CD, shared dependencies, and standardized testing.
 
 **Follow to catch Part 3 next week.**
 
