@@ -15,7 +15,7 @@ import sys
 from pathlib import Path
 from typing import List, Optional
 
-from chunking import (
+from .chunking import (
     Chunk,
     ChunkingStrategy,
     get_chunker,

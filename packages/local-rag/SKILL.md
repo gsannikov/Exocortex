@@ -154,26 +154,29 @@ chromadb>=0.4.0
 sentence-transformers>=2.2.0
 rapidfuzz>=3.0.0
 python-dotenv>=1.0.0
+pydantic-settings>=2.0.0
 pypdf>=3.0.0
 pdf2image>=1.16.0
 Pillow>=9.0.0
 python-docx>=0.8.11
 python-pptx>=0.6.21
 openpyxl>=3.0.0
+paddleocr>=2.7.0
+paddlepaddle>=2.5.0
 ```
 
 ### System Dependencies (for OCR)
 - **poppler-utils**: PDF to image conversion
-- **tesseract-ocr**: OCR engine
+- **antiword**: Legacy .doc extraction (optional)
 
 Install on macOS:
 ```bash
-brew install poppler tesseract
+brew install poppler antiword
 ```
 
 Install on Ubuntu:
 ```bash
-sudo apt install poppler-utils tesseract-ocr
+sudo apt install poppler-utils antiword
 ```
 
 ## 🚨 Limitations
@@ -192,10 +195,15 @@ local-rag/
 ├── README.md             # Quick intro
 ├── CHANGELOG.md          # Version history
 ├── version.yaml          # Version info
-├── requirements.txt      # Python dependencies
-├── scripts/
+├── pyproject.toml        # Installable package metadata
+├── local_rag/
+│   ├── cli.py            # Unified CLI entrypoint
 │   ├── indexer.py        # Document indexing
 │   ├── query.py          # Search functionality
+│   ├── visualize.py      # Chunk visualization
+│   ├── vectorstore.py    # Vector DB abstraction
+│   ├── search.py         # Hybrid search logic
+│   ├── chunking.py       # Chunking strategies
 │   └── ingest/
 │       ├── extractor.py  # File content extraction
 │       ├── ocr.py        # OCR processing

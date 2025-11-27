@@ -16,10 +16,10 @@ from typing import List, Generator, Tuple, Optional
 
 from sentence_transformers import SentenceTransformer
 
-from ingest.extractor import read_text_with_ocr as read_text
-from chunking import ChunkingStrategy, get_chunker, chunk_text, Chunk
-from vectorstore import VectorStoreType, get_vector_store, get_vector_store_from_env
-from search import BM25Index
+from .ingest.extractor import read_text_with_ocr as read_text
+from .chunking import ChunkingStrategy, get_chunker, chunk_text, Chunk
+from .vectorstore import VectorStoreType, get_vector_store, get_vector_store_from_env
+from .search import BM25Index
 
 
 # Configuration defaults

@@ -16,8 +16,8 @@ from typing import List, Optional
 from sentence_transformers import SentenceTransformer
 from rapidfuzz import fuzz
 
-from vectorstore import VectorStoreType, get_vector_store
-from search import (
+from .vectorstore import VectorStoreType, get_vector_store
+from .search import (
     HybridSearcher,
     SearchConfig,
     SearchMethod,

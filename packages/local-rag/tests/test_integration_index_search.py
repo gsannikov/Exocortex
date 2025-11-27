@@ -1,7 +1,6 @@
 """Integration-style index + search round-trip tests."""
 
 import math
-import sys
 import types
 from pathlib import Path
 
@@ -86,13 +85,9 @@ class _FakeImage:
     def convert(self, *_args, **_kwargs):
         return self
 
-# Add scripts directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
-
-from indexer import DocumentIndexer  # noqa: E402,E401
-from query import DocumentSearcher  # noqa: E402,E401
-import vectorstore  # noqa: E402,E401
-import search  # noqa: E402,E401
+from local_rag.indexer import DocumentIndexer
+from local_rag.query import DocumentSearcher
+from local_rag import vectorstore, search
 
 
 class InMemoryChroma(vectorstore.BaseVectorStore):

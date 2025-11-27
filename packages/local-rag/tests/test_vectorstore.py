@@ -1,14 +1,8 @@
 """Tests for vector store abstraction."""
 
 import pytest
-import sys
 import tempfile
-from pathlib import Path
-
-# Add scripts directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
-
-from vectorstore import (
+from local_rag.vectorstore import (
     VectorStoreType,
     Document,
     SearchResult,

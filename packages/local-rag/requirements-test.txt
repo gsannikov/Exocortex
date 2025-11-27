@@ -1,4 +1,4 @@
-# Testing dependencies for 2ndBrain_RAG
+# Testing dependencies for Local RAG
 
 # Core testing framework
 pytest>=7.4.0

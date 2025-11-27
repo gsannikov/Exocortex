@@ -10,7 +10,9 @@ from PIL import Image
 
 ENGINE = os.getenv("OCR_ENGINE", "paddle").lower()
 OCR_LANG = os.getenv("OCR_LANG", "en,he")  # Default: English + Hebrew
-CACHE_DIR = Path(os.getenv("OCR_CACHE_DIR", "state/ocr_cache"))
+
+_default_cache_dir = Path.home() / ".cache" / "local-rag" / "ocr_cache"
+CACHE_DIR = Path(os.getenv("OCR_CACHE_DIR", _default_cache_dir))
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 def _img_sha(img: Image.Image) -> str:

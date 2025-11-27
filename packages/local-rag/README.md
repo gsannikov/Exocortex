@@ -13,22 +13,34 @@ Hybrid semantic + keyword search over your local documents using embeddings, BM2
 - **Persistent Storage**: Local vector database + BM25 index
 - **Incremental Updates**: Only re-index changed files
 
+## Quickstart (no virtualenv)
+
+```bash
+# From repo root
+python3.11 -m pip install --user ./packages/local-rag
+
+# Index a folder
+local-rag index ~/Documents/research --user-data-dir ~/rag-data
+
+# Query it
+local-rag query "neural network training" --user-data-dir ~/rag-data
+```
+
 ## Usage
 
 ### Index a folder
 ```bash
-cd packages/local-rag/scripts
-python3 indexer.py ~/Documents/research --user-data-dir ~/rag-data
+local-rag index ~/Documents/research --user-data-dir ~/rag-data
 ```
 
 ### Query the database
 ```bash
-python3 query.py "neural network training" --user-data-dir ~/rag-data
+local-rag query "neural network training" --user-data-dir ~/rag-data
 ```
 
 ### Hybrid search with options
 ```bash
-python3 query.py "machine learning" --user-data-dir ~/rag-data \
+local-rag query "machine learning" --user-data-dir ~/rag-data \
   --method hybrid \
   --vector-weight 0.7 \
   --bm25-weight 0.3 \
@@ -37,7 +49,7 @@ python3 query.py "machine learning" --user-data-dir ~/rag-data \
 
 ### Visualize chunking
 ```bash
-python3 visualize.py document.md --strategy template --compare
+local-rag visualize document.md --strategy template --compare
 ```
 
 ## Chunking Strategies
@@ -129,10 +141,16 @@ Uses `sentence-transformers/all-MiniLM-L6-v2`:
 ### 1. Python Dependencies
 ```bash
 cd packages/local-rag
-pip3 install -r requirements.txt
-# Or install globally on pyenv/system Python 3.11 (no venv)
-# pyenv shell 3.11.10
-# pip3 install --user -r requirements.txt
+python3.11 -m pip install --user .
+
+# If you want isolation without managing a venv yourself:
+# pipx install .
+# or
+# uv pip install --user .
+
+# Using pyenv for Python 3.11
+# pyenv shell 3.11
+# python -m pip install --user .
 ```
 
 Core packages installed:

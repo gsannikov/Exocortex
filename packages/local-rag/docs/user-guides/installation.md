@@ -1,6 +1,6 @@
 # Installation Guide
 
-Complete guide to installing and setting up 2ndBrain_RAG on your system.
+Complete guide to installing and setting up Local RAG (no virtualenv needed) on your system.
 
 ---
 
@@ -48,7 +48,7 @@ brew install poppler libmagic
 **Linux (Ubuntu/Debian)**:
 ```bash
 sudo apt update
-sudo apt install -y poppler-utils libmagic1 python3.11 python3.11-venv
+sudo apt install -y poppler-utils libmagic1 python3.11
 ```
 
 **Windows**:
@@ -69,51 +69,36 @@ python3 --version
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/2ndBrain_RAG.git
+git clone https://github.com/gsannikov/claude-skills.git
 
 # Navigate to directory
-cd 2ndBrain_RAG
+cd claude-skills
 ```
 
 ---
 
-### 3. Create Virtual Environment
+### 3. Install Local RAG (no virtualenv needed)
 
 ```bash
-# Create virtual environment
-python3 -m venv .venv
+cd packages/local-rag
+python3.11 -m pip install --user .
 
-# Activate virtual environment
-# macOS/Linux:
-source .venv/bin/activate
-
-# Windows:
-.venv\Scripts\activate
-
-# Verify activation (should show (.venv) in prompt)
+# If you want isolation without managing a venv yourself:
+# pipx install .
+# or
+# uv pip install --user .
 ```
 
 ---
 
-### 4. Install Python Dependencies
+### 4. Verify installation
 
 ```bash
-# Upgrade pip first
-pip install --upgrade pip
-
-# Install all dependencies
-pip install -r requirements.txt
-
-# This will install:
-# - MCP SDK
-# - ChromaDB
-# - sentence-transformers
-# - watchdog
-# - OCR libraries (Surya, optionally PaddleOCR)
-# - Document processing libraries (pypdf, python-docx, etc.)
+local-rag --version
+local-rag index --help
 ```
 
-**Note**: Initial installation downloads embedding models (~100MB). This is a one-time download.
+**Note**: The first call downloads embedding models (~100MB) on demand.
 
 ---
 
@@ -195,40 +180,7 @@ python -c "import mcp; import chromadb; import sentence_transformers; print('All
 
 #### Add MCP Server Configuration
 
-Edit the config file and add:
-
-```json
-{
-  "mcpServers": {
-    "local-rag": {
-      "command": "python",
-      "args": ["-u", "/absolute/path/to/2ndBrain_RAG/mcp_server.py"],
-      "cwd": "/absolute/path/to/2ndBrain_RAG",
-      "env": {
-        "PYTHONUNBUFFERED": "1"
-      }
-    }
-  }
-}
-```
-
-**Important**: Replace `/absolute/path/to/2ndBrain_RAG` with your actual path.
-
-**Example**:
-```json
-{
-  "mcpServers": {
-    "local-rag": {
-      "command": "python",
-      "args": ["-u", "/Users/john/projects/2ndBrain_RAG/mcp_server.py"],
-      "cwd": "/Users/john/projects/2ndBrain_RAG",
-      "env": {
-        "PYTHONUNBUFFERED": "1"
-      }
-    }
-  }
-}
-```
+Local RAG now ships as an installable CLI. If you want Claude Desktop to call it directly, point to the `local-rag` binary installed above (or `python -m local_rag.cli`). No embedded `mcp_server.py` is required in this package.
 
 ---
 
@@ -272,16 +224,18 @@ python3.11 --version
 
 ---
 
-### Virtual Environment Issues
+### Environment Issues
 
-**Problem**: Cannot activate virtual environment
+**Problem**: Old virtual environment is still active or conflicting packages
 
 **Solution**:
 ```bash
-# Recreate virtual environment
-rm -rf .venv
-python3 -m venv .venv
-source .venv/bin/activate
+# Deactivate any old venv first
+deactivate 2>/dev/null || true
+
+# Reinstall locally without a venv
+cd packages/local-rag
+python3.11 -m pip install --user .
 ```
 
 ---
@@ -347,7 +301,7 @@ sudo apt install poppler-utils
 **Solution**:
 ```bash
 # Make sure you own the directory
-sudo chown -R $USER:$USER /path/to/2ndBrain_RAG
+sudo chown -R $USER:$USER /path/to/claude-skills
 
 # Or change ROOT_DIR to a directory you own
 ```
@@ -356,7 +310,7 @@ sudo chown -R $USER:$USER /path/to/2ndBrain_RAG
 
 ## Optional: OCR Engine Setup
 
-By default, 2ndBrain_RAG uses Surya OCR (CPU-friendly). For better accuracy, you can install additional engines.
+By default, Local RAG uses PaddleOCR (CPU-friendly, multilingual). For better accuracy, you can install additional engines.
 
 ### PaddleOCR (Balanced)
 
@@ -383,25 +337,21 @@ After successful installation:
 
 ## Uninstallation
 
-To completely remove 2ndBrain_RAG:
+To completely remove Local RAG:
 
 ```bash
 # 1. Remove from Claude Desktop config
 #    Delete the "local-rag" entry from claude_desktop_config.json
 
-# 2. Remove virtual environment
-cd /path/to/2ndBrain_RAG
-rm -rf .venv
+# 2. Uninstall the package (user install)
+python3.11 -m pip uninstall -y local-rag
 
-# 3. Remove ChromaDB index (optional)
-rm -rf .chromadb
+# 3. Remove ChromaDB index and state (optional)
+rm -rf ~/MyDrive/claude-skills-data/local-rag
 
-# 4. Remove state files (optional)
-rm -rf state/
-
-# 5. Delete repository (optional)
+# 4. Delete repository (optional)
 cd ..
-rm -rf 2ndBrain_RAG
+rm -rf claude-skills
 ```
 
 ---
@@ -414,11 +364,9 @@ To update to a new version:
 # Pull latest changes
 git pull origin main
 
-# Activate virtual environment
-source .venv/bin/activate
-
-# Update dependencies
-pip install --upgrade -r requirements.txt
+# Reinstall the package
+cd packages/local-rag
+python3.11 -m pip install --user .
 
 # Restart Claude Desktop
 ```
@@ -454,8 +402,8 @@ pip install --upgrade -r requirements.txt
 If you're stuck:
 
 1. Check [Troubleshooting Guide](troubleshooting.md)
-2. Search existing [GitHub Issues](https://github.com/yourusername/2ndBrain_RAG/issues)
-3. Ask in [GitHub Discussions](https://github.com/yourusername/2ndBrain_RAG/discussions)
+2. Search existing [GitHub Issues](https://github.com/gsannikov/claude-skills/issues)
+3. Ask in [GitHub Discussions](https://github.com/gsannikov/claude-skills/discussions)
 4. Open a new issue with:
    - Your OS and Python version
    - Error messages (full text)

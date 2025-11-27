@@ -11,6 +11,8 @@ import json
 
 import pytest
 
+os.environ.setdefault("OCR_CACHE_DIR", str(Path(tempfile.gettempdir()) / "local-rag-test-ocr"))
+
 
 # -------------------------
 # Lightweight dependency stubs
@@ -124,63 +126,6 @@ fake_np.array = lambda x: x
 sys.modules["numpy"] = fake_np
 
 # -------------------------
-# Stub ingest package (OCR + extractor)
-# -------------------------
-fake_ingest = types.ModuleType("ingest")
-fake_ingest.__path__ = []
-
-fake_ocr = types.ModuleType("ingest.ocr")
-fake_ocr.CACHE_DIR = Path(os.getenv("OCR_CACHE_DIR", "state/ocr_cache"))
-fake_ocr.CACHE_DIR.mkdir(parents=True, exist_ok=True)
-fake_ocr.ENGINE = os.getenv("OCR_ENGINE", "unsupported").lower()
-
-
-def _img_sha(img: FakeImage) -> str:
-    b = io.BytesIO()
-    img.save(b, format="PNG")
-    return hashlib.sha1(b.getvalue()).hexdigest()
-
-
-def _cache_get(h):
-    p = fake_ocr.CACHE_DIR / f"{h}.txt"
-    return p.read_text() if p.exists() else None
-
-
-def _cache_put(h, txt):
-    fake_ocr.CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    (fake_ocr.CACHE_DIR / f"{h}.txt").write_text(txt)
-
-
-def run_ocr(images):
-    if not images:
-        return ""
-    return "\n".join([""] * len(images))
-
-
-fake_ocr._img_sha = _img_sha
-fake_ocr._cache_get = _cache_get
-fake_ocr._cache_put = _cache_put
-fake_ocr.run_ocr = run_ocr
-fake_ocr.ocr_surya = lambda images: run_ocr(images)
-fake_ocr.ocr_paddle = lambda images: run_ocr(images)
-fake_ocr.ocr_deepseek = lambda images: run_ocr(images)
-sys.modules["ingest"] = fake_ingest
-sys.modules["ingest.ocr"] = fake_ocr
-fake_ingest.ocr = fake_ocr
-
-fake_extractor = types.ModuleType("ingest.extractor")
-
-
-def read_text_with_ocr(p: Path) -> str:
-    if not p.exists():
-        raise FileNotFoundError(str(p))
-    return p.read_text(errors="ignore")
-
-
-fake_extractor.read_text_with_ocr = read_text_with_ocr
-sys.modules["ingest.extractor"] = fake_extractor
-
-# -------------------------
 # Stub mcp_server module (missing in repo)
 # -------------------------
 fake_mcp = types.ModuleType("mcp_server")
@@ -230,12 +175,12 @@ fake_mcp.save_state = save_state
 sys.modules["mcp_server"] = fake_mcp
 
 # -------------------------
-# In-memory vector store stub to avoid chromadb dependency
+# Project import path + in-memory vector store stub
 # -------------------------
-sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
-import vectorstore  # noqa: E402
-import indexer  # noqa: E402
-import query  # noqa: E402
+PACKAGE_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PACKAGE_ROOT))
+
+import local_rag.vectorstore as vectorstore  # noqa: E402
 
 _GLOBAL_STORE = {}
 
@@ -346,6 +291,10 @@ def _get_store(*_args, collection_name="docs", persist_dir=None, **_kwargs):
 vectorstore.ChromaVectorStore = InMemoryVectorStore
 vectorstore.get_vector_store = _get_store
 vectorstore.get_vector_store_from_env = lambda *_args, **_kwargs: _get_store()
+
+import local_rag.indexer as indexer  # noqa: E402
+import local_rag.query as query  # noqa: E402
+
 indexer.get_vector_store = _get_store
 query.get_vector_store = _get_store
 

@@ -209,7 +209,7 @@ class BaseVectorStore:
 - `QDRANT_URL` - Qdrant server URL (optional)
 - `QDRANT_API_KEY` - Qdrant API key (optional)
 
-### 6. Document Indexer (`indexer.py`)
+### 6. Document Indexer (CLI)
 
 **Purpose**: Orchestrate document processing and indexing
 
@@ -222,7 +222,7 @@ class BaseVectorStore:
 
 **CLI Options**:
 ```bash
-python indexer.py ~/Documents --user-data-dir ~/rag-data \
+local-rag index ~/Documents --user-data-dir ~/rag-data \
   --strategy template \
   --store chroma \
   --chunk-size 3000 \
@@ -230,7 +230,7 @@ python indexer.py ~/Documents --user-data-dir ~/rag-data \
   --force
 ```
 
-### 7. Document Searcher (`query.py`)
+### 7. Document Searcher (CLI)
 
 **Purpose**: Query interface for document retrieval
 
@@ -242,7 +242,7 @@ python indexer.py ~/Documents --user-data-dir ~/rag-data \
 
 **CLI Options**:
 ```bash
-python query.py "search query" --user-data-dir ~/rag-data \
+local-rag query "search query" --user-data-dir ~/rag-data \
   --method hybrid \
   --vector-weight 0.7 \
   --bm25-weight 0.3 \
@@ -250,7 +250,7 @@ python query.py "search query" --user-data-dir ~/rag-data \
   -k 10
 ```
 
-### 8. Chunk Visualizer (`visualize.py`)
+### 8. Chunk Visualizer (CLI)
 
 **Purpose**: Debug and compare chunking strategies
 
@@ -262,9 +262,9 @@ python query.py "search query" --user-data-dir ~/rag-data \
 
 **CLI Options**:
 ```bash
-python visualize.py document.md --strategy template --compare
-python visualize.py document.md -f json
-python visualize.py document.md -f stats
+local-rag visualize document.md --strategy template --compare
+local-rag visualize document.md -f json
+local-rag visualize document.md -f stats
 ```
 
 ### 9. File Watcher
