@@ -60,20 +60,32 @@ python scripts/visualize.py document.md --strategy template --compare
 
 ### Documents
 - **PDF** (`.pdf`) - Native text extraction + OCR fallback
-- **Word** (`.docx`) - Full document text extraction
+- **Word** (`.docx`, `.doc`) - Full document text extraction
 - **PowerPoint** (`.pptx`) - Slide text extraction
 - **Excel** (`.xlsx`) - Cell content extraction
 
 ### Text Files
-- **Markdown** (`.md`)
+- **Markdown** (`.md`, `.mdx`, `.mdc`)
 - **Plain Text** (`.txt`)
-- **JSON/YAML** (`.json`, `.yaml`, `.yml`)
+- **JSON/YAML** (`.json`, `.jsonc`, `.yaml`, `.yml`)
 
 ### Code Files
-- Python, JavaScript, TypeScript, HTML, CSS, C/C++, Shell
+- **Python** (`.py`)
+- **JavaScript/TypeScript** (`.js`, `.ts`, `.tsx`, `.jsx`)
+- **Web** (`.html`, `.xhtml`, `.css`, `.scss`)
+- **Systems** (`.c`, `.cpp`, `.h`, `.hpp`, `.sh`)
+- **Modern** (`.swift`, `.go`, `.rs`, `.java`)
 
 ### Images (with OCR)
 - PNG, JPEG, TIFF, WebP
+
+### Excluded Directories
+The indexer automatically skips:
+- `.git`, `.svn`, `.hg` (version control)
+- `node_modules`, `__pycache__` (dependencies)
+- `.venv`, `venv`, `env` (Python environments)
+- `.idea`, `.vscode` (IDE configs)
+- `dist`, `build`, `.next` (build outputs)
 
 ## Configuration
 
@@ -109,26 +121,56 @@ Uses `sentence-transformers/all-MiniLM-L6-v2`:
 - Good semantic similarity
 - Small memory footprint (~90MB)
 
-## Requirements
+## Installation
 
-### Python Dependencies
-```
-chromadb>=0.4.0
-sentence-transformers>=2.2.0
-rapidfuzz>=3.0.0
-pypdf>=3.0.0
-python-docx>=0.8.11
-openpyxl>=3.0.0
-# Optional: qdrant-client>=1.7.0
+### 1. Python Dependencies
+```bash
+cd packages/local-rag
+pip install -r requirements.txt
 ```
 
-### System Dependencies (for OCR)
+Core packages installed:
+- `chromadb` - Vector database
+- `sentence-transformers` - Embedding model
+- `rapidfuzz` - Fuzzy string matching
+- `pypdf`, `pdf2image` - PDF processing
+- `python-docx`, `python-pptx`, `openpyxl` - Office documents
+- `surya-ocr` - OCR engine (default)
+
+### 2. System Dependencies (for PDF/OCR)
 ```bash
 # macOS
-brew install poppler tesseract
+brew install poppler tesseract antiword
 
-# Ubuntu
-sudo apt install poppler-utils tesseract-ocr
+# Ubuntu/Debian
+sudo apt install poppler-utils tesseract-ocr antiword
+```
+
+### 3. Optional: Alternative OCR Engines
+
+**PaddleOCR** (better for Asian languages):
+```bash
+pip install paddleocr paddlepaddle
+export OCR_ENGINE=paddle
+```
+
+**DeepSeek-OCR** (highest accuracy, requires API):
+```bash
+export OCR_ENGINE=deepseek
+export DEEPSEEK_OCR_URL=http://localhost:8000/v1/completions
+export DEEPSEEK_OCR_MODEL=deepseek-vl
+```
+
+### 4. Optional: Qdrant Vector Store
+```bash
+pip install qdrant-client
+export VECTOR_STORE=qdrant
+```
+
+### 5. Optional: Legacy .doc Support
+```bash
+# Requires antiword (see system dependencies above)
+pip install textract
 ```
 
 ## Performance
