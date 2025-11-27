@@ -19,6 +19,9 @@ Hybrid semantic + keyword search over your local documents using embeddings, BM2
 # From repo root
 python3.11 -m pip install --user ./packages/local-rag
 
+# Add user bin to PATH so console scripts are available
+export PATH="$HOME/Library/Python/3.11/bin:$PATH"
+
 # Index a folder
 local-rag index ~/Documents/research --user-data-dir ~/rag-data
 
