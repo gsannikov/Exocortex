@@ -68,6 +68,17 @@ class LocalRagSettings(BaseSettings):
     include_globs: List[str] = Field(default_factory=list, env="LOCAL_RAG_INCLUDE")
     exclude_globs: List[str] = Field(default_factory=list, env="LOCAL_RAG_EXCLUDE")
 
+    # Logging
+    log_level: str = Field(default="INFO", env="LOG_LEVEL")
+    log_to_file: bool = Field(default=True, env="LOG_TO_FILE")
+    log_rotation_mb: int = Field(default=10, env="LOG_ROTATION_MB")
+    log_backup_count: int = Field(default=5, env="LOG_BACKUP_COUNT")
+    
+    # Error handling
+    max_file_size_mb: int = Field(default=100, env="MAX_FILE_SIZE_MB")
+    retry_attempts: int = Field(default=3, env="RETRY_ATTEMPTS")
+    retry_delay_seconds: int = Field(default=1, env="RETRY_DELAY_SECONDS")
+
     def apply_runtime_env(self):
         """
         Apply runtime env tweaks that should be consistent for the process.
@@ -86,6 +97,7 @@ class LocalRagSettings(BaseSettings):
             "persist_dir": base / "vectordb",
             "state_path": base / "state" / "ingest_state.json",
             "bm25_path": base / "state" / "bm25_index.json",
+            "log_dir": base / "logs",
         }
 
 

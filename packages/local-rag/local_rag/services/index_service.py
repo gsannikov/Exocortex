@@ -10,12 +10,16 @@ import sys
 import hashlib
 import json
 import argparse
+import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import List, Generator, Tuple, Optional
 import threading
+from datetime import datetime
 
 from sentence_transformers import SentenceTransformer
+
+from ..utils.logger import setup_logging, get_logger
 
 from ..settings import LocalRagSettings, get_settings
 from ..ingestion.extractors import read_text_with_ocr as read_text
@@ -130,6 +134,18 @@ class DocumentIndexer:
 
         self.settings = settings or get_settings(**overrides)
         self.settings.apply_runtime_env()
+        
+        # Initialize logging
+        if self.settings.log_to_file:
+            log_dir = self.settings.paths["log_dir"]
+            setup_logging(
+                log_dir,
+                self.settings.log_level,
+                self.settings.log_rotation_mb,
+                self.settings.log_backup_count
+            )
+        
+        self.logger = get_logger(__name__)
 
         self.user_data_dir = str(self.settings.user_data_dir)
         self.chunk_size = self.settings.chunk_size
@@ -359,9 +375,13 @@ class DocumentIndexer:
             "files_skipped": 0,
             "chunks_created": 0,
             "chunks_filtered": 0,
-            "errors": 0
+            "errors": 0,
+            "error_details": [],  # List of {path, error, timestamp}
+            "skipped_large": [],  # Files > max_file_size_mb
+            "skipped_unchanged": 0,  # Files not changed since last index
         }
 
+        self.logger.info(f"Starting indexing: {source_dir}")
         print(f"Scanning {source_dir}...")
 
         candidates = discover_files(
@@ -371,54 +391,88 @@ class DocumentIndexer:
             include_globs=self.include_globs,
             exclude_globs=self.exclude_globs,
         )
+        
+        paths = list(candidates)
+        self.logger.info(f"Found {len(paths)} candidate files")
 
         def process_path(path: Path):
+            # Check file size before processing
+            try:
+                file_size_mb = path.stat().st_size / (1024 * 1024)
+                if file_size_mb > self.settings.max_file_size_mb:
+                    self.logger.warning(f"Skipping large file: {path} ({file_size_mb:.1f}MB > {self.settings.max_file_size_mb}MB)")
+                    stats["skipped_large"].append({"path": str(path), "size_mb": round(file_size_mb, 1)})
+                    return ("skip_large", path, 0, 0, None)
+            except (OSError, FileNotFoundError) as e:
+                self.logger.error(f"Cannot access file {path}: {e}")
+                return ("error", path, 0, 0, e)
+                
             if not self.should_index_file(path):
                 return ("skip", path, 0, 0, None)
             if not force and not self.is_file_changed(path):
-                return ("skip", path, 0, 0, None)
+                stats["skipped_unchanged"] += 1
+                return ("skip_unchanged", path, 0, 0, None)
             try:
                 num_chunks, dropped = self.index_file(path)
                 return ("ok", path, num_chunks, dropped, None)
             except Exception as e:
+                self.logger.error(f"Failed to index {path}: {e}", exc_info=True)
                 return ("error", path, 0, 0, e)
 
-        paths = list(candidates)
+
 
         # Decide execution strategy
         if self.parallel_workers and self.parallel_workers > 1:
+            self.logger.info(f"Indexing with {self.parallel_workers} workers")
             with ThreadPoolExecutor(max_workers=self.parallel_workers) as executor:
                 futures = {executor.submit(process_path, p): p for p in paths}
                 for future in as_completed(futures):
                     status, path, num_chunks, dropped, err = future.result()
                     if status == "error":
+                        error_detail = {"path": str(path), "error": str(err), "timestamp": datetime.now().isoformat()}
+                        stats["error_details"].append(error_detail)
+                        self.logger.error(f"Error indexing {path.name}: {err}")
                         print(f"Error indexing {path.name}: {err}")
                         stats["errors"] += 1
                         if self.max_errors and stats["errors"] >= self.max_errors:
+                            self.logger.warning(f"Max errors reached ({self.max_errors}); aborting")
                             print(f"Max errors reached ({self.max_errors}); aborting.")
                             break
+                    elif status == "skip_large":
+                        stats["files_skipped"] += 1
+                    elif status == "skip_unchanged":
+                        pass  # Already counted
                     elif num_chunks > 0:
                         stats["files_processed"] += 1
                         stats["chunks_created"] += num_chunks
                         stats["chunks_filtered"] += dropped
+                        self.logger.info(f"Indexed: {path.name} ({num_chunks} chunks, dropped {dropped})")
                         print(f"Indexed: {path.name} ({num_chunks} chunks, dropped {dropped})")
                     else:
                         stats["files_skipped"] += 1
         else:
+            self.logger.info("Indexing sequentially (single-threaded)")
             for path in paths:
                 status, path, num_chunks, dropped, err = process_path(path)
                 if status == "error":
+                    error_detail = {"path": str(path), "error": str(err), "timestamp": datetime.now().isoformat()}
+                    stats["error_details"].append(error_detail)
+                    self.logger.error(f"Error indexing {path.name}: {err}")
                     print(f"Error indexing {path.name}: {err}")
                     stats["errors"] += 1
                     if self.max_errors and stats["errors"] >= self.max_errors:
+                        self.logger.warning(f"Max errors reached ({self.max_errors}); aborting")
                         print(f"Max errors reached ({self.max_errors}); aborting.")
                         break
-                    continue
-
-                if num_chunks > 0:
+                elif status == "skip_large":
+                    stats["files_skipped"] += 1
+                elif status == "skip_unchanged":
+                    pass  # Already counted
+                elif num_chunks > 0:
                     stats["files_processed"] += 1
                     stats["chunks_created"] += num_chunks
                     stats["chunks_filtered"] += dropped
+                    self.logger.info(f"Indexed: {path.name} ({num_chunks} chunks, dropped {dropped})")
                     print(f"Indexed: {path.name} ({num_chunks} chunks, dropped {dropped})")
                 else:
                     stats["files_skipped"] += 1
@@ -428,7 +482,40 @@ class DocumentIndexer:
 
         if self.bm25_index:
             self.bm25_index.save(str(self.paths['bm25_path']))
-
+        
+        
+        # Log comprehensive summary
+        self.logger.info(f"Indexing complete: {stats['files_processed']} processed, "
+                        f"{stats['chunks_created']} chunks created, "
+                        f"{stats['skipped_unchanged']} unchanged, "
+                        f"{len(stats['skipped_large'])} too large, "
+                        f"{stats['errors']} errors")
+        
+        if stats["skipped_large"]:
+            self.logger.warning(f"Skipped {len(stats['skipped_large'])} large files (>{self.settings.max_file_size_mb}MB)")
+            for item in stats["skipped_large"][:5]:  # Log first 5
+                self.logger.warning(f"  - {item['path']} ({item['size_mb']}MB)")
+            if len(stats["skipped_large"]) > 5:
+                self.logger.warning(f"  ... and {len(stats['skipped_large']) - 5} more")
+        
+        if stats["error_details"]:
+            self.logger.error(f"{len(stats['error_details'])} files failed to index:")
+            for error in stats["error_details"][:5]:  # Log first 5
+                self.logger.error(f"  - {error['path']}: {error['error']}")
+            if len(stats["error_details"]) > 5:
+                self.logger.error(f"  ... and {len(stats['error_details']) - 5} more (see full log)")
+        
+        print(f"\nIndexing complete:")
+        print(f"  Files processed: {stats['files_processed']}")
+        print(f"  Chunks created: {stats['chunks_created']}")
+        print(f"  Files skipped (unchanged): {stats['skipped_unchanged']}")
+        print(f"  Files skipped (too large): {len(stats['skipped_large'])}")
+        print(f"  Errors: {stats['errors']}")
+        
+        if self.settings.log_to_file:
+            log_path = self.settings.paths["log_dir"] / "indexing.log"
+            print(f"\nFull logs: {log_path}")
+        
         return stats
 
     def get_stats(self) -> dict:
