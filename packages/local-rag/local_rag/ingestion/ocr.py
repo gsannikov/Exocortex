@@ -80,7 +80,14 @@ def ocr_paddle(images: List[Any], settings: LocalRagSettings) -> str:
     }
     paddle_lang = lang_map.get(lang.lower(), lang)
 
-    ocr = PaddleOCR(use_angle_cls=True, lang=paddle_lang, show_log=False)
+    # Some PaddleOCR versions don't support show_log; fall back gracefully.
+    try:
+        ocr = PaddleOCR(use_angle_cls=True, lang=paddle_lang, show_log=False)
+    except TypeError as exc:
+        if "show_log" in str(exc):
+            ocr = PaddleOCR(use_angle_cls=True, lang=paddle_lang)
+        else:
+            raise
     texts = []
     for im in images:
         h = _img_sha(im)
