@@ -117,9 +117,9 @@ class DocumentIndexer:
         if embed_batch_size is not None:
             overrides["embed_batch_size"] = embed_batch_size
         if include_globs is not None:
-            overrides["include_globs"] = include_globs
+            overrides["include_globs"] = tuple(include_globs)
         if exclude_globs is not None:
-            overrides["exclude_globs"] = exclude_globs
+            overrides["exclude_globs"] = tuple(exclude_globs)
         if parallel_workers is not None:
             overrides["parallel_workers"] = parallel_workers
         if max_errors is not None:

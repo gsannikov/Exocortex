@@ -10,9 +10,6 @@ __pycache__/
 *$py.class
 *.so
 .Python
-.venv/
-.venv_*/
-.venv-*/
 .venv*/
 venv/
 env/
