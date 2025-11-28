@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 from pypdf import PdfReader
 from pdf2image import convert_from_path
@@ -18,6 +19,11 @@ TEXT_EXTS = {
 
 # Image files (require OCR)
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".tiff", ".webp"}
+
+def _configure_pdf_logging():
+    """Keep noisy pypdf warnings out of stdout during ingestion."""
+    logging.getLogger("pypdf").setLevel(logging.ERROR)
+
 
 def _read_docx(p: Path) -> str:
     import docx
@@ -74,7 +80,8 @@ def read_text_with_ocr(p: Path, settings: LocalRagSettings | None = None) -> str
 
     if ext == ".pdf":
         try:
-            r = PdfReader(str(p))
+            _configure_pdf_logging()
+            r = PdfReader(str(p), strict=False)
             texts = [(pg.extract_text() or "") for pg in r.pages]
             joined = "\n".join(texts).strip()
             if not settings.ocr_enabled or (len(texts) and (sum(len(t) for t in texts)/max(1,len(texts)) >= 100)):
