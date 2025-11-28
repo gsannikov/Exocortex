@@ -25,13 +25,13 @@ pytest --cov=mcp_server --cov=ingest --cov-report=html --cov-report=term-missing
 
 Install test dependencies:
 ```bash
-pip install -r requirements-test.txt
+pip install -r requirements-dev.txt
 ```
 
 Or install all dependencies including tests:
 ```bash
 pip install -r requirements.txt
-pip install -r requirements-test.txt
+pip install -r requirements-dev.txt
 ```
 
 ## Test Structure
@@ -145,7 +145,7 @@ pytest
 
 Install all test dependencies:
 ```bash
-pip install -r requirements-test.txt
+pip install -r requirements-dev.txt
 ```
 
 ### Slow Tests

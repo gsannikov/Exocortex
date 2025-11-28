@@ -42,6 +42,14 @@ local-rag index ~/Documents/research --user-data-dir ~/rag-data
 local-rag query "neural network training" --user-data-dir ~/rag-data
 ```
 
+### Dev/test setup
+```bash
+# From repo root
+python3.11 -m venv .venv && source .venv/bin/activate
+pip install -r packages/local-rag/requirements-dev.txt
+pytest packages/local-rag/tests
+```
+
 ## Usage
 
 ### Index a folder
@@ -72,6 +80,17 @@ local-rag query "machine learning" --user-data-dir ~/rag-data \
 ```bash
 local-rag visualize document.md --strategy template --compare
 ```
+
+## Project layout
+
+- `local_rag/` — code
+  - `services/` — orchestration (index/search)
+  - `ingestion/` — discover, extractors, chunking, filters, OCR
+  - `adapters/` — vector store repo/shim
+  - `search/` — fusion/BM25 logic
+  - `cli.py`, `mcp.py`, `health.py` — entrypoints/wiring
+- `tests/` — mirrors package layout
+- `docs/` — architecture, guides
 
 ## Chunking Strategies
 
