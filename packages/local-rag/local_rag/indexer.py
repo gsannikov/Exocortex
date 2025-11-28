@@ -6,7 +6,6 @@ Scans a directory and indexes supported files into vector store.
 Supports multiple chunking strategies, vector stores, and BM25 indexing.
 """
 
-import os
 import sys
 import hashlib
 import json
@@ -16,6 +15,7 @@ from typing import List, Generator, Tuple, Optional
 
 from sentence_transformers import SentenceTransformer
 
+from . import config
 from .ingest.extractor import read_text_with_ocr as read_text
 from .chunking import ChunkingStrategy, get_chunker, chunk_text, Chunk
 from .vectorstore import VectorStoreType, get_vector_store, get_vector_store_from_env
@@ -51,22 +51,6 @@ EXCLUDE_DIRS = {
     'Thumbs.db',                      # Windows
 }
 
-CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "3000"))
-CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "400"))
-EMBED_MODEL = os.getenv("EMBED_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
-CHUNKING_STRATEGY = os.getenv("CHUNKING_STRATEGY", "template")
-VECTOR_STORE = os.getenv("VECTOR_STORE", "chroma")
-
-
-def get_paths(user_data_dir: str):
-    """Get persistence paths."""
-    base = Path(user_data_dir)
-    return {
-        'persist_dir': base / "vectordb",
-        'state_path': base / "state" / "ingest_state.json",
-        'bm25_path': base / "state" / "bm25_index.json"
-    }
-
 
 def fhash(p: Path) -> str:
     """Calculate file hash."""
@@ -96,11 +80,11 @@ class DocumentIndexer:
     def __init__(
         self,
         user_data_dir: str,
-        chunk_size: int = CHUNK_SIZE,
-        chunk_overlap: int = CHUNK_OVERLAP,
-        chunking_strategy: str = CHUNKING_STRATEGY,
-        vector_store_type: str = VECTOR_STORE,
-        embed_model_name: str = EMBED_MODEL,
+        chunk_size: int = config.CHUNK_SIZE,
+        chunk_overlap: int = config.CHUNK_OVERLAP,
+        chunking_strategy: str = config.CHUNKING_STRATEGY,
+        vector_store_type: str = config.VECTOR_STORE,
+        embed_model_name: str = config.EMBED_MODEL,
         build_bm25: bool = True
     ):
         self.user_data_dir = user_data_dir
@@ -111,7 +95,7 @@ class DocumentIndexer:
         self.embed_model_name = embed_model_name
         self.build_bm25 = build_bm25
 
-        self.paths = get_paths(user_data_dir)
+        self.paths = config.get_paths(user_data_dir)
         self.state = load_state(self.paths['state_path'])
 
         self._embed_model = None

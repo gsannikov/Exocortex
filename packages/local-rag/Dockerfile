@@ -36,4 +36,4 @@ ENV PYTHONUNBUFFERED=1
 ENV OCR_ENABLED=true
 
 # Entrypoint runs the MCP server
-ENTRYPOINT ["python", "-m", "local_rag.mcp_server"]
+ENTRYPOINT ["python", "-m", "local_rag.mcp"]

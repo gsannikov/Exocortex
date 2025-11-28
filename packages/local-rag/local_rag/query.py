@@ -6,7 +6,6 @@ Searches the index for relevant documents using hybrid search
 (vector similarity + BM25) with optional reranking.
 """
 
-import os
 import sys
 import json
 import argparse
@@ -16,6 +15,7 @@ from typing import List, Optional
 from sentence_transformers import SentenceTransformer
 from rapidfuzz import fuzz
 
+from . import config
 from .vectorstore import VectorStoreType, get_vector_store
 from .search import (
     HybridSearcher,
@@ -27,24 +27,6 @@ from .search import (
 )
 
 
-# Configuration defaults
-EMBED_MODEL = os.getenv("EMBED_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
-VECTOR_STORE = os.getenv("VECTOR_STORE", "chroma")
-SEARCH_METHOD = os.getenv("SEARCH_METHOD", "hybrid")
-VECTOR_WEIGHT = float(os.getenv("VECTOR_WEIGHT", "0.7"))
-BM25_WEIGHT = float(os.getenv("BM25_WEIGHT", "0.3"))
-USE_RERANKER = os.getenv("USE_RERANKER", "false").lower() == "true"
-
-
-def get_paths(user_data_dir: str):
-    """Get persistence paths."""
-    base = Path(user_data_dir)
-    return {
-        'persist_dir': base / "vectordb",
-        'bm25_path': base / "state" / "bm25_index.json"
-    }
-
-
 class DocumentSearcher:
     """
     Enhanced document searcher with hybrid search and reranking.
@@ -53,12 +35,12 @@ class DocumentSearcher:
     def __init__(
         self,
         user_data_dir: str,
-        vector_store_type: str = VECTOR_STORE,
-        embed_model_name: str = EMBED_MODEL,
-        search_method: str = SEARCH_METHOD,
-        vector_weight: float = VECTOR_WEIGHT,
-        bm25_weight: float = BM25_WEIGHT,
-        use_reranker: bool = USE_RERANKER
+        vector_store_type: str = config.VECTOR_STORE,
+        embed_model_name: str = config.EMBED_MODEL,
+        search_method: str = config.SEARCH_METHOD,
+        vector_weight: float = config.VECTOR_WEIGHT,
+        bm25_weight: float = config.BM25_WEIGHT,
+        use_reranker: bool = config.USE_RERANKER
     ):
         self.user_data_dir = user_data_dir
         self.vector_store_type = vector_store_type
@@ -68,7 +50,7 @@ class DocumentSearcher:
         self.bm25_weight = bm25_weight
         self.use_reranker = use_reranker
 
-        self.paths = get_paths(user_data_dir)
+        self.paths = config.get_paths(user_data_dir)
 
         self._embed_model = None
         self._vector_store = None
