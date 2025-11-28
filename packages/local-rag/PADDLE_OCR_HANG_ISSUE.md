@@ -37,9 +37,9 @@ export OCR_ENGINE=deepseek
 python3 indexer.py /path/to/docs
 ```
 
-### Option 3: Pre-process PDFs Externally
+### Option 3: Pre-process PDFs Externally (Recommended & 100% Local)
 
-Use `pdftotext` or `ocrmypdf` to create searchable PDFs first:
+Use `pdftotext` or `ocrmypdf` to create searchable PDFs first. **This runs entirely on your machine - no data leaves your computer.**
 ```bash
 # Install OCRmyPDF (uses Tesseract OCR)
 brew install ocrmypdf tesseract-lang
