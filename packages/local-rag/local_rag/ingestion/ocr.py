@@ -112,35 +112,31 @@ def ocr_paddle(images: List[Any], settings: LocalRagSettings) -> str:
             # Convert PIL Image to numpy array for PaddleOCR
             img_array = np.array(im)
             
-            # Add timeout protection using multiprocessing
+            # Add timeout protection using threading (signal.alarm doesn't work on macOS)
+            from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeoutError
             
-            # Try with timeout
-            try:
-                # Use threading for timeout (multiprocessing doesn't work well with PaddleOCR)
-                import signal
-                
-                class TimeoutError(Exception):
-                    pass
-                
-                def timeout_handler(signum, frame):
-                    raise TimeoutError("OCR processing timed out")
-                
-                # Set timeout (60 seconds per image)
-                signal.signal(signal.SIGALRM, timeout_handler)
-                signal.alarm(60)
-                
+            def run_ocr_on_image():
+                """Helper to run OCR that can be executed with timeout."""
                 try:
-                    res = ocr.ocr(img_array, cls=True)
+                    return ocr.ocr(img_array, cls=True)
                 except TypeError as exc:
                     if "cls" in str(exc):
-                        res = ocr.ocr(img_array)
+                        return ocr.ocr(img_array)
                     else:
                         raise
-                finally:
-                    signal.alarm(0)  # Cancel the alarm
+            
+            try:
+                # Run OCR with 60-second timeout
+                with ThreadPoolExecutor(max_workers=1) as executor:
+                    future = executor.submit(run_ocr_on_image)
+                    res = future.result(timeout=60)  # 60 second timeout
                     
-            except TimeoutError:
+            except FutureTimeoutError:
                 print(f"Warning: PaddleOCR timed out on image {idx} (60s limit)", flush=True)
+                texts.append("")
+                continue
+            except Exception as exc:
+                print(f"Warning: PaddleOCR failed on image {idx}: {exc}", flush=True)
                 texts.append("")
                 continue
             
