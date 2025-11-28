@@ -149,6 +149,8 @@ def run_ocr(images: List[Any], settings: Optional[LocalRagSettings] = None) -> s
     if not images:
         return ""
     engine = (globals().get("ENGINE") or settings.ocr_engine or "paddle").lower()
+    if engine in {"noop", "none", "off", "disable"}:
+        return ""
     if engine == "surya":
         return ocr_surya(images, settings)
     if engine == "paddle":
