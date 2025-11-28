@@ -196,8 +196,9 @@ def patched_vector_store(monkeypatch):
         return stores[key]
 
     monkeypatch.setattr("vectorstore.ChromaVectorStore", InMemoryChroma)
-    monkeypatch.setattr("indexer.get_vector_store", get_store)
-    monkeypatch.setattr("query.get_vector_store", get_store)
+    monkeypatch.setattr("local_rag.vectorstore.ChromaVectorStore", InMemoryChroma)
+    monkeypatch.setattr("local_rag.services.index_service.get_vector_store", get_store)
+    monkeypatch.setattr("local_rag.services.search_service.get_vector_store", get_store)
     return get_store
 
 

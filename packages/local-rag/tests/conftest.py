@@ -181,10 +181,10 @@ PACKAGE_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PACKAGE_ROOT))
 
 import local_rag.vectorstore as vectorstore  # noqa: E402
-from local_rag.ingest import ocr as ingest_ocr  # noqa: E402
-from local_rag.ingest import extractor as ingest_extractor  # noqa: E402
-from local_rag.ingest import utils as ingest_utils  # noqa: E402
-import local_rag.ingest as ingest  # noqa: E402
+from local_rag.ingestion import ocr as ingest_ocr  # noqa: E402
+from local_rag.ingestion import extractors as ingest_extractor  # noqa: E402
+from local_rag.ingestion import utils as ingest_utils  # noqa: E402
+import local_rag.ingestion as ingest  # noqa: E402
 
 # Provide legacy module aliases for tests that import the old layout
 sys.modules["vectorstore"] = vectorstore

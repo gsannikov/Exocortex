@@ -3,7 +3,7 @@ import io
 import base64
 import hashlib
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Any
 
 import requests
 from PIL import Image
@@ -16,7 +16,7 @@ ENGINE = (_DEFAULT_SETTINGS.ocr_engine or "paddle").lower()
 OCR_LANG = _DEFAULT_SETTINGS.ocr_lang
 CACHE_DIR = None  # Populated lazily
 
-def _img_sha(img: Image.Image) -> str:
+def _img_sha(img: Any) -> str:
     b = io.BytesIO()
     img.save(b, format="PNG")
     data = b.getvalue()
@@ -43,7 +43,7 @@ def _cache_put(h: str, txt: str, cache_dir: Optional[Path] = None):
     cache_dir = cache_dir or _get_cache_dir()
     (cache_dir / f"{h}.txt").write_text(txt)
 
-def ocr_surya(images: List[Image.Image], settings: LocalRagSettings) -> str:
+def ocr_surya(images: List[Any], settings: LocalRagSettings) -> str:
     from surya.ocr import run_ocr
     import numpy as np
     cache_dir = _get_cache_dir(settings)
@@ -60,7 +60,7 @@ def ocr_surya(images: List[Image.Image], settings: LocalRagSettings) -> str:
         texts.append(txt)
     return "\n\f\n".join(texts)
 
-def ocr_paddle(images: List[Image.Image], settings: LocalRagSettings) -> str:
+def ocr_paddle(images: List[Any], settings: LocalRagSettings) -> str:
     from paddleocr import PaddleOCR
     import numpy as np
     cache_dir = _get_cache_dir(settings)
@@ -96,7 +96,7 @@ def ocr_paddle(images: List[Image.Image], settings: LocalRagSettings) -> str:
         texts.append(txt)
     return "\n\f\n".join(texts)
 
-def ocr_deepseek(images: List[Image.Image], settings: LocalRagSettings) -> str:
+def ocr_deepseek(images: List[Any], settings: LocalRagSettings) -> str:
     cache_dir = _get_cache_dir(settings)
     url = os.getenv("DEEPSEEK_OCR_URL")
     model = os.getenv("DEEPSEEK_OCR_MODEL")
@@ -116,7 +116,7 @@ def ocr_deepseek(images: List[Image.Image], settings: LocalRagSettings) -> str:
         texts.append(txt)
     return "\n\f\n".join(texts)
 
-def run_ocr(images: List[Image.Image], settings: Optional[LocalRagSettings] = None) -> str:
+def run_ocr(images: List[Any], settings: Optional[LocalRagSettings] = None) -> str:
     settings = settings or get_settings()
     if not images:
         return ""

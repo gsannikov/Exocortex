@@ -6,7 +6,7 @@ import math
 import string
 from typing import Iterable, List, Tuple
 
-from ..chunking import Chunk
+from .chunking import Chunk
 
 CONTROL_CHARS = "".join(map(chr, range(0, 32))) + chr(127)
 CONTROL_TRANS = str.maketrans("", "", CONTROL_CHARS)

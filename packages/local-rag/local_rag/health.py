@@ -8,7 +8,7 @@ from typing import Optional, Dict, Any
 from .settings import LocalRagSettings, get_settings
 from .storage import create_repository
 from .vectorstore import get_vector_store
-from .indexer import load_state
+from .services.index_service import load_state
 
 
 def get_health(settings: Optional[LocalRagSettings] = None) -> Dict[str, Any]:

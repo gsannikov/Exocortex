@@ -24,10 +24,10 @@ from mcp.types import (
 # Import from local package
 from .utils import setup_logging
 from .settings import get_settings
-from .indexer import DocumentIndexer, load_state
-from .query import DocumentSearcher
+from .services.index_service import DocumentIndexer, load_state
+from .services.search_service import DocumentSearcher
 from .storage import create_repository
-from .vectorstore import get_vector_store
+from .adapters.vectorstore import get_vector_store
 from .health import get_health
 
 # Setup logging
