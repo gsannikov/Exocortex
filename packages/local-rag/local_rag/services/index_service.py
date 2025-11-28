@@ -88,6 +88,7 @@ class DocumentIndexer:
     def __init__(
         self,
         user_data_dir: Optional[str] = None,
+        ocr_enabled: Optional[bool] = None,
         chunk_size: Optional[int] = None,
         chunk_overlap: Optional[int] = None,
         chunking_strategy: Optional[str] = None,
@@ -104,6 +105,8 @@ class DocumentIndexer:
         overrides = {}
         if user_data_dir is not None:
             overrides["user_data_dir"] = user_data_dir
+        if ocr_enabled is not None:
+            overrides["ocr_enabled"] = ocr_enabled
         if chunk_size is not None:
             overrides["chunk_size"] = chunk_size
         if chunk_overlap is not None:
@@ -535,6 +538,11 @@ Examples:
         help="Disable BM25 index building"
     )
     parser.add_argument(
+        "--no-ocr",
+        action="store_true",
+        help="Disable OCR (images and scanned PDFs will be skipped)"
+    )
+    parser.add_argument(
         "--parallel",
         type=int,
         default=DEFAULT_SETTINGS.parallel_workers,
@@ -578,6 +586,7 @@ Examples:
 
     indexer = DocumentIndexer(
         user_data_dir=args.user_data_dir,
+        ocr_enabled=not args.no_ocr,
         chunk_size=args.chunk_size,
         chunk_overlap=args.chunk_overlap,
         chunking_strategy=args.strategy,

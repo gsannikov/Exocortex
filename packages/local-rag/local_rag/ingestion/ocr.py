@@ -2,6 +2,7 @@ import os
 import io
 import base64
 import hashlib
+import threading
 from pathlib import Path
 from typing import List, Optional, Any
 
@@ -15,6 +16,9 @@ _DEFAULT_SETTINGS = get_settings()
 ENGINE = (_DEFAULT_SETTINGS.ocr_engine or "paddle").lower()
 OCR_LANG = _DEFAULT_SETTINGS.ocr_lang
 CACHE_DIR = None  # Populated lazily
+_PADDLE_CLIENT = None
+_PADDLE_LANG = None
+_PADDLE_LOCK = threading.Lock()
 
 def _img_sha(img: Any) -> str:
     b = io.BytesIO()
@@ -81,26 +85,43 @@ def ocr_paddle(images: List[Any], settings: LocalRagSettings) -> str:
     paddle_lang = lang_map.get(lang.lower(), lang)
 
     # Some PaddleOCR versions don't support show_log; fall back gracefully.
-    try:
-        ocr = PaddleOCR(use_angle_cls=True, lang=paddle_lang, show_log=False)
-    except TypeError as exc:
-        if "show_log" in str(exc):
-            ocr = PaddleOCR(use_angle_cls=True, lang=paddle_lang)
-        else:
-            raise
+    global _PADDLE_CLIENT, _PADDLE_LANG
+    with _PADDLE_LOCK:
+        if _PADDLE_CLIENT is None or _PADDLE_LANG != paddle_lang:
+            try:
+                _PADDLE_CLIENT = PaddleOCR(use_angle_cls=True, lang=paddle_lang, show_log=False)
+            except Exception as exc:
+                if "show_log" in str(exc):
+                    _PADDLE_CLIENT = PaddleOCR(use_angle_cls=True, lang=paddle_lang)
+                else:
+                    raise
+            _PADDLE_LANG = paddle_lang
+        ocr = _PADDLE_CLIENT
     texts = []
     for im in images:
-        h = _img_sha(im)
-        hit = _cache_get(h, cache_dir)
-        if hit is not None:
-            texts.append(hit)
-            continue
-        # Convert PIL Image to numpy array for PaddleOCR
-        img_array = np.array(im)
-        res = ocr.ocr(img_array, cls=True)
-        txt = "\n".join([line[1][0] for line in (res[0] or [])])
-        _cache_put(h, txt, cache_dir)
-        texts.append(txt)
+        try:
+            h = _img_sha(im)
+            hit = _cache_get(h, cache_dir)
+            if hit is not None:
+                texts.append(hit)
+                continue
+            # Convert PIL Image to numpy array for PaddleOCR
+            img_array = np.array(im)
+            # Some Paddle versions don't accept cls kwarg; retry without it.
+            try:
+                res = ocr.ocr(img_array, cls=True)
+            except TypeError as exc:
+                if "cls" in str(exc):
+                    res = ocr.ocr(img_array)
+                else:
+                    raise
+            txt = "\n".join([line[1][0] for line in (res[0] or [])])
+            _cache_put(h, txt, cache_dir)
+            texts.append(txt)
+        except Exception as exc:
+            # Bail out gracefully if Paddle throws lower-level runtime errors
+            print(f"Warning: PaddleOCR failed on image: {exc}")
+            texts.append("")
     return "\n\f\n".join(texts)
 
 def ocr_deepseek(images: List[Any], settings: LocalRagSettings) -> str:
