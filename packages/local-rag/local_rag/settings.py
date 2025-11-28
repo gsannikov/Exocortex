@@ -45,6 +45,7 @@ class LocalRagSettings(BaseSettings):
     chunking_strategy: str = Field(default="template", env="CHUNKING_STRATEGY")
     chunk_min_chars: int = Field(default=40, env="CHUNK_MIN_CHARS")
     chunk_strip_control: bool = Field(default=True, env="CHUNK_STRIP_CONTROL")
+    chunk_min_entropy: float = Field(default=0.0, env="CHUNK_MIN_ENTROPY")
 
     # Search
     search_method: str = Field(default="hybrid", env="SEARCH_METHOD")

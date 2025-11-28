@@ -24,8 +24,10 @@ from mcp.types import (
 # Import from local package
 from .utils import setup_logging
 from .settings import get_settings
-from .indexer import DocumentIndexer
+from .indexer import DocumentIndexer, load_state
 from .query import DocumentSearcher
+from .storage import create_repository
+from .vectorstore import get_vector_store
 
 # Setup logging
 setup_logging(verbose=True)
@@ -107,6 +109,19 @@ async def list_tools() -> list[Tool]:
                     }
                 }
             }
+        ),
+        Tool(
+            name="local_rag_health",
+            description="Lightweight health info: vector count and last index mtime.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "user_data_dir": {
+                        "type": "string",
+                        "description": "Directory where the index is stored (default: ~/.local-rag-data)"
+                    }
+                }
+            }
         )
     ]
 
@@ -174,6 +189,23 @@ async def call_tool(
             searcher = DocumentSearcher(user_data_dir=user_data_dir)
             stats = searcher.get_stats()
             return [TextContent(type="text", text=json.dumps(stats, indent=2))]
+        elif name == "local_rag_health":
+            repo = create_repository(settings, factory=get_vector_store)
+            count = repo.count()
+            state = load_state(settings.paths["state_path"])
+            last_index = None
+            if state:
+                try:
+                    last_index = max(entry.get("mtime", 0) for entry in state.values())
+                except Exception:
+                    last_index = None
+            health = {
+                "vector_count": count,
+                "last_index_mtime": last_index,
+                "user_data_dir": str(settings.user_data_dir),
+                "collection": settings.collection_name,
+            }
+            return [TextContent(type="text", text=json.dumps(health, indent=2))]
 
         else:
             raise ValueError(f"Unknown tool: {name}")

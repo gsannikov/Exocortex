@@ -150,6 +150,7 @@ The indexer automatically skips:
 | `OCR_LANG` | `en,he` | OCR language(s) |
 | `OCR_MAX_PAGES` | `120` | Max pages to OCR |
 | `OCR_PAGE_DPI` | `200` | DPI for OCR |
+| `CHUNK_MIN_ENTROPY` | `0.0` | Drop chunks with entropy below this |
 | `CHUNK_MIN_CHARS` | `40` | Drop chunks shorter than this before embedding |
 | `CHUNK_STRIP_CONTROL` | `true` | Remove control characters before embedding |
 | `OCR_CACHE_DIR` | `~/.cache/local-rag/ocr_cache` | Cache OCR outputs |

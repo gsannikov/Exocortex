@@ -138,6 +138,7 @@ class DocumentIndexer:
         self.max_errors = self.settings.max_errors
         self.min_chunk_chars = self.settings.chunk_min_chars
         self.strip_control_chars = self.settings.chunk_strip_control
+        self.min_chunk_entropy = self.settings.chunk_min_entropy
 
         self.paths = self.settings.paths
         self.state = load_state(self.paths["state_path"])
@@ -263,6 +264,7 @@ class DocumentIndexer:
         filtered_chunks, dropped = filter_chunks(
             chunks,
             min_chars=self.min_chunk_chars,
+            min_entropy=self.min_chunk_entropy,
             strip_control=self.strip_control_chars,
         )
 
