@@ -22,7 +22,7 @@ cd packages/local-rag
 # Run the wrapper script (builds image automatically)
 ./run_mcp_docker.sh
 
-# The MCP server is configured in claude.desktop.mcp.json to use this script.
+# The MCP server is configured in docs/examples/claude.desktop.mcp.json to use this script.
 # Just restart Claude Desktop and use the tools!
 ```
 

@@ -23,6 +23,7 @@ Complete documentation for the 2ndBrain_RAG project.
 | [coding-conventions.md](coding-conventions.md) | Code style and standards | Contributors |
 | [features-and-bugs.md](features-and-bugs.md) | Known issues and features | Developers, Contributors |
 | [backlog.md](backlog.md) | Development tasks | Contributors |
+| [examples/claude.desktop.mcp.json](examples/claude.desktop.mcp.json) | Claude Desktop MCP config sample | Users, Developers |
 
 ### User Documentation
 

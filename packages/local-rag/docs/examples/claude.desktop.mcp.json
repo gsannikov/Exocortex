@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "local-rag": {
+      "command": "/Users/gursannikov/MyDrive/claude-skills/packages/local-rag/run_mcp_docker.sh",
+      "args": [],
+      "env": {}
+    }
+  }
+}
