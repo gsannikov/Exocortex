@@ -96,7 +96,12 @@ def read_text_with_ocr(p: Path, settings: LocalRagSettings | None = None) -> str
         return joined
 
     if ext in IMAGE_EXTS and settings.ocr_enabled:
-        img = Image.open(str(p)).convert("RGB")
+        img = Image.open(str(p))
+        # Skip extremely large images that could trigger PIL DecompressionBomb
+        if img.width * img.height > 80_000_000:
+            print(f"Skipping oversized image (>{80_000_000} px): {p.name}")
+            return ""
+        img = img.convert("RGB")
         return run_ocr([img], settings=settings)
 
     return ""
