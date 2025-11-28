@@ -131,6 +131,7 @@ class DocumentIndexer:
         self.chunking_strategy = self.settings.chunking_strategy
         self.vector_store_type = self.settings.vector_store
         self.embed_model_name = self.settings.embed_model
+        self.embed_batch_size = self.settings.embed_batch_size
         self.build_bm25 = build_bm25
         self.include_globs = list(self.settings.include_globs or [])
         self.exclude_globs = list(self.settings.exclude_globs or [])
@@ -298,7 +299,11 @@ class DocumentIndexer:
             metadatas.append(meta)
 
         # Generate embeddings
-        embeddings = self.embed_model.encode(texts, normalize_embeddings=True)
+        embeddings = self.embed_model.encode(
+            texts,
+            normalize_embeddings=True,
+            batch_size=self.embed_batch_size
+        )
 
         with self._write_lock:
             # Delete existing chunks for this file

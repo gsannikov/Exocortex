@@ -27,7 +27,7 @@ class FakeSentenceTransformer:
     def __init__(self, name=None):
         self.name = name
 
-    def encode(self, texts, normalize_embeddings=True):
+    def encode(self, texts, normalize_embeddings=True, batch_size=None):
         if isinstance(texts, str):
             texts = [texts]
 

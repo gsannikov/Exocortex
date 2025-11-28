@@ -40,6 +40,7 @@ class LocalRagSettings(BaseSettings):
 
     # Embeddings / chunking
     embed_model: str = Field(default="sentence-transformers/all-MiniLM-L6-v2", env="EMBED_MODEL")
+    embed_batch_size: int = Field(default=32, env="EMBED_BATCH_SIZE")
     chunk_size: int = Field(default=3000, env="CHUNK_SIZE")
     chunk_overlap: int = Field(default=400, env="CHUNK_OVERLAP")
     chunking_strategy: str = Field(default="template", env="CHUNKING_STRATEGY")

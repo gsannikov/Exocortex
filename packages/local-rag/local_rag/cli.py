@@ -5,6 +5,8 @@ from typing import List
 
 from . import __version__
 from . import indexer, query, visualize
+from .health import get_health
+from .settings import get_settings
 
 
 def _print_help():
@@ -15,11 +17,13 @@ Commands:
   index      Index a folder of documents
   query      Search an existing index
   visualize  Inspect how text is chunked
+  health     Show vector count and last index time
 
 Examples:
   local-rag index ~/Docs --user-data-dir ~/rag-data
   local-rag query "neural nets" --user-data-dir ~/rag-data -k 5
   local-rag visualize README.md --strategy template
+  local-rag health --user-data-dir ~/rag-data
 """
     print(help_text.strip())
 
@@ -48,6 +52,13 @@ def main(argv: List[str] | None = None):
     if command == "visualize":
         sys.argv = [f"{sys.argv[0]} visualize"] + passthrough
         return visualize.main()
+
+    if command == "health":
+        # lightweight, no argparse; just print snapshot
+        settings = get_settings()
+        health = get_health(settings)
+        print(health)
+        return 0
 
     print(f"Unknown command: {command}", file=sys.stderr)
     _print_help()
