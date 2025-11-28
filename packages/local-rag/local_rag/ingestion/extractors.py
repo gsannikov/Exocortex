@@ -4,6 +4,9 @@ from pypdf import PdfReader
 from pdf2image import convert_from_path
 from PIL import Image
 
+# Raise the PIL pixel limit to avoid DecompressionBomb warnings on moderate images.
+Image.MAX_IMAGE_PIXELS = 200_000_000
+
 from ..settings import LocalRagSettings, get_settings
 from .ocr import run_ocr
 
