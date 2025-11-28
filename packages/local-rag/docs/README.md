@@ -1,6 +1,6 @@
-# 2ndBrain_RAG Documentation
+# Local RAG Documentation
 
-Complete documentation for the 2ndBrain_RAG project.
+Complete documentation for the Local RAG project.
 
 ---
 
@@ -14,6 +14,7 @@ Complete documentation for the 2ndBrain_RAG project.
 | [problem-and-vision.md](problem-and-vision.md) | Project vision and goals | Everyone |
 | [roadmap.md](roadmap.md) | Future plans and milestones | Everyone |
 | [changelog.md](changelog.md) | Version history | Everyone |
+| [AI_GUIDE.md](AI_GUIDE.md) | AI guide | Everyone |
 
 ### Developer Documentation
 
