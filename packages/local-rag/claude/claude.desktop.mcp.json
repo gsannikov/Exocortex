@@ -1,13 +1,14 @@
 {
   "mcpServers": {
     "local-rag": {
-      "command": "python",
+      "command": "/opt/homebrew/bin/python3.11",
       "args": [
         "-u",
-        "mcp_server.py"
+        "/Users/gursannikov/MyDrive/claude-skills/packages/local-rag/mcp_server.py"
       ],
       "env": {
-        "PYTHONUNBUFFERED": "1"
+        "PYTHONUNBUFFERED": "1",
+        "PYTHONPATH": "/Users/gursannikov/MyDrive/claude-skills/packages/local-rag"
       }
     }
   }
