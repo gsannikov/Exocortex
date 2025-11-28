@@ -2,7 +2,6 @@ import os
 import io
 import base64
 import hashlib
-import threading
 from pathlib import Path
 from typing import List, Optional, Any
 
@@ -14,7 +13,6 @@ from ..settings import LocalRagSettings, get_settings
 # Cached defaults for backward compatibility with tests/env monkeypatching
 _DEFAULT_SETTINGS = get_settings()
 ENGINE = (_DEFAULT_SETTINGS.ocr_engine or "tesseract").lower()
-OCR_LANG = _DEFAULT_SETTINGS.ocr_lang
 CACHE_DIR = None  # Populated lazily
 
 def _img_sha(img: Any) -> str:
@@ -44,6 +42,31 @@ def _cache_put(h: str, txt: str, cache_dir: Optional[Path] = None):
     cache_dir = cache_dir or _get_cache_dir()
     (cache_dir / f"{h}.txt").write_text(txt)
 
+
+def _resolve_tesseract_lang(lang_spec: Optional[str]) -> str:
+    """
+    Map human-friendly language codes to Tesseract codes and support multiple languages.
+    
+    Accepts comma- or plus-separated inputs (e.g., "en,he" or "eng+heb") and
+    normalizes them for pytesseract/ocrmypdf.
+    """
+    if not lang_spec:
+        return "eng"
+
+    lang_map = {
+        "he": "heb",
+        "hebrew": "heb",
+        "en": "eng",
+        "english": "eng",
+    }
+
+    parts = [p.strip() for p in lang_spec.replace("+", ",").split(",") if p.strip()]
+    if not parts:
+        return "eng"
+
+    mapped = [lang_map.get(p.lower(), p) for p in parts]
+    return "+".join(mapped)
+
 def ocr_surya(images: List[Any], settings: LocalRagSettings) -> str:
     from surya.ocr import run_ocr
     import numpy as np
@@ -62,18 +85,14 @@ def ocr_surya(images: List[Any], settings: LocalRagSettings) -> str:
     return "\n\f\n".join(texts)
 
 def ocr_tesseract(images: List[Any], settings: LocalRagSettings) -> str:
-    import pytesseract
+    try:
+        import pytesseract
+    except ImportError as exc:
+        raise RuntimeError("pytesseract is required for Tesseract OCR. Install with `pip install pytesseract`.") from exc
+
     cache_dir = _get_cache_dir(settings)
     
-    # Map languages
-    lang = settings.ocr_lang.split(',')[0].strip() if ',' not in settings.ocr_lang else 'eng'
-    lang_map = {
-        'he': 'heb',
-        'hebrew': 'heb',
-        'en': 'eng',
-        'english': 'eng',
-    }
-    tess_lang = lang_map.get(lang.lower(), lang)
+    tess_lang = _resolve_tesseract_lang(settings.ocr_lang)
     
     texts = []
     for idx, im in enumerate(images, 1):
@@ -121,13 +140,13 @@ def run_ocr(images: List[Any], settings: Optional[LocalRagSettings] = None) -> s
     settings = settings or get_settings()
     if not images:
         return ""
-    engine = (globals().get("ENGINE") or settings.ocr_engine or "tesseract").lower()
+    engine = (settings.ocr_engine or globals().get("ENGINE") or "tesseract").lower()
     if engine in {"noop", "none", "off", "disable"}:
         return ""
     if engine == "surya":
         return ocr_surya(images, settings)
     if engine == "paddle":
-        # Fallback to tesseract if paddle requested but removed
+        print("Warning: PaddleOCR support removed; falling back to Tesseract.", flush=True)
         return ocr_tesseract(images, settings)
     if engine == "tesseract":
         return ocr_tesseract(images, settings)

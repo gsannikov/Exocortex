@@ -226,6 +226,7 @@ Optional MCP servers enhance functionality:
 - Multiple file formats (PDF, MD, code files)
 - Persistent ChromaDB storage
 - Incremental indexing
+- Python setup guide: see `PYTHON_ENV.md`
 
 [Full Documentation](packages/local-rag/README.md)
 
@@ -248,7 +249,7 @@ Optional MCP servers enhance functionality:
 ### Minimal
 - **Claude.ai account** (free or paid)
 - **Apple Notes** (for mobile capture)
-- **Python 3.8+** (for some scripts)
+- **Python 3.11.x** (required for Local RAG; see `PYTHON_ENV.md`)
 
 ### Recommended
 - **MCP Filesystem server** - Local file operations

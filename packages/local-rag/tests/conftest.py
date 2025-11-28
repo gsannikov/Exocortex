@@ -12,6 +12,7 @@ import json
 import pytest
 
 os.environ.setdefault("OCR_CACHE_DIR", str(Path(tempfile.gettempdir()) / "local-rag-test-ocr"))
+USE_REAL_OCR_DEPS = os.getenv("LOCAL_RAG_REAL_OCR_DEPS", "0") == "1"
 
 
 # -------------------------
@@ -63,41 +64,42 @@ fake_rf = types.ModuleType("rapidfuzz")
 fake_rf.fuzz = types.SimpleNamespace(partial_ratio=lambda a, b: 100)
 sys.modules["rapidfuzz"] = fake_rf
 
-# pypdf/pdf2image/PIL stubs (minimal for tests)
-class FakeImage:
-    def __init__(self, content=None, **_kwargs):
-        self.mode = "RGB"
-        self.size = (1, 1)
-        self._content = b"" if content is None else str(content).encode()
+if not USE_REAL_OCR_DEPS:
+    # pypdf/pdf2image/PIL stubs (minimal for tests)
+    class FakeImage:
+        def __init__(self, content=None, **_kwargs):
+            self.mode = "RGB"
+            self.size = (1, 1)
+            self._content = b"" if content is None else str(content).encode()
 
-    @staticmethod
-    def new(mode, size, color=None):
-        return FakeImage(content=color)
+        @staticmethod
+        def new(mode, size, color=None):
+            return FakeImage(content=color)
 
-    @staticmethod
-    def open(*_args, **_kwargs):
-        return FakeImage()
+        @staticmethod
+        def open(*_args, **_kwargs):
+            return FakeImage()
 
-    def convert(self, *_args, **_kwargs):
-        return self
+        def convert(self, *_args, **_kwargs):
+            return self
 
-    def save(self, fp, format=None):
-        if hasattr(fp, "write"):
-            fp.write(self._content)
+        def save(self, fp, format=None):
+            if hasattr(fp, "write"):
+                fp.write(self._content)
 
 
-fake_pypdf = types.ModuleType("pypdf")
-fake_pypdf.PdfReader = lambda *args, **kwargs: types.SimpleNamespace(pages=[])
-sys.modules["pypdf"] = fake_pypdf
+    fake_pypdf = types.ModuleType("pypdf")
+    fake_pypdf.PdfReader = lambda *args, **kwargs: types.SimpleNamespace(pages=[])
+    sys.modules["pypdf"] = fake_pypdf
 
-fake_pdf2image = types.ModuleType("pdf2image")
-fake_pdf2image.convert_from_path = lambda *args, **kwargs: []
-sys.modules["pdf2image"] = fake_pdf2image
+    fake_pdf2image = types.ModuleType("pdf2image")
+    fake_pdf2image.convert_from_path = lambda *args, **kwargs: []
+    sys.modules["pdf2image"] = fake_pdf2image
 
-fake_pil = types.ModuleType("PIL")
-fake_pil.Image = FakeImage
-sys.modules["PIL"] = fake_pil
-sys.modules["PIL.Image"] = FakeImage
+    fake_pil = types.ModuleType("PIL")
+    fake_pil.Image = FakeImage
+    sys.modules["PIL"] = fake_pil
+    sys.modules["PIL.Image"] = FakeImage
 
 # paddleocr / paddlepaddle stubs
 fake_paddleocr = types.ModuleType("paddleocr")

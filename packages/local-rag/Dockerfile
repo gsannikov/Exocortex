@@ -4,15 +4,14 @@ FROM python:3.11-slim
 # build-essential: for compiling python extensions
 # poppler-utils: for pdf2image
 # tesseract-ocr: for OCR
-# libgl1: for opencv/paddle (if needed)
-# libgomp1: for paddle
+# qpdf/ghostscript: required by ocrmypdf
 RUN apt-get update && apt-get install -y \
     build-essential \
     poppler-utils \
     tesseract-ocr \
     libtesseract-dev \
-    libgl1 \
-    libgomp1 \
+    qpdf \
+    ghostscript \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

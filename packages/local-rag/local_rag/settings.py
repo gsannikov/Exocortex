@@ -55,7 +55,7 @@ class LocalRagSettings(BaseSettings):
 
     # OCR
     ocr_enabled: bool = Field(default=True, env="OCR_ENABLED")
-    ocr_engine: str = Field(default="paddle", env="OCR_ENGINE")
+    ocr_engine: str = Field(default="tesseract", env="OCR_ENGINE")
     ocr_lang: str = Field(default="en,he", env="OCR_LANG")
     ocr_max_pages: int = Field(default=120, env="OCR_MAX_PAGES")
     ocr_page_dpi: int = Field(default=200, env="OCR_PAGE_DPI")

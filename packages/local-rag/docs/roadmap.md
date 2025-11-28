@@ -30,7 +30,7 @@ Transform 2ndBrain_RAG from a personal RAG tool into a robust, cross-platform kn
 **Theme**: Improve robustness, add OCR, enable auto-indexing
 
 #### Completed
-- [x] OCR support (Surya, PaddleOCR, DeepSeek)
+- [x] OCR support (Tesseract, Surya, DeepSeek)
 - [x] File watcher for auto-reindexing
 - [x] State tracking for efficient reindexing
 - [x] Refactored ingestion pipeline

@@ -1,5 +1,7 @@
 # PaddleOCR System Hang Issue - CRITICAL
 
+> Note: Local RAG now defaults to Tesseract (via OCRmyPDF). Keep this doc for historical context and for anyone still experimenting with PaddleOCR.
+
 ## ⚠️ Problem
 
 PaddleOCR causes **system-level hangs** on certain PDFs that can:

@@ -88,8 +88,8 @@ SKILLS = {
         ],
         "requires_mcp": True,
         "mcp_config": {
-            "command": "python",
-            "args": ["-u", "mcp_server.py"],
+            "command": "python3",
+            "args": ["-m", "local_rag.mcp"],
             "env": {"PYTHONUNBUFFERED": "1"},
         },
     },
@@ -281,18 +281,24 @@ def update_mcp_config(config: dict, skills_path: Path) -> dict:
         if skill_info.get("requires_mcp"):
             mcp_config = skill_info["mcp_config"].copy()
 
-            # Update the path to mcp_server.py to be absolute
+            # Update the path to the MCP entrypoint to be absolute
             skill_path = skills_path / "packages" / skill_id
-            mcp_server_path = skill_path / "mcp_server.py"
+            module_entry = skill_path / "local_rag" / "mcp.py"
+            script_entry = skill_path / "mcp_server.py"
 
-            if mcp_server_path.exists():
-                mcp_config["args"] = ["-u", str(mcp_server_path)]
-                # Also set cwd for the MCP server
+            # Prefer module entrypoint if present, otherwise fall back to legacy script
+            if module_entry.exists():
+                mcp_config["args"] = ["-m", "local_rag.mcp"]
                 mcp_config["cwd"] = str(skill_path)
                 config["mcpServers"][skill_id] = mcp_config
-                print_success(f"Added MCP config for {skill_info['name']}")
+                print_success(f"Added MCP config for {skill_info['name']} (local_rag.mcp)")
+            elif script_entry.exists():
+                mcp_config["args"] = ["-u", str(script_entry)]
+                mcp_config["cwd"] = str(skill_path)
+                config["mcpServers"][skill_id] = mcp_config
+                print_success(f"Added MCP config for {skill_info['name']} (mcp_server.py)")
             else:
-                print_warning(f"MCP server not found for {skill_info['name']}: {mcp_server_path}")
+                print_warning(f"MCP server not found for {skill_info['name']}: {module_entry} or {script_entry}")
 
     return config
 
@@ -402,7 +408,14 @@ def check_python_dependencies(skills_path: Path) -> dict:
 def prompt_yes_no(question: str, default: bool = True) -> bool:
     """Prompt user for yes/no answer."""
     default_str = "Y/n" if default else "y/N"
-    answer = input(f"{question} [{default_str}]: ").strip().lower()
+    # If stdin isn't a TTY (e.g., scripted install), fall back to default
+    if not sys.stdin.isatty():
+        return default
+
+    try:
+        answer = input(f"{question} [{default_str}]: ").strip().lower()
+    except EOFError:
+        return default
 
     if not answer:
         return default

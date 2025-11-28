@@ -3,7 +3,7 @@
 Debug script to test OCR on a specific PDF file (Python 3.9+ compatible).
 Run from packages/local-rag directory with:
 
-PYTHONUNBUFFERED=1 PYTHONPATH=. OCR_ENGINE=paddle OCR_MAX_PAGES=3 python3 debug_ocr_compat.py <path-to-pdf>
+PYTHONUNBUFFERED=1 PYTHONPATH=. OCR_ENGINE=tesseract OCR_MAX_PAGES=3 python3 debug_ocr_compat.py <path-to-pdf>
 """
 import sys
 from pathlib import Path
@@ -55,7 +55,7 @@ print("\n3. Testing OCR directly...", flush=True)
 try:
     # Import with compatibility for Python 3.9
     import os
-    os.environ.setdefault("OCR_ENGINE", "paddle")
+    os.environ.setdefault("OCR_ENGINE", "tesseract")
     os.environ.setdefault("OCR_MAX_PAGES", "3")
     
     from local_rag.ingestion.ocr import run_ocr

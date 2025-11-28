@@ -3,7 +3,7 @@
 Debug script to test OCR on a specific PDF file.
 Run from packages/local-rag directory with:
 
-PYTHONUNBUFFERED=1 PYTHONPATH=. OCR_ENGINE=paddle OCR_MAX_PAGES=3 python debug_ocr.py <path-to-pdf>
+PYTHONUNBUFFERED=1 PYTHONPATH=. OCR_ENGINE=tesseract OCR_MAX_PAGES=3 python debug_ocr.py <path-to-pdf>
 """
 import sys
 from pathlib import Path

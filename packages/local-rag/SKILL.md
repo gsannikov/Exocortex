@@ -169,6 +169,8 @@ pytesseract>=0.3.10
 - **poppler-utils**: PDF to image conversion
 - **tesseract**: OCR engine
 - **tesseract-lang**: Language packs (e.g., Hebrew)
+- **qpdf**: Required by OCRmyPDF
+- **ghostscript**: Required by OCRmyPDF
 - **antiword**: Legacy .doc extraction (optional)
 
 Install on macOS:

@@ -141,8 +141,25 @@ def test_cache_large_text(tmp_path, monkeypatch):
     assert retrieved == test_text
     assert len(retrieved) > 10000
 
+def test_resolve_tesseract_lang_single():
+    """Verify language mapping to Tesseract codes."""
+    from ingest.ocr import _resolve_tesseract_lang
 
-@pytest.mark.parametrize("engine", ["surya", "paddle", "deepseek"])
+    assert _resolve_tesseract_lang("en") == "eng"
+    assert _resolve_tesseract_lang("he") == "heb"
+    assert _resolve_tesseract_lang("english") == "eng"
+
+
+def test_resolve_tesseract_lang_multi():
+    """Support comma or plus separators for multiple languages."""
+    from ingest.ocr import _resolve_tesseract_lang
+
+    assert _resolve_tesseract_lang("en,he") == "eng+heb"
+    assert _resolve_tesseract_lang("eng+heb") == "eng+heb"
+    assert _resolve_tesseract_lang("") == "eng"
+
+
+@pytest.mark.parametrize("engine", ["surya", "tesseract", "deepseek", "paddle"])
 def test_engine_environment_variable(engine, monkeypatch):
     """Test that engine can be set via environment variable."""
     import ingest.ocr

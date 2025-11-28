@@ -145,11 +145,11 @@
 #### `ocr.py`
 - Optical Character Recognition for scanned documents
 - Multiple OCR engine support:
-  - **PaddleOCR** (default, multi-language including Hebrew)
+  - **Tesseract** (default, via OCRmyPDF/pytesseract; multi-language)
   - **Surya** (optional, lighter weight, English-focused)
   - **DeepSeek-OCR** (optional, highest accuracy)
 - Configurable DPI for quality/performance trade-off
-- Language configuration via `OCR_LANG` (default: `en,he`)
+- Language configuration via `OCR_LANG` (default: `en,he`; mapped to `eng+heb`)
 
 #### `utils.py`
 - Helper utilities for text processing
@@ -431,7 +431,7 @@ local-rag visualize document.md -f stats
 | `BM25_WEIGHT` | `0.3` | BM25 search weight |
 | `USE_RERANKER` | `false` | Enable cross-encoder |
 | `OCR_ENABLED` | `true` | Enable OCR for images/PDFs |
-| `OCR_ENGINE` | `paddle` | OCR engine (paddle, surya, deepseek) |
+| `OCR_ENGINE` | `tesseract` | OCR engine (tesseract, surya, deepseek) |
 | `OCR_LANG` | `en,he` | OCR languages |
 | `OCR_MAX_PAGES` | `120` | Max pages to OCR per PDF |
 | `OCR_PAGE_DPI` | `200` | DPI for OCR rendering |
@@ -492,7 +492,7 @@ Vector DB (Qdrant Cloud)
 | Embeddings | sentence-transformers | Vector generation |
 | Keyword Search | BM25 (custom) | Sparse retrieval |
 | Reranking | cross-encoder | Result refinement |
-| OCR | PaddleOCR/Surya | Image text extraction |
+| OCR | Tesseract/OCRmyPDF/Surya | Image/PDF text extraction |
 | File Watching | watchdog | Change detection |
 | PDF | pypdf, pdfplumber | PDF parsing |
 | Office | python-docx, openpyxl | Office formats |

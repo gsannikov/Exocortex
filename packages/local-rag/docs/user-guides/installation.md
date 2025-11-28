@@ -308,19 +308,23 @@ sudo chown -R $USER:$USER /path/to/claude-skills
 
 ---
 
-## Optional: OCR Engine Setup
+## OCR Engine Setup (Tesseract default)
 
-By default, Local RAG uses PaddleOCR (CPU-friendly, multilingual). For better accuracy, you can install additional engines.
+Local RAG now ships with Tesseract via OCRmyPDF/pytesseract. Install the system binaries so OCRmyPDF can run:
 
-### PaddleOCR (Balanced)
-
+macOS:
 ```bash
-pip install paddlepaddle paddleocr
+brew install tesseract qpdf ghostscript poppler
 ```
 
-### DeepSeek-OCR (High Accuracy)
+Ubuntu:
+```bash
+sudo apt install tesseract-ocr tesseract-ocr-heb qpdf ghostscript poppler-utils
+```
 
-See [OCR guide](ocr-setup.md) for detailed instructions.
+### Optional engines
+- **Surya OCR** (Python-only): `pip install surya-ocr`
+- **DeepSeek OCR** (API): See [OCR guide](ocr-setup.md) for setup
 
 ---
 

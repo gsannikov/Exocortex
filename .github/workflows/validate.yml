@@ -251,7 +251,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y tesseract-ocr tesseract-ocr-heb poppler-utils
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-heb poppler-utils qpdf ghostscript
 
       - name: Install dependencies
         run: |
@@ -261,5 +261,6 @@ jobs:
       - name: Run local-rag tests
         env:
           TOKENIZERS_PARALLELISM: "false"
+          LOCAL_RAG_REAL_OCR_DEPS: "1"
         run: |
           pytest packages/local-rag/tests

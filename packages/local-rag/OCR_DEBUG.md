@@ -4,7 +4,7 @@
 
 ```bash
 cd packages/local-rag
-PYTHONUNBUFFERED=1 PYTHONPATH=. OCR_ENGINE=paddle OCR_MAX_PAGES=3 \
+PYTHONUNBUFFERED=1 PYTHONPATH=. OCR_ENGINE=tesseract OCR_MAX_PAGES=3 \
 python debug_ocr.py /path/to/your/file.pdf
 ```
 
@@ -16,49 +16,43 @@ With the updated code, you'll now see:
 PDF: Reading file.pdf...
 PDF: Found 5 pages
 PDF: Average 45 chars/page
-PDF: Will OCR first 3 pages
-PDF: Converting to images (dpi=200)...
-PDF: Converted 3 images, starting OCR...
+PDF: OCR required for file.pdf...
+PDF: Running OCRmyPDF (lang=eng)...
+PDF: OCR complete, extracting text...
+PDF: Extracted 1234 chars from OCR
+```
+
+If OCRmyPDF fails (missing dependency, corrupted PDF), the code falls back to image-based OCR with Tesseract and logs:
+```
+PDF OCR failed: ...
+PDF: Falling back to image-based OCR...
 OCR: Processing image 1/3...
-OCR: Image 1 - running PaddleOCR...
-OCR: Image 1 - extracted 234 chars
-OCR: Processing image 2/3...
-OCR: Image 2 - cache hit
-...
+OCR: Image 1 - running Tesseract...
 ```
 
 ## If It Hangs
+
+Tesseract is much more stable than PaddleOCR, but a few places can still stall:
 
 **At "PDF: Reading..."** → Corrupted PDF or too large
 - Try with a smaller/different PDF
 - Check file size: `ls -lh file.pdf`
 
-**At "PDF: Converting to images..."** → pdf2image/Poppler issue
-- Install/update Poppler: `brew install poppler`
-- Try lower DPI: `OCR_PAGE_DPI=150`
+**At "PDF: Running OCRmyPDF"** → Usually missing dependencies (tesseract, qpdf, ghostscript)
+- On macOS: `brew install tesseract qpdf ghostscript poppler`
+- On Ubuntu: `sudo apt install tesseract-ocr qpdf ghostscript poppler-utils`
+- If the PDF has native text, set `OCR_ENABLED=false` to skip OCR entirely.
 
-**At "OCR: Image X - running PaddleOCR..."** → OCR model stuck
-- Will automatically timeout after 60 seconds per image
-- Check if it's a specific image causing issues
-- Try different OCR engine: `OCR_ENGINE=none` to skip OCR
+## Handling Slow Pages
 
-## Timeout Protection
-
-Each image now has a 60-second timeout. If PaddleOCR hangs, you'll see:
-```
-Warning: PaddleOCR timed out on image 2 (60s limit)
-```
-
-The processing will continue with the next image.
+Tesseract is generally fast, but if a specific page is slow:
+- Lower DPI for that PDF: `OCR_PAGE_DPI=150`
+- Run `ocrmypdf` manually on the PDF to confirm it completes
+- If it repeatedly hangs, skip OCR (`OCR_ENABLED=false`) after preprocessing
 
 ## Common Issues
 
-1. **First run takes forever**: PaddleOCR downloads models (~300MB)
-   - Watch for download progress in verbose mode
-   
-2. **Specific image causes hang**: The timeout will skip it
-   - Check the image number from logs
-   - That page will have empty text in output
-
-3. **All images timeout**: PaddleOCR installation issue
-   - Try: `pip install --upgrade paddlepaddle paddleocr`
+1. **Missing system deps**: Install `tesseract-ocr`, `qpdf`, `ghostscript`, and `poppler-utils`.
+2. **OCR output is empty**: Bump `OCR_PAGE_DPI` to 300 for scanned PDFs.
+3. **Language not recognized**: Set `OCR_LANG=eng+heb` (comma or plus separated).
+4. **Large images**: Files with >80M pixels are skipped to avoid memory issues.

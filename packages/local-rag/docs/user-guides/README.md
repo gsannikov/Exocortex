@@ -46,8 +46,8 @@ Welcome to the 2ndBrain_RAG user documentation!
    - API integration
 
 5. **OCR Setup Guide** - Configure OCR engines
-   - Surya (default)
-   - PaddleOCR
+   - Tesseract + OCRmyPDF (default)
+   - Surya
    - DeepSeek-OCR
    - Quality tuning
 

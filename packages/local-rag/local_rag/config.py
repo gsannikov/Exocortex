@@ -22,7 +22,7 @@ USE_RERANKER = os.getenv("USE_RERANKER", "false").lower() == "true"
 
 # OCR Settings
 OCR_ENABLED = os.getenv("OCR_ENABLED", "true").lower() == "true"
-OCR_ENGINE = os.getenv("OCR_ENGINE", "paddle")
+OCR_ENGINE = os.getenv("OCR_ENGINE", "tesseract")
 OCR_LANG = os.getenv("OCR_LANG", "en,he")
 OCR_MAX_PAGES = int(os.getenv("OCR_MAX_PAGES", "120"))
 OCR_PAGE_DPI = int(os.getenv("OCR_PAGE_DPI", "200"))

@@ -10,7 +10,7 @@
 
 You're working on **2ndBrain_RAG**, a local RAG system that lets Claude Desktop/Code search and retrieve context from a user's personal document collection via MCP protocol.
 
-**Key Tech**: Python 3.11+, MCP, ChromaDB, sentence-transformers, OCR (Surya/PaddleOCR)
+**Key Tech**: Python 3.11+, MCP, ChromaDB, sentence-transformers, OCR (Tesseract/Surya/DeepSeek)
 
 **Code Structure**:
 - `mcp_server.py` - Main MCP server with 5 tools
@@ -65,9 +65,9 @@ def read_text_with_ocr(path: Path) -> str:
 **Quick wins**:
 - Increase DPI (200 → 300) for specific files
 - Add pre-processing (deskew, denoise)
-- Try different OCR engine (Surya → PaddleOCR → DeepSeek)
+- Try different OCR engine (Tesseract → Surya → DeepSeek)
 
-**Location**: See `_ocr_surya()`, `_ocr_paddle()` functions
+**Location**: See `_resolve_tesseract_lang()`, `ocr_tesseract()` functions
 
 ---
 
@@ -339,7 +339,7 @@ def test_pdf_extraction(tmp_path):
 
 **Checklist**:
 1. Is image clear/high-res?
-2. Is Surya working? Try PaddleOCR
+2. Is Tesseract working? If not, try Surya
 3. Check DPI setting in ocr.py
 4. Try manual OCR: `python -c "from ingest.ocr import *; print(ocr_image(...))"
 

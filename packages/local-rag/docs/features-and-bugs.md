@@ -189,8 +189,8 @@ return combined[:k]
 │ 3000 characters        [Recommended]    │
 │                                         │
 │ OCR Engine:                             │
+│ ○ Tesseract (Default, Local)           │
 │ ○ Surya (Fast, CPU)                    │
-│ ○ PaddleOCR (Balanced)                 │
 │ ○ DeepSeek (Accurate, Slow)            │
 │                                         │
 │ [Save] [Cancel] [Reset to Defaults]    │

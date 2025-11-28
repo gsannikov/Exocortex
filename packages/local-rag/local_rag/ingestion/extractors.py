@@ -8,7 +8,7 @@ from PIL import Image
 Image.MAX_IMAGE_PIXELS = 200_000_000
 
 from ..settings import LocalRagSettings, get_settings
-from .ocr import run_ocr
+from .ocr import run_ocr, _resolve_tesseract_lang
 
 # Text-based files (read directly)
 TEXT_EXTS = {
@@ -106,22 +106,25 @@ def read_text_with_ocr(p: Path, settings: LocalRagSettings | None = None) -> str
                 import ocrmypdf
                 import tempfile
                 
-                # Map language
-                lang = settings.ocr_lang.split(',')[0].strip() if ',' not in settings.ocr_lang else 'eng'
-                lang_map = {'he': 'heb', 'hebrew': 'heb', 'en': 'eng', 'english': 'eng'}
-                ocr_lang = lang_map.get(lang.lower(), lang)
+                # Map language(s) to Tesseract codes
+                ocr_lang = _resolve_tesseract_lang(settings.ocr_lang)
                 
                 with tempfile.NamedTemporaryFile(suffix=".pdf", delete=True) as tf:
                     print(f"PDF: Running OCRmyPDF (lang={ocr_lang})...", flush=True)
-                    ocrmypdf.ocr(
-                        str(p), 
-                        tf.name, 
-                        language=ocr_lang, 
-                        force_ocr=True, 
-                        progress_bar=False,
-                        optimize=1,
-                        skip_text=False
-                    )
+                    try:
+                        ocrmypdf.ocr(
+                            str(p), 
+                            tf.name, 
+                            language=ocr_lang, 
+                            force_ocr=True, 
+                            progress_bar=False,
+                            optimize=1,
+                            skip_text=False
+                        )
+                    except ocrmypdf.exceptions.MissingDependencyError as e:
+                        print(f"PDF OCR missing dependency: {e}", flush=True)
+                        print("Install system deps: tesseract-ocr, qpdf, ghostscript, poppler-utils", flush=True)
+                        raise
                     
                     # Read text from the OCR'd PDF
                     print(f"PDF: OCR complete, extracting text...", flush=True)

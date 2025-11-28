@@ -60,6 +60,7 @@ Test interactions between components:
 ```bash
 pytest -m integration
 ```
+To exercise real OCR (no lightweight stubs), set `LOCAL_RAG_REAL_OCR_DEPS=1` and ensure Tesseract/qpdf/ghostscript/poppler are installed.
 
 ### Slow Tests
 
