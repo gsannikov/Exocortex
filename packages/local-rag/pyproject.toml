@@ -25,6 +25,7 @@ dependencies = [
   "openpyxl>=3.0.0",
   "ocrmypdf>=15.0.0",
   "pytesseract>=0.3.10",
+  "mcp>=1.22.0",
 ]
 
 [project.optional-dependencies]
