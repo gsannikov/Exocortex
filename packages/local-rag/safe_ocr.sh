@@ -36,7 +36,6 @@ fi
 # Run OCR with Tesseract (safe alternative to PaddleOCR)
 echo "🚀 Running OCR with Tesseract..."
 ocrmypdf \
-    --skip-text \
     --force-ocr \
     --optimize 1 \
     --output-type pdf \

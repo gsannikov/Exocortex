@@ -42,7 +42,7 @@ python3 indexer.py /path/to/docs
 Use `pdftotext` or `ocrmypdf` to create searchable PDFs first:
 ```bash
 # Install OCRmyPDF (uses Tesseract OCR)
-brew install ocrmypdf
+brew install ocrmypdf tesseract-lang
 
 # Convert scanned PDF to searchable PDF
 ocrmypdf --skip-text document.pdf document_searchable.pdf
