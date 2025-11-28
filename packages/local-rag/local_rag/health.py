@@ -7,7 +7,7 @@ from typing import Optional, Dict, Any
 
 from .settings import LocalRagSettings, get_settings
 from .storage import create_repository
-from .vectorstore import get_vector_store
+from .adapters.vectorstore import get_vector_store
 from .services.index_service import load_state
 
 
