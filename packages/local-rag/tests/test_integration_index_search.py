@@ -229,6 +229,7 @@ def test_index_and_search_round_trip(tmp_path, patched_vector_store, patched_emb
         chunk_size=256,
         chunk_overlap=32,
         chunking_strategy="fixed",
+        parallel_workers=1,  # Force serial processing to avoid threading issues
     )
 
     # Ensure we are using the in-memory stand-in to keep the test lightweight
