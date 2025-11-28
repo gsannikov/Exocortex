@@ -177,7 +177,7 @@ class DocumentIndexer:
     def embed_model(self):
         """Lazy load embedding model."""
         if self._embed_model is None:
-            print(f"Loading embedding model {self.embed_model_name}...")
+            logger.info(f"Loading embedding model {self.embed_model_name}...")
             self._embed_model = SentenceTransformer(self.embed_model_name)
         return self._embed_model
 
@@ -226,7 +226,7 @@ class DocumentIndexer:
                 try:
                     self._bm25_index = BM25Index.load(str(bm25_path))
                 except Exception as e:
-                    print(f"Warning: Could not load BM25 index: {e}")
+                    self.logger.warning(f"Could not load BM25 index: {e}")
                     self._bm25_index = BM25Index()
             else:
                 self._bm25_index = BM25Index()
@@ -271,7 +271,7 @@ class DocumentIndexer:
         try:
             text = read_text(path, settings=self.settings)
         except Exception as e:
-            print(f"Error reading {path.name}: {e}")
+            self.logger.error(f"Error reading {path.name}: {e}")
             return 0, 0
 
         if not text.strip():
@@ -382,7 +382,7 @@ class DocumentIndexer:
         }
 
         self.logger.info(f"Starting indexing: {source_dir}")
-        print(f"Scanning {source_dir}...")
+        self.logger.info(f"Scanning {source_dir}...")
 
         candidates = discover_files(
             source_dir,
@@ -432,11 +432,9 @@ class DocumentIndexer:
                         error_detail = {"path": str(path), "error": str(err), "timestamp": datetime.now().isoformat()}
                         stats["error_details"].append(error_detail)
                         self.logger.error(f"Error indexing {path.name}: {err}")
-                        print(f"Error indexing {path.name}: {err}")
                         stats["errors"] += 1
                         if self.max_errors and stats["errors"] >= self.max_errors:
                             self.logger.warning(f"Max errors reached ({self.max_errors}); aborting")
-                            print(f"Max errors reached ({self.max_errors}); aborting.")
                             break
                     elif status == "skip_large":
                         stats["files_skipped"] += 1
@@ -447,7 +445,6 @@ class DocumentIndexer:
                         stats["chunks_created"] += num_chunks
                         stats["chunks_filtered"] += dropped
                         self.logger.info(f"Indexed: {path.name} ({num_chunks} chunks, dropped {dropped})")
-                        print(f"Indexed: {path.name} ({num_chunks} chunks, dropped {dropped})")
                     else:
                         stats["files_skipped"] += 1
         else:
@@ -458,11 +455,9 @@ class DocumentIndexer:
                     error_detail = {"path": str(path), "error": str(err), "timestamp": datetime.now().isoformat()}
                     stats["error_details"].append(error_detail)
                     self.logger.error(f"Error indexing {path.name}: {err}")
-                    print(f"Error indexing {path.name}: {err}")
                     stats["errors"] += 1
                     if self.max_errors and stats["errors"] >= self.max_errors:
                         self.logger.warning(f"Max errors reached ({self.max_errors}); aborting")
-                        print(f"Max errors reached ({self.max_errors}); aborting.")
                         break
                 elif status == "skip_large":
                     stats["files_skipped"] += 1
@@ -473,7 +468,6 @@ class DocumentIndexer:
                     stats["chunks_created"] += num_chunks
                     stats["chunks_filtered"] += dropped
                     self.logger.info(f"Indexed: {path.name} ({num_chunks} chunks, dropped {dropped})")
-                    print(f"Indexed: {path.name} ({num_chunks} chunks, dropped {dropped})")
                 else:
                     stats["files_skipped"] += 1
 
@@ -505,17 +499,17 @@ class DocumentIndexer:
             if len(stats["error_details"]) > 5:
                 self.logger.error(f"  ... and {len(stats['error_details']) - 5} more (see full log)")
         
-        print(f"\nIndexing complete:")
-        print(f"  Files processed: {stats['files_processed']}")
-        print(f"  Chunks created: {stats['chunks_created']}")
-        print(f"  Files skipped (unchanged): {stats['skipped_unchanged']}")
-        print(f"  Files skipped (too large): {len(stats['skipped_large'])}")
-        print(f"  Errors: {stats['errors']}")
-        
+        self.logger.info(f"\nIndexing complete:")
+        self.logger.info(f"  Files processed: {stats['files_processed']}")
+        self.logger.info(f"  Chunks created: {stats['chunks_created']}")
+        self.logger.info(f"  Files skipped (unchanged): {stats['skipped_unchanged']}")
+        self.logger.info(f"  Files skipped (too large): {len(stats['skipped_large'])}")
+        self.logger.info(f"  Errors: {stats['errors']}")
+
         if self.settings.log_to_file:
             log_path = self.settings.paths["log_dir"] / "indexing.log"
-            print(f"\nFull logs: {log_path}")
-        
+            self.logger.info(f"\nFull logs: {log_path}")
+
         return stats
 
     def get_stats(self) -> dict:

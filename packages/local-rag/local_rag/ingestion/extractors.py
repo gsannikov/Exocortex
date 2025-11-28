@@ -10,6 +10,8 @@ Image.MAX_IMAGE_PIXELS = 200_000_000
 from ..settings import LocalRagSettings, get_settings
 from .ocr import run_ocr, _resolve_tesseract_lang
 
+logger = logging.getLogger(__name__)
+
 # Text-based files (read directly)
 TEXT_EXTS = {
     ".txt", ".md", ".mdx", ".mdc", ".log",
@@ -82,62 +84,62 @@ def read_text_with_ocr(p: Path, settings: LocalRagSettings | None = None) -> str
         return _read_xlsx(p)
 
     if ext == ".pdf":
-        print(f"PDF: Reading {p.name}...", flush=True)
+        logger.info(f"PDF: Reading {p.name}...")
         try:
             _configure_pdf_logging()
             r = PdfReader(str(p), strict=False)
-            print(f"PDF: Found {len(r.pages)} pages", flush=True)
+            logger.info(f"PDF: Found {len(r.pages)} pages")
             texts = [(pg.extract_text() or "") for pg in r.pages]
             joined = "\n".join(texts).strip()
             avg_text_len = sum(len(t) for t in texts)/max(1,len(texts))
-            print(f"PDF: Average {avg_text_len:.0f} chars/page", flush=True)
-            
+            logger.debug(f"PDF: Average {avg_text_len:.0f} chars/page")
+
             if not settings.ocr_enabled or (len(texts) and avg_text_len >= 100):
-                print(f"PDF: Using extracted text (OCR={settings.ocr_enabled}, avg_len={avg_text_len:.0f})", flush=True)
+                logger.info(f"PDF: Using extracted text (OCR={settings.ocr_enabled}, avg_len={avg_text_len:.0f})")
                 return joined
             pages = min(len(r.pages), settings.ocr_max_pages)
-            print(f"PDF: Will OCR first {pages} pages", flush=True)
+            logger.info(f"PDF: Will OCR first {pages} pages")
         except Exception as e:
-            print(f"PDF text extraction failed for {p.name}: {e}", flush=True)
+            logger.warning(f"PDF text extraction failed for {p.name}: {e}")
             pages = None
         if settings.ocr_enabled:
-            print(f"PDF: OCR required for {p.name}...", flush=True)
+            logger.info(f"PDF: OCR required for {p.name}...")
             try:
                 import ocrmypdf
                 import tempfile
-                
+
                 # Map language(s) to Tesseract codes
                 ocr_lang = _resolve_tesseract_lang(settings.ocr_lang)
-                
+
                 with tempfile.NamedTemporaryFile(suffix=".pdf", delete=True) as tf:
-                    print(f"PDF: Running OCRmyPDF (lang={ocr_lang})...", flush=True)
+                    logger.info(f"PDF: Running OCRmyPDF (lang={ocr_lang})...")
                     try:
                         ocrmypdf.ocr(
-                            str(p), 
-                            tf.name, 
-                            language=ocr_lang, 
-                            force_ocr=True, 
+                            str(p),
+                            tf.name,
+                            language=ocr_lang,
+                            force_ocr=True,
                             progress_bar=False,
                             optimize=1,
                             skip_text=False
                         )
                     except ocrmypdf.exceptions.MissingDependencyError as e:
-                        print(f"PDF OCR missing dependency: {e}", flush=True)
-                        print("Install system deps: tesseract-ocr, qpdf, ghostscript, poppler-utils", flush=True)
+                        logger.error(f"PDF OCR missing dependency: {e}")
+                        logger.error("Install system deps: tesseract-ocr, qpdf, ghostscript, poppler-utils")
                         raise
-                    
+
                     # Read text from the OCR'd PDF
-                    print(f"PDF: OCR complete, extracting text...", flush=True)
+                    logger.info(f"PDF: OCR complete, extracting text...")
                     r_ocr = PdfReader(tf.name)
                     ocr_text = "\n".join([(pg.extract_text() or "") for pg in r_ocr.pages])
-                    print(f"PDF: Extracted {len(ocr_text)} chars from OCR", flush=True)
+                    logger.info(f"PDF: Extracted {len(ocr_text)} chars from OCR")
                     return ocr_text.strip()
             except ImportError:
-                print("Error: ocrmypdf not installed. Please install it with 'pip install ocrmypdf'", flush=True)
+                logger.error("Error: ocrmypdf not installed. Please install it with 'pip install ocrmypdf'")
             except Exception as e:
-                print(f"PDF OCR failed: {e}", flush=True)
+                logger.error(f"PDF OCR failed: {e}")
                 # Fallback to image-based OCR if ocrmypdf fails (e.g. missing tesseract)
-                print("PDF: Falling back to image-based OCR...", flush=True)
+                logger.info("PDF: Falling back to image-based OCR...")
                 imgs = convert_from_path(str(p), dpi=settings.ocr_page_dpi, first_page=1, last_page=(pages or 1))
                 return run_ocr(imgs, settings=settings)
         return joined
@@ -146,7 +148,7 @@ def read_text_with_ocr(p: Path, settings: LocalRagSettings | None = None) -> str
         img = Image.open(str(p))
         # Skip extremely large images that could trigger PIL DecompressionBomb
         if img.width * img.height > 80_000_000:
-            print(f"Skipping oversized image (>{80_000_000} px): {p.name}")
+            logger.warning(f"Skipping oversized image (>{80_000_000} px): {p.name}")
             return ""
         img = img.convert("RGB")
         return run_ocr([img], settings=settings)
