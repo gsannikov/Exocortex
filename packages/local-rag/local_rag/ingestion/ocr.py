@@ -13,12 +13,9 @@ from ..settings import LocalRagSettings, get_settings
 
 # Cached defaults for backward compatibility with tests/env monkeypatching
 _DEFAULT_SETTINGS = get_settings()
-ENGINE = (_DEFAULT_SETTINGS.ocr_engine or "paddle").lower()
+ENGINE = (_DEFAULT_SETTINGS.ocr_engine or "tesseract").lower()
 OCR_LANG = _DEFAULT_SETTINGS.ocr_lang
 CACHE_DIR = None  # Populated lazily
-_PADDLE_CLIENT = None
-_PADDLE_LANG = None
-_PADDLE_LOCK = threading.Lock()
 
 def _img_sha(img: Any) -> str:
     b = io.BytesIO()
@@ -64,39 +61,20 @@ def ocr_surya(images: List[Any], settings: LocalRagSettings) -> str:
         texts.append(txt)
     return "\n\f\n".join(texts)
 
-def ocr_paddle(images: List[Any], settings: LocalRagSettings) -> str:
-    from paddleocr import PaddleOCR
-    import numpy as np
+def ocr_tesseract(images: List[Any], settings: LocalRagSettings) -> str:
+    import pytesseract
     cache_dir = _get_cache_dir(settings)
-
-    # Parse language config - PaddleOCR uses specific lang codes
-    # For Hebrew, we use 'ar' (Arabic) as it shares RTL characteristics
-    # or 'latin' for mixed content. 'multilingual' also works.
-    lang = settings.ocr_lang.split(',')[0].strip() if ',' not in settings.ocr_lang else 'en'
-
-    # Map common language codes to PaddleOCR codes
+    
+    # Map languages
+    lang = settings.ocr_lang.split(',')[0].strip() if ',' not in settings.ocr_lang else 'eng'
     lang_map = {
-        'he': 'ar',      # Hebrew -> use Arabic model (RTL support)
-        'hebrew': 'ar',
-        'en': 'en',
-        'english': 'en',
-        'multi': 'en',   # Multilingual fallback
+        'he': 'heb',
+        'hebrew': 'heb',
+        'en': 'eng',
+        'english': 'eng',
     }
-    paddle_lang = lang_map.get(lang.lower(), lang)
-
-    # Some PaddleOCR versions don't support show_log; fall back gracefully.
-    global _PADDLE_CLIENT, _PADDLE_LANG
-    with _PADDLE_LOCK:
-        if _PADDLE_CLIENT is None or _PADDLE_LANG != paddle_lang:
-            try:
-                _PADDLE_CLIENT = PaddleOCR(use_angle_cls=True, lang=paddle_lang, show_log=False)
-            except Exception as exc:
-                if "show_log" in str(exc):
-                    _PADDLE_CLIENT = PaddleOCR(use_angle_cls=True, lang=paddle_lang)
-                else:
-                    raise
-            _PADDLE_LANG = paddle_lang
-        ocr = _PADDLE_CLIENT
+    tess_lang = lang_map.get(lang.lower(), lang)
+    
     texts = []
     for idx, im in enumerate(images, 1):
         try:
@@ -107,47 +85,16 @@ def ocr_paddle(images: List[Any], settings: LocalRagSettings) -> str:
                 print(f"OCR: Image {idx} - cache hit", flush=True)
                 texts.append(hit)
                 continue
-            
-            print(f"OCR: Image {idx} - running PaddleOCR...", flush=True)
-            # Convert PIL Image to numpy array for PaddleOCR
-            img_array = np.array(im)
-            
-            # Add timeout protection using threading (signal.alarm doesn't work on macOS)
-            from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeoutError
-            
-            def run_ocr_on_image():
-                """Helper to run OCR that can be executed with timeout."""
-                try:
-                    return ocr.ocr(img_array, cls=True)
-                except TypeError as exc:
-                    if "cls" in str(exc):
-                        return ocr.ocr(img_array)
-                    else:
-                        raise
-            
-            try:
-                # Run OCR with 60-second timeout
-                with ThreadPoolExecutor(max_workers=1) as executor:
-                    future = executor.submit(run_ocr_on_image)
-                    res = future.result(timeout=60)  # 60 second timeout
-                    
-            except FutureTimeoutError:
-                print(f"Warning: PaddleOCR timed out on image {idx} (60s limit)", flush=True)
-                texts.append("")
-                continue
-            except Exception as exc:
-                print(f"Warning: PaddleOCR failed on image {idx}: {exc}", flush=True)
-                texts.append("")
-                continue
-            
-            txt = "\n".join([line[1][0] for line in (res[0] or [])])
+                
+            print(f"OCR: Image {idx} - running Tesseract...", flush=True)
+            txt = pytesseract.image_to_string(im, lang=tess_lang)
             print(f"OCR: Image {idx} - extracted {len(txt)} chars", flush=True)
             _cache_put(h, txt, cache_dir)
             texts.append(txt)
         except Exception as exc:
-            # Bail out gracefully if Paddle throws lower-level runtime errors
-            print(f"Warning: PaddleOCR failed on image {idx}: {exc}", flush=True)
+            print(f"Warning: Tesseract failed on image {idx}: {exc}", flush=True)
             texts.append("")
+            
     return "\n\f\n".join(texts)
 
 def ocr_deepseek(images: List[Any], settings: LocalRagSettings) -> str:
@@ -174,13 +121,16 @@ def run_ocr(images: List[Any], settings: Optional[LocalRagSettings] = None) -> s
     settings = settings or get_settings()
     if not images:
         return ""
-    engine = (globals().get("ENGINE") or settings.ocr_engine or "paddle").lower()
+    engine = (globals().get("ENGINE") or settings.ocr_engine or "tesseract").lower()
     if engine in {"noop", "none", "off", "disable"}:
         return ""
     if engine == "surya":
         return ocr_surya(images, settings)
     if engine == "paddle":
-        return ocr_paddle(images, settings)
+        # Fallback to tesseract if paddle requested but removed
+        return ocr_tesseract(images, settings)
+    if engine == "tesseract":
+        return ocr_tesseract(images, settings)
     if engine == "deepseek":
         return ocr_deepseek(images, settings)
-    return ""
+    return ocr_tesseract(images, settings)

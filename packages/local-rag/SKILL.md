@@ -161,22 +161,24 @@ Pillow>=9.0.0
 python-docx>=0.8.11
 python-pptx>=0.6.21
 openpyxl>=3.0.0
-paddleocr>=2.7.0
-paddlepaddle>=2.5.0
+ocrmypdf>=15.0.0
+pytesseract>=0.3.10
 ```
 
 ### System Dependencies (for OCR)
 - **poppler-utils**: PDF to image conversion
+- **tesseract**: OCR engine
+- **tesseract-lang**: Language packs (e.g., Hebrew)
 - **antiword**: Legacy .doc extraction (optional)
 
 Install on macOS:
 ```bash
-brew install poppler antiword
+brew install poppler tesseract tesseract-lang antiword
 ```
 
 Install on Ubuntu:
 ```bash
-sudo apt install poppler-utils antiword
+sudo apt install poppler-utils tesseract-ocr tesseract-ocr-heb antiword
 ```
 
 ## 🚨 Limitations

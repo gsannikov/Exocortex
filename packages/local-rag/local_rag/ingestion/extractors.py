@@ -101,10 +101,42 @@ def read_text_with_ocr(p: Path, settings: LocalRagSettings | None = None) -> str
             print(f"PDF text extraction failed for {p.name}: {e}", flush=True)
             pages = None
         if settings.ocr_enabled:
-            print(f"PDF: Converting to images (dpi={settings.ocr_page_dpi})...", flush=True)
-            imgs = convert_from_path(str(p), dpi=settings.ocr_page_dpi, first_page=1, last_page=(pages or 1))
-            print(f"PDF: Converted {len(imgs)} images, starting OCR...", flush=True)
-            return run_ocr(imgs, settings=settings)
+            print(f"PDF: OCR required for {p.name}...", flush=True)
+            try:
+                import ocrmypdf
+                import tempfile
+                
+                # Map language
+                lang = settings.ocr_lang.split(',')[0].strip() if ',' not in settings.ocr_lang else 'eng'
+                lang_map = {'he': 'heb', 'hebrew': 'heb', 'en': 'eng', 'english': 'eng'}
+                ocr_lang = lang_map.get(lang.lower(), lang)
+                
+                with tempfile.NamedTemporaryFile(suffix=".pdf", delete=True) as tf:
+                    print(f"PDF: Running OCRmyPDF (lang={ocr_lang})...", flush=True)
+                    ocrmypdf.ocr(
+                        str(p), 
+                        tf.name, 
+                        language=ocr_lang, 
+                        force_ocr=True, 
+                        progress_bar=False,
+                        optimize=1,
+                        skip_text=False
+                    )
+                    
+                    # Read text from the OCR'd PDF
+                    print(f"PDF: OCR complete, extracting text...", flush=True)
+                    r_ocr = PdfReader(tf.name)
+                    ocr_text = "\n".join([(pg.extract_text() or "") for pg in r_ocr.pages])
+                    print(f"PDF: Extracted {len(ocr_text)} chars from OCR", flush=True)
+                    return ocr_text.strip()
+            except ImportError:
+                print("Error: ocrmypdf not installed. Please install it with 'pip install ocrmypdf'", flush=True)
+            except Exception as e:
+                print(f"PDF OCR failed: {e}", flush=True)
+                # Fallback to image-based OCR if ocrmypdf fails (e.g. missing tesseract)
+                print("PDF: Falling back to image-based OCR...", flush=True)
+                imgs = convert_from_path(str(p), dpi=settings.ocr_page_dpi, first_page=1, last_page=(pages or 1))
+                return run_ocr(imgs, settings=settings)
         return joined
 
     if ext in IMAGE_EXTS and settings.ocr_enabled:
