@@ -76,9 +76,10 @@ def setup_logging(
     root_logger.addHandler(main_handler)
     root_logger.addHandler(error_handler)
     
-    # Console output (optional)
+    # Console output (optional) - MUST use stderr for MCP compatibility
+    # MCP servers communicate via JSON-RPC on stdout, so logs must go to stderr
     if console:
-        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler = logging.StreamHandler(sys.stderr)
         console_handler.setLevel(logging.INFO)
         console_handler.setFormatter(simple_formatter)
         root_logger.addHandler(console_handler)

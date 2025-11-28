@@ -2,6 +2,7 @@ import os
 import io
 import base64
 import hashlib
+import logging
 from pathlib import Path
 from typing import List, Optional, Any
 
@@ -9,6 +10,8 @@ import requests
 from PIL import Image
 
 from ..settings import LocalRagSettings, get_settings
+
+logger = logging.getLogger(__name__)
 
 # Cached defaults for backward compatibility with tests/env monkeypatching
 _DEFAULT_SETTINGS = get_settings()
@@ -97,23 +100,23 @@ def ocr_tesseract(images: List[Any], settings: LocalRagSettings) -> str:
     texts = []
     for idx, im in enumerate(images, 1):
         try:
-            print(f"OCR: Processing image {idx}/{len(images)}...", flush=True)
+            logger.info(f"OCR: Processing image {idx}/{len(images)}...")
             h = _img_sha(im)
             hit = _cache_get(h, cache_dir)
             if hit is not None:
-                print(f"OCR: Image {idx} - cache hit", flush=True)
+                logger.debug(f"OCR: Image {idx} - cache hit")
                 texts.append(hit)
                 continue
-                
-            print(f"OCR: Image {idx} - running Tesseract...", flush=True)
+
+            logger.debug(f"OCR: Image {idx} - running Tesseract...")
             txt = pytesseract.image_to_string(im, lang=tess_lang)
-            print(f"OCR: Image {idx} - extracted {len(txt)} chars", flush=True)
+            logger.debug(f"OCR: Image {idx} - extracted {len(txt)} chars")
             _cache_put(h, txt, cache_dir)
             texts.append(txt)
         except Exception as exc:
-            print(f"Warning: Tesseract failed on image {idx}: {exc}", flush=True)
+            logger.warning(f"Warning: Tesseract failed on image {idx}: {exc}")
             texts.append("")
-            
+
     return "\n\f\n".join(texts)
 
 def ocr_deepseek(images: List[Any], settings: LocalRagSettings) -> str:
@@ -146,7 +149,7 @@ def run_ocr(images: List[Any], settings: Optional[LocalRagSettings] = None) -> s
     if engine == "surya":
         return ocr_surya(images, settings)
     if engine == "paddle":
-        print("Warning: PaddleOCR support removed; falling back to Tesseract.", flush=True)
+        logger.warning("Warning: PaddleOCR support removed; falling back to Tesseract.")
         return ocr_tesseract(images, settings)
     if engine == "tesseract":
         return ocr_tesseract(images, settings)
