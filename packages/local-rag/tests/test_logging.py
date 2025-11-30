@@ -5,7 +5,8 @@ import tempfile
 from pathlib import Path
 import pytest
 
-from local_rag.services.index_service import DocumentIndexer from local_rag.settings import get_settings
+from local_rag.services.index_service import DocumentIndexer
+from local_rag.settings import get_settings
 
 
 def test_logging_initialization(tmp_path):
