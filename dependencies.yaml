@@ -5,7 +5,7 @@
 # Run: python shared/scripts/dependency_tracker.py status
 # Or ask Claude: "refactor" or "check dependencies"
 
-version: "1.0.0"
+version: "1.1.0"
 updated: "2025-11-30"
 
 # Global settings
@@ -187,6 +187,7 @@ nodes:
       - packages/ideas-capture/SKILL.md
       - packages/local-rag/SKILL.md
       - packages/social-media-post/SKILL.md
+      - packages/setup-manager/SKILL.md
     rebuild_instructions: |
       This is the main user-facing documentation. When any skill changes:
       1. Update the corresponding skill section
@@ -294,6 +295,110 @@ nodes:
     rebuild_instructions: |
       Source file. Update for new release requirements.
 
+  # ============================================
+  # SETUP MANAGER SKILL
+  # ============================================
+  - path: packages/setup-manager/SKILL.md
+    type: source
+    description: Core setup and maintenance manager skill logic
+    depends_on: []
+    rebuild_instructions: |
+      Source file. Update version.yaml and CHANGELOG.md on changes.
+
+  - path: packages/setup-manager/README.md
+    type: derived
+    description: User documentation for setup manager
+    depends_on:
+      - packages/setup-manager/SKILL.md
+    rebuild_instructions: |
+      Sync commands and features from SKILL.md
+
+  # ============================================
+  # REPOSITORY DOCUMENTATION
+  # ============================================
+  - path: VISION.md
+    type: source
+    description: Vision, problem statement, user personas, and roadmap
+    depends_on: []
+    rebuild_instructions: |
+      Source file for project vision and strategy. Update manually.
+
+  - path: CONTRIBUTING.md
+    type: documentation
+    description: Contributor guidelines and coding conventions
+    depends_on:
+      - PROJECT.md
+      - shared/templates/learned-patterns.yaml
+    rebuild_instructions: |
+      Update when:
+      1. Coding standards change
+      2. New patterns added to learned-patterns.yaml
+      3. Project architecture evolves
+
+  - path: docs/FAQ.md
+    type: documentation
+    description: Frequently asked questions for users and developers
+    depends_on:
+      - USER_GUIDE.md
+      - DEVELOPER_GUIDE.md
+      - packages/*/README.md
+    rebuild_instructions: |
+      Update when:
+      1. Common issues emerge
+      2. Skills add new features
+      3. Installation process changes
+      4. Best practices evolve
+
+  # ============================================
+  # GITHUB ISSUE TEMPLATES
+  # ============================================
+  - path: .github/ISSUE_TEMPLATE/bug_report.md
+    type: documentation
+    description: Bug report issue template
+    depends_on:
+      - PROJECT.md
+    rebuild_instructions: |
+      Update if project structure or debugging requirements change
+
+  - path: .github/ISSUE_TEMPLATE/feature_request.md
+    type: documentation
+    description: Feature request issue template
+    depends_on:
+      - PROJECT.md
+      - VISION.md
+    rebuild_instructions: |
+      Update if roadmap or feature priorities change
+
+  - path: .github/ISSUE_TEMPLATE/documentation.md
+    type: documentation
+    description: Documentation improvement issue template
+    depends_on: []
+    rebuild_instructions: |
+      Standalone template. Update as documentation needs evolve.
+
+  - path: .github/ISSUE_TEMPLATE/performance_issue.md
+    type: documentation
+    description: Performance issue template
+    depends_on:
+      - PROJECT.md
+    rebuild_instructions: |
+      Update if performance metrics or monitoring changes
+
+  - path: .github/ISSUE_TEMPLATE/question.md
+    type: documentation
+    description: Question issue template
+    depends_on:
+      - docs/FAQ.md
+    rebuild_instructions: |
+      Update to point users to FAQ for common questions
+
+  - path: .github/ISSUE_TEMPLATE/security_vulnerability.md
+    type: documentation
+    description: Security vulnerability report template
+    depends_on: []
+    rebuild_instructions: |
+      Standalone security template. Update as security policies evolve.
+
 # Dependency groups for batch operations
 groups:
   voice-memos:
@@ -317,6 +422,12 @@ groups:
       - packages/social-media-post/README.md
       - packages/social-media-post/config/
 
+  setup-manager:
+    description: All setup manager related files
+    members:
+      - packages/setup-manager/SKILL.md
+      - packages/setup-manager/README.md
+
   documentation:
     description: All user-facing documentation
     members:
@@ -324,6 +435,10 @@ groups:
       - README.md
       - DEVELOPER_GUIDE.md
       - CLAUDE.md
+      - VISION.md
+      - CONTRIBUTING.md
+      - docs/FAQ.md
+      - .github/ISSUE_TEMPLATE/
 
   marketing:
     description: All marketing/blog content
