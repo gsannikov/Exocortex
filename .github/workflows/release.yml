@@ -91,7 +91,7 @@ jobs:
       
       - name: Create GitHub Release
         if: ${{ inputs.dry_run == false && inputs.skill != 'all' }}
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ inputs.skill }}-v${{ steps.release.outputs.version }}
           name: "${{ inputs.skill }} v${{ steps.release.outputs.version }}"

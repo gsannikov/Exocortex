@@ -283,11 +283,11 @@ jobs:
 
           # Check if any files need attention
           if grep -q "NEEDS UPDATE\|MISSING" deps_output.txt; then
-            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "needs_update=true" >> "$GITHUB_OUTPUT"
             echo ""
             echo "⚠️ Some files may need updating. Run /refactor to sync."
           else
-            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "needs_update=false" >> "$GITHUB_OUTPUT"
             echo ""
             echo "✅ All dependencies are in sync."
           fi
