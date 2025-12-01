@@ -177,7 +177,7 @@ class DocumentIndexer:
     def embed_model(self):
         """Lazy load embedding model."""
         if self._embed_model is None:
-            logger.info(f"Loading embedding model {self.embed_model_name}...")
+            self.logger.info(f"Loading embedding model {self.embed_model_name}...")
             self._embed_model = SentenceTransformer(self.embed_model_name)
         return self._embed_model
 
