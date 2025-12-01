@@ -87,6 +87,13 @@ class LocalRagSettings(BaseSettings):
         """
         if not self.tokenizers_parallelism:
             os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+        
+        # Clean up glob lists - ensure empty strings don't pollute filters
+        # Pydantic-settings may parse empty env vars as [""] which breaks file discovery
+        if self.include_globs and self.include_globs == [""]:
+            self.include_globs = []
+        if self.exclude_globs and self.exclude_globs == [""]:
+            self.exclude_globs = []
 
     @property
     def paths(self) -> dict[str, Path]:
