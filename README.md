@@ -48,8 +48,14 @@ curl -fsSL https://raw.githubusercontent.com/gsannikov/claude-skills/main/instal
 
 ## 📚 Documentation
 
+## 📚 Documentation
+
 - **[User Guide](USER_GUIDE.md)**: Detailed commands and workflows.
-- **[Developer Guide](DEVELOPER_GUIDE.md)**: Manual installation, architecture, and contributing.
+- **[Developer Guide](DEVELOPER_GUIDE.md)**: Architecture and manual setup.
+- **[Vision & Roadmap](VISION.md)**: Why we built this and where we're going.
+- **[FAQ](docs/FAQ.md)**: Common questions and troubleshooting.
+- **[Contributing](CONTRIBUTING.md)**: How to build new skills.
+- **[Project Status](PROJECT.md)**: Current roadmap and ADRs.
 
 ---
 
