@@ -17,6 +17,15 @@ on:
       - '*.md'
 
 jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run actionlint
+        uses: rhysd/actionlint@v1
+
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
@@ -28,66 +37,80 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Detect changed skills
+      - name: Determine base ref
+        id: base
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "base_sha=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          base="${{ github.event.before }}"
+          if [[ -z "$base" || "$base" == "0000000000000000000000000000000000000000" ]]; then
+            base="$(git merge-base HEAD origin/main || git rev-parse HEAD^)"
+          fi
+          echo "base_sha=$base" >> "$GITHUB_OUTPUT"
+
+      - name: Detect changed paths
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          base: ${{ steps.base.outputs.base_sha }}
+          ref: ${{ github.sha }}
+          filters: |
+            shared:
+              - 'shared/**'
+              - 'dependencies.yaml'
+            skill_career_consultant:
+              - 'packages/career-consultant/**'
+            skill_reading_list:
+              - 'packages/reading-list/**'
+            skill_ideas_capture:
+              - 'packages/ideas-capture/**'
+            skill_voice_memos:
+              - 'packages/voice-memos/**'
+            skill_local_rag:
+              - 'packages/local-rag/**'
+            skill_recipe_manager:
+              - 'packages/recipe-manager/**'
+            skill_setup_manager:
+              - 'packages/setup-manager/**'
+            skill_social_media_post:
+              - 'packages/social-media-post/**'
+
+      - name: Build skill matrix
         id: changes
         run: |
           set -euo pipefail
 
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          shared="${{ steps.filter.outputs.shared }}"
+          skills=()
+
+          if [[ "$shared" == "true" ]]; then
+            skills=(career-consultant reading-list ideas-capture voice-memos local-rag recipe-manager setup-manager social-media-post)
           else
-            BASE_SHA="${{ github.event.before }}"
-            if [[ -z "$BASE_SHA" || "$BASE_SHA" == "0000000000000000000000000000000000000000" ]]; then
-              BASE_SHA="$(git rev-parse HEAD^)"
-            fi
+            [[ "${{ steps.filter.outputs.skill_career_consultant }}" == "true" ]] && skills+=(career-consultant)
+            [[ "${{ steps.filter.outputs.skill_reading_list }}" == "true" ]] && skills+=(reading-list)
+            [[ "${{ steps.filter.outputs.skill_ideas_capture }}" == "true" ]] && skills+=(ideas-capture)
+            [[ "${{ steps.filter.outputs.skill_voice_memos }}" == "true" ]] && skills+=(voice-memos)
+            [[ "${{ steps.filter.outputs.skill_local_rag }}" == "true" ]] && skills+=(local-rag)
+            [[ "${{ steps.filter.outputs.skill_recipe_manager }}" == "true" ]] && skills+=(recipe-manager)
+            [[ "${{ steps.filter.outputs.skill_setup_manager }}" == "true" ]] && skills+=(setup-manager)
+            [[ "${{ steps.filter.outputs.skill_social_media_post }}" == "true" ]] && skills+=(social-media-post)
           fi
 
-          git diff --name-only "$BASE_SHA"...HEAD > /tmp/changed_files.txt
+          skills_json=$(printf '%s\n' "${skills[@]}" | jq -R . | jq -s .)
+          run_local_rag=$([[ "$shared" == "true" || "${{ steps.filter.outputs.skill_local_rag }}" == "true" ]] && echo true || echo false)
 
-          python <<'PY'
-          import json
-          import os
-          import pathlib
+          {
+            echo "skill_matrix=$skills_json"
+            echo "has_skills=$([[ ${#skills[@]} -gt 0 ]] && echo true || echo false)"
+            echo "run_local_rag_tests=$run_local_rag"
+          } >> "$GITHUB_OUTPUT"
 
-          changed = [line.strip() for line in open("/tmp/changed_files.txt") if line.strip()]
-          packages_dir = pathlib.Path("packages")
-          all_skills = sorted([p.name for p in packages_dir.iterdir() if p.is_dir()])
-
-          skills = []
-          seen = set()
-          shared_changed = False
-          local_rag_changed = False
-
-          for path in changed:
-              parts = path.split("/")
-              if len(parts) >= 2 and parts[0] == "packages":
-                  skill = parts[1]
-                  if skill not in seen:
-                      seen.add(skill)
-                      skills.append(skill)
-                  if skill == "local-rag":
-                      local_rag_changed = True
-              if path.startswith("shared/") or path == "dependencies.yaml":
-                  shared_changed = True
-
-          # When shared or dependency files change, run validation for every skill to stay safe.
-          if shared_changed:
-              skills = all_skills
-
-          outputs = {
-              "skill_matrix": json.dumps(skills),
-              "has_skills": "true" if skills else "false",
-              "run_local_rag_tests": "true" if local_rag_changed or shared_changed else "false",
-          }
-
-          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
-              for key, value in outputs.items():
-                  fh.write(f"{key}={value}\n")
-
-          print(f"Changed files: {changed}")
-          print(f"Skill matrix: {outputs['skill_matrix']}")
-          print(f"Run local-rag tests: {outputs['run_local_rag_tests']}")
-          PY
+          echo "Skill matrix: $skills_json"
+          echo "Run local-rag tests: $run_local_rag"
 
   validate:
     runs-on: ubuntu-latest
