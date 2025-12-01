@@ -5,8 +5,8 @@ Architecture decisions, roadmap, and project management.
 ## 📊 Current State
 
 **Version**: Monorepo v1.1.0
-**Date**: 2025-11-25
-**Skills**: 5 (career-consultant, reading-list, ideas-capture, voice-memos, local-rag)
+**Date**: 2025-12-01
+**Skills**: 8 (career-consultant, reading-list, ideas-capture, voice-memos, local-rag, recipe-manager, social-media-post, setup-manager)
 
 ## 🏗️ Architecture Decisions
 
@@ -77,10 +77,12 @@ Architecture decisions, roadmap, and project management.
 - [x] Root-level documentation
 - [x] Full cleanup (nested .git, legacy folders, unified paths)
 
-### Phase 2: Automation (In Progress)
+### Phase 2: Automation & Stability (In Progress)
 - [x] GitHub Actions for validation
 - [x] GitHub Actions for release
 - [x] Dependency tracking system
+- [x] Comprehensive Documentation Suite (Vision, FAQ, Contributing)
+- [x] CI Fixes (Local RAG stability)
 - [ ] Automated changelog generation
 - [ ] Cross-skill tests
 
@@ -116,8 +118,8 @@ Track per skill:
 
 | Pattern | Skills Using |
 |---------|-------------|
-| inbox | All 5 |
-| database | All 5 |
+| inbox | All 8 |
+| database | All 8 |
 | scoring | career-consultant, ideas-capture |
 | scraping | career-consultant, reading-list |
 | transcription | voice-memos |
@@ -138,6 +140,9 @@ Track per skill:
 
 | Date | Change |
 |------|--------|
+| 2025-12-01 | CI Fixes: Local RAG stability & test coverage |
+| 2025-12-01 | Documentation Suite: Vision, FAQ, Issue Templates |
+| 2025-11-30 | Recipe Manager & Social Media Post skills added |
 | 2025-11-25 | Dependency tracking system (ADR-005) |
 | 2025-11-25 | CI integration for dependency checks |
 | 2025-11-25 | local-rag skill added |
