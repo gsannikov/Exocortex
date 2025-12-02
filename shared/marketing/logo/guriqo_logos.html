@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guriqo Logo Options</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Space+Grotesk:wght@400;500;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: white;
+            padding: 40px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 300;
+            color: #888;
+        }
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo-card {
+            background: #111;
+            border-radius: 20px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid #222;
+        }
+        .logo-card:hover {
+            border-color: #444;
+        }
+        .logo-name {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .logo-container {
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tagline {
+            font-size: 12px;
+            color: #444;
+            letter-spacing: 3px;
+        }
+
+        /* Logo 1 - Clean Modern */
+        .logo1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -2px;
+        }
+        .logo1 .gur { color: #ffffff; }
+        .logo1 .iq { color: #6366f1; }
+        .logo1 .o { color: #ffffff; }
+
+        /* Logo 2 - Minimal with dot */
+        .logo2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 48px;
+            font-weight: 600;
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .logo2 .text { color: #ffffff; }
+        .logo2 .dot {
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 50%;
+            margin-left: 4px;
+        }
+
+        /* Logo 3 - Bold IQ highlight */
+        .logo3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        .logo3 .gur { color: #ffffff; }
+        .logo3 .iq-box {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            padding: 4px 8px;
+            border-radius: 8px;
+            margin: 0 2px;
+        }
+        .logo3 .o { color: #ffffff; }
+
+        /* Logo 4 - Futuristic */
+        .logo4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        .logo4 .gur { color: #888; }
+        .logo4 .iq { color: #6366f1; }
+        .logo4 .o { 
+            color: transparent;
+            -webkit-text-stroke: 1px #6366f1;
+        }
+
+        /* Logo 5 - Symbol + Text */
+        .logo5 {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .logo5 .symbol {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+        }
+        .logo5 .text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 42px;
+            font-weight: 600;
+            color: white;
+            letter-spacing: -1px;
+        }
+
+        /* Logo 6 - Circle O */
+        .logo6 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 48px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        .logo6 .guriq { color: #ffffff; }
+        .logo6 .o-circle {
+            width: 36px;
+            height: 36px;
+            border: 3px solid #6366f1;
+            border-radius: 50%;
+            margin-left: 4px;
+            position: relative;
+        }
+        .logo6 .o-circle::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: #6366f1;
+            border-radius: 50%;
+        }
+
+        /* Logo 7 - Gradient text */
+        .logo7 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 52px;
+            font-weight: 700;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #ffffff 0%, #6366f1 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Logo 8 - Structured breakdown */
+        .logo8 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .logo8 .main {
+            font-family: 'Inter', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+        .logo8 .gur { color: #ffffff; }
+        .logo8 .iq { color: #6366f1; }
+        .logo8 .o { color: #8b5cf6; }
+        .logo8 .breakdown {
+            display: flex;
+            gap: 20px;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #444;
+            text-transform: uppercase;
+        }
+        .logo8 .breakdown span:nth-child(2) { color: #6366f1; }
+        .logo8 .breakdown span:nth-child(3) { color: #8b5cf6; }
+
+        /* Dark/Light variants */
+        .light-bg {
+            background: #f5f5f5;
+        }
+        .light-bg .logo1 .gur,
+        .light-bg .logo1 .o { color: #111; }
+        .light-bg .logo2 .text { color: #111; }
+        .light-bg .logo5 .text { color: #111; }
+        .light-bg .logo6 .guriq { color: #111; }
+        .light-bg .logo8 .gur { color: #111; }
+    </style>
+</head>
+<body>
+    <h1>GURIQO LOGO OPTIONS</h1>
+    
+    <div class="logo-grid">
+        <!-- Logo 1 -->
+        <div class="logo-card">
+            <span class="logo-name">Option 1 - Clean Modern</span>
+            <div class="logo-container">
+                <div class="logo1">
+                    <span class="gur">Gur</span><span class="iq">IQ</span><span class="o">o</span>
+                </div>
+            </div>
+            <span class="tagline">GUR • IQ • OMNI</span>
+        </div>
+
+        <!-- Logo 2 -->
+        <div class="logo-card">
+            <span class="logo-name">Option 2 - Minimal Dot</span>
+            <div class="logo-container">
+                <div class="logo2">
+                    <span class="text">guriqo</span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+            <span class="tagline">INTELLIGENCE FOR ALL</span>
+        </div>
+
+        <!-- Logo 3 -->
+        <div class="logo-card">
+            <span class="logo-name">Option 3 - IQ Highlight</span>
+            <div class="logo-container">
+                <div class="logo3">
+                    <span class="gur">Gur</span>
+                    <span class="iq-box">IQ</span>
+                    <span class="o">o</span>
+                </div>
+            </div>
+            <span class="tagline">HUMAN INTELLIGENCE EXTENDED</span>
+        </div>
+
+        <!-- Logo 4 -->
+        <div class="logo-card">
+            <span class="logo-name">Option 4 - Futuristic</span>
+            <div class="logo-container">
+                <div class="logo4">
+                    <span class="gur">GUR</span><span class="iq">IQ</span><span class="o">O</span>
+                </div>
+            </div>
+            <span class="tagline">BEYOND HUMAN LIMITS</span>
+        </div>
+
+        <!-- Logo 5 -->
+        <div class="logo-card">
+            <span class="logo-name">Option 5 - Symbol + Text</span>
+            <div class="logo-container">
+                <div class="logo5">
+                    <div class="symbol">G</div>
+                    <span class="text">Guriqo</span>
+                </div>
+            </div>
+            <span class="tagline">UNIVERSAL INTELLIGENCE</span>
+        </div>
+
+        <!-- Logo 6 -->
+        <div class="logo-card">
+            <span class="logo-name">Option 6 - Omni Circle</span>
+            <div class="logo-container">
+                <div class="logo6">
+                    <span class="guriq">Guriq</span>
+                    <div class="o-circle"></div>
+                </div>
+            </div>
+            <span class="tagline">OMNI • ALL • UNIVERSAL</span>
+        </div>
+
+        <!-- Logo 7 -->
+        <div class="logo-card">
+            <span class="logo-name">Option 7 - Gradient</span>
+            <div class="logo-container">
+                <div class="logo7">Guriqo</div>
+            </div>
+            <span class="tagline">AI THAT EXTENDS YOU</span>
+        </div>
+
+        <!-- Logo 8 -->
+        <div class="logo-card">
+            <span class="logo-name">Option 8 - Structured</span>
+            <div class="logo-container">
+                <div class="logo8">
+                    <div class="main">
+                        <span class="gur">Gur</span><span class="iq">IQ</span><span class="o">o</span>
+                    </div>
+                    <div class="breakdown">
+                        <span>Founder</span>
+                        <span>Intelligence</span>
+                        <span>Omni</span>
+                    </div>
+                </div>
+            </div>
+            <span class="tagline">THREE PILLARS OF EXTENSION</span>
+        </div>
+    </div>
+</body>
+</html>
