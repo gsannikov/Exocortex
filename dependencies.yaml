@@ -6,7 +6,7 @@
 # Or ask Claude: "refactor" or "check dependencies"
 
 version: "1.1.0"
-updated: "2025-11-30"
+updated: "2025-12-01"
 
 # Global settings
 settings:
@@ -242,7 +242,7 @@ nodes:
   # ============================================
   # MARKETING / BLOG CONTENT
   # ============================================
-  - path: shared/marketing/article-1-building-production-grade-skills.md
+  - path: shared/marketing/posts/article-1-building-production-grade-skills.md
     type: marketing
     description: Blog post about skill architecture
     depends_on:
@@ -254,7 +254,7 @@ nodes:
       2. Verify diagrams match current architecture
       3. Update version references
 
-  - path: shared/marketing/article-2-skills-deep-dive.md
+  - path: shared/marketing/posts/article-2-skills-deep-dive.md
     type: marketing
     description: Deep dive into skill features
     depends_on:
@@ -262,7 +262,7 @@ nodes:
     rebuild_instructions: |
       Sync feature descriptions with USER_GUIDE.md
 
-  - path: shared/marketing/article-3-monorepo.md
+  - path: shared/marketing/posts/article-3-monorepo.md
     type: marketing
     description: Monorepo architecture article
     depends_on:
@@ -270,7 +270,7 @@ nodes:
     rebuild_instructions: |
       Update if monorepo structure changes
 
-  - path: shared/marketing/article-4-lessons-learned.md
+  - path: shared/marketing/posts/article-4-lessons-learned.md
     type: marketing
     description: Lessons learned article
     depends_on:
@@ -443,7 +443,7 @@ groups:
   marketing:
     description: All marketing/blog content
     members:
-      - shared/marketing/article-1-building-production-grade-skills.md
-      - shared/marketing/article-2-skills-deep-dive.md
-      - shared/marketing/article-3-monorepo.md
-      - shared/marketing/article-4-lessons-learned.md
+      - shared/marketing/posts/article-1-building-production-grade-skills.md
+      - shared/marketing/posts/article-2-skills-deep-dive.md
+      - shared/marketing/posts/article-3-monorepo.md
+      - shared/marketing/posts/article-4-lessons-learned.md

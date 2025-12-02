@@ -75,11 +75,15 @@ Or add to Apple Notes inbox manually.
 
 ## File Locations
 
+The app uses centralized path configuration (see `shared/config/paths.py`). By default:
+
 ```
-Recordings:   ~/MyDrive/claude-skills-data/voice-memos/meetings/
-Transcripts:  ~/MyDrive/claude-skills-data/voice-memos/meetings/transcripts/
-Config:       ~/MyDrive/claude-skills-data/voice-memos/meeting-recorder-config.yaml
+Recordings:   ~/Documents/claude-skills-data/voice-memos/meetings/
+Transcripts:  ~/Documents/claude-skills-data/voice-memos/meetings/transcripts/
+Config:       ~/Documents/claude-skills-data/voice-memos/meeting-recorder-config.yaml
 ```
+
+**Custom Location**: Set `CLAUDE_SKILLS_DATA_DIR` environment variable to use a different base directory.
 
 ## Supported Meeting Apps
 
@@ -150,7 +154,7 @@ swift build -c release --scratch-path /tmp/MeetingRecorder-build
 
 ## Configuration
 
-Edit `~/MyDrive/claude-skills-data/voice-memos/meeting-recorder-config.yaml`:
+Edit the config file (default: `~/Documents/claude-skills-data/voice-memos/meeting-recorder-config.yaml`):
 
 ```yaml
 # Audio settings

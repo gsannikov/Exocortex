@@ -413,7 +413,7 @@ To use advanced search:
 
 **User Data**:
 - ❌ NEVER store user data in repo
-- ✅ Always use `~/MyDrive/claude-skills-data/`
+- ✅ Always use centralized path config (`shared/config/paths.py`) - default: `~/Documents/claude-skills-data/`
 - ✅ Sanitize scraped content before storage
 - ✅ Respect user privacy (no logging of personal data)
 

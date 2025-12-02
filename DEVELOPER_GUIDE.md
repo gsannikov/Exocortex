@@ -22,16 +22,15 @@ If you prefer not to use the one-line installer, you can set up the environment 
 
 ### Prerequisites
 - Python 3.11+
-- Node.js & npm
 - Git
-- `uv` (Python package manager)
+- `uv` (Python package manager, recommended) or `pip`
 
 ### Installation Steps
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/gsannikov/claude-skills.git ~/MyDrive/claude-skills
-cd ~/MyDrive/claude-skills
+git clone https://github.com/gsannikov/claude-skills.git ~/Projects/claude-skills
+cd ~/Projects/claude-skills
 
 # 2. Run the interactive setup wizard
 # This handles virtualenv creation, dependency installation, and MCP config
@@ -65,7 +64,9 @@ claude-skills/
 │   ├── ideas-capture/
 │   ├── voice-memos/
 │   ├── local-rag/
-│   └── social-media-post/
+│   ├── recipe-manager/
+│   ├── social-media-post/
+│   └── setup-manager/
 ├── shared/
 │   ├── scripts/                   # Release, generator utilities
 │   │   ├── release.py
@@ -122,10 +123,12 @@ packages/{skill-name}/
 └── CHANGELOG.md              # Version history
 ```
 
-The generator also creates the user data directory:
+The generator also creates the user data directory (configured in `shared/config/paths.py`):
 ```
-~/MyDrive/claude-skills-data/{skill-name}/
+~/Documents/claude-skills-data/{skill-name}/  # Default location
 ```
+
+**Note**: User data location is configurable via `shared/config/paths.py` - this is the single source of truth for all user data paths.
 
 ### Option 2: Manual Creation
 
@@ -398,7 +401,7 @@ pytest-cov>=4.0.0
 ### Using the Release Script
 
 ```bash
-cd ~/MyDrive/claude-skills
+cd ~/Projects/claude-skills  # or wherever your repo is located
 
 # Release a single skill with patch bump (1.0.0 → 1.0.1)
 python shared/scripts/release.py career-consultant --patch
@@ -559,7 +562,8 @@ nodes:
 
 ### Do's
 
-- **Separate user data from code**: User data in `~/MyDrive/claude-skills-data/`
+- **Separate user data from code**: User data in configurable location (default: `~/Documents/claude-skills-data/`)
+- **Use centralized path config**: All paths configured in `shared/config/paths.py` - single source of truth
 - **Use YAML for structured data**: Human-readable, git-friendly
 - **Deduplicate before adding**: Always check for existing items
 - **Track stats**: Update statistics after operations
@@ -624,5 +628,5 @@ git push origin main --tags
 
 ---
 
-**Version**: 1.0.0
-**Last Updated**: 2025-11-25
+**Version**: 1.1.0
+**Last Updated**: 2025-12-01

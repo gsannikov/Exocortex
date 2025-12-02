@@ -18,7 +18,9 @@ Which skill is experiencing performance issues?
 - [ ] ideas-capture
 - [ ] voice-memos
 - [ ] local-rag
+- [ ] recipe-manager
 - [ ] social-media-post
+- [ ] setup-manager
 - [ ] Shared infrastructure
 
 ## Symptoms

@@ -18,7 +18,9 @@ Which skill is affected?
 - [ ] ideas-capture
 - [ ] voice-memos
 - [ ] local-rag
+- [ ] recipe-manager
 - [ ] social-media-post
+- [ ] setup-manager
 - [ ] Other (monorepo infrastructure)
 
 ## Steps to Reproduce
@@ -46,7 +48,7 @@ Paste any error messages here
 - **Claude Desktop Version**: 
 - **OS**: macOS / Windows / Linux
 - **Skill Version**: (check version.yaml)
-- **User Data Location**: ~/MyDrive/claude-skills-data/
+- **User Data Location**: ~/Documents/claude-skills-data/ (default, configurable in `shared/config/paths.py`)
 
 ## Additional Context
 

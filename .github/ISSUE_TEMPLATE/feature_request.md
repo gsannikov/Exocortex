@@ -18,7 +18,9 @@ Which skill would this enhance?
 - [ ] ideas-capture
 - [ ] voice-memos
 - [ ] local-rag
+- [ ] recipe-manager
 - [ ] social-media-post
+- [ ] setup-manager
 - [ ] New skill
 - [ ] Monorepo infrastructure
 
