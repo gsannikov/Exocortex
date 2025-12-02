@@ -6,7 +6,7 @@ Scaling a prototype into a production system typically requires a dedicated engi
 
 For individual contributors, this resource gap is the primary bottleneck. While the architecture exists in our minds, the bandwidth to implement robust testing pipelines, comprehensive documentation, and error handling is often missing.
 
-**Claude Skills** address this by enabling a component-based architecture for AI instructions. By treating prompts as modular, versioned, and tested software components, we can replicate the rigor of a full engineering team within a single workflow.
+**AI Skills** address this by enabling a component-based architecture for AI instructions. By treating prompts as modular, versioned, and tested software components, we can replicate the rigor of a full engineering team within a single workflow.
 
 I applied this methodology to engineer the *Israeli Tech Career Consultant*, a complex system capable of deep market analysis. This article details the architectural decisions and engineering practices required to build it. 👇
 
@@ -14,7 +14,7 @@ I applied this methodology to engineer the *Israeli Tech Career Consultant*, a c
 
 ## 💡 The Technical Case for Skills
  
-Before we dive into the "how," let's talk about why this matters. Claude Skills aren't just "saved prompts." They represent a fundamental shift in how we architect AI applications. (See the [official guide](https://www.claude.com/blog/skills-explained) for a deep dive, or explore open-source libraries like [Rowboat](https://github.com/rowboatlabs/rowboat) for similar patterns).
+Before we dive into the "how," let's talk about why this matters. AI Skills aren't just "saved prompts." They represent a fundamental shift in how we architect AI applications. (See the [official guide](https://www.claude.com/blog/skills-explained) for a deep dive, or explore open-source libraries like [Rowboat](https://github.com/rowboatlabs/rowboat) for similar patterns).
 
 1.  **Dynamic Loading (Context Efficiency)**: Instead of stuffing 50 pages of instructions into the context window, Skills load only what's needed *when* it's needed. It's comparable to lazy loading in software development.
 2.  **Token Compactness**: By modularizing instructions, we save massive amounts of tokens. My skill runs complex analyses using <70% of the context window, leaving room for deep reasoning.
@@ -28,7 +28,7 @@ The following eight practices form the engineering blueprint used to deliver v1.
 
 ### 1. Use Chat as Your GUI (Don't Build a Frontend)
 
-Why build a React app when Claude renders HTML? I used `html_generator.py` to generate **interactive, self-contained HTML reports** directly in the chat.
+Why build a React app when the LLM renders HTML? I used `html_generator.py` to generate **interactive, self-contained HTML reports** directly in the chat.
 
 ![Interactive HTML Report Mockup](images/html-report-mockup.png)
 
@@ -36,7 +36,7 @@ Users get a full dashboard with sorting, filtering, and export capabilities—ze
 
 ### 2. Progressive Context Loading
 
-I don't force Claude to read a 50-page manual. I use a **Progressive Context Loading** architecture to reduce ramp-up time to zero.
+I don't force the AI to read a 50-page manual. I use a **Progressive Context Loading** architecture to reduce ramp-up time to zero.
 
 ```mermaid
 graph TB
@@ -47,7 +47,7 @@ graph TB
 
     subgraph Local["💻 Local Device"]
         direction TB
-        Client[Claude Desktop]
+        Client[LLM Client (e.g., Claude Desktop)]
         subgraph MCP["MCP Layer"]
             FS[Filesystem MCP]
             Net[Network MCPs]
@@ -61,7 +61,7 @@ graph TB
 
     subgraph Remote["☁️ Remote Servers"]
         direction TB
-        Model[Claude 3.5 Sonnet]
+        Model[LLM (Claude 3.5 Sonnet / GPT-4)]
         Services["External APIs<br/>(Firecrawl / Bright Data)"]
     end
 
@@ -95,7 +95,7 @@ This keeps the context window clean while giving the AI infinite reach.
 
 You can find this in the repo as `skill-package/modules/debug-mode.md`. It's my "critical tool" for functional testing: **Debug Mode**.
 
-I created a special project in Claude that points to the skill folder and tells Claude: *"You are now in debug mode."* This allows me to:
+I created a special project in the LLM interface that points to the skill folder and tells it: *"You are now in debug mode."* This allows me to:
 *   Test specific functions in isolation (e.g., "Run the score calculator with these inputs").
 *   Do rapid "hot-fix" testing before committing changes.
 *   Verify fixes instantly without running the full pipeline.
@@ -120,7 +120,7 @@ jobs:
 ```
 
 #### Apple Notes Integration (v9.25)
-For even simpler capture, I added **Apple Notes inbox** support. Just paste URLs into a note called "Job Links Inbox" and say `process inbox`. The skill reads the note via MCP, processes each URL, and moves them to a "Processed" section. Mobile-friendly job capture without opening Claude.
+For even simpler capture, I added **Apple Notes inbox** support. Just paste URLs into a note called "Job Links Inbox" and say `process inbox`. The skill reads the note via MCP, processes each URL, and moves them to a "Processed" section. Mobile-friendly job capture without opening the desktop app.
 
 #### B. Markdown for Semantic Knowledge
 I use Markdown for rich, descriptive data that Claude needs to read and understand.
@@ -134,7 +134,7 @@ NVIDIA is pivoting from just GPUs to full-stack AI infrastructure...
 High intensity, engineering-driven culture. Values "speed of light" execution.
 ```
 
-This structure allows my Python scripts to manage the *workflow* (via YAML) while Claude manages the *wisdom* (via Markdown). Next time I ask about NVIDIA, it loads the Markdown file instantly, saving **15,000 tokens**.
+This structure allows my Python scripts to manage the *workflow* (via YAML) while the AI manages the *wisdom* (via Markdown). Next time I ask about NVIDIA, it loads the Markdown file instantly, saving **15,000 tokens**.
 
 ```mermaid
 flowchart TD
@@ -197,7 +197,7 @@ Writing for AI is different from writing for humans. I followed **AI Documentati
 3.  **Intent**: Explain *why*, not just *what*.
 
 **My Implementation**:
-I upload the `docs/project/` folder to a **Claude Project**. This acts as the "Long-Term Memory" for the agent.
+I upload the `docs/project/` folder to a **Project** (e.g., Claude Project or Custom GPT). This acts as the "Long-Term Memory" for the agent.
 
 *   **`FEATURES.md` (The Specs)**: Grounded with specific examples.
     > *Bad*: "The system scores jobs."
@@ -206,11 +206,11 @@ I upload the `docs/project/` folder to a **Claude Project**. This acts as the "L
     > *Example*: "Next Release (v10.0): Interview preparation module."
 *   **`STATUS.md` (The State)**: Current context to prevent hallucinations about what's done.
 
-**Why?** When I ask "add the interview prep module," Claude checks `ROADMAP.md` for the plan and `FEATURES.md` for the style. It doesn't guess; it follows the grounded context.
+**Why?** When I ask "add the interview prep module," the AI checks `ROADMAP.md` for the plan and `FEATURES.md` for the style. It doesn't guess; it follows the grounded context.
 
 ```mermaid
 flowchart TD
-    subgraph ClaudeProject [Claude Project: Career Consultant]
+    subgraph ClaudeProject [Project Context: Career Consultant]
         direction TB
         Docs["docs/project/*.md"]
         Instr[Project Instructions]
@@ -229,7 +229,7 @@ This documentation isn't for humans—it's for the AI to help me build faster.
 
 ### 8. Use an Agentic IDE (The Orchestrator)
 
-I didn't write all this code alone. I used **Claude Code** and **Google Antigravity** in parallel to orchestrate the entire lifecycle. It doesn't just "autocomplete code"; it manages the project state.
+I didn't write all this code alone. I used **Agentic IDEs** (like Claude Code, Cursor, or Windsurf) to orchestrate the entire lifecycle. It doesn't just "autocomplete code"; it manages the project state.
 
 **The Agentic Workflow**:
 1.  **Planning**: The IDE reads `ROADMAP.md` and updates `FEATURES.md`.
@@ -257,7 +257,7 @@ flowchart TD
     F --> G[Release v1.0]
     end
     
-    IDE[Claude Code + Antigravity] -.->|Orchestrates| A
+    IDE[Agentic IDE] -.->|Orchestrates| A
     IDE -.->|Orchestrates| C
     IDE -.->|Orchestrates| E
     IDE -.->|Orchestrates| F
@@ -277,8 +277,8 @@ Most AI apps today are built on the **SaaS Model** (e.g., LangChain on AWS). You
 
 I flipped this model. I use an **Edge Deployment** architecture.
 
-*   **Centralized Intelligence**: Claude (the LLM) provides the reasoning power.
-*   **Local Execution**: The skill logic runs on *your* machine (via Claude Desktop).
+*   **Centralized Intelligence**: The LLM (Claude/GPT) provides the reasoning power.
+*   **Local Execution**: The skill logic runs on *your* machine.
 *   **Local Data**: Your files never leave your computer (except to go to the LLM context).
 
 **The Trade-off**:
@@ -324,4 +324,4 @@ The future isn't "AI writing code for you." It's you, orchestrating a team of AI
 
 **What's your biggest challenge in scaling AI skills? Let's discuss in the comments! 👇**
 
-#AI #GenerativeAI #SoftwareEngineering #Claude #Productivity #TechCareers #LLM #PromptEngineering
+#AI #GenerativeAI #SoftwareEngineering #AgenticAI #Productivity #TechCareers #LLM #PromptEngineering

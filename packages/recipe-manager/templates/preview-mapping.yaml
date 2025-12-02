@@ -1,0 +1,77 @@
+# Preview Mapping for Recipe Manager Skill
+# Maps recipe YAML fields to shared-preview components
+
+theme: cooking
+
+# Field mappings for recipe card preview
+card:
+  title: "{{name}}"
+  icon: "{{icon}}"
+  subtitle: "{{type}} | {{status}}"
+  
+  header_meta:
+    - label: "Rating"
+      value: "{{rating}}/5 ⭐"
+      show_if: "rating"
+    - label: "Prep"
+      value: "{{prep_time}}"
+      show_if: "prep_time"
+    - label: "Cook"
+      value: "{{cook_time}}"
+      show_if: "cook_time"
+    - label: "Servings"
+      value: "{{servings}}"
+      show_if: "servings"
+  
+  sections:
+    - title: "👨‍👩‍👧‍👦 Relevant For"
+      type: "tags"
+      field: "relevant"
+      show_if: "relevant"
+    
+    - title: "🥕 Ingredients"
+      type: "list"
+      field: "ingredients"
+      style: "bullet"
+    
+    - title: "📝 Instructions"
+      type: "list"
+      field: "instructions"
+      style: "numbered"
+    
+    - title: "📌 Notes"
+      type: "list"
+      field: "notes"
+      style: "bullet"
+      show_if: "notes"
+  
+  footer:
+    source_label: "Source"
+    source_url: "{{source.url}}"
+    source_platform: "{{source.platform}}"
+    date_added: "{{source.date_added}}"
+
+# Theme colors for cooking
+colors:
+  primary: "#E74C3C"      # Warm red
+  secondary: "#F39C12"    # Orange
+  accent: "#27AE60"       # Fresh green
+  background: "#FDF6E3"   # Cream
+  text: "#2C3E50"         # Dark slate
+  muted: "#7F8C8D"        # Gray
+
+# Icons mapping
+status_icons:
+  "To try": "🆕"
+  "Try next": "⏭️"
+  "Tried": "✅"
+  "Perfected": "🏆"
+
+type_icons:
+  "Oven": "🔥"
+  "Ninja": "🍳"
+  "School Breakfast": "🎒"
+  "Stovetop": "🥘"
+  "Grill": "🍖"
+  "No Cook": "🥗"
+  "Instant Pot": "⏱️"
