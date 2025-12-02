@@ -21,9 +21,11 @@ A lightweight macOS menu bar app that captures audio from meeting applications (
 ## Quick Install
 
 ```bash
-cd ~/MyDrive/claude-skills/packages/voice-memos/meeting-recorder
+cd packages/voice-memos/meeting-recorder
 ./setup.sh
 ```
+
+> **Note**: Run from the claude-skills repo root, or use the full path to the meeting-recorder directory.
 
 ## Manual Build
 
@@ -32,11 +34,13 @@ cd MeetingRecorder
 
 # Standard build
 swift build -c release
-./.build/release/MeetingRecorder
+./.build/release/MeetingRecorderApp
 
 # If building from Google Drive (to avoid sync conflicts)
 swift build -c release --scratch-path /tmp/MeetingRecorder-build
 ```
+
+> **Note**: The executable target is `MeetingRecorderApp` (see `Package.swift`). The `setup.sh` script handles building and bundling automatically.
 
 > **Note**: If you see "disk I/O error" during build, use the `--scratch-path` option to place build artifacts outside the synced folder.
 
@@ -83,7 +87,9 @@ Transcripts:  ~/Documents/claude-skills-data/voice-memos/meetings/transcripts/
 Config:       ~/Documents/claude-skills-data/voice-memos/meeting-recorder-config.yaml
 ```
 
-**Custom Location**: Set `CLAUDE_SKILLS_DATA_DIR` environment variable to use a different base directory.
+**Custom Location**: 
+- Set `CLAUDE_SKILLS_DATA_DIR` environment variable to override the base directory
+- Or edit `USER_DATA_BASE` in `shared/config/paths.py` (affects all skills)
 
 ## Supported Meeting Apps
 
@@ -152,28 +158,38 @@ swift build -c release
 swift build -c release --scratch-path /tmp/MeetingRecorder-build
 ```
 
+> **Note**: The executable is `MeetingRecorderApp` - use `./.build/release/MeetingRecorderApp` to run directly.
+
 ## Configuration
 
-Edit the config file (default: `~/Documents/claude-skills-data/voice-memos/meeting-recorder-config.yaml`):
+The app uses default settings optimized for speech transcription. To customize, copy `config.yaml.example` to your config location:
+
+```bash
+# Default location (matches centralized path config)
+cp config.yaml.example ~/Documents/claude-skills-data/voice-memos/meeting-recorder-config.yaml
+```
+
+Then edit the config file. See `config.yaml.example` for the full configuration schema:
 
 ```yaml
 # Audio settings
 audio:
-  format: m4a
-  bitrate: 64000
-  sample_rate: 16000
-  channels: 1
+  format: m4a           # m4a (recommended) or wav
+  bitrate: 64000        # 64kbps - optimal for speech
+  sample_rate: 16000    # 16kHz - optimal for transcription
+  channels: 1           # Mono - sufficient for meetings
 
 # Chunking
 chunking:
   enabled: true
-  duration_minutes: 40
+  duration_minutes: 40  # Split recordings every 40 min
+  max_file_size_mb: 25  # Claude's upload limit
 
 # Behavior
 behavior:
-  auto_detect_meetings: true
-  notifications_enabled: true
-  auto_record: false  # Set true to skip confirmation
+  auto_detect_meetings: true   # Monitor for meeting apps
+  notifications_enabled: true  # Show recording prompts
+  auto_record: false           # Require user confirmation
 
 # Meeting apps to detect
 meeting_apps:
@@ -182,7 +198,11 @@ meeting_apps:
   - Microsoft Teams
   - Slack
   - Discord
+  - Webex
+  - FaceTime
 ```
+
+> **Note**: Currently, the app uses hardcoded defaults. YAML config file support is planned for a future release.
 
 ## Architecture
 
