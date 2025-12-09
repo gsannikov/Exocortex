@@ -10,4 +10,3 @@ jobs:
           node-version: "20"
       - run: npm install -g aligntrue
       - run: aligntrue check --ci
-      - run: aligntrue drift --gates

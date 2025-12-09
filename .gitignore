@@ -37,3 +37,11 @@ releases/
 
 # Never commit user data (it's in separate repo)
 # ~/MyDrive/claude-skills-data/ is the centralized location
+
+# START AlignTrue Generated Files
+.aligntrue/.backups/
+.cursor/rules/*.mdc
+.cursor/rules/CLAUDE.mdc
+AGENTS.md
+CLAUDE.md
+# END AlignTrue Generated Files

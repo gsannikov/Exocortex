@@ -340,6 +340,23 @@ pip install pyyaml
 
 ---
 
+## AlignTrue (Cross-Platform AI)
+
+### What is AlignTrue?
+
+AlignTrue keeps AI instructions in sync across multiple platforms (Claude, OpenAI Codex, Cursor, Google Antigravity). You write rules once in `.aligntrue/rules/` and it generates the correct format for each platform.
+
+### Do I need to install AlignTrue?
+
+Only if you're contributing to the repo. Users don't need it—the generated files (`CLAUDE.md`, `AGENTS.md`) are already committed.
+
+### Which file should I edit?
+
+**Always edit** `.aligntrue/rules/CLAUDE.md` (the source file).
+**Never edit** `CLAUDE.md`, `AGENTS.md`, or `.cursorrules` directly—they're auto-generated.
+
+---
+
 ## Still Have Questions?
 
 - **Issues**: https://github.com/gsannikov/claude-skills/issues
