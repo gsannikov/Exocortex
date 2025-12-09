@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.0] - 2025-12-09
+
+- Release 1.1.0
+
 All notable changes to the Ideas Capture skill will be documented in this file.
 
 ## [1.0.0] - 2025-11-24
