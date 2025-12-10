@@ -10,12 +10,12 @@ Usage:
 
 import argparse
 import os
-import re
 import subprocess
 import sys
-import yaml
 from datetime import datetime
 from pathlib import Path
+
+import yaml
 
 # Skill configurations
 SKILL_CONFIG = {
@@ -240,8 +240,8 @@ def main():
             f.write(f"version={released_version}\n")
 
     if not args.dry_run:
-        print(f"\n🎉 Release complete! Don't forget to push:")
-        print(f"   git push origin main --tags")
+        print("\n🎉 Release complete! Don't forget to push:")
+        print("   git push origin main --tags")
 
 
 if __name__ == '__main__':

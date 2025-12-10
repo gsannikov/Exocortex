@@ -3,6 +3,7 @@ Shared utilities for Setup & Maintenance Manager.
 """
 import sys
 
+
 class Colors:
     """ANSI color codes for terminal output."""
     HEADER = "\033[95m"

@@ -4,8 +4,6 @@ MCP Server for Local RAG.
 Exposes tools for indexing and querying local documents.
 """
 
-import os
-import sys
 import json
 import logging
 from pathlib import Path
@@ -13,22 +11,19 @@ from typing import Any, Sequence
 
 from mcp.server import Server
 from mcp.types import (
-    Tool,
-    TextContent,
-    ImageContent,
     EmbeddedResource,
-    CallToolRequest,
-    CallToolResult,
+    ImageContent,
+    TextContent,
+    Tool,
 )
+
+from .health import get_health
+from .services.index_service import DocumentIndexer
+from .services.search_service import DocumentSearcher
+from .settings import get_settings
 
 # Import from local package
 from .utils import setup_logging
-from .settings import get_settings
-from .services.index_service import DocumentIndexer, load_state
-from .services.search_service import DocumentSearcher
-from .storage import create_repository
-from .adapters.vectorstore import get_vector_store
-from .health import get_health
 
 # Setup logging
 setup_logging(verbose=True)

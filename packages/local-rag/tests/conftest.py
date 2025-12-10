@@ -1,13 +1,12 @@
 """Pytest configuration, fixtures, and lightweight stubs to keep tests fast."""
 
 import hashlib
-import io
+import json
 import os
 import sys
 import tempfile
 import types
 from pathlib import Path
-import json
 
 import pytest
 
@@ -202,11 +201,11 @@ sys.modules["mcp_server"] = fake_mcp
 PACKAGE_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PACKAGE_ROOT))
 
-from local_rag.adapters import vectorstore  # noqa: E402
-from local_rag.ingestion import ocr as ingest_ocr  # noqa: E402
-from local_rag.ingestion import extractors as ingest_extractor  # noqa: E402
-from local_rag.ingestion import utils as ingest_utils  # noqa: E402
 import local_rag.ingestion as ingest  # noqa: E402
+from local_rag.adapters import vectorstore  # noqa: E402
+from local_rag.ingestion import extractors as ingest_extractor  # noqa: E402
+from local_rag.ingestion import ocr as ingest_ocr  # noqa: E402
+from local_rag.ingestion import utils as ingest_utils  # noqa: E402
 
 # Provide legacy module aliases for tests that import the old layout
 sys.modules["vectorstore"] = vectorstore
@@ -215,8 +214,10 @@ sys.modules["ingest.ocr"] = ingest_ocr
 sys.modules["ingest.extractor"] = ingest_extractor
 sys.modules["ingest.utils"] = ingest_utils
 import local_rag.indexer as indexer  # noqa: E402
+
 sys.modules["indexer"] = indexer
 import local_rag.query as query  # noqa: E402
+
 sys.modules["query"] = query
 
 _GLOBAL_STORE = {}

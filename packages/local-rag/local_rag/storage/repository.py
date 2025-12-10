@@ -10,8 +10,8 @@ from __future__ import annotations
 
 from typing import Callable, Dict, List, Optional
 
-from ..settings import LocalRagSettings
 from ..adapters.vectorstore import BaseVectorStore, VectorStoreType, get_vector_store
+from ..settings import LocalRagSettings
 
 
 class VectorStoreRepository:

@@ -1,4 +1,5 @@
-# Claude Skills Ecosystem
+# Exocortex
+> **Infrastructure for Augmenting the Human Mind**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Build Status](https://github.com/gsannikov/claude-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/gsannikov/claude-skills/actions/workflows/validate.yml)
@@ -7,9 +8,9 @@
 [![AlignTrue](https://img.shields.io/badge/AlignTrue-enabled-purple.svg)](.aligntrue/)
 [![Platform](https://img.shields.io/badge/AI-agnostic-orange.svg)](DEVELOPER_GUIDE.md#aligntrue-workflow)
 
-**Turn Claude into your personal productivity engine.**
-
-Automate your job search, reading list, idea capture, and more—all integrated directly into your local environment and Apple Notes.
+**Exocortex** is a local-first system that extends your biological mind with AI, memory, and automated agency.
+It integrates deeply with your environment—**Apple Notes**, **Filesystem**, and **Voice**—to create a seamless loop of capture, processing, and recall.
+All data is stored in `~/exocortex-data`: Human-readable, human-owned, and forever capable.
 
 ---
 
@@ -18,14 +19,14 @@ Automate your job search, reading list, idea capture, and more—all integrated 
 Copy and paste this into your terminal. That's it.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/gsannikov/claude-skills/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/gsannikov/exocortex/main/install.sh | bash
 ```
 
 **What this does:**
-1.  Sets up the entire ecosystem (default: `~/Projects/claude-skills`)
-2.  Installs all dependencies
+1.  Sets up your **Exocortex** (default: `~/Projects/exocortex`)
+2.  Installs all capabilities (Memory, RAG, Analysis)
 3.  Configures Claude Desktop automatically
-4.  Sets up user data directory (default: `~/Documents/claude-skills-data`)
+4.  Sets up your sovereign data vault (default: `~/exocortex-data`)
 
 **Note**: User data path is configured in `shared/config/paths.py` - edit this file to change the location.
 
@@ -54,8 +55,6 @@ curl -fsSL https://raw.githubusercontent.com/gsannikov/claude-skills/main/instal
 
 ## 📚 Documentation
 
-## 📚 Documentation
-
 - **[User Guide](USER_GUIDE.md)**: Detailed commands and workflows.
 - **[Developer Guide](DEVELOPER_GUIDE.md)**: Architecture and manual setup.
 - **[AlignTrue Setup](.aligntrue/README.md)**: Cross-platform AI instruction sync.
@@ -68,8 +67,8 @@ curl -fsSL https://raw.githubusercontent.com/gsannikov/claude-skills/main/instal
 
 ## 🔗 Links
 
-- **Repository**: https://github.com/gsannikov/claude-skills
-- **Issues**: https://github.com/gsannikov/claude-skills/issues
+- **Repository**: https://github.com/gsannikov/exocortex
+- **Issues**: https://github.com/gsannikov/exocortex/issues
 - **Author**: [@gsannikov](https://github.com/gsannikov)
 
 > Built with Claude Skills SDK

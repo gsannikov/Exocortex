@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import Dict, List, Optional
 
 PACKAGE_ROOT = Path(__file__).parent.parent
 MARKETPLACE_FILE = PACKAGE_ROOT / "data" / "marketplace.json"

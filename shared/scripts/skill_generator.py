@@ -9,7 +9,6 @@ Usage:
 """
 
 import argparse
-import os
 from datetime import datetime
 from pathlib import Path
 
@@ -101,10 +100,10 @@ See `version.yaml` for version info.
     (skill_dir / 'CHANGELOG.md').write_text(changelog)
     
     print(f"✅ Created skill: {skill_dir}")
-    print(f"   - SKILL.md")
-    print(f"   - version.yaml")
-    print(f"   - README.md")
-    print(f"   - CHANGELOG.md")
+    print("   - SKILL.md")
+    print("   - version.yaml")
+    print("   - README.md")
+    print("   - CHANGELOG.md")
     
     # Create user-data directory using centralized path config
     from shared.config.paths import get_skill_data_dir

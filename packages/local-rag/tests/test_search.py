@@ -1,16 +1,13 @@
 """Tests for hybrid search and BM25."""
 
-import pytest
-import json
-import tempfile
 from local_rag.search import (
     BM25Index,
+    FusionMethod,
     HybridSearcher,
     SearchConfig,
     SearchMethod,
-    FusionMethod,
     SearchResult,
-    create_hybrid_searcher
+    create_hybrid_searcher,
 )
 
 

@@ -1,14 +1,15 @@
 import logging
 from pathlib import Path
-from pypdf import PdfReader
+
 from pdf2image import convert_from_path
 from PIL import Image
+from pypdf import PdfReader
 
 # Raise the PIL pixel limit to avoid DecompressionBomb warnings on moderate images.
 Image.MAX_IMAGE_PIXELS = 200_000_000
 
 from ..settings import LocalRagSettings, get_settings
-from .ocr import run_ocr, _resolve_tesseract_lang
+from .ocr import _resolve_tesseract_lang, run_ocr
 
 logger = logging.getLogger(__name__)
 
@@ -105,8 +106,9 @@ def read_text_with_ocr(p: Path, settings: LocalRagSettings | None = None) -> str
         if settings.ocr_enabled:
             logger.info(f"PDF: OCR required for {p.name}...")
             try:
-                import ocrmypdf
                 import tempfile
+
+                import ocrmypdf
 
                 # Map language(s) to Tesseract codes
                 ocr_lang = _resolve_tesseract_lang(settings.ocr_lang)
@@ -129,7 +131,7 @@ def read_text_with_ocr(p: Path, settings: LocalRagSettings | None = None) -> str
                         raise
 
                     # Read text from the OCR'd PDF
-                    logger.info(f"PDF: OCR complete, extracting text...")
+                    logger.info("PDF: OCR complete, extracting text...")
                     r_ocr = PdfReader(tf.name)
                     ocr_text = "\n".join([(pg.extract_text() or "") for pg in r_ocr.pages])
                     logger.info(f"PDF: Extracted {len(ocr_text)} chars from OCR")

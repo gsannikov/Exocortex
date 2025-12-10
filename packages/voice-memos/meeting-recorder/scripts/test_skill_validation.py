@@ -7,8 +7,10 @@ Validates SKILL.md structure, config files, and documentation.
 import os
 import re
 import sys
-import yaml
 from pathlib import Path
+
+import yaml
+
 
 # Colors for output
 class Colors:
@@ -284,10 +286,10 @@ def test_swift_sources():
     app_dir = MEETING_RECORDER_DIR / "MeetingRecorder" / "Sources" / "App"
     main_path = app_dir / "main.swift"
     if main_path.exists():
-        print_pass(f"Source file exists: App/main.swift")
+        print_pass("Source file exists: App/main.swift")
         passed += 1
     else:
-        print_fail(f"Source file missing: App/main.swift")
+        print_fail("Source file missing: App/main.swift")
         failed += 1
 
 

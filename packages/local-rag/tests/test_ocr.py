@@ -1,9 +1,8 @@
 """Tests for ingest/ocr.py module."""
 
+
 import pytest
-from pathlib import Path
 from PIL import Image
-import io
 
 
 def test_ocr_module_imports():
@@ -51,7 +50,7 @@ def test_cache_get_nonexistent(tmp_path, monkeypatch):
 
 def test_cache_put_and_get(tmp_path, monkeypatch):
     """Test caching OCR results."""
-    from ingest.ocr import _cache_put, _cache_get
+    from ingest.ocr import _cache_get, _cache_put
 
     monkeypatch.setattr('ingest.ocr.CACHE_DIR', tmp_path)
 
@@ -66,7 +65,7 @@ def test_cache_put_and_get(tmp_path, monkeypatch):
 
 def test_cache_persistence(tmp_path, monkeypatch):
     """Test that cache persists to disk."""
-    from ingest.ocr import _cache_put, _cache_get
+    from ingest.ocr import _cache_get, _cache_put
 
     cache_dir = tmp_path / "cache"
     cache_dir.mkdir()
@@ -100,7 +99,6 @@ def test_run_ocr_empty_list(monkeypatch):
 def test_run_ocr_engine_selection(monkeypatch):
     """Test that OCR engine selection works."""
     from ingest.ocr import run_ocr
-    import ingest.ocr
 
     # Test with unsupported engine
     monkeypatch.setenv("OCR_ENGINE", "unsupported")
@@ -113,7 +111,7 @@ def test_run_ocr_engine_selection(monkeypatch):
 
 def test_cache_unicode(tmp_path, monkeypatch):
     """Test caching with unicode text."""
-    from ingest.ocr import _cache_put, _cache_get
+    from ingest.ocr import _cache_get, _cache_put
 
     monkeypatch.setattr('ingest.ocr.CACHE_DIR', tmp_path)
 
@@ -128,7 +126,7 @@ def test_cache_unicode(tmp_path, monkeypatch):
 
 def test_cache_large_text(tmp_path, monkeypatch):
     """Test caching with large text."""
-    from ingest.ocr import _cache_put, _cache_get
+    from ingest.ocr import _cache_get, _cache_put
 
     monkeypatch.setattr('ingest.ocr.CACHE_DIR', tmp_path)
 

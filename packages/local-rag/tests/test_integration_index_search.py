@@ -86,10 +86,9 @@ class _FakeImage:
     def convert(self, *_args, **_kwargs):
         return self
 
+from local_rag.adapters import vectorstore
 from local_rag.services.index_service import DocumentIndexer
 from local_rag.services.search_service import DocumentSearcher
-from local_rag import search
-from local_rag.adapters import vectorstore
 
 
 class InMemoryChroma(vectorstore.BaseVectorStore):

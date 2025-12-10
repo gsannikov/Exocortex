@@ -9,9 +9,8 @@ Provides structured logging with:
 """
 import logging
 import sys
-from pathlib import Path
 from logging.handlers import RotatingFileHandler
-from typing import Optional
+from pathlib import Path
 
 # Cache of configured loggers to avoid duplicate setup
 _configured_loggers = set()

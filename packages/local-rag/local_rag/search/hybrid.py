@@ -10,13 +10,12 @@ Combines multiple retrieval methods:
 Supports configurable fusion strategies and reranking.
 """
 
+import json
 import math
 import re
-from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List, Optional, Tuple
-import json
 
 
 class SearchMethod(str, Enum):

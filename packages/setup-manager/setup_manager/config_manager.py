@@ -3,13 +3,13 @@ MCP Configuration Manager for Setup & Maintenance Manager.
 Handles reading, writing, and updating the Claude Desktop configuration file.
 Supports macOS and Windows.
 """
+import difflib
 import json
 import os
 import platform
-import sys
 from pathlib import Path
-from typing import Dict, Any, Optional, Tuple, List
-import difflib
+from typing import Any, Dict, List, Optional, Tuple
+
 
 def get_config_path() -> Path:
     """

@@ -1,5 +1,6 @@
-import sys
 import logging
+import sys
+
 
 def setup_logging(verbose: bool = False):
     """Setup logging configuration."""

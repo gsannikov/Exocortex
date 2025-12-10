@@ -3,15 +3,14 @@ Test script for MCP Configuration Manager.
 Verifies path detection and config updates.
 """
 import sys
-import json
-import platform
 from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 # Add package root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from setup_manager.config_manager import get_config_path, add_mcp_server
+from setup_manager.config_manager import add_mcp_server, get_config_path
+
 
 def test_path_detection():
     print("\nTesting Path Detection...")

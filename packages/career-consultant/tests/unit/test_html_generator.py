@@ -1,9 +1,10 @@
 """Unit tests for html_generator.py."""
 
-import pytest
-from unittest.mock import patch, mock_open, MagicMock
 from pathlib import Path
+from unittest.mock import MagicMock, mock_open, patch
+
 import html_generator
+
 
 class TestParseYAMLFrontmatter:
     """Tests for parse_yaml_frontmatter function."""

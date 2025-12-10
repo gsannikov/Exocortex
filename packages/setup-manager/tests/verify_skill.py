@@ -7,8 +7,9 @@ from pathlib import Path
 # Add package root to path to allow imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from setup_manager.discovery import list_installed_skills, get_skill_details
+from setup_manager.discovery import get_skill_details, list_installed_skills
 from setup_manager.setup import check_system_requirements
+
 
 def test_discovery():
     print("Testing Skill Discovery...")

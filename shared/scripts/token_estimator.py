@@ -6,7 +6,7 @@ This script runs in Claude's container.
 """
 
 import re
-from typing import Dict, List
+from typing import Dict
 
 
 def estimate_tokens(text: str) -> int:

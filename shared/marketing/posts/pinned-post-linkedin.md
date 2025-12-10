@@ -1,4 +1,4 @@
-# AI-Augmented Homosapiens: Memory + Agents + Shell Control
+# Building My Exocortex: The Infrastructure for Human Augmentation
 
 ![AI-Augmented Architecture](images/ai-augmented-hero.png)
 
@@ -6,7 +6,7 @@
 
 ---
 
-A month ago, I stopped using AI as a chatbot and started building **AI-Augmented Homosapiens 2.0**.
+A month ago, I stopped using AI as a chatbot and started building **My Exocortex**.
 
 The inspiration comes from **biological evolution**. Humans have evolved through three distinct pillars, and my project extends each one with AI:
 
@@ -80,7 +80,7 @@ graph TD
 
 This isn't another productivity app like Notion or Obsidian. It's an **open architecture**:
 
-1.  **Local-First & Open**: All context is stored in open formats (Markdown/YAML) on your drive. You can access it from *any* LLM (Claude, GPT, Llama). You don't need to marry any specific tool.
+1.  **Local-First & Open**: All context is stored in open formats (Markdown/YAML) on your drive (`~/exocortex-data`). You can access it from *any* LLM (Claude, GPT, Llama). You don't need to marry any specific tool.
 2.  **Native Cloud Bridges**: It bridges natively to your existing cloud environment. I use **Apple Notes** for capture and **Google Drive** for storage, seamlessly integrated via MCP.
 3.  **Privacy & Corporate Ready**: Full privacy enabled. It can be used behind firewalls for people looking to unleash productivity at work without crossing corporate rules or sending data out of the organization.
 4.  **Speed of Evolution**: It is the fastest solution to get the latest AI advancements. Because it separates **Data**, **LLM**, and **Code**, you can swap the model the day a new one drops without migrating your data.

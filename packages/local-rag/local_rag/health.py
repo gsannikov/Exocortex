@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 import time
-from typing import Optional, Dict, Any
+from typing import Any, Dict, Optional
 
-from .settings import LocalRagSettings, get_settings
-from .storage import create_repository
 from .adapters.vectorstore import get_vector_store
 from .services.index_service import load_state
+from .settings import LocalRagSettings, get_settings
+from .storage import create_repository
 
 
 def get_health(settings: Optional[LocalRagSettings] = None) -> Dict[str, Any]:

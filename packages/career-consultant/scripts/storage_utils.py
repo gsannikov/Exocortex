@@ -19,9 +19,9 @@ Author: Gur Sannikov
 Version: 9.2
 """
 
-import os
 from pathlib import Path
-from typing import Dict, Tuple, Optional
+from typing import Dict, Optional, Tuple
+
 import yaml
 
 
@@ -363,7 +363,7 @@ if __name__ == "__main__":
         
         # Get storage info
         info = get_storage_info(user_config)
-        print(f"\nStorage Info:")
+        print("\nStorage Info:")
         for key, value in info.items():
             print(f"  {key}: {value}")
         

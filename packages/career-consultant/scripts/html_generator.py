@@ -15,10 +15,11 @@ Author: Gur Sannikov
 Version: 9.1.0
 """
 
-import yaml
-from pathlib import Path
 from datetime import datetime
-from typing import List, Dict, Tuple
+from pathlib import Path
+from typing import Dict, List, Tuple
+
+import yaml
 
 
 def parse_yaml_frontmatter(markdown_content: str) -> Tuple[Dict, str]:
@@ -639,7 +640,7 @@ def main():
     print(f"✅ Success! Generated: {output_path}")
     print(f"📊 File size: {len(html_content) / 1024:.1f} KB")
     print("\n🌐 To view:")
-    print(f"   Double-click the file to open in your browser")
+    print("   Double-click the file to open in your browser")
     print(f"   Or open: file://{output_path}")
     print("\n✨ Features available:")
     print("   • Sort by clicking column headers")

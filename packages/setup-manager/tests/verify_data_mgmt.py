@@ -2,14 +2,15 @@
 Verification script for Data Management features.
 Tests backup and reset functionality.
 """
-import sys
 import shutil
+import sys
 from pathlib import Path
 
 # Add package root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from setup_manager.maintenance import backup_skill_data, reset_skill_data
+
 
 def test_data_management():
     print("\nTesting Data Management...")

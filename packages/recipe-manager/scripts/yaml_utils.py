@@ -3,10 +3,11 @@ YAML utilities for recipe-manager skill.
 Load, save, and validate recipe YAML files.
 """
 
-import yaml
-from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Optional, Any
+from pathlib import Path
+from typing import Dict, List, Optional
+
+import yaml
 
 # Configure YAML to preserve Unicode and ordering
 yaml.SafeDumper.add_representer(

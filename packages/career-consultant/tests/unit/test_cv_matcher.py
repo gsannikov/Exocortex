@@ -5,12 +5,10 @@ This module tests the core CV matching and scoring logic that determines
 job prioritization. High test coverage is essential here.
 """
 
-import pytest
-import sys
-from pathlib import Path
 
 # Import the module under test
 import cv_matcher
+import pytest
 
 
 class TestLoadUserCVs:

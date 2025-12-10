@@ -13,8 +13,8 @@ import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
-from typing import Generator, List, Optional, Tuple
 from pathlib import Path
+from typing import Generator, List, Optional, Tuple
 
 
 class ChunkingStrategy(str, Enum):

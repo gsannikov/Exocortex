@@ -1,8 +1,5 @@
 """Tests for mcp_server.py core functionality."""
 
-import os
-import json
-from pathlib import Path
 import pytest
 
 # Note: These tests focus on the pure functions that don't require heavy dependencies
@@ -117,7 +114,7 @@ def test_load_state_empty(tmp_path, monkeypatch):
 
 def test_save_and_load_state(tmp_path, monkeypatch):
     """Test saving and loading state."""
-    from mcp_server import save_state, load_state
+    from mcp_server import load_state, save_state
 
     state_file = tmp_path / "state.json"
     monkeypatch.setattr("mcp_server.STATE_PATH", state_file)

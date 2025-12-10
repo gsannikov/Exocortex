@@ -1,13 +1,12 @@
-import os
-import io
 import base64
 import hashlib
+import io
 import logging
+import os
 from pathlib import Path
-from typing import List, Optional, Any
+from typing import Any, List, Optional
 
 import requests
-from PIL import Image
 
 from ..settings import LocalRagSettings, get_settings
 
@@ -71,8 +70,8 @@ def _resolve_tesseract_lang(lang_spec: Optional[str]) -> str:
     return "+".join(mapped)
 
 def ocr_surya(images: List[Any], settings: LocalRagSettings) -> str:
-    from surya.ocr import run_ocr
     import numpy as np
+    from surya.ocr import run_ocr
     cache_dir = _get_cache_dir(settings)
     texts=[]
     for im in images:

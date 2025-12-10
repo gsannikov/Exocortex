@@ -4,28 +4,25 @@ Replaces the root setup.py script.
 """
 import argparse
 import json
-import os
 import sys
-import shutil
 from pathlib import Path
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict, List
 
 # Add package root to path to allow imports if run directly
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from setup_manager.setup import check_system_requirements, install_package_dependencies
-from setup_manager.config_manager import get_config_path, add_mcp_server
-from setup_manager.discovery import list_installed_skills
+from setup_manager.config_manager import add_mcp_server, get_config_path
 from setup_manager.maintenance import backup_skill_data, reset_skill_data
+from setup_manager.setup import check_system_requirements, install_package_dependencies
 from setup_manager.utils import (
+    Colors,
+    print_error,
     print_header,
-    print_section,
     print_info,
+    print_section,
     print_success,
     print_warning,
-    print_error,
     prompt_yes_no,
-    Colors,
 )
 
 # ═══════════════════════════════════════════════════════════════════════════════

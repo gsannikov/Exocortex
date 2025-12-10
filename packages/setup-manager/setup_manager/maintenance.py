@@ -1,10 +1,10 @@
 """
 Maintenance logic for Setup & Maintenance Manager.
 """
-import os
 import shutil
 from pathlib import Path
 from typing import List, Tuple
+
 
 def clean_logs(log_dir: Path, max_age_days: int = 7) -> Tuple[int, int]:
     """
@@ -74,8 +74,8 @@ def backup_skill_data(skill_id: str, data_dir: Path) -> Tuple[bool, str]:
     Returns:
         Tuple (success, message).
     """
-    import shutil
     import datetime
+    import shutil
     
     skill_data_path = data_dir / skill_id
     if not skill_data_path.exists():

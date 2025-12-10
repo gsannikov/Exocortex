@@ -1,4 +1,4 @@
-# 🚀 From Prototype to Production: How I Built a Scalable AI Skill (And You Can Too)
+# 🚀 Building the Exocortex: From Prototype to Production
 
 ![Production Grade AI Skills](images/hero-banner.png)
 
@@ -351,7 +351,7 @@ I flipped this model. I use an **Edge Deployment** architecture.
 **Data Separation Strategy**:
 To make this work, I strictly separate the "Skill" from the "User Data":
 1.  **Skill Package (`/mnt/skills/...`)**: Immutable templates and logic. Shared by everyone.
-2.  **User Data (`~/Documents/user-data/`)**: Mutable, personal files. Created separately for each user.
+2.  **User Data (`~/exocortex-data/`)**: Mutable, personal files. Created separately for each user.
 
 This means I can push a code update to the skill *without* touching your personal database. It's the best of both worlds: SaaS-like updates with local-first privacy.
 

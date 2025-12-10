@@ -1,17 +1,14 @@
 """Tests for chunking strategies."""
 
 import pytest
-
 from local_rag.ingestion.chunking import (
     Chunk,
     ChunkingStrategy,
-    BaseChunker,
     FixedChunker,
     SentenceChunker,
-    SemanticChunker,
     TemplateChunker,
+    chunk_text,
     get_chunker,
-    chunk_text
 )
 
 

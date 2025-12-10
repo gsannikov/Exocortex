@@ -1,252 +1,88 @@
-# Vision & Problem Statement
+# Exocortex Vision: The Infrastructure for Human Augmentation
 
-**Last Updated**: 2025-11-30
-
----
-
-## 🎯 The Problem We Solve
-
-### Pain Points in Personal Productivity
-
-**The Challenge**: Modern knowledge workers are drowning in information and opportunities.
-
-- **Job seekers** spend hours manually screening postings, copying data into spreadsheets, and preparing for interviews
-- **Readers** save articles to "read later" lists that never get read, losing valuable insights
-- **Creative thinkers** have fleeting ideas that vanish before they can be properly captured and developed
-- **Professionals** record voice memos that remain untranscribed, with action items buried in audio
-- **Researchers** have documents scattered across drives with no way to search meaningfully
-
-**The Core Problem**: Valuable information exists, but it's:
-1. **Unstructured** - Scattered across notes, bookmarks, voice memos
-2. **Unprocessed** - Raw URLs, rough ideas, untr anscribed audio
-3. **Unsearchable** - No semantic understanding, just file names
-4. **Un-actionable** - No scoring, prioritization, or next steps
-
-### What's Missing in Existing Solutions
-
-**Manual Tools** (Spreadsheets, Notes apps):
-- ❌ Require constant manual data entry
-- ❌ No intelligent analysis or scoring
-- ❌ No semantic search
-- ❌ Can't process voice or complex documents
-
-**Productivity Apps** (Notion, Obsidian, etc.):
-- ❌ Still require manual structuring
-- ❌ No AI-powered analysis
-- ❌ Complex setup and maintenance
-- ❌ Poor mobile capture experience
-
-**AI Assistants** (ChatGPT, Claude):
-- ❌ No persistent memory
-- ❌ No structured data storage
-- ❌ Context resets every conversation
-- ❌ Can't integrate with local workflows
+**Last Updated**: 2025-12-10
 
 ---
 
-## 💡 Our Solution
+## 🧬 The Philosophy: Evolution v2.0
 
-### The Claude Skills Ecosystem
+Biology has limits. We have a limited working memory (~7 items), limited processing speed, and limited bandwidth for input/output.
+But our ambition is unlimited.
 
-**Concept**: Turn Claude into a **persistent productivity engine** that processes, analyzes, and organizes your information automatically.
+**Exocortex** is the infrastructure that bridges this gap. It is not just "productivity software" or an "AI agent."
+It is a **permanent extension of your biological mind**.
 
-**How It Works**:
-1. **Capture** - Dead-simple input via Apple Notes on mobile or direct commands
-2. **Process** - Claude automatically extracts, enriches, and analyzes
-3. **Store** - Structured YAML databases in your local environment
-4. **Query** - Semantic search and intelligent retrieval
+### The Three Extensions
+1.  **Extended Memory (The Hippocampus)**
+    - **Biology**: Limited, forgetful, prone to decay.
+    - **Exocortex**: Infinite, perfect recall, semantic understanding.
+    - **Tech**: Local RAG + Filesystem + Vector Database.
 
-### Core Principles
+2.  **Extended Mind (The Cortex)**
+    - **Biology**: Slow, serial processing, biased.
+    - **Exocortex**: Fast, parallel processing, rational.
+    - **Tech**: Large Language Models (LLMs) running on your data.
 
-1. **Friction-Free Capture**
-   - Mobile-first: Paste URL in Apple Notes, done
-   - No app switching, no forms, no friction
-   
-2. **AI-Powered Processing**
-   - Scraping, summarization, scoring, extraction
-   - You capture, Claude does the heavy lifting
-   
-3. **Local-First Data**
-   - Your data in `~/MyDrive/claude-skills-data/`
-   - No vendor lock-in, full control
-   - Git-friendly YAML for versioning
-   
-4. **Semantic Understanding**
-   - Not just keyword search
-   - RAG for documents, scoring for jobs/ideas
-   - Contextual intelligence
+3.  **Extended Agency (The Hands)**
+    - **Biology**: Can only type/click at human speed.
+    - **Exocortex**: Can execute thousands of actions per second.
+    - **Tech**: Python Scripts + MCP Servers + API Drivers.
 
 ---
 
-## 👥 Who Benefits
+## ⚡ The Core Rule: Digital Sovereignty
 
-### Primary Users
+In a world of "Agents" and "SaaS", **Exocortex stands alone**.
+Most AI solutions try to *replace* the human or *rent* you intelligence.
+We believe in **Augmentation**, not Replacement. And we believe in **Ownership**, not Renting.
 
-**Job Seekers & Career Changers**
-- **Before**: Manually copy job details, guess at fit, prepare blindly
-- **After**: Auto-scored matches, prep plans, company research
-- **Value**: Find better-fit roles faster, prepare more effectively
+### 1. Human-Centric, Not Agent-Centric
+- Agents do things *for* you. Exocortex thinks *with* you.
+- You are not the "user." You are the **Operator**.
+- The goal is to make **YOU** faster, smarter, and more capable—to give you a competitive advantage that no one else has.
 
-**Knowledge Workers & Learners**
-- **Before**: Save-for-later lists that pile up, insights lost
-- **After**: Auto-summarized articles, categorized, searchable
-- **Value**: Actually consume saved content, retain insights
+### 2. Radical Data Ownership
+- **Your Data**: Lives on `~/exocortex-data`. On your disk.
+- **Your Format**: Plain text YAML and Markdown. Readable by humans, parsable by machines.
+- **Your Terms**: No cloud lock-in. No "export data" features needed—you already have the files.
 
-**Entrepreneurs & Product Thinkers**
-- **Before**: Ideas scribbled and forgotten, no evaluation
-- **After**: Expanded concepts, feasibility scores, linked ideas
-- **Value**: Develop ideas systematically, identify winners
-
-**Busy Professionals**
-- **Before**: Voice memos pile up, action items missed
-- **After**: Auto-transcribed with extracted tasks and dates
-- **Value**: Never miss a commitment, searchable meeting notes
-
-**Researchers & Analysts**
-- **Before**: Manual search through PDFs, lost context
-- **After**: Semantic search across all documents
-- **Value**: Find insights faster, connect dots
-
-### Secondary Users
-
-**Skill Developers**
-- Get a production-ready monorepo with shared patterns
-- Focus on skill logic, not infrastructure
-- Learn from 6 working examples
+### 3. Frictionless Integration
+- We meet you where you are: **Apple Notes**, **Filesystem**, **Voice**.
+- No new "app" to learn. Just capture thoughts naturally, and let the Exocortex process them in the background.
 
 ---
 
-## 🌟 What Success Looks Like
+## 🎯 Who Is This For?
 
-### For End Users
+This is for the **Augmented Human**.
+- The **Executive** who needs to synthesize 50 meetings a week.
+- The **Engineer** who needs to recall every code snippet they've ever seen.
+- The **Writer** who captures fleeting ideas and needs them connected.
+- The **Strategist** who wants to simulate scenarios with an unbiased partner.
 
-**Immediate** (First Week):
-- ✅ Save 5+ hours per week on manual data entry
-- ✅ Never lose an article, idea, or voice memo again
-- ✅ Capture from mobile as easily as typing in Notes
-
-**Short-Term** (First Month):
-- ✅ Process 100+ items (jobs, articles, ideas, memos, documents)
-- ✅ Build searchable personal knowledge base
-- ✅ Make better decisions with AI-powered scoring
-
-**Long-Term** (Ongoing):
-- ✅ Become a "productivity cyborg" - ideas to action faster
-- ✅ Local knowledge graph of your professional life
-- ✅ Compound benefits as database grows
-
-### For the Ecosystem
-
-**Current State** (v1.1.0):
-- 6 production skills
-- Monorepo with shared infrastructure
-- 1-command installation
-- Comprehensive documentation (2,900+ lines)
-
-**Near Future** (v2.0):
-- 10+ skills covering more workflows
-- Cross-skill intelligence (ideas → jobs, articles → ideas)
-- Web dashboard for visualization
-- Community-contributed skills
-
-**Vision** (v3.0+):
-- **Universal inbox**: Email, Slack, WhatsApp → all processed
-- **Autonomous agents**: Claude proactively suggests actions
-- **Skill marketplace**: Share and install community skills
-- **Multi-user**: Team collaboration features
+If you are content with biological limits, use a notebook.
+If you want to transcend them, build your **Exocortex**.
 
 ---
 
-## 🚀 Why This Approach
+## 🚀 The Architecture
 
-### Differentiation
+Exocortex is brought to life through a modular **Monorepo of Skills**:
 
-**vs Manual Systems** (Spreadsheets, Notes):
-- ✅ 10x faster data entry (auto-scraping, auto-analysis)
-- ✅ Intelligent scoring and prioritization
-- ✅ Semantic search, not just Ctrl+F
-
-**vs Productivity Apps** (Notion, Obsidian):
-- ✅ Zero manual structuring required
-- ✅ AI does the thinking (scoring, summarizing, extracting)
-- ✅ Simpler mobile capture (Apple Notes)
-
-**vs Other AI Solutions**:
-- ✅ Persistent memory (YAML databases)
-- ✅ Local-first (your machine, your control)
-- ✅ Deep integration (Apple Notes, local filesystem)
-
-### Technical Advantages
-
-1. **Claude as Platform** - Best-in-class reasoning, not just keyword matching
-2. **YAML Storage** - Human-readable, git-friendly, no database overhead
-3. **Modular Architecture** - Each skill is independent, easy to extend
-4. **Token Budget Optimization** - Progressive loading, on-demand modules
-5. **Apple Notes Integration** - Frictionless mobile capture via existing app
+| Extension | Skill Module | Function |
+| :--- | :--- | :--- |
+| **Memory** | `local-rag` | Index & Search all local documents semanticallly. |
+| **Memory** | `reading-list` | Ingest, summarize, and link articles from the web. |
+| **Mind** | `ideas-capture` | Expand raw thoughts into developed project plans. |
+| **Mind** | `career-consultant` | Analyze market data and optimize your professional positioning. |
+| **Mind** | `voice-memos` | Transcribe and extract structure from raw audio. |
+| **Agency** | `social-media` | Generate and optimize external communications. |
 
 ---
 
-## 🎯 Success Metrics
+## 🤝 Join the Evolution
 
-### User Adoption
-- Active users per month
-- Skills per user (cross-skill usage)
-- Retention (90-day active rate)
+We are building the operating system for the next stage of human capability.
+It is open source, local-first, and designed for you.
 
-### Productivity Impact
-- Items processed per user per week
-- Time saved (vs manual entry)
-- Decision quality (satisfaction surveys)
-
-### Developer Growth
-- Contributors
-- Community-created skills
-- Documentation improvements
-
-### Technical Health
-- Installation success rate
-- Error rates per skill
-- Performance (response times)
-
----
-
-## 🗺️ Roadmap Alignment
-
-This vision drives our roadmap:
-
-**Phase 1**: Foundation (✅ Complete)
-- Monorepo with 6 production skills
-- Shared infrastructure and automation
-- Comprehensive documentation
-
-**Phase 2**: Intelligence (In Progress)
-- Cross-skill connections
-- Autonomous suggestions
-- Smarter scoring algorithms
-
-**Phase 3**: Community ( Future)
-- Public skill templates
-- Contribution framework
-- Skill marketplace
-
-**Phase 4**: Scale (Vision)
-- Multi-user collaboration
-- Cloud sync options
-- Web dashboard
-
----
-
-## 🤝 Join the Vision
-
-**For Users**: Transform how you process information → Install and try
-
-**For Contributors**: Build the future of AI productivity → See CONTRIBUTING.md
-
-**For Skill Developers**: Create your own workflows → Use our monorepo as template
-
----
-
-**Question**: What workflows are you struggling with?  
-**Opportunity**: Build a skill for it, or request it via GitHub Issues.
-
-Let's make AI productivity accessible to everyone.
+**[Get Started](README.md)** | **[Contribute](CONTRIBUTING.md)**

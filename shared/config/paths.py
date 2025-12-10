@@ -40,6 +40,8 @@ def _auto_detect_user_data_base() -> Path:
     """
     home = Path.home()
     candidates = [
+        home / "exocortex-data",
+        home / "Documents" / "exocortex-data",
         home / "Documents" / "claude-skills-data",
         home / "MyDrive" / "claude-skills-data",
         home / "claude-skills-data",

@@ -1,9 +1,11 @@
 """Unit tests for config_loader.py."""
 
+from unittest.mock import mock_open, patch
+
+import config_loader
 import pytest
 import yaml
-from unittest.mock import mock_open, patch
-import config_loader
+
 
 class TestLoadUserConfig:
     """Tests for load_user_config function."""

@@ -7,6 +7,7 @@ PYTHONUNBUFFERED=1 PYTHONPATH=. OCR_ENGINE=tesseract OCR_MAX_PAGES=3 python debu
 """
 import sys
 from pathlib import Path
+
 from local_rag.ingestion.extractors import read_text_with_ocr
 from local_rag.settings import get_settings
 

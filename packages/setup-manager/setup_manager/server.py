@@ -1,25 +1,28 @@
 """
 MCP Server for Setup & Maintenance Manager.
 """
-import json
 import logging
 import platform
 from pathlib import Path
 from typing import Any, Sequence
 
+import mcp.types as types
 from mcp.server import Server
 from mcp.types import (
-    Tool,
-    TextContent,
-    ImageContent,
     EmbeddedResource,
+    ImageContent,
+    TextContent,
 )
-import mcp.types as types
 
-from .discovery import list_installed_skills, get_skill_details
+from .config_manager import add_mcp_server, get_config_path
+from .discovery import get_skill_details, list_installed_skills
+from .maintenance import (
+    backup_skill_data,
+    clean_logs,
+    reset_skill_data,
+    update_all_dependencies,
+)
 from .setup import check_system_requirements, install_package_dependencies
-from .maintenance import clean_logs, update_all_dependencies, backup_skill_data, reset_skill_data
-from .config_manager import get_config_path, add_mcp_server
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -295,6 +298,7 @@ async def call_tool(name: str, arguments: Any) -> Sequence[TextContent | ImageCo
 def main():
     # Run the server using stdin/stdout
     import asyncio
+
     from mcp.server.stdio import stdio_server
 
     async def run():

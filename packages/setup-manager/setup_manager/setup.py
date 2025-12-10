@@ -5,7 +5,8 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, Tuple
+
 
 def check_system_requirements() -> Dict[str, bool]:
     """

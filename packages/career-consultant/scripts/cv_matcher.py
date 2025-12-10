@@ -5,8 +5,8 @@ Dynamically loads and matches CVs based on user configuration
 This script runs in Claude's container and accesses CVs via MCP Filesystem.
 """
 
-from typing import Dict, List, Tuple, Any
 import re
+from typing import Dict, List, Tuple
 
 
 def load_user_cvs(user_data_base: str, cv_variants: List[Dict]) -> Dict[str, Dict]:
@@ -212,7 +212,8 @@ def identify_skill_gaps(
 # Example usage
 if __name__ == "__main__":
     import sys
-    from config_loader import load_user_config, get_cv_variants, get_scoring_weights
+
+    from config_loader import get_cv_variants, get_scoring_weights, load_user_config
     
     if len(sys.argv) < 2:
         print("Usage: python cv_matcher.py <user_data_base>")

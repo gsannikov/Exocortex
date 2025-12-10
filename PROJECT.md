@@ -1,4 +1,4 @@
-# Claude Skills Project
+# Exocortex Infrastructure
 
 Architecture decisions, roadmap, and project management.
 

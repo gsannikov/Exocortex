@@ -4,10 +4,8 @@ Comprehensive tests for yaml_utils.py - HIGH PRIORITY
 This module tests YAML frontmatter handling which is critical for data integrity.
 """
 
-import pytest
-import tempfile
-from pathlib import Path
 
+import pytest
 import yaml_utils
 
 

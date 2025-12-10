@@ -5,8 +5,9 @@ Handles YAML frontmatter creation and parsing
 This script runs in Claude's container.
 """
 
+from typing import Any, Dict, Tuple
+
 import yaml
-from typing import Dict, Any, Tuple
 
 
 def create_yaml_document(frontmatter: Dict[str, Any], content: str) -> str:

@@ -1,15 +1,15 @@
 """Tests for vector store abstraction."""
 
-import pytest
 import tempfile
+
+import pytest
 from local_rag.adapters.vectorstore import (
-    VectorStoreType,
+    ChromaVectorStore,
     Document,
     SearchResult,
-    BaseVectorStore,
-    ChromaVectorStore,
+    VectorStoreType,
     get_vector_store,
-    get_vector_store_from_env
+    get_vector_store_from_env,
 )
 
 

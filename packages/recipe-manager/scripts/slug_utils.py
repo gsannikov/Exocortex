@@ -4,7 +4,6 @@ Generates URL-safe slugs with Hebrew transliteration support.
 """
 
 import re
-from typing import Optional
 
 # Hebrew to Latin transliteration map
 HEBREW_MAP = {

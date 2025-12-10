@@ -17,7 +17,7 @@ set -e
 
 REPO_URL="https://github.com/gsannikov/claude-skills.git"
 # Default install directory - can be overridden with CLAUDE_SKILLS_DIR env var
-INSTALL_DIR="${CLAUDE_SKILLS_DIR:-$HOME/Projects/claude-skills}"
+INSTALL_DIR="${CLAUDE_SKILLS_DIR:-$HOME/Projects/exocortex}"
 BRANCH="${CLAUDE_SKILLS_BRANCH:-main}"
 VENV_DIR=".venv"
 RUN_TESTS="${RUN_TESTS:-1}"  # Set RUN_TESTS=0 to skip pytest during install
@@ -317,7 +317,7 @@ main() {
     echo "Next steps:"
     echo "  1) Activate the virtualenv: source ${INSTALL_DIR}/${VENV_DIR}/bin/activate"
     echo "  2) (Optional) Re-run tests anytime: LOCAL_RAG_REAL_OCR_DEPS=1 pytest packages/local-rag/tests -q"
-    echo "  3) Start hacking!"
+    echo "  3) Start augmenting your mind with Exocortex!"
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════

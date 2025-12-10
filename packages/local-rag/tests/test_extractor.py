@@ -1,7 +1,7 @@
 """Tests for ingest/extractor.py module."""
 
+
 import pytest
-from pathlib import Path
 
 
 def test_extractor_module_imports():

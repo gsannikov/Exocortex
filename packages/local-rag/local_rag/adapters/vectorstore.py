@@ -20,7 +20,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 
 class VectorStoreType(str, Enum):
@@ -383,7 +383,7 @@ class QdrantVectorStore(BaseVectorStore):
 
     def delete_documents(self, ids: List[str] = None, where: Dict = None):
         """Delete documents from Qdrant."""
-        from qdrant_client.models import Filter, FieldCondition, MatchValue
+        from qdrant_client.models import FieldCondition, Filter, MatchValue
 
         if ids:
             point_ids = [self._to_point_id(doc_id) for doc_id in ids]
@@ -411,7 +411,7 @@ class QdrantVectorStore(BaseVectorStore):
         where: Dict = None
     ) -> List[SearchResult]:
         """Search Qdrant."""
-        from qdrant_client.models import Filter, FieldCondition, MatchValue
+        from qdrant_client.models import FieldCondition, Filter, MatchValue
 
         query_emb = query_embedding.tolist() if hasattr(query_embedding, 'tolist') else list(query_embedding)
 

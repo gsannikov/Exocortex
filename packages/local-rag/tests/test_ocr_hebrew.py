@@ -1,9 +1,11 @@
 
-import pytest
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
+
+import pytest
 from local_rag.ingestion.extractors import read_text_with_ocr
 from local_rag.settings import get_settings
+from PIL import Image, ImageDraw, ImageFont
+
 
 def create_dummy_pdf_with_text(path: Path, text: str, lang: str = "eng"):
     """

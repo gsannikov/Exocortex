@@ -7,7 +7,6 @@ PYTHONUNBUFFERED=1 PYTHONPATH=. OCR_ENGINE=tesseract OCR_MAX_PAGES=3 python3 deb
 """
 import sys
 from pathlib import Path
-from typing import Optional
 
 if len(sys.argv) < 2:
     print("Usage: python3 debug_ocr_compat.py <path-to-pdf>")

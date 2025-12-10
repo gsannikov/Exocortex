@@ -6,29 +6,27 @@ Scans a directory and indexes supported files into vector store.
 Supports multiple chunking strategies, vector stores, and BM25 indexing.
 """
 
-import sys
+import argparse
 import hashlib
 import json
-import argparse
-import logging
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from pathlib import Path
-from typing import List, Generator, Tuple, Optional
+import sys
 import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
+from pathlib import Path
+from typing import List, Optional, Tuple
 
 from sentence_transformers import SentenceTransformer
 
-from ..utils.logger import setup_logging, get_logger
-
-from ..settings import LocalRagSettings, get_settings
-from ..ingestion.extractors import read_text_with_ocr as read_text
-from ..ingestion.discover import discover_files
-from ..ingestion.filters import filter_chunks
-from ..ingestion.chunking import ChunkingStrategy, get_chunker, chunk_text, Chunk
-from ..search.hybrid import BM25Index
-from ..storage import create_repository, VectorStoreRepository
 from ..adapters.vectorstore import get_vector_store
+from ..ingestion.chunking import ChunkingStrategy, get_chunker
+from ..ingestion.discover import discover_files
+from ..ingestion.extractors import read_text_with_ocr as read_text
+from ..ingestion.filters import filter_chunks
+from ..search.hybrid import BM25Index
+from ..settings import LocalRagSettings, get_settings
+from ..storage import VectorStoreRepository, create_repository
+from ..utils.logger import get_logger, setup_logging
 
 # Load defaults once
 DEFAULT_SETTINGS = get_settings()
@@ -497,7 +495,7 @@ class DocumentIndexer:
             if len(stats["error_details"]) > 5:
                 self.logger.error(f"  ... and {len(stats['error_details']) - 5} more (see full log)")
         
-        self.logger.info(f"\nIndexing complete:")
+        self.logger.info("\nIndexing complete:")
         self.logger.info(f"  Files processed: {stats['files_processed']}")
         self.logger.info(f"  Chunks created: {stats['chunks_created']}")
         self.logger.info(f"  Files skipped (unchanged): {stats['skipped_unchanged']}")
@@ -550,7 +548,7 @@ def index_directory(
     )
     stats = indexer.index_directory(source_dir)
 
-    print(f"\nIndexing complete:")
+    print("\nIndexing complete:")
     print(f"  Files processed: {stats['files_processed']}")
     print(f"  Files skipped:   {stats['files_skipped']}")
     print(f"  Chunks created:  {stats['chunks_created']}")
@@ -685,7 +683,7 @@ Examples:
 
     stats = indexer.index_directory(source, force=args.force)
 
-    print(f"\nIndexing complete:")
+    print("\nIndexing complete:")
     print(f"  Files processed: {stats['files_processed']}")
     print(f"  Files skipped:   {stats['files_skipped']}")
     print(f"  Chunks created:  {stats['chunks_created']}")

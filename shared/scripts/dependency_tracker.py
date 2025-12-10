@@ -15,11 +15,9 @@ Usage:
 
 import argparse
 import hashlib
-import os
 import subprocess
 import sys
 from collections import defaultdict
-from datetime import datetime
 from pathlib import Path
 from typing import Optional
 

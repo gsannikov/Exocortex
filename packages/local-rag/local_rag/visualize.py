@@ -19,10 +19,6 @@ from .chunking import (
     Chunk,
     ChunkingStrategy,
     get_chunker,
-    FixedChunker,
-    SentenceChunker,
-    SemanticChunker,
-    TemplateChunker
 )
 
 
@@ -173,7 +169,7 @@ def print_stats(chunks: List[Chunk], text: str):
     overlap_pct = (overlap_chars / len(text) * 100) if text else 0
     print(f"Overlap chars:        {overlap_chars:,} ({overlap_pct:.1f}%)")
 
-    print(f"\nChunk size distribution:")
+    print("\nChunk size distribution:")
     print(f"  Min:     {min(lengths):,} chars")
     print(f"  Max:     {max(lengths):,} chars")
     print(f"  Mean:    {sum(lengths) / len(lengths):,.0f} chars")
@@ -186,7 +182,7 @@ def print_stats(chunks: List[Chunk], text: str):
         strategies[strategy] = strategies.get(strategy, 0) + 1
 
     if len(strategies) > 1:
-        print(f"\nStrategies used:")
+        print("\nStrategies used:")
         for strategy, count in sorted(strategies.items()):
             print(f"  {strategy}: {count}")
 

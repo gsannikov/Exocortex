@@ -5,8 +5,9 @@ Loads and validates user configuration from user-config.yaml
 This script runs in Claude's container and accesses user data via MCP Filesystem.
 """
 
+from typing import Any, Dict, List
+
 import yaml
-from typing import Dict, Any, List
 
 
 def load_user_config(user_data_base: str) -> Dict[str, Any]:

@@ -1,9 +1,11 @@
 """Unit tests for storage_utils.py."""
 
-import pytest
 from pathlib import Path
-from unittest.mock import patch, MagicMock, mock_open
+from unittest.mock import mock_open, patch
+
+import pytest
 import storage_utils
+
 
 class TestDetectStorageType:
     """Tests for detect_storage_type function."""

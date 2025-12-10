@@ -3,8 +3,7 @@
 import sys
 from typing import List
 
-from . import __version__
-from . import indexer, query, visualize
+from . import __version__, indexer, query, visualize
 from .health import get_health
 from .settings import get_settings
 

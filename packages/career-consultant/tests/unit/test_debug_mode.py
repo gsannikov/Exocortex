@@ -1,5 +1,3 @@
-import pytest
-from unittest.mock import MagicMock, patch
 
 # Mocking the file_read function since it's not available in the test environment
 # In a real scenario, we would import the module logic

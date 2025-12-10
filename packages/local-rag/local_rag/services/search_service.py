@@ -6,26 +6,24 @@ Searches the index for relevant documents using hybrid search
 (vector similarity + BM25) with optional reranking.
 """
 
-import sys
-import json
 import argparse
-from pathlib import Path
+import json
+import sys
 from typing import List, Optional
 
-from sentence_transformers import SentenceTransformer
 from rapidfuzz import fuzz
+from sentence_transformers import SentenceTransformer
 
-from ..settings import LocalRagSettings, get_settings
-from ..storage import create_repository, VectorStoreRepository
 from ..adapters.vectorstore import get_vector_store
 from ..search.hybrid import (
+    FusionMethod,
     HybridSearcher,
     SearchConfig,
     SearchMethod,
-    FusionMethod,
-    BM25Index,
-    SearchResult
+    SearchResult,
 )
+from ..settings import LocalRagSettings, get_settings
+from ..storage import VectorStoreRepository, create_repository
 
 DEFAULT_SETTINGS = get_settings()
 

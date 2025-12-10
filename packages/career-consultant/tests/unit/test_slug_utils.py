@@ -7,7 +7,6 @@ This module tests slug generation and validation which is critical for:
 - Data integrity
 """
 
-import pytest
 
 import slug_utils
 
