@@ -1,4 +1,4 @@
-name: Release Skill
+name: Release
 
 on:
   workflow_dispatch:

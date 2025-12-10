@@ -1,4 +1,4 @@
-name: AlignTrue Validation
+name: AlignTrue
 on:
   pull_request:
   push:
