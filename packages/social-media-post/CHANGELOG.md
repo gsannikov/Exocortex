@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.1] - 2025-12-10
+
+- Release 1.0.1
+
 All notable changes to the Social Media Post skill will be documented in this file.
 
 ## [1.0.0] - 2025-11-27
