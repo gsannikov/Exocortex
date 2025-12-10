@@ -3,7 +3,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Build Status](https://github.com/gsannikov/claude-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/gsannikov/claude-skills/actions/workflows/validate.yml)
-[![Skills](https://img.shields.io/badge/skills-6-blue.svg)](packages/)
+[![Skills](https://img.shields.io/badge/skills-8-blue.svg)](packages/)
 [![Version](https://img.shields.io/badge/monorepo-v1.1.0-green.svg)](PROJECT.md)
 [![AlignTrue](https://img.shields.io/badge/AlignTrue-enabled-purple.svg)](.aligntrue/)
 [![Platform](https://img.shields.io/badge/AI-agnostic-orange.svg)](DEVELOPER_GUIDE.md#aligntrue-workflow)
@@ -42,6 +42,8 @@ curl -fsSL https://raw.githubusercontent.com/gsannikov/exocortex/main/install.sh
 | **🎙️ Voice Memos** | Transcribes audio, extracts action items, and identifies speakers. |
 | **🔍 Local RAG** | Searches your local documents (PDF, Docx, Code) using semantic understanding. |
 | **📱 Social Media** | Generates optimized posts for LinkedIn, X, and Threads with algorithm insights. |
+| **🍳 Recipe Manager** | Imports recipes from web/Apple Notes, scales ingredients, and syncs to Notion. |
+| **🔧 Setup Manager** | Automates the environment setup, dependency management, and system health checks. |
 
 ---
 
