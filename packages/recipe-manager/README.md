@@ -6,7 +6,7 @@ Extracts recipes from URLs/Images to local YAML files. Tracks family preferences
 
 1.  **Recipe Extraction**: Extract recipes from any URL (websites, Instagram reels, YouTube)
 2.  **Image Processing**: Parse recipe images and photos
-3.  **Apple Notes Import**: Import recipes saved in Apple Notes (URLs or raw text)
+3.  **Inbox Import**: Import recipes saved in your bridge app (e.g., Apple Notes)
 4.  **Multi-language Support**: Hebrew and English recipes
 5.  **Family Tracking**: Track which family members like each recipe
 6.  **Status Management**: To try → Try next → Tried → Perfected workflow

@@ -37,7 +37,7 @@ curl -fsSL https://raw.githubusercontent.com/gsannikov/exocortex/main/install.sh
 | Skill | What It Does |
 |-------|--------------|
 | **💼 Career Consultant** | Analyzes job posts, scores them (Match/Income/Growth), and tracks your applications. |
-| **📚 Reading List** | Captures articles from Apple Notes, summarizes them, and tracks reading progress. |
+| **📚 Reading List** | Captures articles from your inbox, summarizes them, and tracks reading progress. |
 | **💡 Ideas Capture** | Turns fleeting thoughts into expanded project plans with feasibility scoring. |
 | **🎙️ Voice Memos** | Transcribes audio, extracts action items, and identifies speakers. |
 | **🔍 Local RAG** | Searches your local documents (PDF, Docx, Code) using semantic understanding. |
@@ -49,7 +49,7 @@ curl -fsSL https://raw.githubusercontent.com/gsannikov/exocortex/main/install.sh
 
 ## 📱 How It Works
 
-1.  **Capture**: Save links, ideas, or voice memos to **Apple Notes** on your phone.
+1.  **Capture**: Save links, ideas, or voice memos to your **Inbox** (e.g., Apple Notes, Email, or File).
 2.  **Process**: Open Claude and say a command (e.g., `"process inbox"`).
 3.  **Done**: Claude analyzes, organizes, and saves everything to your local files.
 
