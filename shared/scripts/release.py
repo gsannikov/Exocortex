@@ -174,7 +174,7 @@ def create_git_tag(skill_name: str, version: str, dry_run: bool = False):
     print(f"✅ Created tag: {tag_name}")
 
 
-def release_skill(skill_name: str, bump_type: str, dry_run: bool = False) -> tuple[bool, str]:
+def release_skill(skill_name: str, bump_type: str, dry_run: bool = False, skip_tests: bool = False) -> tuple[bool, str]:
     """Execute full release process for a skill."""
     print(f"\n{'='*50}")
     print(f"Releasing {skill_name} ({bump_type})")
@@ -186,7 +186,7 @@ def release_skill(skill_name: str, bump_type: str, dry_run: bool = False) -> tup
     print(f"Version: {current} → {new_version}")
 
     # Run tests
-    if not run_tests(skill_name):
+    if not skip_tests and not run_tests(skill_name):
         print("❌ Release aborted due to test failures")
         return False, ''
 
@@ -212,6 +212,7 @@ def main():
     parser.add_argument('--minor', action='store_true', help='Minor release')
     parser.add_argument('--major', action='store_true', help='Major release')
     parser.add_argument('--dry-run', action='store_true', help='Preview without making changes')
+    parser.add_argument('--skip-tests', action='store_true', help='Skip running tests')
 
     args = parser.parse_args()
 
@@ -228,7 +229,7 @@ def main():
     released_version = ''
 
     for skill in skills:
-        success, version = release_skill(skill, bump_type, args.dry_run)
+        success, version = release_skill(skill, bump_type, args.dry_run, args.skip_tests)
         if not success:
             sys.exit(1)
         released_version = version
