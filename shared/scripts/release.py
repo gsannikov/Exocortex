@@ -174,6 +174,59 @@ def create_git_tag(skill_name: str, version: str, dry_run: bool = False):
     print(f"✅ Created tag: {tag_name}")
 
 
+import shutil
+import glob
+
+def create_package(skill_name: str, version: str, dry_run: bool = False):
+    """Create a compressed package for the skill."""
+    print(f"\n📦 Packaging {skill_name} v{version}...")
+    
+    # Ensure releases dir exists
+    releases_dir = REPO_ROOT / 'releases'
+    if not releases_dir.exists():
+        releases_dir.mkdir(exist_ok=True)
+    
+    # Cleanup old releases for this specific skill/version to avoid stale files
+    # We match pattern: skill_name-v*.zip
+    # But specifically checking for the current one to be safe, 
+    # though usually we want to keep history? 
+    # The user asked not to "overhelp repo with historical packages", 
+    # but that was about git history. Local releases/ dir is gitignored.
+    # To be safe and clean, we'll remove ANY existing file with this exact target name.
+    
+    target_base = releases_dir / f"{skill_name}-v{version}"
+    target_zip = releases_dir / f"{skill_name}-v{version}.zip"
+    
+    if target_zip.exists():
+        if dry_run:
+             print(f"[DRY RUN] Would remove existing: {target_zip}")
+        else:
+             target_zip.unlink()
+             print(f"   Removed existing: {target_zip.name}")
+
+    if dry_run:
+        print(f"[DRY RUN] Would create zip package: {target_zip}")
+        return
+
+    # Create zip
+    # We want the zip to contain the CONTENT of the package, 
+    # so we set root_dir to packages/{skill} and base_dir to .
+    package_dir = PACKAGES_DIR / skill_name
+    
+    try:
+        shutil.make_archive(
+            str(target_base), 
+            'zip', 
+            root_dir=package_dir, 
+            base_dir='.'
+        )
+        print(f"✅ Created package: {target_zip.name}")
+        print(f"   Path: {target_zip}")
+    except Exception as e:
+        print(f"❌ Failed to create package: {e}")
+        raise
+
+
 def release_skill(skill_name: str, bump_type: str, dry_run: bool = False, skip_tests: bool = False) -> tuple[bool, str]:
     """Execute full release process for a skill."""
     print(f"\n{'='*50}")
@@ -195,6 +248,9 @@ def release_skill(skill_name: str, bump_type: str, dry_run: bool = False, skip_t
 
     # Update changelog
     update_changelog(skill_name, new_version, dry_run)
+
+    # Create package
+    create_package(skill_name, new_version, dry_run)
 
     # Create git tag
     if not dry_run:

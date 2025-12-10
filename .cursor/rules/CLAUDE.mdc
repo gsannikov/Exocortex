@@ -107,6 +107,7 @@ python shared/scripts/skill_generator.py --name "expense-tracker" --patterns inb
 
 ## ⚠️ Important Notes
 
+- **Never skip failing tests** - tests must pass before releasing or merging
 - **Never commit user data** - it's in a separate gitignored folder
 - **URL normalization** - strip trailing slashes, decode HTML entities
 - **Apple Notes timeout** - keep note updates small, use stats summary

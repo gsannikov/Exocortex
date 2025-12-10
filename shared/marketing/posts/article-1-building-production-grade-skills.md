@@ -61,7 +61,7 @@ graph TB
 
     subgraph Remote["☁️ Remote Servers"]
         direction TB
-        Model[LLM (Claude 3.5 Sonnet / GPT-4)]
+        Model[LLM (Claude / GPT / Gemini)]
         Services["External APIs<br/>(Firecrawl / Bright Data)"]
     end
 
@@ -278,7 +278,7 @@ exporters:
 ```
 
 **Why This Matters:**
-- **For Open Source**: Contributors can use Claude, GPT-4, Cursor, Antigravity, or local models
+- **For Open Source**: Contributors can use the latest Claude, GPT, Gemini, Cursor, Antigravity, or local models
 - **For Teams**: Teams using different AI tools stay perfectly synchronized
 - **For You**: Switch AI platforms without migrating your instructions
 - **For Adoption**: Lower barrier to entry—developers use familiar tools
@@ -287,6 +287,12 @@ This is especially critical for SDK developers working with this monorepo. Wheth
 
 **Real-World Impact:**
 Since adding AlignTrue, I've had contributors using 3 different AI platforms collaborate seamlessly on the same codebase. The instructions stay in sync automatically, and everyone has the same context regardless of their AI assistant choice.
+
+**Example: Enforcing Quality Across Agents**
+I recently needed to strictly enforce test passing before releases. Instead of manually teaching Claude, then ChatGPT, then Cursor, I did this:
+1. Added `Never skip failing tests` to `.aligntrue/rules/CLAUDE.md`.
+2. Ran `aligntrue sync`.
+3. Instantly, **every AI agent** working on the repo received the new directive. A contributor using Cursor saw the rule in `.cursorrules`, and I saw it in `CLAUDE.md`. One source of truth, infinite agents.
 
 ---
 

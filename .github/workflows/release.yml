@@ -99,5 +99,6 @@ jobs:
             Release of ${{ inputs.skill }} version ${{ steps.release.outputs.version }}
             
             See CHANGELOG.md in packages/${{ inputs.skill }}/ for details.
+          files: releases/*
           draft: false
           prerelease: false

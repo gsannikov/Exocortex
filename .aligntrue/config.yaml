@@ -3,6 +3,7 @@ sources:
   - type: local
     path: .aligntrue/rules
 exporters:
-  - claude          # Claude Desktop (CLAUDE.md)
-  - openai-codex    # OpenAI Codex CLI (AGENTS.md)
-  - cursor          # Cursor IDE (.cursor/rules/*.mdc)
+  - claude
+  - openai-codex
+  - cursor
+  - agents
