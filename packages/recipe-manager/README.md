@@ -1,6 +1,6 @@
 # Recipe Manager Skill
 
-AI-powered recipe collection manager for extracting, organizing, and tracking family recipes.
+Imports recipes from web/Apple Notes, scales ingredients, and syncs to Notion.
 
 ## 🌟 Capabilities
 

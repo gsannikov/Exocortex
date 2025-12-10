@@ -1,6 +1,6 @@
 ---
 name: recipe-manager
-description: Recipe collection manager. Extracts recipes from URLs (websites, Instagram, YouTube), images, and Apple Notes. Stores in structured YAML format with family preferences tracking. Supports sync to/from Notion.
+description: Imports recipes from web/Apple Notes, scales ingredients, and syncs to Notion.
 ---
 
 # Recipe Manager Skill
