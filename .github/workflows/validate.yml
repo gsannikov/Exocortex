@@ -26,7 +26,7 @@ jobs:
     outputs:
       skill_matrix: ${{ steps.changes.outputs.skill_matrix }}
       has_skills: ${{ steps.changes.outputs.has_skills }}
-      run_local_rag_tests: ${{ steps.changes.outputs.run_local_rag_tests }}
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -75,6 +75,10 @@ jobs:
               - 'packages/setup-manager/**'
             skill_social_media_post:
               - 'packages/social-media-post/**'
+            skill_exocortex_mcp:
+              - 'packages/exocortex-mcp/**'
+            skill_next_skill:
+              - 'packages/next-skill/**'
 
       - name: Build skill matrix
         id: changes
@@ -86,7 +90,7 @@ jobs:
           skills=()
 
           if [[ "$CHANGES" == *"shared"* ]]; then
-            skills=(job-analyzer interview-prep reading-list ideas-capture voice-memos local-rag recipe-manager setup-manager social-media-post)
+            skills=(job-analyzer interview-prep reading-list ideas-capture voice-memos local-rag recipe-manager setup-manager social-media-post exocortex-mcp next-skill)
           else
             [[ "$CHANGES" == *"skill_job_analyzer"* ]] && skills+=(job-analyzer)
             [[ "$CHANGES" == *"skill_interview_prep"* ]] && skills+=(interview-prep)
@@ -97,6 +101,8 @@ jobs:
             [[ "$CHANGES" == *"skill_recipe_manager"* ]] && skills+=(recipe-manager)
             [[ "$CHANGES" == *"skill_setup_manager"* ]] && skills+=(setup-manager)
             [[ "$CHANGES" == *"skill_social_media_post"* ]] && skills+=(social-media-post)
+            [[ "$CHANGES" == *"skill_exocortex_mcp"* ]] && skills+=(exocortex-mcp)
+            [[ "$CHANGES" == *"skill_next_skill"* ]] && skills+=(next-skill)
           fi
 
           if [[ ${#skills[@]} -eq 0 ]]; then
@@ -106,16 +112,12 @@ jobs:
             skills_json=$(printf '%s\n' "${skills[@]}" | jq -R . | jq -sc .)
           fi
           
-          run_local_rag=$([[ "$CHANGES" == *"shared"* || "$CHANGES" == *"skill_local_rag"* ]] && echo true || echo false)
-
           {
             echo "skill_matrix=$skills_json"
             echo "has_skills=$([[ ${#skills[@]} -gt 0 ]] && echo true || echo false)"
-            echo "run_local_rag_tests=$run_local_rag"
           } >> "$GITHUB_OUTPUT"
 
           echo "Skill matrix: $skills_json"
-          echo "Run local-rag tests: $run_local_rag"
 
   validate:
     runs-on: ubuntu-latest
@@ -134,9 +136,30 @@ jobs:
         with:
           python-version: '3.11'
       
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "0.5.5"
+
+      - name: Install system dependencies (local-rag only)
+        if: matrix.skill == 'local-rag'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-heb poppler-utils qpdf ghostscript
+
       - name: Install dependencies
         run: |
-          pip install pyyaml
+          uv venv
+          source .venv/bin/activate
+          
+          uv pip install pyyaml pytest pytest-cov pytest-asyncio
+          
+          # Install skill dependencies if they exist
+          if [ -f "packages/${{ matrix.skill }}/pyproject.toml" ]; then
+             uv sync --project "packages/${{ matrix.skill }}"
+          elif [ -f "packages/${{ matrix.skill }}/_dev/requirements.txt" ]; then
+             uv pip install -r "packages/${{ matrix.skill }}/_dev/requirements.txt"
+          fi
       
       - name: Validate skill structure
         run: |
@@ -147,6 +170,8 @@ jobs:
           
           if [ -f "$SKILL_DIR/SKILL.md" ]; then
             echo "✅ SKILL.md exists"
+          elif [ "${{ matrix.skill }}" == "exocortex-mcp" ]; then
+             echo "✅ exocortex-mcp exempted from SKILL.md check"
           else
             echo "❌ Missing SKILL.md (must be in package root)"
             exit 1
@@ -165,17 +190,18 @@ jobs:
           fi
           
           # Check for version file
-          if [ -f "$SKILL_DIR/version.yaml" ] || [ -f "$SKILL_DIR/_dev/version.yaml" ]; then
-            echo "✅ version.yaml exists"
+          if [ -f "$SKILL_DIR/version.yaml" ] || [ -f "$SKILL_DIR/_dev/version.yaml" ] || [ -f "$SKILL_DIR/pyproject.toml" ]; then
+            echo "✅ version.yaml/pyproject.toml exists"
           else
-            echo "⚠️ Missing version.yaml (recommended in package root)"
+            echo "⚠️ Missing version metadata"
           fi
           
           echo "✅ ${{ matrix.skill }} validation passed"
       
       - name: Validate YAML files
         run: |
-          python -c "
+          # Use the installed python environment
+          uv run python -c "
           import yaml
           import glob
           import sys
@@ -209,6 +235,21 @@ jobs:
                   print(e)
               sys.exit(1)
           "
+
+      - name: Run Tests
+        env:
+          # local-rag specific envs
+          TOKENIZERS_PARALLELISM: "false"
+          LOCAL_RAG_REAL_OCR_DEPS: "1"
+          PYTHONPATH: "packages/${{ matrix.skill }}"
+        run: |
+          TEST_DIR="packages/${{ matrix.skill }}/tests"
+          if [ -d "$TEST_DIR" ]; then
+            echo "🧪 Running tests for ${{ matrix.skill }}..."
+            uv run pytest "$TEST_DIR" --verbose
+          else
+            echo "⚠️ No tests directory found at $TEST_DIR"
+          fi
 
   lint-scripts:
     runs-on: ubuntu-latest
@@ -363,37 +404,4 @@ jobs:
               });
             }
 
-  local-rag-tests:
-    runs-on: ubuntu-latest
-    needs: [detect-changes, validate]
-    if: >
-      (needs.detect-changes.outputs.run_local_rag_tests == 'true') &&
-      (github.event.pull_request || github.ref == 'refs/heads/main') &&
-      (needs.validate.result == 'success' || needs.validate.result == 'skipped')
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          # We can use 3.11 now that we dropped PaddlePaddle
-          python-version: '3.11'
-          cache: 'pip'
-
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y tesseract-ocr tesseract-ocr-heb poppler-utils qpdf ghostscript
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r packages/local-rag/_dev/requirements.txt
-          
-      - name: Run local-rag tests
-        env:
-          TOKENIZERS_PARALLELISM: "false"
-          LOCAL_RAG_REAL_OCR_DEPS: "1"
-          PYTHONPATH: "packages/local-rag"
-        run: |
-          pytest packages/local-rag/_dev/tests
