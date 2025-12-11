@@ -81,7 +81,7 @@ jobs:
             skill_next_skill:
               - 'packages/next-skill/**'
             skill_dashboard:
-              - 'packages/dashboard/**'
+              - 'shared/dashboard/**'
 
       - name: Build skill matrix
         id: changes
@@ -271,18 +271,18 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: packages/dashboard/package-lock.json
+          cache-dependency-path: shared/dashboard/package-lock.json
 
       - name: Install dependencies
-        working-directory: packages/dashboard
+        working-directory: shared/dashboard
         run: npm ci
 
       - name: Lint
-        working-directory: packages/dashboard
+        working-directory: shared/dashboard
         run: npm run lint
 
       - name: Build
-        working-directory: packages/dashboard
+        working-directory: shared/dashboard
         run: npm run build
 
   lint-scripts:

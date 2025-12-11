@@ -22,6 +22,11 @@
 
 body {
   background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(circle at 50% 0%, #1a1a2e 0%, transparent 70%),
+    radial-gradient(circle at 80% 10%, #2e1a2e 0%, transparent 50%),
+    linear-gradient(to bottom, transparent, #000);
+  background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-sans);
   margin: 0;

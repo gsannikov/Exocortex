@@ -100,7 +100,10 @@ PACKAGES_DIR = REPO_ROOT / 'packages'
 def get_current_version(skill_name: str) -> str:
     """Read current version from skill's version file."""
     config = SKILL_CONFIG[skill_name]
-    version_path = PACKAGES_DIR / skill_name / config['version_file']
+    if skill_name == 'dashboard':
+        version_path = REPO_ROOT / 'shared' / 'dashboard' / config['version_file']
+    else:
+        version_path = PACKAGES_DIR / skill_name / config['version_file']
     
     if not version_path.exists():
         return '0.0.0'
@@ -136,7 +139,10 @@ def bump_version(version: str, bump_type: str) -> str:
 def update_version_file(skill_name: str, new_version: str, dry_run: bool = False):
     """Update the version file with new version."""
     config = SKILL_CONFIG[skill_name]
-    version_path = PACKAGES_DIR / skill_name / config['version_file']
+    if skill_name == 'dashboard':
+        version_path = REPO_ROOT / 'shared' / 'dashboard' / config['version_file']
+    else:
+        version_path = PACKAGES_DIR / skill_name / config['version_file']
     
     if dry_run:
         print(f"[DRY RUN] Would update {version_path} to {new_version}")
@@ -247,8 +253,14 @@ def format_changelog_entry(version: str, commits: list[str]) -> str:
 def update_changelog(skill_name: str, new_version: str, dry_run: bool = False):
     """Add new version entry to changelog."""
     config = SKILL_CONFIG[skill_name]
-    changelog_path = PACKAGES_DIR / skill_name / config['changelog']
-    skill_path = f"packages/{skill_name}"
+    if skill_name == 'dashboard':
+        changelog_path = REPO_ROOT / 'shared' / 'dashboard' / config['changelog']
+    else:
+        changelog_path = PACKAGES_DIR / skill_name / config['changelog']
+    if skill_name == 'dashboard':
+        skill_path = "shared/dashboard"
+    else:
+        skill_path = f"packages/{skill_name}"
     
     # Get commits
     last_tag = get_last_tag(skill_name)
@@ -362,7 +374,13 @@ def create_package(skill_name: str, version: str, dry_run: bool = False):
     # Create zip
     # We want the zip to contain the CONTENT of the package, 
     # so we set root_dir to packages/{skill} and base_dir to .
-    package_dir = PACKAGES_DIR / skill_name
+    # Create zip
+    # We want the zip to contain the CONTENT of the package, 
+    # so we set root_dir to packages/{skill} and base_dir to .
+    if skill_name == 'dashboard':
+        package_dir = REPO_ROOT / 'shared' / 'dashboard'
+    else:
+        package_dir = PACKAGES_DIR / skill_name
     
     try:
         shutil.make_archive(
