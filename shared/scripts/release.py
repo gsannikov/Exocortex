@@ -152,16 +152,89 @@ def update_version_file(skill_name: str, new_version: str, dry_run: bool = False
     print(f"✅ Updated {version_path}")
 
 
+def get_last_tag(skill_name: str) -> str:
+    """Get the last git tag for this skill."""
+    try:
+        # List tags, filter by skill name, sort by creation date desc
+        result = subprocess.run(
+            ['git', 'tag', '--list', f'{skill_name}-v*', '--sort=-creatordate'],
+            capture_output=True, text=True, cwd=REPO_ROOT
+        )
+        tags = result.stdout.strip().split('\n')
+        return tags[0] if tags and tags[0] else None
+    except Exception:
+        return None
+
+
+def get_commits_since_tag(tag: str, path: str) -> list[str]:
+    """Get commit messages since the specified tag for a path."""
+    rev_range = f"{tag}..HEAD" if tag else "HEAD"
+    try:
+        # Get subject only which is cleaner
+        cmd = ['git', 'log', rev_range, '--format=%s', '--', path]
+        result = subprocess.run(cmd, capture_output=True, text=True, cwd=REPO_ROOT)
+        return [line for line in result.stdout.split('\n') if line]
+    except Exception:
+        return []
+
+
+def format_changelog_entry(version: str, commits: list[str]) -> str:
+    """Format changelog entry from commits."""
+    date = datetime.now().strftime('%Y-%m-%d')
+    
+    # Categorize commits
+    features = []
+    fixes = []
+    others = []
+    
+    for msg in commits:
+        if msg.startswith('feat'):
+            features.append(msg)
+        elif msg.startswith('fix'):
+            fixes.append(msg)
+        else:
+            others.append(msg)
+    
+    entry = f"\n## [{version}] - {date}\n"
+    
+    if features:
+        entry += "\n### Added\n"
+        for msg in features:
+            entry += f"- {msg}\n"
+            
+    if fixes:
+        entry += "\n### Fixed\n"
+        for msg in fixes:
+            entry += f"- {msg}\n"
+            
+    if others:
+        entry += "\n### Other\n"
+        for msg in others:
+            entry += f"- {msg}\n"
+            
+    if not commits:
+        entry += "\n- Maintenance release\n"
+        
+    return entry
+
+
 def update_changelog(skill_name: str, new_version: str, dry_run: bool = False):
     """Add new version entry to changelog."""
     config = SKILL_CONFIG[skill_name]
     changelog_path = PACKAGES_DIR / skill_name / config['changelog']
+    skill_path = f"packages/{skill_name}"
+    
+    # Get commits
+    last_tag = get_last_tag(skill_name)
+    commits = get_commits_since_tag(last_tag, skill_path)
+    new_entry = format_changelog_entry(new_version, commits)
     
     if not changelog_path.exists():
-        content = f"# Changelog\n\n## [{new_version}] - {datetime.now().strftime('%Y-%m-%d')}\n\n- Initial release\n"
+        content = f"# Changelog\n{new_entry}"
         if dry_run:
-            print(f"[DRY RUN] Would create {changelog_path}")
+            print(f"[DRY RUN] Would create {changelog_path} with:\n{new_entry}")
         else:
+            changelog_path.parent.mkdir(parents=True, exist_ok=True)
             with open(changelog_path, 'w') as f:
                 f.write(content)
         return
@@ -170,11 +243,15 @@ def update_changelog(skill_name: str, new_version: str, dry_run: bool = False):
         content = f.read()
     
     # Add new version section after # Changelog
-    new_entry = f"\n## [{new_version}] - {datetime.now().strftime('%Y-%m-%d')}\n\n- Release {new_version}\n"
-    content = content.replace('# Changelog\n', f'# Changelog\n{new_entry}', 1)
+    # Robustly handle different header styles
+    if '# Changelog' in content:
+        content = content.replace('# Changelog\n', f'# Changelog\n{new_entry}', 1)
+    else:
+        # Fallback if header missing
+        content = f"# Changelog\n{new_entry}\n{content}"
     
     if dry_run:
-        print(f"[DRY RUN] Would update {changelog_path}")
+        print(f"[DRY RUN] Would update {changelog_path} with:\n{new_entry}")
     else:
         with open(changelog_path, 'w') as f:
             f.write(content)

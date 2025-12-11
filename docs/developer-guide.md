@@ -184,15 +184,20 @@ tests/
 
 ### Running Tests
 
+We recommend using `uv` to ensure you run tests in the correct environment with all dependencies.
+
 ```bash
-# Run all tests for a skill
-pytest packages/job-analyzer/tests/
+# Run all tests for the entire monorepo (Recommended)
+uv run pytest
+
+# Run all tests for a specific skill
+uv run pytest packages/job-analyzer/tests/
 
 # Run with verbose output
-pytest -v packages/job-analyzer/tests/
+uv run pytest -v packages/job-analyzer/tests/
 
 # Run with coverage
-pytest --cov=packages/job-analyzer packages/job-analyzer/tests/
+uv run pytest --cov=packages/job-analyzer packages/job-analyzer/tests/
 ```
 
 ---
