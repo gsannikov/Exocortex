@@ -61,6 +61,9 @@ curl -fsSL https://raw.githubusercontent.com/gsannikov/exocortex/main/install.sh
 | **Latency** | Instant (Local IO, no git sync req) | Network Latency (API calls / Sync) |
 | **Cloud Strategy** | Flexible Bridge (BYO Cloud: GDrive, Dropbox, iCloud) | Fixed / Vendor Lock-in |
 | **Knowledge Retrieval** | Built-in Local RAG | External Service / None |
+| **Testing Framework** | Included (pytest, validation suite) | None / DIY |
+| **Security** | Built-in (input validation, safe defaults) | Manual / Varies |
+| **CI/CD** | GitHub Actions included | None / External |
 
 **Key Differentiators:**
 - **🔑 Ownership**: You own the pipe and the data — not renting the capability
