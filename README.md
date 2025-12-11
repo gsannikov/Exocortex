@@ -55,7 +55,7 @@ curl -fsSL https://raw.githubusercontent.com/gsannikov/exocortex/main/install.sh
 |---------|-----------|------------------------|
 | **Execution Environment** | Local-First (Runs on your machine) | Remote / Cloud (API dependent) |
 | **Data Storage** | Open Filesystem (Markdown/JSON in `~/exocortex-data`) | Opaque / Database (Hidden or Siloed) |
-| **Agent Support** | Multi-Agent / Polyglot (AlignTrue support) | Single Platform (Claude Desktop only) |
+| **Agent IDE Support** | Multi-Agent / Polyglot (AlignTrue support) | Single Platform (Claude Desktop only) |
 | **Architecture** | Decoupled (MCP Server exposed locally) | Tightly Coupled (SDK dependent) |
 | **Evolution** | Self-Learning (Grows with usage) | Static (Fixed capabilities) |
 | **Latency** | Instant (Local IO, no git sync req) | Network Latency (API calls / Sync) |
