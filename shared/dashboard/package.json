@@ -17,11 +17,12 @@
     "yaml": "^2.8.2"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.0.8",
+    "eslint-config-next": "^16.0.8",
     "typescript": "^5"
   }
 }

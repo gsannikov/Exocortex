@@ -1,5 +1,5 @@
 import DashboardWidget from '../../components/DashboardWidget';
-import { Database, Search, FileText, Upload } from 'lucide-react';
+import { Search, FileText, Upload } from 'lucide-react';
 
 export default function RagPage() {
   return (

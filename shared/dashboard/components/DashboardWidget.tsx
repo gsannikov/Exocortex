@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 interface DashboardWidgetProps {
   title: string;
   children: ReactNode;
-  icon?: any;
+  icon?: any; // Leaving as any for now to avoid strict type/dep hell, but TODO: fix
   action?: ReactNode;
   className?: string; // Add className prop to the interface
 }
