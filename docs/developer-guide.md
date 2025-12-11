@@ -119,8 +119,10 @@ All skills follow this structure with SKILL.md as orchestrator (<100 lines):
 ├── scripts/              # Python utilities
 ├── config/               # Configuration
 ├── README.md             # User guide
-├── CHANGELOG.md          # Version history
-└── version.yaml          # Version metadata
+├── _dev/                 # Development metadata
+│   ├── CHANGELOG.md      # Version history
+│   └── version.yaml      # Version metadata
+└── tests/                # Unit & integration tests
 ```
 
 ### SKILL.md Best Practices
