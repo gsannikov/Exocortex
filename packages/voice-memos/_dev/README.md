@@ -1,21 +1,24 @@
 # 🎙️ Voice Memos Automation
 
-Transcribe, analyze, and organize voice memos automatically.
+Process, transcribe, and analyze voice memos and audio notes.
 
 ## Quick Start
 
 1. Record in **Voice Memos** app
 2. Add filename to **🎙️ Voice Memos Inbox** note
 3. Tell Claude: `"process voice memos"`
+4. Or upload directly: `"transcribe and analyze this"`
 
 ## Commands
 
 | Command | Action |
 |---------|--------|
-| `process voice memos` | Process all from inbox |
+| `process voice memos` | Process inbox |
 | `transcribe [file]` | Transcribe uploaded file |
 | `analyze memo` | Analyze last transcript |
+| `show pending memos` | List unprocessed |
 | `show transcripts` | List all transcripts |
+| `search memos: [query]` | Find by keyword |
 
 ## Features
 
@@ -23,7 +26,7 @@ Transcribe, analyze, and organize voice memos automatically.
 - **Speaker Labels**: Identify up to 10 speakers
 - **Action Items**: Extract with priorities (HIGH/MEDIUM/LOW)
 - **Smart Summaries**: Brief, standard, or detailed
-- **Auto-Categorization**: Meeting, journal, task-list, etc.
+- **Auto-Categorization**: Meeting, journal, brainstorm, interview, etc.
 
 ## Supported Formats
 
@@ -31,7 +34,7 @@ m4a, mp3, wav, aac, opus, flac
 
 ## Storage
 
-User data: `~/MyDrive/claude-skills-data/voice-memos/`
+User data: `~/exocortex-data/voice-memos/`
 
 ## Version
 
@@ -39,4 +42,4 @@ See `version.yaml`
 
 ---
 
-Part of [Claude Skills Ecosystem](../../README.md)
+Part of [Exocortex](../../README.md)

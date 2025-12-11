@@ -261,7 +261,7 @@ Script for negotiation conversation.
 
 ## 📚 Reading List
 
-**Purpose**: Capture articles via Apple Notes, auto-scrape, summarize, and organize.
+**Purpose**: Manage reading list, track progress, and organize books/articles. Auto-scrapes URLs, summarizes content, and tracks status.
 
 ### Commands
 
@@ -269,19 +269,20 @@ Script for negotiation conversation.
 |---------|--------|
 | `process reading list` | Process URLs from inbox |
 | `show unread` | List unread items |
+| `show reading list` | Full list with status |
 | `show [category]` | Filter by category |
+| `summarize [topic]` | Get summaries |
 | `mark read: [title]` | Update status |
 | `search: [query]` | Find by keyword |
 
 ### Categories
 
-| Category | Description |
-|----------|-------------|
-| tech | Programming, tools, engineering |
-| ai | AI/ML, LLMs, data science |
-| business | Strategy, management, startups |
-| career | Job search, skills, growth |
-| finance | Investing, markets, economics |
+- **Tech**: Programming, tools, engineering
+- **AI**: AI/ML, LLMs, data science
+- **Business**: Strategy, management, startups
+- **Career**: Job search, skills, growth
+- **Finance**: Investing, markets
+- **Science**: Research, discoveries
 
 ### Example Session
 
@@ -308,38 +309,36 @@ Claude: Reading List - 12 Unread
 
 ## 💡 Ideas Capture
 
-**Purpose**: Capture fleeting ideas, expand with AI, evaluate potential, and organize.
+**Purpose**: Capture, organize, and develop ideas and thoughts from Apple Notes inbox.
 
 ### Commands
 
 | Command | Action |
 |---------|--------|
-| `process ideas` | Process inbox |
+| `process ideas` | Process Apple Notes inbox |
 | `show ideas` | List all by type |
-| `show [type] ideas` | Filter by type |
+| `show [type] ideas` | Filter by type (patent/startup/business/project) |
 | `expand: [idea]` | Generate expansion |
 | `evaluate: [idea]` | Score potential |
-| `link ideas: A + B` | Connect related |
+| `link ideas: [A] + [B]` | Connect related |
+| `search ideas: [query]` | Find by keyword |
 
 ### Idea Types
 
-| Type | Tag | Description |
-|------|-----|-------------|
-| Patent | [Patent] | Novel inventions |
-| Startup | [Startup] | Business ventures |
-| Business | [Business] | Process improvements |
-| Project | [Project] | Side projects |
+- **Patent**: Inventions, technical innovations
+- **Startup**: Business ventures, products
+- **Business**: Process improvements, revenue
+- **Project**: Side projects, personal tools
+- **Other**: Misc thoughts
 
 ### Scoring Dimensions
 
-| Dimension | Weight |
-|-----------|--------|
-| Feasibility | 20% |
-| Impact | 25% |
-| Effort (low=good) | 15% |
-| Uniqueness | 15% |
-| Timing | 15% |
-| Personal Fit | 10% |
+- **Feasibility** (20%)
+- **Impact** (25%)
+- **Effort** (15%) - low=good
+- **Uniqueness** (15%)
+- **Timing** (15%)
+- **Personal Fit** (10%)
 
 **Tiers**: Hot (≥7), Warm (5-7), Cold (<5)
 
@@ -347,26 +346,28 @@ Claude: Reading List - 12 Unread
 
 ## 🎙️ Voice Memos
 
-**Purpose**: Process voice memos - transcribe, extract action items, and organize.
+**Purpose**: Process, transcribe, and analyze voice memos and audio notes.
 
 ### Commands
 
 | Command | Action |
 |---------|--------|
 | `process voice memos` | Process inbox |
-| `transcribe [file]` | Single file |
-| `show transcripts` | List all |
+| `transcribe [file]` | Transcribe uploaded file |
+| `analyze memo` | Analyze last transcript |
+| `show pending memos` | List unprocessed |
+| `show transcripts` | List all transcripts |
 | `search memos: [query]` | Find by keyword |
 
 ### Supported Formats
 m4a, mp3, wav, aac, opus, flac
 
 ### Analysis Output
-- Summary
-- Key Points (up to 7)
+- Summary (50-300 words)
 - Action Items with priorities
-- People & Dates mentioned
-- Auto-categorization
+- Key Points (up to 7)
+- Entities (People, dates, locations)
+- Auto-categorization (Meeting, Journal, etc.)
 
 ---
 
@@ -427,23 +428,27 @@ Claude: Found 5 relevant results:
 
 ## 🍳 Recipe Manager
 
-**Purpose**: Extract and organize family recipes from web, images, and notes.
+**Purpose**: Manage recipes, plan meals, and generate shopping lists.
 
 ### Commands
 
 | Command | Action |
 |---------|--------|
 | `add recipe from [URL]` | Extract from URL |
+| `extract recipe from image` | Parse attached image |
 | `process recipe inbox` | Import from Apple Notes |
 | `show recipes` | List all |
 | `show [type] recipes` | Filter by type |
 | `mark [recipe] tried` | Update status |
+| `rate [recipe] [1-5]` | Add rating |
+| `sync to Notion` | Push to Notion |
 
 ### Recipe Types
-Oven, Ninja, School Breakfast, Stovetop, Grill
+Oven, Ninja, School Breakfast, Stovetop, Grill, No Cook, Instant Pot
 
 ### Status Flow
 `To try` → `Try next` → `Tried` → `Perfected`
+
 
 ---
 

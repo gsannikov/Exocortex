@@ -1,21 +1,24 @@
-# Setup & Maintenance Manager
+# Setup Manager
 
-A Claude Skill designed to manage the lifecycle and health of your `claude-skills` ecosystem.
+Manage initial setup, configuration, and health checks for the Exocortex system.
 
-## Features
+## Commands
 
-- **First Setup**: Validates environment requirements (Python, Node.js, etc.) and installs dependencies.
-- **Skill Discovery**: Lists available skills and explains their capabilities.
-- **Maintenance**: Updates dependencies, cleans logs, and performs health checks.
+| Command | Action |
+|---------|--------|
+| `check environment` | Verify tools (Python, uv, npm, git) |
+| `list skills` | Show available skills |
+| `get skill guide [name]` | Detailed skill info |
+| `install dependencies` | Install project deps |
+| `perform maintenance` | Log rotation, updates |
 
-## Usage
+## Environment Requirements
 
-This skill is intended to be used via Claude Desktop or an MCP client.
+- Python 3.10+
+- uv (Python package manager)
+- npm (for MCP servers)
+- git
 
-### Tools
+## Skill Discovery
 
-- `check_environment`: Verify system requirements.
-- `install_dependencies`: Install or update project dependencies.
-- `list_skills`: Show installed skills and their status.
-- `get_skill_guide`: Get usage instructions for a specific skill.
-- `perform_maintenance`: Run cleanup and updates.
+Scans `packages/` directory for skills with valid SKILL.md files. Extracts name, description, and trigger phrases from frontmatter.

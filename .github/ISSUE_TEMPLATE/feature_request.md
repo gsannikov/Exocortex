@@ -13,7 +13,8 @@ A clear description of the feature you'd like to see.
 ## Target Skill
 
 Which skill would this enhance?
-- [ ] career-consultant
+- [ ] job-analyzer
+- [ ] interview-prep
 - [ ] reading-list
 - [ ] ideas-capture
 - [ ] voice-memos

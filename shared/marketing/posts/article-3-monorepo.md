@@ -40,7 +40,7 @@ I consolidated everything into a single repository with a strict structure.
 ```text
 claude-skills/
 ├── packages/                  # The "Apps"
-│   ├── career-consultant/     # Skill 1
+│   ├── job-analyzer/          # Skill 1
 │   ├── local-rag/             # Skill 2
 │   ├── reading-list/          # Skill 3
 │   └── ...
@@ -131,7 +131,7 @@ jobs:
 Each skill has a `version.yaml`.
 
 ```yaml
-# packages/career-consultant/version.yaml
+# packages/job-analyzer/version.yaml
 version: 1.2.0
 last_updated: 2025-11-24
 changes:
@@ -167,9 +167,9 @@ You update `SKILL.md`, forget to update the README. You improve the README, but 
 ```yaml
 # dependencies.yaml
 files:
-  - path: packages/career-consultant/README.md
+  - path: packages/job-analyzer/README.md
     depends_on:
-      - packages/career-consultant/SKILL.md
+      - packages/job-analyzer/SKILL.md
     type: derived
 
   - path: USER_GUIDE.md
@@ -199,7 +199,7 @@ Release day used to be painful. Run tests. Update changelog. Bump version. Tag. 
 Now it's one command:
 
 ```bash
-/release career-consultant --patch
+/release job-analyzer --patch
 ```
 
 **What It Does**:

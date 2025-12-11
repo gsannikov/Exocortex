@@ -13,7 +13,8 @@ A clear description of what the bug is.
 ## Affected Skill
 
 Which skill is affected?
-- [ ] career-consultant
+- [ ] job-analyzer
+- [ ] interview-prep
 - [ ] reading-list
 - [ ] ideas-capture
 - [ ] voice-memos

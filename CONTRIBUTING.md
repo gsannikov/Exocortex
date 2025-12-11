@@ -55,7 +55,7 @@ pip install pyyaml
 # For local-rag skill
 pip install chromadb sentence-transformers
 
-# For career-consultant Excel features
+# For job-analyzer Excel features (tracking)
 pip install pandas openpyxl
 ```
 
@@ -136,7 +136,7 @@ docs/{description}
 ```
 
 Examples:
-- `feature/career-consultant-linkedin-parsing`
+- `feature/job-analyzer-linkedin-parsing`
 - `fix/reading-list-duplicate-detection`
 - `docs/contributing-guide`
 
@@ -162,7 +162,7 @@ Types:
 
 Examples:
 ```
-feat(career-consultant): add STAR story builder module
+feat(interview-prep): add STAR story builder module
 fix(reading-list): handle URLs with special characters
 docs: update contributing guidelines
 ```
@@ -263,7 +263,7 @@ Update `.github/workflows/validate.yml`:
 ```yaml
 strategy:
   matrix:
-    skill: [career-consultant, reading-list, ..., expense-tracker]
+    skill: [job-analyzer, reading-list, ..., expense-tracker]
 ```
 
 ---
@@ -316,7 +316,7 @@ Fixes #123
 - One sentence per line for easier diffs
 - Use fenced code blocks with language hints
 - Tables for structured data
-- Links with descriptive text: `[career consultant](packages/career-consultant/)`
+- Links with descriptive text: `[job analyzer](packages/job-analyzer/)`
 
 ### YAML
 

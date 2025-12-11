@@ -78,24 +78,34 @@ jobs:
 
       - name: Build skill matrix
         id: changes
+        env:
+          SHARED: ${{ steps.filter.outputs.shared }}
+          SKILL_JOB_ANALYZER: ${{ steps.filter.outputs.skill_job_analyzer }}
+          SKILL_INTERVIEW_PREP: ${{ steps.filter.outputs.skill_interview_prep }}
+          SKILL_READING_LIST: ${{ steps.filter.outputs.skill_reading_list }}
+          SKILL_IDEAS_CAPTURE: ${{ steps.filter.outputs.skill_ideas_capture }}
+          SKILL_VOICE_MEMOS: ${{ steps.filter.outputs.skill_voice_memos }}
+          SKILL_LOCAL_RAG: ${{ steps.filter.outputs.skill_local_rag }}
+          SKILL_RECIPE_MANAGER: ${{ steps.filter.outputs.skill_recipe_manager }}
+          SKILL_SETUP_MANAGER: ${{ steps.filter.outputs.skill_setup_manager }}
+          SKILL_SOCIAL_MEDIA_POST: ${{ steps.filter.outputs.skill_social_media_post }}
         run: |
           set -euo pipefail
 
-          shared="${{ steps.filter.outputs.shared }}"
           skills=()
 
-          if [[ "$shared" == "true" ]]; then
+          if [[ "$SHARED" == "true" ]]; then
             skills=(job-analyzer interview-prep reading-list ideas-capture voice-memos local-rag recipe-manager setup-manager social-media-post)
           else
-            [[ "${{ steps.filter.outputs.skill_job_analyzer }}" == "true" ]] && skills+=(job-analyzer)
-            [[ "${{ steps.filter.outputs.skill_interview_prep }}" == "true" ]] && skills+=(interview-prep)
-            [[ "${{ steps.filter.outputs.skill_reading_list }}" == "true" ]] && skills+=(reading-list)
-            [[ "${{ steps.filter.outputs.skill_ideas_capture }}" == "true" ]] && skills+=(ideas-capture)
-            [[ "${{ steps.filter.outputs.skill_voice_memos }}" == "true" ]] && skills+=(voice-memos)
-            [[ "${{ steps.filter.outputs.skill_local_rag }}" == "true" ]] && skills+=(local-rag)
-            [[ "${{ steps.filter.outputs.skill_recipe_manager }}" == "true" ]] && skills+=(recipe-manager)
-            [[ "${{ steps.filter.outputs.skill_setup_manager }}" == "true" ]] && skills+=(setup-manager)
-            [[ "${{ steps.filter.outputs.skill_social_media_post }}" == "true" ]] && skills+=(social-media-post)
+            [[ "$SKILL_JOB_ANALYZER" == "true" ]] && skills+=(job-analyzer)
+            [[ "$SKILL_INTERVIEW_PREP" == "true" ]] && skills+=(interview-prep)
+            [[ "$SKILL_READING_LIST" == "true" ]] && skills+=(reading-list)
+            [[ "$SKILL_IDEAS_CAPTURE" == "true" ]] && skills+=(ideas-capture)
+            [[ "$SKILL_VOICE_MEMOS" == "true" ]] && skills+=(voice-memos)
+            [[ "$SKILL_LOCAL_RAG" == "true" ]] && skills+=(local-rag)
+            [[ "$SKILL_RECIPE_MANAGER" == "true" ]] && skills+=(recipe-manager)
+            [[ "$SKILL_SETUP_MANAGER" == "true" ]] && skills+=(setup-manager)
+            [[ "$SKILL_SOCIAL_MEDIA_POST" == "true" ]] && skills+=(social-media-post)
           fi
 
           if [[ ${#skills[@]} -eq 0 ]]; then
@@ -104,7 +114,8 @@ jobs:
             # Use jq -c for compact single-line JSON output
             skills_json=$(printf '%s\n' "${skills[@]}" | jq -R . | jq -sc .)
           fi
-          run_local_rag=$([[ "$shared" == "true" || "${{ steps.filter.outputs.skill_local_rag }}" == "true" ]] && echo true || echo false)
+          
+          run_local_rag=$([[ "$SHARED" == "true" || "$SKILL_LOCAL_RAG" == "true" ]] && echo true || echo false)
 
           {
             echo "skill_matrix=$skills_json"
@@ -386,11 +397,12 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r packages/local-rag/requirements-dev.txt
+          pip install -r packages/local-rag/_dev/requirements.txt
           
       - name: Run local-rag tests
         env:
           TOKENIZERS_PARALLELISM: "false"
           LOCAL_RAG_REAL_OCR_DEPS: "1"
+          PYTHONPATH: "packages/local-rag"
         run: |
-          pytest packages/local-rag/tests
+          pytest packages/local-rag/_dev/tests

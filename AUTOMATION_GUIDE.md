@@ -55,7 +55,7 @@ This script uses GitHub CLI (`gh`) to automate the entire GitHub release process
 ### **Example 1: Minimal (Auto-detect everything possible)**
 ```bash
 bash /Users/username/MyDrive/github-release-auto.sh \
-  /Users/username/MyDrive/career-consultant.skill/claude-skills-sdk/claude-skill-template \
+  /Users/username/MyDrive/job-analyzer.skill/claude-skills-sdk/claude-skill-template \
   claude-skill-template
 ```
 **What happens:**
@@ -101,7 +101,7 @@ chmod +x /Users/username/MyDrive/github-release-auto.sh
 
 # Run the script
 bash /Users/username/MyDrive/github-release-auto.sh \
-  /Users/username/MyDrive/career-consultant.skill/claude-skills-sdk/claude-skill-template \
+  /Users/username/MyDrive/job-analyzer.skill/claude-skills-sdk/claude-skill-template \
   claude-skill-template \
   gsannikov \
   v1.0.0

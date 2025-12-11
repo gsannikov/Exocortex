@@ -34,8 +34,8 @@ All skills share a common **MCP (Model Context Protocol)** layer for file access
 
 ## 🟢 Production Skills (Live & Daily Use)
 
-### 1. Career Consultant 💼
-**Purpose**: Systematically analyze job postings and optimize applications.
+### 1. Job Analyzer 💼
+**Purpose**: Systematically analyze job postings and optimize applications. (Now split into `job-analyzer` and `interview-prep`).
 
 **The Problem**: Applying to jobs is a black box. You forget what you applied to, and tailoring CVs is slow.
 **The Solution**: A skill that maintains a structured database of my career profile and matches it against scraped job descriptions.

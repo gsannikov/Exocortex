@@ -13,7 +13,8 @@ Describe the performance problem you're experiencing.
 ## Affected Skill
 
 Which skill is experiencing performance issues?
-- [ ] career-consultant
+- [ ] job-analyzer
+- [ ] interview-prep
 - [ ] reading-list
 - [ ] ideas-capture
 - [ ] voice-memos

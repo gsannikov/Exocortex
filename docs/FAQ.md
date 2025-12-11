@@ -91,7 +91,7 @@ Then restart Claude Desktop.
 
 All skills support **Apple Notes** inbox capture:
 
-1. Create note: "Job Links Inbox" (career-consultant)
+1. Create note: "Job Links Inbox" (job-analyzer)
 2. Paste URLs or text
 3. In Claude: `process inbox`
 
@@ -100,7 +100,7 @@ Skills automatically sync and process items.
 ### What if I don't use Apple Notes?
 
 You can use direct commands:
-- career-consultant: `add to backlog: https://...`
+- job-analyzer: `add to backlog: https://...`
 - reading-list: `add article: https://...`
 - ideas-capture: `expand: My idea text`
 
@@ -168,7 +168,7 @@ If you still hit limits:
 
 See existing skills for examples:
 
-**Inbox Pattern** (reading-list, career-consultant):
+**Inbox Pattern** (reading-list, job-analyzer):
 - Apple Notes integration
 - Batch processing
 - Item deduplication
@@ -178,7 +178,7 @@ See existing skills for examples:
 - Structured data
 - Append-only logs
 
-**Scoring Pattern** (career-consultant, ideas-capture):
+**Scoring Pattern** (job-analyzer, ideas-capture):
 - Multi-dimensional scoring
 - Weighted components
 - Tier classification
@@ -251,7 +251,7 @@ Currently: No direct skill-to-skill communication.
 
 **Fix**:
 ```bash
-# For career-consultant
+# For job-analyzer
 pip install pandas openpyxl
 
 # For local-rag

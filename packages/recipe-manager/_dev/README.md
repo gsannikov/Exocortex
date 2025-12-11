@@ -1,62 +1,59 @@
-# Recipe Manager Skill
+# Recipe Manager
 
-Extracts recipes from URLs/Images to local YAML files. Tracks family preferences and cooking history.
+Manage recipes, plan meals, and generate shopping lists. Extracts recipes from URLs (Instagram, YouTube, websites), images, and Apple Notes.
 
-## 🌟 Capabilities
+## Quick Start
 
-1.  **Recipe Extraction**: Extract recipes from any URL (websites, Instagram reels, YouTube)
-2.  **Image Processing**: Parse recipe images and photos
-3.  **Inbox Import**: Import recipes saved in your bridge app (e.g., Apple Notes)
-4.  **Multi-language Support**: Hebrew and English recipes
-5.  **Family Tracking**: Track which family members like each recipe
-6.  **Status Management**: To try → Try next → Tried → Perfected workflow
-7.  **Notion Sync**: Bi-directional sync with Notion database
-8.  **Beautiful Preview**: Render recipe cards using shared-preview system
+1. Add URLs to **Recipe Inbox** Apple Note
+2. Tell Claude: `"process recipe inbox"`
+3. Or directly: `"add recipe from [URL]"`
+4. View: `"show recipes"` or `"show ninja recipes"`
 
-## 🚀 Quick Start
+## Commands
 
-### Add Recipe
-- **From URL**: `"Add recipe from [URL]"`
-- **From Image**: `"Extract recipe from this image"` (attach image)
-- **From Apple Notes**: `"Process recipe inbox"` or `"Import recipes from Apple Notes"`
-- **Manual**: `"Add new recipe: Shakshuka"`
+| Command | Action |
+|---------|--------|
+| `process recipe inbox` | Import from Apple Notes |
+| `add recipe from [URL]` | Extract from URL |
+| `extract recipe from image` | Parse attached image |
+| `show recipes` | List all |
+| `show [type] recipes` | Filter by type |
+| `mark [recipe] tried` | Update status |
+| `rate [recipe] [1-5]` | Add rating |
+| `sync to Notion` | Push to Notion |
 
-### View & Organize
-- **List**: `"Show my recipes"` or `"List recipes to try"`
-- **Search**: `"Find ninja recipes"` or `"Show recipe arais-tortilla"`
-- **Preview**: `"Preview arais-tortilla"` (Beautiful card view)
-- **Update**: `"Rate arais-tortilla 5 stars"` or `"Mark shakshuka as Tried"`
+## Features
 
-### Sync
-- **Notion**: `"Sync recipes to Notion"` or `"Pull latest from Notion"`
+- **Recipe Extraction**: Instagram, YouTube, Websites
+- **Image Processing**: Parse recipe photos
+- **Inbox Import**: Apple Notes integration
+- **Multi-language**: Hebrew and English
+- **Family Tracking**: Member preferences
+- **Notion Sync**: Bi-directional with beautiful preview
+- **Status Workflow**: To try → Perfected
 
-## ⚙️ Configuration
+## Supported Sources
 
-Recipes are stored as YAML files in your `exocortex-data` directory (default: `~/exocortex-data/recipe-manager`).
+- Instagram (Bright Data / Firecrawl)
+- YouTube (Description analysis)
+- Websites (Firecrawl)
+- Images (Claude Vision)
+- Apple Notes (Direct parse)
 
-### `config/settings.yaml`
-You can configure family members, cooking types, and Notion settings in the `config/settings.yaml` file within your data directory.
+## CONFIGURATION
 
-```yaml
-family_members:
-  - id: "user"
-    name: "User"
+Recipes stored in: `~/exocortex-data/recipe-manager/` (YAML files)
 
-types:
-  - "Oven"
-  - "Stovetop"
-  - "Grill"
-  - "No Cook"
+### Settings
+Configure in `config/settings.yaml`:
+- Family members
+- Device types (Oven, Ninja, etc.)
+- Notion Database ID
 
-notion:
-  enabled: true
-  database_id: "your-database-id"
-```
+## Workflow
 
-## 🔄 Workflow
-
-1.  **Capture**: Save a link to your "Recipe Inbox" Apple Note or just paste it to Claude.
-2.  **Process**: Claude extracts ingredients, instructions, and metadata.
-3.  **Store**: A YAML file is created locally.
-4.  **Cook & Rate**: After cooking, tell Claude your rating and notes.
-5.  **Sync**: Optionally sync to Notion for mobile access.
+1.  **Capture**: Save link/image to "Recipe Inbox"
+2.  **Process**: Extract metadata and ingredients
+3.  **Store**: YAML file created locally
+4.  **Cook & Rate**: Update status and rating after cooking
+5.  **Sync**: Sync to Notion mobile database (Optional)
