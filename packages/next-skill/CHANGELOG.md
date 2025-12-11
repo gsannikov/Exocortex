@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.1] - 2025-12-11
+
+- Release 0.1.1
+
 All notable changes to Next Skill will be documented in this file.
 
 ## [0.1.0] - 2025-12-11
