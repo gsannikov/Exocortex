@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.1] - 2025-12-11
+
+- Maintenance release
+
 ## [1.2.0] - 2025-12-11
 
 - Release 1.2.0
