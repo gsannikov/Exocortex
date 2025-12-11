@@ -4,11 +4,13 @@ Expose Exocortex Claude skills through MCP protocol for use with any LLM platfor
 
 ## Features
 
-- **Token Optimization**: Lazy loading of skills and modules
+- **Token Optimization**: Lazy loading of skills and modules with caching
 - **Self-Update Loop**: Modules evolve during conversations (Phase 2)
+- **Smart Matching**: Find skills by natural language query (Phase 3)
 - **Multi-Platform**: Works with Claude, ChatGPT, Cursor, and any MCP-compatible client
 - **Pattern Learning**: Capture improvements and apply them later
-- **Backups & Rollback**: Every change creates a backup
+- **Backups & Rollback**: Every change creates a backup with auto git commit
+- **Metrics & Health**: Track usage and monitor server health
 
 ## Installation
 
@@ -131,3 +133,54 @@ This prevents loading all skill content upfront.
 | Self-update | No | Yes |
 | Pattern learning | No | Yes |
 | Rollback | Manual | Built-in |
+
+## Phase 3: Production Features
+
+### Smart Skill Matching
+
+Find skills using natural language:
+
+```python
+# Query: "I need to prepare for an interview"
+exocortex_find_skill(query="prepare for interview")
+# Returns: interview-prep (score: 17.0)
+```
+
+### Health & Metrics
+
+```python
+# Check server status
+exocortex_health()
+
+# Get usage analytics
+exocortex_metrics()
+```
+
+### Cache Control
+
+```python
+# View cache stats
+exocortex_cache_control(action="stats")
+
+# Clear all cache
+exocortex_cache_control(action="invalidate")
+
+# Clear specific skill cache
+exocortex_cache_control(action="invalidate_skill", skill_name="job-analyzer")
+```
+
+### Cross-Skill Integration
+
+```python
+# Get handoff info between related skills
+exocortex_cross_skill(source="job-analyzer", target="interview-prep")
+# Returns: workflow guidance for transitioning between skills
+```
+
+### HTTP Transport (Optional)
+
+Run as HTTP server for remote access:
+
+```bash
+exocortex-mcp --transport http --port 8765
+```

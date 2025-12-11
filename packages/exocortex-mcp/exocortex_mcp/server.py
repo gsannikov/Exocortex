@@ -4,14 +4,23 @@ Exocortex MCP Server
 
 Exposes Claude skills through MCP protocol for use with any LLM platform.
 Implements lazy loading for token optimization and self-update capabilities.
+
+Phase 1: Core tools (list, get, load, action)
+Phase 2: Self-update loop (patterns, patches, rollback)
+Phase 3: Production features (caching, metrics, smart matching, HTTP)
 """
 
+import argparse
 import json
 import logging
+import os
 import re
 import shutil
+import subprocess
+import time
 from datetime import datetime
 from enum import Enum
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Optional
 
@@ -22,6 +31,8 @@ from pydantic import BaseModel, ConfigDict, Field
 SKILLS_DIR = Path(__file__).parent.parent.parent  # packages/
 BACKUP_DIR = Path.home() / "exocortex-data" / "mcp-backups"
 DATA_DIR = Path.home() / "exocortex-data"
+METRICS_FILE = DATA_DIR / "mcp-metrics.json"
+CACHE_TTL = 300  # 5 minutes
 
 # Logging
 logging.basicConfig(level=logging.INFO)
@@ -161,6 +172,202 @@ class SkillActionInput(BaseModel):
     params: dict = Field(default_factory=dict, description="Action parameters")
 
 
+# Phase 3: Smart Matching & Production Models
+
+class FindSkillInput(BaseModel):
+    """Input for finding best skill for a query."""
+    model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
+    
+    query: str = Field(..., description="Natural language query describing the task", min_length=3)
+    top_k: int = Field(default=3, description="Number of top matches to return", ge=1, le=10)
+
+
+class CacheControlInput(BaseModel):
+    """Input for cache management."""
+    model_config = ConfigDict(str_strip_whitespace=True, extra='forbid')
+    
+    action: str = Field(..., description="Action: 'stats', 'invalidate', 'invalidate_skill'")
+    skill_name: Optional[str] = Field(None, description="Skill to invalidate (for invalidate_skill)")
+
+
+# =============================================================================
+# Phase 3: Caching & Metrics System
+# =============================================================================
+
+class SkillCache:
+    """In-memory cache for parsed skill data with TTL."""
+    
+    def __init__(self, ttl: int = CACHE_TTL):
+        self._cache: dict[str, tuple[Any, float]] = {}
+        self._ttl = ttl
+    
+    def get(self, key: str) -> Any | None:
+        if key in self._cache:
+            value, timestamp = self._cache[key]
+            if time.time() - timestamp < self._ttl:
+                return value
+            del self._cache[key]
+        return None
+    
+    def set(self, key: str, value: Any):
+        self._cache[key] = (value, time.time())
+    
+    def invalidate(self, pattern: str = None):
+        """Clear cache entries matching pattern or all."""
+        if pattern is None:
+            self._cache.clear()
+        else:
+            keys_to_delete = [k for k in self._cache if pattern in k]
+            for k in keys_to_delete:
+                del self._cache[k]
+    
+    def stats(self) -> dict:
+        return {
+            "entries": len(self._cache),
+            "keys": list(self._cache.keys())
+        }
+
+
+# Global cache instance
+skill_cache = SkillCache()
+
+
+class MetricsTracker:
+    """Track tool usage for analytics."""
+    
+    def __init__(self):
+        self._metrics = self._load()
+        self._session_start = datetime.now().isoformat()
+    
+    def _load(self) -> dict:
+        if METRICS_FILE.exists():
+            try:
+                return json.loads(METRICS_FILE.read_text())
+            except Exception:
+                pass
+        return {
+            "tool_calls": {},
+            "skill_usage": {},
+            "module_usage": {},
+            "errors": [],
+            "sessions": 0
+        }
+    
+    def _save(self):
+        METRICS_FILE.parent.mkdir(parents=True, exist_ok=True)
+        METRICS_FILE.write_text(json.dumps(self._metrics, indent=2))
+    
+    def track_tool(self, tool_name: str, skill: str = None, module: str = None):
+        # Tool calls
+        self._metrics["tool_calls"][tool_name] = self._metrics["tool_calls"].get(tool_name, 0) + 1
+        
+        # Skill usage
+        if skill:
+            self._metrics["skill_usage"][skill] = self._metrics["skill_usage"].get(skill, 0) + 1
+        
+        # Module usage
+        if module:
+            key = f"{skill}/{module}" if skill else module
+            self._metrics["module_usage"][key] = self._metrics["module_usage"].get(key, 0) + 1
+        
+        self._save()
+    
+    def track_error(self, tool: str, error: str):
+        self._metrics["errors"].append({
+            "timestamp": datetime.now().isoformat(),
+            "tool": tool,
+            "error": error[:200]
+        })
+        # Keep last 100 errors
+        self._metrics["errors"] = self._metrics["errors"][-100:]
+        self._save()
+    
+    def increment_sessions(self):
+        self._metrics["sessions"] = self._metrics["sessions"] + 1
+        self._save()
+    
+    def get_stats(self) -> dict:
+        return {
+            **self._metrics,
+            "session_start": self._session_start,
+            "cache_stats": skill_cache.stats()
+        }
+
+
+# Global metrics instance
+metrics = MetricsTracker()
+metrics.increment_sessions()
+
+
+# =============================================================================
+# Phase 3: Smart Trigger Matching
+# =============================================================================
+
+def compute_trigger_score(query: str, skill_info: dict) -> float:
+    """Score how well a query matches a skill's triggers."""
+    query_lower = query.lower()
+    query_words = set(query_lower.split())
+    
+    score = 0.0
+    
+    # Exact trigger match (highest)
+    for trigger in skill_info.get("triggers", []):
+        if trigger.lower() in query_lower:
+            score += 10.0
+    
+    # Skill name match
+    if skill_info["name"].lower() in query_lower:
+        score += 8.0
+    
+    # Word overlap with triggers
+    for trigger in skill_info.get("triggers", []):
+        trigger_words = set(trigger.lower().split())
+        overlap = len(query_words & trigger_words)
+        score += overlap * 2.0
+    
+    # Description keyword match
+    desc_lower = skill_info.get("description", "").lower()
+    for word in query_words:
+        if len(word) > 3 and word in desc_lower:
+            score += 0.5
+    
+    return score
+
+
+def git_commit_change(file_path: Path, message: str) -> bool:
+    """Auto-commit a change to git if in a git repo."""
+    try:
+        # Check if in git repo
+        result = subprocess.run(
+            ["git", "rev-parse", "--git-dir"],
+            cwd=file_path.parent,
+            capture_output=True,
+            text=True
+        )
+        if result.returncode != 0:
+            return False
+        
+        # Stage the file
+        subprocess.run(
+            ["git", "add", str(file_path)],
+            cwd=file_path.parent,
+            capture_output=True
+        )
+        
+        # Commit
+        subprocess.run(
+            ["git", "commit", "-m", f"[exocortex-mcp] {message}"],
+            cwd=file_path.parent,
+            capture_output=True
+        )
+        
+        logger.info(f"Git committed: {message}")
+        return True
+    except Exception as e:
+        logger.warning(f"Git commit failed: {e}")
+        return False
+
+
 # =============================================================================
 # Helper Functions  
 # =============================================================================
@@ -260,6 +467,14 @@ async def list_skills(params: ListSkillsInput) -> str:
     Returns:
         str: JSON or markdown list of available skills
     """
+    metrics.track_tool("list_skills")
+    
+    # Check cache first
+    cache_key = f"list_skills:{params.format}"
+    cached = skill_cache.get(cache_key)
+    if cached:
+        return cached
+    
     skills = []
     
     for skill_dir in sorted(SKILLS_DIR.iterdir()):
@@ -273,7 +488,9 @@ async def list_skills(params: ListSkillsInput) -> str:
                 skills.append(skill_info)
     
     if params.format == ResponseFormat.JSON:
-        return json.dumps({"skills": skills, "count": len(skills)}, indent=2)
+        result = json.dumps({"skills": skills, "count": len(skills)}, indent=2)
+        skill_cache.set(cache_key, result)
+        return result
     
     # Markdown format
     lines = ["# Available Exocortex Skills\n"]
@@ -283,7 +500,9 @@ async def list_skills(params: ListSkillsInput) -> str:
         lines.append(f"**Tokens**: ~{s['token_estimate']}")
         lines.append(f"_{s['description']}_\n")
     
-    return "\n".join(lines)
+    result = "\n".join(lines)
+    skill_cache.set(cache_key, result)
+    return result
 
 
 @mcp.tool(
@@ -308,6 +527,8 @@ async def get_skill(params: GetSkillInput) -> str:
     Returns:
         str: Skill documentation in markdown
     """
+    metrics.track_tool("get_skill", skill=params.skill_name)
+    
     skill_path = SKILLS_DIR / params.skill_name
     skill_file = skill_path / "SKILL.md"
     
@@ -362,6 +583,8 @@ async def load_module(params: LoadModuleInput) -> str:
     Returns:
         str: Module content in markdown
     """
+    metrics.track_tool("load_module", skill=params.skill_name, module=params.module_name)
+    
     module_path = SKILLS_DIR / params.skill_name / "modules" / f"{params.module_name}.md"
     
     if not module_path.exists():
@@ -875,7 +1098,7 @@ async def apply_patch(params: ApplyPatchInput) -> str:
     """Apply a targeted find-replace patch to a module.
     
     More surgical than update_module - changes specific text only.
-    Creates backup before patching.
+    Creates backup before patching. Auto-commits to git if in repo.
     
     Args:
         params: ApplyPatchInput with find/replace text
@@ -883,9 +1106,12 @@ async def apply_patch(params: ApplyPatchInput) -> str:
     Returns:
         str: JSON result with patch status and diff
     """
+    metrics.track_tool("apply_patch", skill=params.skill_name, module=params.module_name)
+    
     module_path = SKILLS_DIR / params.skill_name / "modules" / f"{params.module_name}.md"
     
     if not module_path.exists():
+        metrics.track_error("apply_patch", f"Module not found: {params.module_name}")
         return json.dumps({"status": "error", "message": f"Module not found: {params.module_name}"})
     
     content = module_path.read_text()
@@ -907,10 +1133,16 @@ async def apply_patch(params: ApplyPatchInput) -> str:
     new_content = content.replace(params.find_text, params.replace_text)
     module_path.write_text(new_content)
     
+    # Invalidate cache for this skill
+    skill_cache.invalidate(params.skill_name)
+    
     # Log
     log_path = DATA_DIR / "mcp-updates.log"
     with open(log_path, "a") as f:
         f.write(f"{datetime.now().isoformat()} | PATCH {params.skill_name}/{params.module_name} | {params.reason}\n")
+    
+    # Auto git commit
+    git_committed = git_commit_change(module_path, f"Update {params.module_name}: {params.reason[:50]}")
     
     # Generate diff snippet
     diff = get_unified_diff(content, new_content, params.module_name)
@@ -920,6 +1152,7 @@ async def apply_patch(params: ApplyPatchInput) -> str:
         "status": "success",
         "occurrences_replaced": occurrences,
         "backup": str(backup_path),
+        "git_committed": git_committed,
         "diff_preview": diff_preview,
         "reason": params.reason
     }, indent=2)
@@ -992,12 +1225,325 @@ async def mark_pattern_applied(pattern_id: str) -> str:
 
 
 # =============================================================================
+# Phase 3: Production Tools
+# =============================================================================
+
+@mcp.tool(
+    name="exocortex_find_skill",
+    annotations={
+        "title": "Find Best Skill for Query",
+        "readOnlyHint": True,
+        "destructiveHint": False,
+        "idempotentHint": True,
+        "openWorldHint": False
+    }
+)
+async def find_skill(params: FindSkillInput) -> str:
+    """Find the best matching skill for a natural language query.
+    
+    Uses smart trigger matching to rank skills by relevance.
+    Call this when unsure which skill to use for a task.
+    
+    Args:
+        params: FindSkillInput with query and top_k
+        
+    Returns:
+        str: JSON with ranked skill matches
+    """
+    metrics.track_tool("find_skill")
+    
+    # Get all skills
+    skills = []
+    for skill_dir in SKILLS_DIR.iterdir():
+        if skill_dir.is_dir() and (skill_dir / "SKILL.md").exists():
+            if skill_dir.name == "exocortex-mcp":
+                continue
+            skill_info = parse_skill_header(skill_dir)
+            if skill_info:
+                skills.append(skill_info)
+    
+    # Score each skill
+    scored = []
+    for skill in skills:
+        score = compute_trigger_score(params.query, skill)
+        if score > 0:
+            scored.append({
+                "skill": skill["name"],
+                "score": round(score, 2),
+                "triggers": skill["triggers"],
+                "description": skill["description"][:100]
+            })
+    
+    # Sort by score descending
+    scored.sort(key=lambda x: x["score"], reverse=True)
+    top_matches = scored[:params.top_k]
+    
+    if not top_matches:
+        return json.dumps({
+            "matches": [],
+            "message": "No matching skills found. Try different keywords.",
+            "hint": "Use exocortex_list_skills to see all available skills"
+        })
+    
+    return json.dumps({
+        "query": params.query,
+        "matches": top_matches,
+        "best_match": top_matches[0]["skill"] if top_matches else None,
+        "hint": f"Use exocortex_get_skill('{top_matches[0]['skill']}') to load the best match"
+    }, indent=2)
+
+
+@mcp.tool(
+    name="exocortex_health",
+    annotations={
+        "title": "Server Health Check",
+        "readOnlyHint": True,
+        "destructiveHint": False,
+        "idempotentHint": True,
+        "openWorldHint": False
+    }
+)
+async def health_check() -> str:
+    """Get server health status and diagnostics.
+    
+    Returns:
+        str: JSON health report
+    """
+    metrics.track_tool("health")
+    
+    # Count skills
+    skill_count = sum(
+        1 for d in SKILLS_DIR.iterdir() 
+        if d.is_dir() and (d / "SKILL.md").exists() and d.name != "exocortex-mcp"
+    )
+    
+    # Check data directories
+    data_status = {
+        "backup_dir": BACKUP_DIR.exists(),
+        "data_dir": DATA_DIR.exists(),
+        "patterns_file": (DATA_DIR / "learned-patterns.json").exists(),
+        "metrics_file": METRICS_FILE.exists()
+    }
+    
+    # Count backups
+    backup_count = len(list(BACKUP_DIR.glob("*.md"))) if BACKUP_DIR.exists() else 0
+    
+    # Count patterns
+    patterns = load_patterns()
+    pending_patterns = sum(1 for p in patterns if not p.get("applied", False))
+    
+    return json.dumps({
+        "status": "healthy",
+        "timestamp": datetime.now().isoformat(),
+        "skills_available": skill_count,
+        "backups_available": backup_count,
+        "patterns_total": len(patterns),
+        "patterns_pending": pending_patterns,
+        "cache_stats": skill_cache.stats(),
+        "data_status": data_status,
+        "version": "0.3.0"  # Phase 3
+    }, indent=2)
+
+
+@mcp.tool(
+    name="exocortex_metrics",
+    annotations={
+        "title": "Usage Metrics",
+        "readOnlyHint": True,
+        "destructiveHint": False,
+        "idempotentHint": True,
+        "openWorldHint": False
+    }
+)
+async def get_metrics() -> str:
+    """Get usage metrics and analytics.
+    
+    Returns:
+        str: JSON metrics report
+    """
+    stats = metrics.get_stats()
+    
+    # Add derived metrics
+    total_calls = sum(stats["tool_calls"].values())
+    most_used_tool = max(stats["tool_calls"], key=stats["tool_calls"].get) if stats["tool_calls"] else None
+    most_used_skill = max(stats["skill_usage"], key=stats["skill_usage"].get) if stats["skill_usage"] else None
+    
+    return json.dumps({
+        **stats,
+        "summary": {
+            "total_tool_calls": total_calls,
+            "most_used_tool": most_used_tool,
+            "most_used_skill": most_used_skill,
+            "total_sessions": stats["sessions"],
+            "error_count": len(stats["errors"])
+        }
+    }, indent=2)
+
+
+@mcp.tool(
+    name="exocortex_cache_control",
+    annotations={
+        "title": "Cache Management",
+        "readOnlyHint": False,
+        "destructiveHint": False,
+        "idempotentHint": False,
+        "openWorldHint": False
+    }
+)
+async def cache_control(params: CacheControlInput) -> str:
+    """Manage the skill cache for performance tuning.
+    
+    Actions:
+    - stats: Show cache statistics
+    - invalidate: Clear entire cache
+    - invalidate_skill: Clear cache for specific skill
+    
+    Args:
+        params: CacheControlInput with action
+        
+    Returns:
+        str: JSON result
+    """
+    metrics.track_tool("cache_control")
+    
+    if params.action == "stats":
+        return json.dumps({
+            "action": "stats",
+            "cache": skill_cache.stats(),
+            "ttl_seconds": CACHE_TTL
+        }, indent=2)
+    
+    elif params.action == "invalidate":
+        skill_cache.invalidate()
+        return json.dumps({
+            "action": "invalidate",
+            "status": "success",
+            "message": "All cache entries cleared"
+        })
+    
+    elif params.action == "invalidate_skill":
+        if not params.skill_name:
+            return json.dumps({"status": "error", "message": "skill_name required for invalidate_skill"})
+        skill_cache.invalidate(params.skill_name)
+        return json.dumps({
+            "action": "invalidate_skill",
+            "skill": params.skill_name,
+            "status": "success"
+        })
+    
+    return json.dumps({"status": "error", "message": f"Unknown action: {params.action}"})
+
+
+@mcp.tool(
+    name="exocortex_cross_skill",
+    annotations={
+        "title": "Cross-Skill Reference",
+        "readOnlyHint": True,
+        "destructiveHint": False,
+        "idempotentHint": True,
+        "openWorldHint": False
+    }
+)
+async def cross_skill_reference(source_skill: str, target_skill: str) -> str:
+    """Get handoff information between skills.
+    
+    Some skills work together (e.g., job-analyzer -> interview-prep).
+    This shows how to transition between related skills.
+    
+    Args:
+        source_skill: Current skill
+        target_skill: Skill to hand off to
+        
+    Returns:
+        str: JSON with handoff guidance
+    """
+    metrics.track_tool("cross_skill", skill=source_skill)
+    
+    # Define known skill relationships
+    relationships = {
+        ("job-analyzer", "interview-prep"): {
+            "handoff": "After scheduling interview, use interview-prep for preparation",
+            "shared_data": "~/exocortex-data/career/",
+            "trigger": "Prepare for [company] interview"
+        },
+        ("ideas-capture", "social-media-post"): {
+            "handoff": "Expand idea into social post",
+            "shared_data": "~/exocortex-data/ideas/",
+            "trigger": "Create post from idea"
+        },
+        ("voice-memos", "ideas-capture"): {
+            "handoff": "Extract ideas from voice memos",
+            "shared_data": "~/exocortex-data/",
+            "trigger": "Process voice memos to ideas"
+        },
+        ("reading-list", "ideas-capture"): {
+            "handoff": "Capture insights from articles",
+            "shared_data": "~/exocortex-data/",
+            "trigger": "Save insight from article"
+        }
+    }
+    
+    key = (source_skill, target_skill)
+    reverse_key = (target_skill, source_skill)
+    
+    if key in relationships:
+        return json.dumps({
+            "source": source_skill,
+            "target": target_skill,
+            "direction": "forward",
+            **relationships[key]
+        }, indent=2)
+    elif reverse_key in relationships:
+        return json.dumps({
+            "source": source_skill,
+            "target": target_skill,
+            "direction": "reverse",
+            **relationships[reverse_key],
+            "note": "Typically flows the other direction"
+        }, indent=2)
+    
+    return json.dumps({
+        "source": source_skill,
+        "target": target_skill,
+        "relationship": "none",
+        "message": "No known relationship between these skills"
+    })
+
+
+# =============================================================================
 # Entry Point
 # =============================================================================
 
 def main():
-    """Entry point for CLI."""
-    mcp.run()
+    """Entry point for CLI with HTTP transport option."""
+    parser = argparse.ArgumentParser(description="Exocortex MCP Server")
+    parser.add_argument(
+        "--transport", 
+        choices=["stdio", "http"], 
+        default="stdio",
+        help="Transport type (default: stdio)"
+    )
+    parser.add_argument(
+        "--port", 
+        type=int, 
+        default=8765,
+        help="HTTP port (default: 8765)"
+    )
+    parser.add_argument(
+        "--host",
+        default="127.0.0.1",
+        help="HTTP host (default: 127.0.0.1)"
+    )
+    
+    args = parser.parse_args()
+    
+    logger.info(f"Starting Exocortex MCP Server v0.3.0 (transport={args.transport})")
+    
+    if args.transport == "http":
+        logger.info(f"HTTP server at http://{args.host}:{args.port}")
+        mcp.run(transport="streamable_http", host=args.host, port=args.port)
+    else:
+        mcp.run()
 
 
 if __name__ == "__main__":
