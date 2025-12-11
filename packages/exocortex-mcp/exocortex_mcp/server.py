@@ -1155,9 +1155,7 @@ async def apply_patch(params: ApplyPatchInput) -> str:
         "diff_preview": diff_preview,
         "reason": params.reason
     }, indent=2)
-        "diff_preview": diff_preview,
-        "reason": params.reason
-    }, indent=2)
+
 
 
 @mcp.tool(
