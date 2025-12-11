@@ -15,7 +15,7 @@ AI agents should follow these guidelines.
 
 # Exocortex Skills Ecosystem
 
-Global instructions for AI agents when working with this skills monorepo.
+Global instructions for Claude when working with this skills monorepo.
 
 ## 🎯 Quick Reference
 
@@ -68,7 +68,7 @@ exocortex/
 │   └── commands/                  # Slash commands (/refactor, /deps, /release)
 ├── .github/workflows/             # CI/CD
 ├── dependencies.yaml              # File dependency graph
-├── CLAUDE.md                      # Claude-specific instructions
+├── CLAUDE.md                      # This file
 └── PROJECT.md                     # Roadmap & decisions
 ```
 
@@ -133,6 +133,8 @@ cd ~/Projects/exocortex
 python shared/scripts/release.py job-analyzer --patch
 ```
 
+Or use `/release` command.
+
 ### Create New Skill
 
 ```bash
@@ -166,9 +168,9 @@ This repo uses a dependency graph to track relationships between files.
 
 ## 🔗 Related Files
 
-- [PROJECT.md](PROJECT.md) - Architecture decisions, roadmap
-- [USER_GUIDE.md](USER_GUIDE.md) - User documentation
-- [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) - Developer documentation
+- [PROJECT.md](docs/project-status.md) - Architecture decisions, roadmap
+- [USER_GUIDE.md](docs/user-guide.md) - User documentation
+- [DEVELOPER_GUIDE.md](docs/developer-guide.md) - Developer documentation
 
 ## 🔄 Cross-Platform Compatibility (AlignTrue)
 
@@ -177,6 +179,6 @@ This repository uses AlignTrue to maintain platform-agnostic AI instructions.
 **Source of Truth**: `.aligntrue/rules/CLAUDE.md`
 
 **⚠️ Important**: 
-- DO NOT edit generated files directly - changes will be overwritten
+- DO NOT edit `CLAUDE.md` directly - changes will be overwritten
 - Edit `.aligntrue/rules/CLAUDE.md` instead
 - Run `aligntrue sync` to propagate changes

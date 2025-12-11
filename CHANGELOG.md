@@ -99,6 +99,6 @@ python shared/scripts/release.py all --patch
 
 ## Links
 
-- [Full Roadmap](PROJECT.md)
+- [Full Roadmap](docs/project-status.md)
 - [Contributing Guide](CONTRIBUTING.md)
 - [GitHub Releases](https://github.com/gsannikov/claude-skills/releases)

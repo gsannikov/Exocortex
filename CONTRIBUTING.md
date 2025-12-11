@@ -203,7 +203,7 @@ git commit -m "docs: update AI instructions"
 - Single source of truth in `.aligntrue/rules/`
 - Automatic export to platform-specific formats
 
-**For More Details:** See [AlignTrue Workflow](DEVELOPER_GUIDE.md#aligntrue-workflow)
+**For More Details:** See [AlignTrue Workflow](docs/developer-guide.md#aligntrue-workflow)
 
 ---
 

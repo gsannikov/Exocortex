@@ -1,0 +1,47 @@
+[project]
+name = "exocortex-mcp"
+version = "0.1.0"
+description = "MCP Server for Exocortex Skills - expose Claude skills through MCP protocol"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Gur Sannikov" }
+]
+keywords = ["mcp", "claude", "skills", "llm", "ai"]
+
+dependencies = [
+    "mcp>=1.0.0",
+    "pydantic>=2.0.0",
+    "httpx>=0.25.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+exocortex-mcp = "exocortex_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["exocortex_mcp"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

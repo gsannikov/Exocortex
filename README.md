@@ -4,9 +4,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Build Status](https://github.com/gsannikov/exocortex/actions/workflows/validate.yml/badge.svg)](https://github.com/gsannikov/exocortex/actions/workflows/validate.yml)
 [![Skills](https://img.shields.io/badge/skills-10-blue.svg)](packages/)
-[![Version](https://img.shields.io/badge/monorepo-v1.2.0-green.svg)](PROJECT.md)
+[![Version](https://img.shields.io/badge/monorepo-v1.2.0-green.svg)](docs/project-status.md)
 [![AlignTrue](https://img.shields.io/badge/AlignTrue-enabled-purple.svg)](.aligntrue/)
-[![Platform](https://img.shields.io/badge/AI-agnostic-orange.svg)](DEVELOPER_GUIDE.md#aligntrue-workflow)
+[![Platform](https://img.shields.io/badge/AI-agnostic-orange.svg)](docs/developer-guide.md#aligntrue-workflow)
 
 **Exocortex** is a local-first system that extends your biological mind with AI, memory, and automated agency.
 It integrates deeply with your environment—**Apple Notes**, **Filesystem**, and **Voice**—to create a seamless loop of capture, processing, and recall.
@@ -74,13 +74,13 @@ Both skills share data in `~/exocortex-data/career/` for seamless handoff.
 
 ## 📚 Documentation
 
-- **[User Guide](USER_GUIDE.md)**: Detailed commands and workflows.
-- **[Developer Guide](DEVELOPER_GUIDE.md)**: Architecture and manual setup.
+- **[User Guide](docs/user-guide.md)**: Detailed commands and workflows.
+- **[Developer Guide](docs/developer-guide.md)**: Architecture and manual setup.
 - **[AlignTrue Setup](.aligntrue/README.md)**: Cross-platform AI instruction sync.
-- **[Vision & Roadmap](VISION.md)**: Why we built this and where we're going.
-- **[FAQ](docs/FAQ.md)**: Common questions and troubleshooting.
+- **[Vision & Roadmap](docs/vision.md)**: Why we built this and where we're going.
+- **[FAQ](docs/faq.md)**: Common questions and troubleshooting.
 - **[Contributing](CONTRIBUTING.md)**: How to build new skills.
-- **[Project Status](PROJECT.md)**: Current roadmap and ADRs.
+- **[Project Status](docs/project-status.md)**: Current roadmap and ADRs.
 
 ---
 

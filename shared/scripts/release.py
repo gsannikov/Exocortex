@@ -19,11 +19,11 @@ import yaml
 
 # Skill configurations
 SKILL_CONFIG = {
-    'career-consultant': {
+    'job-analyzer': {
         'has_host_scripts': True,
         'has_tests': True,
-        'version_file': 'version.yaml',
-        'changelog': 'CHANGELOG.md',
+        'version_file': '_dev/version.yaml',
+        'changelog': '_dev/CHANGELOG.md',
     },
     'reading-list': {
         'has_host_scripts': False,

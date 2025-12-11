@@ -172,7 +172,7 @@ files:
       - packages/job-analyzer/SKILL.md
     type: derived
 
-  - path: USER_GUIDE.md
+  - path: docs/user-guide.md
     depends_on:
       - packages/career-consultant/README.md
       - packages/reading-list/README.md

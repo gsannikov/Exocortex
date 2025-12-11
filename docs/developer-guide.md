@@ -72,8 +72,8 @@ exocortex/
 │   └── workflows/                 # Troubleshooting guides
 ├── .github/workflows/             # CI/CD
 ├── CLAUDE.md                      # Global instructions
-├── PROJECT.md                     # Architecture decisions
-└── DEVELOPER_GUIDE.md             # This file
+├── docs/project-status.md         # Architecture decisions
+└── docs/developer-guide.md        # This file
 ```
 
 ---

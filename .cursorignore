@@ -3,5 +3,6 @@
 # Edit .aligntrue/config.yaml to change this behavior
 
 CLAUDE.md
+AGENTS.md
 
 # AlignTrue: End duplicate prevention

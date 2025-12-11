@@ -147,4 +147,4 @@ Every decision is data-driven. The 6-component job scoring system:
 We are building the operating system for the next stage of human capability.
 It is open source, local-first, and designed for you.
 
-**[Get Started](README.md)** | **[User Guide](USER_GUIDE.md)** | **[Contribute](CONTRIBUTING.md)**
+**[Get Started](../README.md)** | **[User Guide](user-guide.md)** | **[Contribute](../CONTRIBUTING.md)**
