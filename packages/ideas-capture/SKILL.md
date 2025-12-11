@@ -5,7 +5,9 @@ description: Capture and develop fleeting ideas via Apple Notes inbox. AI expand
 
 # Ideas Capture
 
-Capture, expand, evaluate, and track ideas from Apple Notes inbox.
+## Overview
+
+Capture, organize, and develop ideas and thoughts from Apple Notes inbox.
 
 ## Storage
 

@@ -5,6 +5,8 @@ description: Interview preparation system with STAR story management, company de
 
 # Interview Prep
 
+## Overview
+
 Prepare for interviews with STAR stories, company research, and negotiation planning.
 
 ## Storage

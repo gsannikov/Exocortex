@@ -57,8 +57,10 @@ jobs:
             shared:
               - 'shared/**'
               - 'dependencies.yaml'
-            skill_career_consultant:
-              - 'packages/career-consultant/**'
+            skill_job_analyzer:
+              - 'packages/job-analyzer/**'
+            skill_interview_prep:
+              - 'packages/interview-prep/**'
             skill_reading_list:
               - 'packages/reading-list/**'
             skill_ideas_capture:
@@ -83,9 +85,10 @@ jobs:
           skills=()
 
           if [[ "$shared" == "true" ]]; then
-            skills=(career-consultant reading-list ideas-capture voice-memos local-rag recipe-manager setup-manager social-media-post)
+            skills=(job-analyzer interview-prep reading-list ideas-capture voice-memos local-rag recipe-manager setup-manager social-media-post)
           else
-            [[ "${{ steps.filter.outputs.skill_career_consultant }}" == "true" ]] && skills+=(career-consultant)
+            [[ "${{ steps.filter.outputs.skill_job_analyzer }}" == "true" ]] && skills+=(job-analyzer)
+            [[ "${{ steps.filter.outputs.skill_interview_prep }}" == "true" ]] && skills+=(interview-prep)
             [[ "${{ steps.filter.outputs.skill_reading_list }}" == "true" ]] && skills+=(reading-list)
             [[ "${{ steps.filter.outputs.skill_ideas_capture }}" == "true" ]] && skills+=(ideas-capture)
             [[ "${{ steps.filter.outputs.skill_voice_memos }}" == "true" ]] && skills+=(voice-memos)
@@ -147,7 +150,7 @@ jobs:
             exit 1
           fi
           
-          if [ ! -f "$SKILL_DIR/README.md" ]; then
+          if [ ! -f "$SKILL_DIR/README.md" ] && [ ! -f "$SKILL_DIR/_dev/README.md" ]; then
             echo "⚠️ Missing README.md (recommended)"
           else
             echo "✅ README.md exists"
@@ -160,7 +163,7 @@ jobs:
           fi
           
           # Check for version file
-          if [ -f "$SKILL_DIR/version.yaml" ]; then
+          if [ -f "$SKILL_DIR/version.yaml" ] || [ -f "$SKILL_DIR/_dev/version.yaml" ]; then
             echo "✅ version.yaml exists"
           else
             echo "⚠️ Missing version.yaml (recommended in package root)"
@@ -229,8 +232,13 @@ jobs:
           python -m py_compile shared/scripts/slug_utils.py
           python -m py_compile shared/scripts/token_estimator.py
 
-          echo "=== Checking career-consultant scripts ==="
-          for f in packages/career-consultant/scripts/*.py; do
+          echo "=== Checking job-analyzer scripts ==="
+          for f in packages/job-analyzer/scripts/*.py; do
+            python -m py_compile "$f"
+          done
+
+          echo "=== Checking interview-prep scripts ==="
+          for f in packages/interview-prep/scripts/*.py; do
             python -m py_compile "$f"
           done
 

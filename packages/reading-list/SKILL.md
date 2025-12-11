@@ -3,9 +3,11 @@ name: reading-list
 description: Manage reading list via Apple Notes inbox. Auto-scrapes articles, generates AI summaries with key takeaways, categorizes by topic (Tech, AI, Business, Career, Finance), and tracks reading progress. Triggers - "process reading list", "show unread", "summarize articles", "reading inbox", "mark read", "search articles", "show [category] articles", "add article".
 ---
 
-# Reading List Automation
+# Reading List
 
-Capture URLs, scrape, summarize, and track reading progress.
+## Overview
+
+Manage reading list, track progress, and organize books/articles. Auto-scrapes URLs, summarizes content, and tracks status.
 
 ## Storage
 

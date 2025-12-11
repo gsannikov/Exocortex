@@ -3,9 +3,11 @@ name: setup-manager
 description: Manages Claude Skills ecosystem setup and maintenance. Checks environment (Python, uv, npm, git), discovers available skills, installs dependencies, and performs routine maintenance. Triggers - "setup skills", "check environment", "list skills", "install dependencies", "skill maintenance", "discover skills", "skill guide".
 ---
 
-# Setup & Maintenance Manager
+# Setup Manager
 
-Manage Claude Skills ecosystem setup and health.
+## Overview
+
+Manage initial setup, configuration, and health checks for the Exocortex system.
 
 ## Commands
 

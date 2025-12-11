@@ -5,7 +5,9 @@ description: Family recipe collection manager. Extracts recipes from URLs (Insta
 
 # Recipe Manager
 
-Extract, organize, and track family recipes.
+## Overview
+
+Manage recipes, plan meals, and generate shopping lists.
 
 ## Storage
 

@@ -35,7 +35,7 @@ nodes:
       This is a source file. Changes here trigger updates to dependents.
       When modifying: Update version.yaml and CHANGELOG.md
 
-  - path: packages/voice-memos/README.md
+  - path: packages/voice-memos/_dev/README.md
     type: derived
     description: User-facing documentation for voice memos skill
     depends_on:
@@ -59,11 +59,11 @@ nodes:
       3. Reflect new features/fixes
 
   # ============================================
-  # CAREER CONSULTANT SKILL
+  # JOB ANALYZER SKILL
   # ============================================
-  - path: packages/career-consultant/SKILL.md
+  - path: packages/job-analyzer/SKILL.md
     type: source
-    description: Core career consultant skill logic
+    description: Core job analyzer skill logic
     depends_on: []
     rebuild_instructions: |
       This is a source file. When modifying:
@@ -71,24 +71,44 @@ nodes:
       2. Update CHANGELOG.md
       3. Ensure modules/ are in sync
 
-  - path: packages/career-consultant/README.md
+  - path: packages/job-analyzer/_dev/README.md
     type: derived
-    description: User documentation for career consultant
+    description: User documentation for job analyzer
     depends_on:
-      - packages/career-consultant/SKILL.md
-      - packages/career-consultant/modules/
+      - packages/job-analyzer/SKILL.md
+      - packages/job-analyzer/modules/
     rebuild_instructions: |
       Sync with SKILL.md and modules:
       1. Update command reference
       2. Sync scoring system description
       3. Update workflow examples
 
-  - path: packages/career-consultant/modules/database-operations-hybrid.md
+  - path: packages/job-analyzer/modules/database-operations-hybrid.md
     type: source
     description: Database operations module
     depends_on: []
     rebuild_instructions: |
       Source module. Changes affect SKILL.md integration.
+
+  # ============================================
+  # INTERVIEW PREP SKILL
+  # ============================================
+  - path: packages/interview-prep/SKILL.md
+    type: source
+    description: Core interview prep skill logic
+    depends_on: []
+    rebuild_instructions: |
+      Source file. Update version.yaml and CHANGELOG.md on changes.
+
+  - path: packages/interview-prep/_dev/README.md
+    type: derived
+    description: User documentation for interview prep
+    depends_on:
+      - packages/interview-prep/SKILL.md
+    rebuild_instructions: |
+      Sync with SKILL.md:
+      1. Update command reference
+      2. Sync STAR framework info
 
   # ============================================
   # READING LIST SKILL
@@ -100,7 +120,7 @@ nodes:
     rebuild_instructions: |
       Source file. Update version.yaml and CHANGELOG.md on changes.
 
-  - path: packages/reading-list/README.md
+  - path: packages/reading-list/_dev/README.md
     type: derived
     description: User documentation for reading list
     depends_on:
@@ -118,7 +138,7 @@ nodes:
     rebuild_instructions: |
       Source file. Update version.yaml and CHANGELOG.md on changes.
 
-  - path: packages/ideas-capture/README.md
+  - path: packages/ideas-capture/_dev/README.md
     type: derived
     description: User documentation for ideas capture
     depends_on:
@@ -136,7 +156,7 @@ nodes:
     rebuild_instructions: |
       Source file. Update version.yaml and CHANGELOG.md on changes.
 
-  - path: packages/social-media-post/README.md
+  - path: packages/social-media-post/_dev/README.md
     type: derived
     description: User documentation for social media post skill
     depends_on:
@@ -154,12 +174,12 @@ nodes:
     rebuild_instructions: |
       Source file. Update version.yaml and CHANGELOG.md on changes.
 
-  - path: packages/local-rag/README.md
+  - path: packages/local-rag/_dev/README.md
     type: derived
     description: User documentation for local RAG
     depends_on:
       - packages/local-rag/SKILL.md
-      - packages/local-rag/docs/architecture.md
+      - packages/local-rag/_dev/docs/architecture.md
     rebuild_instructions: |
       Sync from SKILL.md and architecture docs:
       1. Update supported file types
@@ -176,7 +196,7 @@ nodes:
     rebuild_instructions: |
       Source file. Update version.yaml and CHANGELOG.md on changes.
 
-  - path: packages/recipe-manager/README.md
+  - path: packages/recipe-manager/_dev/README.md
     type: derived
     description: User documentation for recipe manager
     depends_on:
@@ -184,7 +204,7 @@ nodes:
     rebuild_instructions: |
       Sync commands and features from SKILL.md
 
-  - path: packages/local-rag/docs/architecture.md
+  - path: packages/local-rag/_dev/docs/architecture.md
     type: source
     description: Local RAG architecture documentation
     depends_on:
@@ -200,7 +220,8 @@ nodes:
     description: Comprehensive user guide for all skills
     depends_on:
       - packages/voice-memos/SKILL.md
-      - packages/career-consultant/SKILL.md
+      - packages/job-analyzer/SKILL.md
+      - packages/interview-prep/SKILL.md
       - packages/reading-list/SKILL.md
       - packages/ideas-capture/SKILL.md
       - packages/local-rag/SKILL.md
@@ -264,7 +285,7 @@ nodes:
     type: marketing
     description: Blog post about skill architecture
     depends_on:
-      - packages/career-consultant/SKILL.md
+      - packages/job-analyzer/SKILL.md
       - PROJECT.md
     rebuild_instructions: |
       Review for accuracy when architecture changes:
@@ -323,7 +344,7 @@ nodes:
     rebuild_instructions: |
       Source file. Update version.yaml and CHANGELOG.md on changes.
 
-  - path: packages/setup-manager/README.md
+  - path: packages/setup-manager/_dev/README.md
     type: derived
     description: User documentation for setup manager
     depends_on:
@@ -400,7 +421,7 @@ nodes:
     depends_on:
       - USER_GUIDE.md
       - DEVELOPER_GUIDE.md
-      - packages/*/README.md
+      - packages/*/_dev/README.md
     rebuild_instructions: |
       Update when:
       1. Common issues emerge
@@ -464,34 +485,40 @@ groups:
     description: All voice memos related files
     members:
       - packages/voice-memos/SKILL.md
-      - packages/voice-memos/README.md
+      - packages/voice-memos/_dev/README.md
       - packages/voice-memos/meeting-recorder/README.md
 
-  career-consultant:
-    description: All career consultant related files
+  job-analyzer:
+    description: All job analyzer related files
     members:
-      - packages/career-consultant/SKILL.md
-      - packages/career-consultant/README.md
-      - packages/career-consultant/modules/
+      - packages/job-analyzer/SKILL.md
+      - packages/job-analyzer/_dev/README.md
+      - packages/job-analyzer/modules/
+
+  interview-prep:
+    description: All interview prep related files
+    members:
+      - packages/interview-prep/SKILL.md
+      - packages/interview-prep/_dev/README.md
 
   social-media-post:
     description: All social media post related files
     members:
       - packages/social-media-post/SKILL.md
-      - packages/social-media-post/README.md
+      - packages/social-media-post/_dev/README.md
       - packages/social-media-post/config/
 
   setup-manager:
     description: All setup manager related files
     members:
       - packages/setup-manager/SKILL.md
-      - packages/setup-manager/README.md
+      - packages/setup-manager/_dev/README.md
 
   recipe-manager:
     description: All recipe manager related files
     members:
       - packages/recipe-manager/SKILL.md
-      - packages/recipe-manager/README.md
+      - packages/recipe-manager/_dev/README.md
 
   documentation:
     description: All user-facing documentation

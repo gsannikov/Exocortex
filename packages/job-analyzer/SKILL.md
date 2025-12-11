@@ -5,6 +5,8 @@ description: Israeli tech job analysis and tracking system. Analyzes opportuniti
 
 # Job Analyzer
 
+## Overview
+
 Find, analyze, and track job opportunities in the Israeli tech market.
 
 ## Storage
@@ -63,6 +65,8 @@ career/
 | Location | 5 | Commute + remote |
 
 **Tiers**: First (≥70), Second (≥50), Third (<50)
+
+
 
 ## Modules
 

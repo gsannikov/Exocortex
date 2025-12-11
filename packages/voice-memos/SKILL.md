@@ -5,7 +5,9 @@ description: Process voice memos with AI transcription and analysis. Multi-langu
 
 # Voice Memos Automation
 
-Transcribe, analyze, and organize voice recordings.
+## Overview
+
+Process, transcribe, and analyze voice memos and audio notes.
 
 ## Storage
 

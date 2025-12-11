@@ -138,7 +138,7 @@ def get_all_skill_dirs() -> list[Path]:
 
     return [
         d for d in packages_dir.iterdir()
-        if d.is_dir() and not d.name.startswith(".")
+        if d.is_dir() and not d.name.startswith(".") and not d.name.startswith("_")
     ]
 
 
@@ -166,27 +166,36 @@ class TestSkillRequiredFiles:
     def test_readme_exists(self, skill_dir: Path):
         """README.md MUST exist - Human-readable documentation."""
         readme = skill_dir / "README.md"
-        assert readme.exists(), (
+        dev_readme = skill_dir / "_dev" / "README.md"
+        
+        assert readme.exists() or dev_readme.exists(), (
             f"Missing required README.md in {skill_dir.name}. "
-            f"Per CONTRIBUTING.md: 'README.md - Human-readable documentation'"
+            f"Per CONTRIBUTING.md: 'README.md - Human-readable documentation' "
+            f"(checked root and _dev/)"
         )
 
     @pytest.mark.parametrize("skill_dir", SKILL_DIRS, ids=SKILL_IDS)
     def test_changelog_exists(self, skill_dir: Path):
         """CHANGELOG.md MUST exist - Version history."""
         changelog = skill_dir / "CHANGELOG.md"
-        assert changelog.exists(), (
+        dev_changelog = skill_dir / "_dev" / "CHANGELOG.md"
+        
+        assert changelog.exists() or dev_changelog.exists(), (
             f"Missing required CHANGELOG.md in {skill_dir.name}. "
-            f"Per CONTRIBUTING.md: 'CHANGELOG.md - Version history'"
+            f"Per CONTRIBUTING.md: 'CHANGELOG.md - Version history' "
+            f"(checked root and _dev/)"
         )
 
     @pytest.mark.parametrize("skill_dir", SKILL_DIRS, ids=SKILL_IDS)
     def test_version_yaml_exists(self, skill_dir: Path):
         """version.yaml MUST exist - Version metadata."""
         version_file = skill_dir / "version.yaml"
-        assert version_file.exists(), (
+        dev_version_file = skill_dir / "_dev" / "version.yaml"
+        
+        assert version_file.exists() or dev_version_file.exists(), (
             f"Missing required version.yaml in {skill_dir.name}. "
-            f"Per CONTRIBUTING.md: 'version.yaml - Version metadata'"
+            f"Per CONTRIBUTING.md: 'version.yaml - Version metadata' "
+            f"(checked root and _dev/)"
         )
 
 
@@ -360,6 +369,9 @@ class TestVersionYaml:
         """version.yaml MUST be valid YAML."""
         version_file = skill_dir / "version.yaml"
         if not version_file.exists():
+            version_file = skill_dir / "_dev" / "version.yaml"
+            
+        if not version_file.exists():
             pytest.skip("version.yaml not found")
 
         content = version_file.read_text()
@@ -373,6 +385,9 @@ class TestVersionYaml:
     def test_version_yaml_has_version(self, skill_dir: Path):
         """version.yaml MUST have 'version' field."""
         version_file = skill_dir / "version.yaml"
+        if not version_file.exists():
+            version_file = skill_dir / "_dev" / "version.yaml"
+            
         if not version_file.exists():
             pytest.skip("version.yaml not found")
 
@@ -392,6 +407,9 @@ class TestVersionYaml:
         """version.yaml MUST have 'updated' field."""
         version_file = skill_dir / "version.yaml"
         if not version_file.exists():
+            version_file = skill_dir / "_dev" / "version.yaml"
+            
+        if not version_file.exists():
             pytest.skip("version.yaml not found")
 
         content = version_file.read_text()
@@ -410,6 +428,9 @@ class TestVersionYaml:
         """version.yaml MUST have 'skill' field."""
         version_file = skill_dir / "version.yaml"
         if not version_file.exists():
+            version_file = skill_dir / "_dev" / "version.yaml"
+            
+        if not version_file.exists():
             pytest.skip("version.yaml not found")
 
         content = version_file.read_text()
@@ -427,6 +448,9 @@ class TestVersionYaml:
     def test_version_follows_semver(self, skill_dir: Path):
         """version.yaml version MUST follow semver format."""
         version_file = skill_dir / "version.yaml"
+        if not version_file.exists():
+            version_file = skill_dir / "_dev" / "version.yaml"
+            
         if not version_file.exists():
             pytest.skip("version.yaml not found")
 
@@ -453,6 +477,9 @@ class TestVersionYaml:
     def test_version_yaml_status_is_valid(self, skill_dir: Path):
         """version.yaml 'status' field (if present) MUST be valid value."""
         version_file = skill_dir / "version.yaml"
+        if not version_file.exists():
+            version_file = skill_dir / "_dev" / "version.yaml"
+            
         if not version_file.exists():
             pytest.skip("version.yaml not found")
 
@@ -496,6 +523,9 @@ class TestNamingConventions:
         """version.yaml 'skill' field SHOULD match directory name."""
         version_file = skill_dir / "version.yaml"
         if not version_file.exists():
+            version_file = skill_dir / "_dev" / "version.yaml"
+            
+        if not version_file.exists():
             pytest.skip("version.yaml not found")
 
         content = version_file.read_text()
@@ -526,6 +556,9 @@ class TestReadmeCompliance:
         """README.md SHOULD have an H1 title."""
         readme = skill_dir / "README.md"
         if not readme.exists():
+            readme = skill_dir / "_dev" / "README.md"
+            
+        if not readme.exists():
             pytest.skip("README.md not found")
 
         content = readme.read_text()
@@ -540,6 +573,9 @@ class TestReadmeCompliance:
     def test_readme_not_empty(self, skill_dir: Path):
         """README.md SHOULD have meaningful content."""
         readme = skill_dir / "README.md"
+        if not readme.exists():
+            readme = skill_dir / "_dev" / "README.md"
+            
         if not readme.exists():
             pytest.skip("README.md not found")
 
@@ -563,6 +599,9 @@ class TestChangelogCompliance:
     def test_changelog_has_version_entries(self, skill_dir: Path):
         """CHANGELOG.md SHOULD have version entries."""
         changelog = skill_dir / "CHANGELOG.md"
+        if not changelog.exists():
+            changelog = skill_dir / "_dev" / "CHANGELOG.md"
+            
         if not changelog.exists():
             pytest.skip("CHANGELOG.md not found")
 
@@ -609,6 +648,6 @@ class TestSkillSummary:
         # Count compliant skills
         compliant = sum(
             1 for d in SKILL_DIRS
-            if all((d / f).exists() for f in REQUIRED_FILES)
+            if all((d / f).exists() or (d / "_dev" / f).exists() for f in REQUIRED_FILES)
         )
         print(f"  {compliant}/{count} have all required files")
