@@ -49,6 +49,25 @@ curl -fsSL https://raw.githubusercontent.com/gsannikov/exocortex/main/install.sh
 
 ---
 
+## 🆚 Exocortex vs. Standard Claude Skills
+
+| Feature | Exocortex | Standard Claude Skills |
+|---------|-----------|------------------------|
+| **Execution Environment** | Local-First (Runs on your machine) | Remote / Cloud (API dependent) |
+| **Data Storage** | Open Filesystem (Markdown/JSON in `~/exocortex-data`) | Opaque / Database (Hidden or Siloed) |
+| **Agent Support** | Multi-Agent / Polyglot (AlignTrue support) | Single Platform (Claude Desktop only) |
+| **Architecture** | Decoupled (MCP Server exposed locally) | Tightly Coupled (SDK dependent) |
+| **Evolution** | Self-Learning (Grows with usage) | Static (Fixed capabilities) |
+| **Latency** | Instant (Local IO, no git sync req) | Network Latency (API calls / Sync) |
+| **Cloud Strategy** | Flexible Bridge (BYO Cloud: GDrive, Dropbox, iCloud) | Fixed / Vendor Lock-in |
+| **Knowledge Retrieval** | Built-in Local RAG | External Service / None |
+
+**Key Differentiators:**
+- **🔑 Ownership**: You own the pipe and the data — not renting the capability
+- **🛠️ Customizability**: Code is yours to modify — not a black box
+
+---
+
 ## 📱 How It Works
 
 1.  **Capture**: Save links, ideas, or voice memos to your **Inbox** (e.g., Apple Notes, Email, or File).
