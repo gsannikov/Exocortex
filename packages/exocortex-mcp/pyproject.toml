@@ -1,6 +1,6 @@
 [project]
 name = "exocortex-mcp"
-version = "0.3.0"
+version = "0.4.0"
 description = "MCP Server for Exocortex Skills - expose Claude skills through MCP protocol with caching, metrics, and smart matching"
 readme = "README.md"
 requires-python = ">=3.10"
