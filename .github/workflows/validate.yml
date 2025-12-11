@@ -79,33 +79,24 @@ jobs:
       - name: Build skill matrix
         id: changes
         env:
-          SHARED: ${{ steps.filter.outputs.shared }} # actionlint-disable-line
-          SKILL_JOB_ANALYZER: ${{ steps.filter.outputs.skill_job_analyzer }} # actionlint-disable-line
-          SKILL_INTERVIEW_PREP: ${{ steps.filter.outputs.skill_interview_prep }} # actionlint-disable-line
-          SKILL_READING_LIST: ${{ steps.filter.outputs.skill_reading_list }} # actionlint-disable-line
-          SKILL_IDEAS_CAPTURE: ${{ steps.filter.outputs.skill_ideas_capture }} # actionlint-disable-line
-          SKILL_VOICE_MEMOS: ${{ steps.filter.outputs.skill_voice_memos }} # actionlint-disable-line
-          SKILL_LOCAL_RAG: ${{ steps.filter.outputs.skill_local_rag }} # actionlint-disable-line
-          SKILL_RECIPE_MANAGER: ${{ steps.filter.outputs.skill_recipe_manager }} # actionlint-disable-line
-          SKILL_SETUP_MANAGER: ${{ steps.filter.outputs.skill_setup_manager }} # actionlint-disable-line
-          SKILL_SOCIAL_MEDIA_POST: ${{ steps.filter.outputs.skill_social_media_post }} # actionlint-disable-line
+          CHANGES: ${{ steps.filter.outputs.changes }}
         run: |
           set -euo pipefail
 
           skills=()
 
-          if [[ "$SHARED" == "true" ]]; then
+          if [[ "$CHANGES" == *"shared"* ]]; then
             skills=(job-analyzer interview-prep reading-list ideas-capture voice-memos local-rag recipe-manager setup-manager social-media-post)
           else
-            [[ "$SKILL_JOB_ANALYZER" == "true" ]] && skills+=(job-analyzer)
-            [[ "$SKILL_INTERVIEW_PREP" == "true" ]] && skills+=(interview-prep)
-            [[ "$SKILL_READING_LIST" == "true" ]] && skills+=(reading-list)
-            [[ "$SKILL_IDEAS_CAPTURE" == "true" ]] && skills+=(ideas-capture)
-            [[ "$SKILL_VOICE_MEMOS" == "true" ]] && skills+=(voice-memos)
-            [[ "$SKILL_LOCAL_RAG" == "true" ]] && skills+=(local-rag)
-            [[ "$SKILL_RECIPE_MANAGER" == "true" ]] && skills+=(recipe-manager)
-            [[ "$SKILL_SETUP_MANAGER" == "true" ]] && skills+=(setup-manager)
-            [[ "$SKILL_SOCIAL_MEDIA_POST" == "true" ]] && skills+=(social-media-post)
+            [[ "$CHANGES" == *"skill_job_analyzer"* ]] && skills+=(job-analyzer)
+            [[ "$CHANGES" == *"skill_interview_prep"* ]] && skills+=(interview-prep)
+            [[ "$CHANGES" == *"skill_reading_list"* ]] && skills+=(reading-list)
+            [[ "$CHANGES" == *"skill_ideas_capture"* ]] && skills+=(ideas-capture)
+            [[ "$CHANGES" == *"skill_voice_memos"* ]] && skills+=(voice-memos)
+            [[ "$CHANGES" == *"skill_local_rag"* ]] && skills+=(local-rag)
+            [[ "$CHANGES" == *"skill_recipe_manager"* ]] && skills+=(recipe-manager)
+            [[ "$CHANGES" == *"skill_setup_manager"* ]] && skills+=(setup-manager)
+            [[ "$CHANGES" == *"skill_social_media_post"* ]] && skills+=(social-media-post)
           fi
 
           if [[ ${#skills[@]} -eq 0 ]]; then
@@ -115,7 +106,7 @@ jobs:
             skills_json=$(printf '%s\n' "${skills[@]}" | jq -R . | jq -sc .)
           fi
           
-          run_local_rag=$([[ "$SHARED" == "true" || "$SKILL_LOCAL_RAG" == "true" ]] && echo true || echo false)
+          run_local_rag=$([[ "$CHANGES" == *"shared"* || "$CHANGES" == *"skill_local_rag"* ]] && echo true || echo false)
 
           {
             echo "skill_matrix=$skills_json"
