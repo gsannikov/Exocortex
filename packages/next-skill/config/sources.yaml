@@ -1,0 +1,63 @@
+# GitHub Sources Configuration
+# Repositories and queries for skill discovery
+
+priority_repositories:
+  # Official MCP servers
+  - owner: modelcontextprotocol
+    repo: servers
+    description: "Official MCP server implementations"
+    
+  # Anthropic resources
+  - owner: anthropics
+    repo: anthropic-cookbook
+    description: "Claude patterns and examples"
+    
+  - owner: anthropics
+    repo: claude-code-skills
+    description: "Official Claude skills"
+
+community_repositories:
+  # MCP community
+  - owner: punkpeye
+    repo: awesome-mcp-servers
+    description: "Curated MCP server list"
+    
+  # Automation platforms (for patterns)
+  - owner: n8n-io
+    repo: n8n
+    description: "Workflow automation patterns"
+
+search_query_templates:
+  mcp:
+    - "{topic} MCP server"
+    - "{topic} mcp"
+    - "mcp-server-{topic}"
+    
+  claude:
+    - "{topic} claude skill"
+    - "{topic} claude automation"
+    
+  general:
+    - "{topic} automation python"
+    - "{topic} CLI tool python"
+    - "{topic} workflow automation"
+
+mcp_registries:
+  - name: "MCP Hub"
+    url: "https://mcp.so"
+    type: directory
+    
+  - name: "Smithery"
+    url: "https://smithery.ai"
+    type: registry
+    
+  - name: "Awesome MCP"
+    url: "https://github.com/punkpeye/awesome-mcp-servers"
+    type: curated_list
+
+package_registries:
+  npm:
+    search_url: "https://www.npmjs.com/search?q={query}+mcp"
+    
+  pypi:
+    search_url: "https://pypi.org/search/?q={query}+mcp"

@@ -8,7 +8,7 @@ Global instructions for Claude when working with this skills monorepo.
 
 ## 🎯 Quick Reference
 
-### Available Skills (9)
+### Available Skills (10)
 
 | Skill | Command | Apple Note |
 |-------|---------|------------|
@@ -21,6 +21,7 @@ Global instructions for Claude when working with this skills monorepo.
 | 📱 social-media-post | `create [platform] post` | N/A (generates posts) |
 | 🍳 recipe-manager | `process recipe inbox` | 🍳 Recipe Inbox |
 | 🔧 setup-manager | `check setup` | N/A (system config) |
+| 🏭 next-skill | `create skill`, `search skills` | N/A (skill factory) |
 
 ### Key Paths
 
@@ -36,7 +37,7 @@ This is the **SINGLE SOURCE OF TRUTH** for all user data paths.
 
 ```
 exocortex/
-├── packages/                      # All skills (9)
+├── packages/                      # All skills (10)
 │   ├── job-analyzer/              # Job scoring, tracking, contacts
 │   ├── interview-prep/            # STAR stories, negotiation
 │   ├── reading-list/
@@ -45,7 +46,8 @@ exocortex/
 │   ├── local-rag/
 │   ├── social-media-post/
 │   ├── recipe-manager/
-│   └── setup-manager/
+│   ├── setup-manager/
+│   └── next-skill/                # Skill factory
 ├── shared/
 │   ├── scripts/                   # Release, generator, dependency tracker
 │   ├── config/                    # paths.py (single source of truth)

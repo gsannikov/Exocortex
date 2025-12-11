@@ -6,7 +6,7 @@ Architecture decisions, roadmap, and project management.
 
 **Version**: Monorepo v1.2.0
 **Date**: 2025-12-11
-**Skills**: 9 (job-analyzer, interview-prep, reading-list, ideas-capture, voice-memos, local-rag, recipe-manager, social-media-post, setup-manager)
+**Skills**: 10 (job-analyzer, interview-prep, reading-list, ideas-capture, voice-memos, local-rag, recipe-manager, social-media-post, setup-manager, next-skill)
 
 ## 🏗️ Architecture Decisions
 
@@ -159,8 +159,9 @@ Track per skill:
 
 | Pattern | Skills Using |
 |---------|-------------|
-| inbox | All 9 |
-| database | All 9 |
+| inbox | 9 (all except next-skill) |
+| database | 9 (all except next-skill) |
+| templates | next-skill |
 | scoring | job-analyzer, ideas-capture |
 | scraping | job-analyzer, reading-list |
 | transcription | voice-memos |
@@ -201,6 +202,7 @@ Track per skill:
 
 | Date | Change |
 |------|--------|
+| 2025-12-11 | New skill: next-skill (skill factory with GitHub discovery, MCP registry search, adaptation, scaffolding) |
 | 2025-12-11 | Skills refactoring: All SKILL.md files <100 lines |
 | 2025-12-11 | Career split: job-analyzer + interview-prep |
 | 2025-12-11 | New modules: LinkedIn tracking, recruiter contacts, follow-up reminders, salary negotiation |

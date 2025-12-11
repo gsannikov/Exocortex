@@ -3,7 +3,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Build Status](https://github.com/gsannikov/exocortex/actions/workflows/validate.yml/badge.svg)](https://github.com/gsannikov/exocortex/actions/workflows/validate.yml)
-[![Skills](https://img.shields.io/badge/skills-9-blue.svg)](packages/)
+[![Skills](https://img.shields.io/badge/skills-10-blue.svg)](packages/)
 [![Version](https://img.shields.io/badge/monorepo-v1.2.0-green.svg)](PROJECT.md)
 [![AlignTrue](https://img.shields.io/badge/AlignTrue-enabled-purple.svg)](.aligntrue/)
 [![Platform](https://img.shields.io/badge/AI-agnostic-orange.svg)](DEVELOPER_GUIDE.md#aligntrue-workflow)
@@ -45,6 +45,7 @@ curl -fsSL https://raw.githubusercontent.com/gsannikov/exocortex/main/install.sh
 | **📱 Social Media** | Generates optimized posts for LinkedIn, X, and Threads with algorithm insights. |
 | **🍳 Recipe Manager** | Extracts recipes from web/images to local YAML files. Tracks family preferences. |
 | **🔧 Setup Manager** | Automates the environment setup, dependency management, and system health checks. |
+| **🏭 Next-Skill** | Skill factory - AI-assisted skill creation with GitHub discovery, MCP registry search, code adaptation, or fresh scaffolding. |
 
 ---
 

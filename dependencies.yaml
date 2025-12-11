@@ -227,6 +227,7 @@ nodes:
       - packages/local-rag/SKILL.md
       - packages/social-media-post/SKILL.md
       - packages/setup-manager/SKILL.md
+      - packages/next-skill/SKILL.md
     rebuild_instructions: |
       This is the main user-facing documentation. When any skill changes:
       1. Update the corresponding skill section
@@ -333,6 +334,24 @@ nodes:
     depends_on: []
     rebuild_instructions: |
       Source file. Update for new release requirements.
+
+  # ============================================
+  # NEXT-SKILL (SKILL FACTORY)
+  # ============================================
+  - path: packages/next-skill/SKILL.md
+    type: source
+    description: Skill factory - AI-assisted skill creation with GitHub discovery, adaptation, or fresh scaffolding
+    depends_on: []
+    rebuild_instructions: |
+      Source file. Update version.yaml and CHANGELOG.md on changes.
+
+  - path: packages/next-skill/_dev/design.md
+    type: source
+    description: Design documentation for skill factory
+    depends_on:
+      - packages/next-skill/SKILL.md
+    rebuild_instructions: |
+      Update when SKILL.md architecture changes
 
   # ============================================
   # SETUP MANAGER SKILL
@@ -519,6 +538,14 @@ groups:
     members:
       - packages/recipe-manager/SKILL.md
       - packages/recipe-manager/_dev/README.md
+
+  next-skill:
+    description: Skill factory for creating new skills
+    members:
+      - packages/next-skill/SKILL.md
+      - packages/next-skill/_dev/design.md
+      - packages/next-skill/modules/
+      - packages/next-skill/templates/
 
   documentation:
     description: All user-facing documentation

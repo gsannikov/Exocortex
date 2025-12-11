@@ -67,6 +67,12 @@ SKILL_CONFIG = {
         'version_file': 'version.yaml',
         'changelog': 'CHANGELOG.md',
     },
+    'next-skill': {
+        'has_host_scripts': False,
+        'has_tests': False,
+        'version_file': 'version.yaml',
+        'changelog': 'CHANGELOG.md',
+    },
 }
 
 REPO_ROOT = Path(__file__).parent.parent.parent

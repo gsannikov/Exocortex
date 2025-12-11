@@ -1,0 +1,36 @@
+"""
+Path configuration for {skill-name}.
+Integrates with shared/config/paths.py for consistent data management.
+"""
+import sys
+from pathlib import Path
+
+# Add shared config to path
+REPO_ROOT = Path(__file__).parent.parent.parent.parent
+sys.path.insert(0, str(REPO_ROOT / "shared" / "config"))
+
+from paths import get_skill_data_path, ensure_skill_directories
+
+# Skill identification
+SKILL_NAME = "{skill-name}"
+
+# Base data directory
+DATA_DIR = get_skill_data_path(SKILL_NAME)
+
+# Skill-specific paths
+INDEX_FILE = DATA_DIR / "index.yaml"
+# Add more paths as needed:
+# ARCHIVE_DIR = DATA_DIR / "archive"
+# REPORTS_DIR = DATA_DIR / "reports"
+
+def ensure_directories():
+    """Create all required directories for this skill."""
+    ensure_skill_directories(SKILL_NAME)
+    # Add skill-specific subdirectories:
+    # ARCHIVE_DIR.mkdir(exist_ok=True)
+    # REPORTS_DIR.mkdir(exist_ok=True)
+
+if __name__ == "__main__":
+    ensure_directories()
+    print(f"Data directory: {DATA_DIR}")
+    print(f"Index file: {INDEX_FILE}")
