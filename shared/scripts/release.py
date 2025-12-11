@@ -77,7 +77,7 @@ SKILL_CONFIG = {
         'has_host_scripts': False,
         'has_tests': True,
         'version_file': 'pyproject.toml',
-        'changelog': 'CHANGELOG.md',
+        'changelog': '_dev/CHANGELOG.md',
     },
 }
 
