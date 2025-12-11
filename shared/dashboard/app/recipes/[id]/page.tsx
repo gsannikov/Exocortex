@@ -1,7 +1,9 @@
 import { getRecipe } from '@/lib/api';
-import { Clock, Users, Flame, ChevronLeft } from 'lucide-react';
+import { Clock, Users, Flame, ChevronLeft, Tags } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import RecipeStatusControl from '../RecipeStatusControl';
+import RecipeTagsEditor from '../RecipeTagsEditor';
 
 export default async function RecipeDetail({ params }: { params: { id: string } }) {
   const { id } = await params;
@@ -38,13 +40,16 @@ export default async function RecipeDetail({ params }: { params: { id: string } 
             </div>
             
             <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-4 flex-wrap justify-between">
                     <span className="text-5xl shadow-xl">{recipe.icon || theme.icon}</span>
-                    {recipe.type && (
-                        <span className="bg-white/10 px-3 py-1 rounded-full text-sm font-medium border border-white/5 backdrop-blur-md">
-                            {recipe.type}
-                        </span>
-                    )}
+                    <div className="flex items-center gap-2 flex-wrap">
+                        {recipe.type && (
+                            <span className="bg-white/10 px-3 py-1 rounded-full text-sm font-medium border border-white/5 backdrop-blur-md">
+                                {recipe.type}
+                            </span>
+                        )}
+                        <RecipeStatusControl filePath={recipe.filePath} status={recipe.status} />
+                    </div>
                 </div>
                 <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 tracking-tight">{recipe.name}</h1>
                 <p className="text-xl text-neutral-400 font-light">{recipe.name_en}</p>
@@ -73,6 +78,14 @@ export default async function RecipeDetail({ params }: { params: { id: string } 
                 <div className="text-sm text-neutral-400">Status</div>
                 <div className="font-bold text-lg text-emerald-400">{recipe.status}</div>
             </div>
+        </div>
+
+        <div className="glass-panel p-6 mb-8">
+            <div className="flex items-center gap-2 mb-3 text-neutral-300">
+                <Tags className="w-4 h-4" />
+                <span className="font-semibold text-sm">Tags</span>
+            </div>
+            <RecipeTagsEditor filePath={recipe.filePath} initialTags={recipe.tags || []} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

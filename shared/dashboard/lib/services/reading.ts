@@ -8,13 +8,17 @@ export async function getReadingList(): Promise<ReadingItem[]> {
     try {
         const filePath = path.join(DATA_PATHS.readingList, 'reading-list.yaml');
         const content = await fs.readFile(filePath, 'utf-8');
-        const data = yaml.parse(content) as any[];
-        
-        return data.map((item: any) => ({
+        const data = yaml.parse(content);
+
+        // YAML may be an array of items or an object with { stats, items }
+        const items = Array.isArray(data) ? data : (data?.items || []);
+
+        return items.map((item: any) => ({
             ...item,
             filePath // Point to main list file for now
         }));
-    } catch {
+    } catch (e) {
+        console.error('Error in getReadingList:', e);
         return [];
     }
 }

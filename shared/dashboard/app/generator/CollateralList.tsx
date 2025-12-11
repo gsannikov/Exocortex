@@ -1,14 +1,25 @@
 'use client';
 
+import { useMemo, useState } from 'react';
 import ActionButtons from '../../components/ActionButtons';
 import { FileText } from 'lucide-react';
 import type { CollateralFile } from '../../lib/services/collateral';
+import FilterBar from '../../components/FilterBar';
 
 interface CollateralListProps {
   files: CollateralFile[];
 }
 
 export default function CollateralList({ files }: CollateralListProps) {
+  const [search, setSearch] = useState('');
+
+  const filteredFiles = useMemo(() => {
+    return files.filter((file) => {
+      const haystack = `${file.name} ${file.filePath}`.toLowerCase();
+      return haystack.includes(search.toLowerCase());
+    });
+  }, [files, search]);
+
   if (files.length === 0) {
     return (
       <div className="glass-panel text-center p-8 text-neutral-500">
@@ -20,7 +31,20 @@ export default function CollateralList({ files }: CollateralListProps) {
 
   return (
     <div className="space-y-3">
-      {files.map((file) => (
+      <FilterBar
+        search={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Search collateral files..."
+        filters={[]}
+      />
+
+      {filteredFiles.length === 0 && (
+        <div className="glass-panel text-center p-6 text-neutral-500">
+          <p className="text-sm">No files match your search.</p>
+        </div>
+      )}
+
+      {filteredFiles.map((file) => (
         <div
           key={file.filePath}
           className="glass-panel p-4 hover:bg-white/5 transition-all relative group border-l-4 border-l-cyan-500/30 hover:border-l-cyan-500/50"
