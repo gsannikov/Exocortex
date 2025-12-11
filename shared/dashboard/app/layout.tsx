@@ -58,7 +58,14 @@ export default function RootLayout({
 
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto p-8 relative">
-            <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-purple-900/20 to-transparent pointer-events-none" />
+            {/* Animated gradient overlays */}
+            <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
+                <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDuration: '8s' }} />
+                <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-purple-500/10 via-pink-500/10 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDuration: '12s', animationDelay: '2s' }} />
+                <div className="absolute bottom-0 left-1/3 w-[400px] h-[400px] bg-gradient-to-tr from-emerald-500/10 via-cyan-500/10 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDuration: '10s', animationDelay: '4s' }} />
+            </div>
+            {/* Content gradient overlay */}
+            <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-purple-900/20 via-transparent to-transparent pointer-events-none z-0" />
             <div className="relative z-10 max-w-7xl mx-auto">
                 {children}
             </div>
