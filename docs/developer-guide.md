@@ -55,7 +55,7 @@ uv run packages/setup-manager/setup_manager/cli.py --no-color
 
 ```
 exocortex/
-├── packages/                      # All skills (9)
+├── packages/                      # All skills (10)
 │   ├── job-analyzer/              # Job scoring & tracking
 │   ├── interview-prep/            # STAR stories & negotiation
 │   ├── reading-list/
@@ -64,7 +64,8 @@ exocortex/
 │   ├── local-rag/
 │   ├── recipe-manager/
 │   ├── social-media-post/
-│   └── setup-manager/
+│   ├── setup-manager/
+│   └── next-skill/                # Skill factory
 ├── shared/
 │   ├── scripts/                   # Release, generator utilities
 │   ├── config/                    # paths.py (single source of truth)
@@ -224,7 +225,7 @@ python shared/scripts/release.py all --patch
 python shared/scripts/release.py job-analyzer --patch --dry-run
 ```
 
-### Available Skills (9)
+### Available Skills (10)
 
 | Skill | Description |
 |-------|-------------|
@@ -237,6 +238,7 @@ python shared/scripts/release.py job-analyzer --patch --dry-run
 | `social-media-post` | Platform-optimized posts |
 | `recipe-manager` | Recipe extraction |
 | `setup-manager` | Environment setup |
+| `next-skill` | Skill factory with GitHub discovery |
 
 ---
 

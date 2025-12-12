@@ -449,6 +449,29 @@ Oven, Ninja, School Breakfast, Stovetop, Grill, No Cook, Instant Pot
 ### Status Flow
 `To try` → `Try next` → `Tried` → `Perfected`
 
+---
+
+## 🏭 Next Skill (Skill Factory)
+
+**Purpose**: AI-assisted skill creation with GitHub discovery, adaptation, or fresh scaffolding.
+
+### Commands
+
+| Command | Action |
+|---------|--------|
+| `create skill: [description]` | Full workflow: discover → adapt/create → scaffold |
+| `search skills: [query]` | Discovery only - show existing solutions |
+| `scaffold: [name]` | Skip discovery, create from scratch |
+| `adapt: [github-url]` | Refactor specific repo to our architecture |
+| `validate skill: [name]` | Check existing skill compliance |
+
+### Workflow
+
+1. **Discovery**: Search GitHub/MCP registries for similar implementations
+2. **Decision**: Recommend adapting existing OR creating fresh
+3. **Build**: Clone and adapt, or generate from templates
+4. **Scaffold**: Generate compliant skill structure
+5. **Integrate**: Add to release scripts and dependencies
 
 ---
 
