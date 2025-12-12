@@ -22,6 +22,7 @@ Which skill would this enhance?
 - [ ] recipe-manager
 - [ ] social-media-post
 - [ ] setup-manager
+- [ ] next-skill
 - [ ] New skill
 - [ ] Monorepo infrastructure
 

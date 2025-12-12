@@ -6,7 +6,7 @@
 # Or ask Claude: "refactor" or "check dependencies"
 
 version: "1.1.0"
-updated: "2025-12-10"
+updated: "2025-12-12"
 
 # Global settings
 settings:

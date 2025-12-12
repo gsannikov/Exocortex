@@ -68,7 +68,7 @@ If you want to transcend them, build your **Exocortex**.
 
 ## 🚀 The Architecture
 
-Exocortex is brought to life through a modular **Monorepo of 9 Skills**:
+Exocortex is brought to life through a modular **Monorepo of 10 Skills**:
 
 ### Memory Extension
 | Skill | Function |
@@ -90,6 +90,7 @@ Exocortex is brought to life through a modular **Monorepo of 9 Skills**:
 | `social-media` | Generate and optimize external communications |
 | `recipe-manager` | Extract and organize family recipes |
 | `setup-manager` | Automate environment setup and health checks |
+| `next-skill` | AI-assisted skill creation with GitHub discovery |
 
 ---
 

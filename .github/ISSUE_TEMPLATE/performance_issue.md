@@ -22,6 +22,7 @@ Which skill is experiencing performance issues?
 - [ ] recipe-manager
 - [ ] social-media-post
 - [ ] setup-manager
+- [ ] next-skill
 - [ ] Shared infrastructure
 
 ## Symptoms
