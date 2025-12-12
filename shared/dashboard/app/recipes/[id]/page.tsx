@@ -1,4 +1,4 @@
-import { getRecipe } from '@/lib/api';
+import { getRecipe, getRecipes } from '@/lib/api';
 import { Clock, Users, Flame, ChevronLeft, Tags } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -7,11 +7,17 @@ import RecipeTagsEditor from '../RecipeTagsEditor';
 
 export default async function RecipeDetail({ params }: { params: { id: string } }) {
   const { id } = await params;
-  const recipe = await getRecipe(id);
-  
-  if (!recipe) {
-    notFound();
-  }
+  const recipes = await getRecipes();
+  const recipe = recipes.find((r) => r.id === id);
+  if (!recipe) notFound();
+
+  const tagSuggestions = Array.from(
+    new Set(
+      recipes
+        .flatMap((r) => r.tags || [])
+        .filter(Boolean)
+    )
+  ).sort((a, b) => a.localeCompare(b));
 
   // Theme logic ported from python
   const getTheme = (tags: string[] = [], type: string = '') => {
@@ -85,7 +91,7 @@ export default async function RecipeDetail({ params }: { params: { id: string } 
                 <Tags className="w-4 h-4" />
                 <span className="font-semibold text-sm">Tags</span>
             </div>
-            <RecipeTagsEditor filePath={recipe.filePath} initialTags={recipe.tags || []} />
+            <RecipeTagsEditor filePath={recipe.filePath} initialTags={recipe.tags || []} suggestions={tagSuggestions} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

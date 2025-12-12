@@ -7,14 +7,22 @@ import { updateRecipeTags } from './actions';
 interface RecipeTagsEditorProps {
   filePath: string;
   initialTags?: string[];
+  suggestions?: string[];
 }
 
-export default function RecipeTagsEditor({ filePath, initialTags = [] }: RecipeTagsEditorProps) {
+export default function RecipeTagsEditor({ filePath, initialTags = [], suggestions = [] }: RecipeTagsEditorProps) {
   const [tags, setTags] = useState<string[]>(initialTags);
   const [newTag, setNewTag] = useState('');
   const [isPending, startTransition] = useTransition();
 
   const sortedTags = useMemo(() => [...tags].sort((a, b) => a.localeCompare(b)), [tags]);
+  const filteredSuggestions = useMemo(() => {
+    const term = newTag.trim().toLowerCase();
+    return suggestions
+      .filter((tag) => !tags.includes(tag))
+      .filter((tag) => !term || tag.toLowerCase().includes(term))
+      .slice(0, 8);
+  }, [suggestions, tags, newTag]);
 
   const addTag = (tag: string) => {
     const value = tag.trim();
@@ -86,6 +94,23 @@ export default function RecipeTagsEditor({ filePath, initialTags = [] }: RecipeT
           Add
         </button>
       </form>
+
+      {filteredSuggestions.length > 0 && (
+        <div className="flex items-center gap-2 flex-wrap text-xs text-neutral-500">
+          <span>Suggestions:</span>
+          {filteredSuggestions.map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              onClick={() => addTag(tag)}
+              disabled={isPending}
+              className="px-2 py-1 rounded-md bg-white/5 border border-white/10 hover:border-emerald-400/40 text-neutral-300 transition-colors disabled:opacity-60"
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
